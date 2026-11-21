@@ -59,7 +59,6 @@ for (const [id, label] of [['fal', 'fal.ai'], ['atlascloud', 'Atlas Cloud'], ['w
     return Response.json({ providers: [account, { id, label, protocol: 'media', category: 'multimodal', kinds: ['image', 'video', 'audio'], baseUrl: 'https://api.example', baseUrlEditable: false, configured, enabled: configured, available: configured, credentialSource: configured ? 'stored' : 'none' }], models: [], defaults: {} });
   }));
   await mount();
-  expect(document.body.textContent).toContain('One account. Your models, together.');
   await act(async () => document.querySelectorAll<HTMLButtonElement>('.om-provider-item')[1].click());
   await act(async () => type(`${label} API key`, 'synthetic-private-key'));
   await act(async () => document.querySelector('form')!.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })));
@@ -458,6 +457,7 @@ it('hides model edit menu for managed account/agent providers, renders verified 
     ? Response.json({ consoleUrl: 'https://console.example', state: 'signed-in', plan: 'plus', user: { email: 'creator@example.com' } })
     : Response.json({ providers: [configuredAccount, codex, fal], models, defaults: {} })));
   await mount();
+  await act(async () => [...document.querySelectorAll<HTMLButtonElement>('.om-provider-item')].find(el => el.textContent?.includes('OpenDesign'))!.click());
 
   // OpenDesign account rows hide the Model options / Edit menu, resolve one clean friendly name (keeping raw ID in tooltip), and render verified capabilities only.
   expect(document.querySelector('[aria-label="Model options"]')).toBeNull();
@@ -510,6 +510,7 @@ it('groups and pins Official channels together, sinks setupRequired providers wi
   expect(sidebarNames).toEqual(['OpenDesign', 'OpenDesign Cloud', 'Codex', 'Gemini', 'ComfyUI']);
   expect(document.querySelector('.om-provider-divider')).not.toBeNull();
   expect(document.querySelectorAll('.om-provider-items .om-official-badge')).toHaveLength(2);
+  await act(async () => [...document.querySelectorAll<HTMLButtonElement>('.om-provider-item')].find(el => el.textContent?.includes('OpenDesign') && !el.textContent?.includes('Cloud'))!.click());
   expect(document.querySelector('.om-provider-header .om-official-badge')?.textContent).toBe('Official');
 
   // OpenDesign Cloud shows its Official badge and explicit Official API role.

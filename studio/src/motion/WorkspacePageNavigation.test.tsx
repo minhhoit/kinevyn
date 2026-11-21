@@ -102,6 +102,8 @@ it.each(settingsSections)('restores a copied %s page on a fresh mount', async se
       expect(container.querySelector('[role=tab][data-state=active]') || container.querySelector('a[download]')).toBeTruthy();
       expect(container.querySelector('a[download]')?.getAttribute('href')).toBe('/connect/config?host=claude');
     } else if (section === 'brand-kit') expect(document.querySelector('.om-gallery-collection-tabs [aria-current=page]')?.textContent).toContain('Official collection');
+    // Account and Subscription still restore and render, but have no sidebar entry of their own to highlight.
+    else if (section === 'account' || section === 'subscription') expect(container.querySelector('.om-settings-sections [aria-current=page]')).toBeNull();
     else expect(container.querySelector('.om-settings-sections [aria-current=page]')?.textContent).toBeTruthy();
     expect(location.hash).toContain('t=12');
   }

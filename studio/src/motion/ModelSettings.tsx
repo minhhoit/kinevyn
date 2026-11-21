@@ -60,13 +60,13 @@ function providerSubtitle(provider: ProviderConnection, t: ReturnType<typeof use
 
 export function ModelSettings({ onClose, openAccount, initialCategory = 'all', providerId, onProviderChange }: { onClose?: () => void; openAccount?: () => void; initialCategory?: string; providerId?: string | null; onProviderChange?: (id: string | null) => void }) {
   const { t, locale } = useI18n(), directory = useProviderDirectory(), toast = useToast();
-  const [localSelected, setSelected] = useState(initialCategory === 'local' ? 'codex' : 'account'), [query, setQuery] = useState(''), [category, setCategory] = useState(initialCategory);
+  const [localSelected, setSelected] = useState('codex'), [query, setQuery] = useState(''), [category, setCategory] = useState(initialCategory);
   const [status, setStatus] = useState('all'), [protocol, setProtocol] = useState('all');
   const [adding, setAdding] = useState(false), [localDetailOpen, setDetailOpen] = useState(false);
   const [handoffProvider, setHandoffProvider] = useState<string>();
   const handledHandoff = useRef(false);
   const entry = tracking.settingsEntryFrom();
-  const requestedProvider = providerId ?? handoffProvider ?? (providerId === undefined ? localSelected : 'account');
+  const requestedProvider = providerId ?? handoffProvider ?? (providerId === undefined ? localSelected : 'codex');
   const detailOpen = Boolean(providerId ?? handoffProvider) || (providerId === undefined && localDetailOpen);
   const data = directory.data;
   const visibleProviders = data?.providers.filter(provider => {
@@ -85,7 +85,9 @@ export function ModelSettings({ onClose, openAccount, initialCategory = 'all', p
       setHandoffProvider(rejectedProvider);
     }
   }, [entry, providerId, rejectedProvider]);
-  const selected = visibleProviders.some(provider => provider.id === requestedProvider) ? requestedProvider : 'account';
+  const selected = visibleProviders.some(provider => provider.id === requestedProvider) ? requestedProvider
+    : visibleProviders.some(provider => provider.id === 'codex') ? 'codex'
+    : visibleProviders[0]?.id;
   const providers = visibleProviders.filter(provider => {
     const matches = category === 'all' || category === 'configured' && provider.configured || category === 'multimodal' && provider.kinds.length > 1
       || category === 'language' && provider.kinds.includes('text') || category === 'media' && provider.kinds.some(kind => ['image', 'video', 'audio', 'transcription'].includes(kind))

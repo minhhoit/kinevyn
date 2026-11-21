@@ -23,8 +23,6 @@ import { SettingsSurfaceBoundary } from './SettingsSurfaceBoundary';
 import type { SettingsSection } from './workspacePageRouting';
 export type { SettingsSection } from './workspacePageRouting';
 const sections: { id: SettingsSection; label: string; icon: string; group: string }[] = [
-  { id: 'account', label: 'Account', icon: 'user-3-line', group: 'Personal' },
-  { id: 'subscription', label: 'Subscription & usage', icon: 'bank-card-line', group: 'Personal' },
   { id: 'providers', label: 'Model providers', icon: 'brain-line', group: 'Models & connections' },
   { id: 'models', label: 'Default Agent & models', icon: 'box-3-line', group: 'Models & connections' },
   { id: 'local', label: 'Local Agents', icon: 'computer-line', group: 'Models & connections' },
