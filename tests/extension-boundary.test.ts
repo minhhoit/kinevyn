@@ -9,7 +9,7 @@ import { WorkspaceStore } from '../workspace.ts';
 test('default production preserves legacy calls while template reuse and kinevyn-video-to-template have separate real entries', async () => {
   const sections = ['start', 'intake', 'templates', 'production', 'verification'];
   const initial = await rpc({ jsonrpc: '2.0', id: 1, method: 'initialize', params: {} });
-  assert.match(initial.result.instructions, /motion:\/\/workflow\/production\/start/);
+  assert.match(initial.result.instructions, /kinevyn:\/\/workflow\/production\/start/);
   assert.ok(initial.result.instructions.includes('kinevyn-video-to-template'));
   assert.ok(initial.result.instructions.includes('kinevyn-template-to-video'));
   assert.match(initial.result.instructions, /production is not a prerequisite/);

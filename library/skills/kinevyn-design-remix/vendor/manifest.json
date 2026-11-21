@@ -49,8 +49,8 @@
     {
       "file": "clipper-lib-6.4.2/README.md",
       "url": "https://registry.npmjs.org/clipper-lib/-/clipper-lib-6.4.2.tgz#README.md",
-      "sha256": "6199164c84c86d2d791d41c880f97f3ff9894565d477bf43225aeec3da2d0a8b",
-      "bytes": 1956,
+      "sha256": "dd89dbdaed127af42e44a43815b4b893980a30a518cc7e0256be9129f64e85dc",
+      "bytes": 1953,
       "license": "BSL-1.0 and embedded MIT notices",
       "upstreamSha256": "38ef99d1cdc2f4ca39b455eff3fd87373e129dddbb81c6546981f8657d38ff76",
       "modification": "Missing upstream Documentation.md link now points to the included API source."

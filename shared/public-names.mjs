@@ -11,7 +11,7 @@ export function publicToolName(name) {
 export function legacyToolName(name) {
   if (name === 'kinevyn_assets_use' || name === 'motion_assets_use') return 'motion_assets';
   if (typeof name !== 'string' || !name.startsWith('kinevyn_')) return name;
-  const suffix = name.slice(11);
+  const suffix = name.slice('kinevyn_'.length);
   return (sessionTools.has(suffix) ? 'design_' : 'motion_') + suffix;
 }
 

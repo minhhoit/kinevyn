@@ -24,13 +24,13 @@
     },
     {
       "path": "motion.md",
-      "bytes": 3448,
-      "sha256": "76781175b22fb189dfbdddb7f65d8f1edb9dc2bdc41c2f5465462c1aa4b54645"
+      "bytes": 3445,
+      "sha256": "0d1344ff89ec71a81baa541a13c0431f5b911b5a879b5352bf75de31591eacc8"
     },
     {
       "path": "preview.html",
-      "bytes": 8014,
-      "sha256": "385755f910a69290d4bf2a7654fe1e48ea0f939152c1fba3a8b6c4abcddf7289"
+      "bytes": 8011,
+      "sha256": "036cea773d701875dcb8c4363e2bb2f6a7f11f737ef25d75d624e03d7b349a96"
     }
   ]
 }

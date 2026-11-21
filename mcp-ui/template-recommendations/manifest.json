@@ -244,8 +244,8 @@
         },
         {
           "path": "template-library/nyt-graph/vendor/manifest.json",
-          "sha256": "a33fdf9502edad740d1bd2b27f4d84ec763aa85c3e04ed8f09f13eb81193ec79",
-          "bytes": 3941
+          "sha256": "940096c13d5581dc42253d17af7939112f8f5ceaa3131a49f38f501680266df0",
+          "bytes": 3938
         }
       ]
     },
@@ -369,8 +369,8 @@
       "sourceFiles": [
         {
           "path": "library/templates/catalog/motion-664184d9-593e-4984-b473-701248b69cfe/template.json",
-          "sha256": "e532968a2e9611d9db7da37025937ac036290ed31bf1daba6853fda6e630c08e",
-          "bytes": 31023
+          "sha256": "c85e89364295074e0abfffd7b277fa8cd7553e93421e18f6d9afc20a7d41c5e2",
+          "bytes": 30990
         },
         {
           "path": "library/templates/catalog/motion-664184d9-593e-4984-b473-701248b69cfe/TEMPLATE.md",
@@ -407,8 +407,8 @@
       "sourceFiles": [
         {
           "path": "library/templates/catalog/motion-f6f244d1-c549-4081-8a5d-f0e1e3660044/template.json",
-          "sha256": "0bb738a7eafee621dcaab94237e8e0be496d20c9a7dd5bead24514effa9d4c48",
-          "bytes": 36377
+          "sha256": "d515798a8d55529f543f58e92dbc8231868d14359bdb57e058f6fc56c677129a",
+          "bytes": 36344
         },
         {
           "path": "library/templates/catalog/motion-f6f244d1-c549-4081-8a5d-f0e1e3660044/TEMPLATE.md",
@@ -445,8 +445,8 @@
       "sourceFiles": [
         {
           "path": "library/templates/catalog/motion-0ad92fd0-b2fb-4885-957c-b71152df15fd/template.json",
-          "sha256": "2699a535b6afa69118fd61fc0a2fb958855d07a1993f3ef9fbd9e0e89275b628",
-          "bytes": 30650
+          "sha256": "4ed63d34e0fd2d5f04f81a0007db2b2eace89dd1e481c468cf0f32e72e99bafe",
+          "bytes": 30617
         },
         {
           "path": "library/templates/catalog/motion-0ad92fd0-b2fb-4885-957c-b71152df15fd/TEMPLATE.md",
@@ -483,8 +483,8 @@
       "sourceFiles": [
         {
           "path": "library/templates/catalog/motion-a28f0e5d-aa8b-45a7-87f9-9afcac65a09b/template.json",
-          "sha256": "b75b16959ef86848875159822e39725f1378476faed1cad8108f1680bb96daa5",
-          "bytes": 30492
+          "sha256": "33eeade052246ff0cf94f6d50cac26b73f2ade5fca996bd37552ea31f9142daf",
+          "bytes": 30459
         },
         {
           "path": "library/templates/catalog/motion-a28f0e5d-aa8b-45a7-87f9-9afcac65a09b/TEMPLATE.md",
