@@ -370,9 +370,9 @@ it('opens settings without starting the retained project and resolves it only on
   expect(container.querySelector('#mcp-title')).not.toBeNull();
   expect(container.querySelector('[data-project]')).toBeNull();
   expect(fetcher.mock.calls.some(([url]) => url.includes('/preview/open'))).toBe(false);
-  await click('OpenDesign · Back to Explore');
+  await click('Kinevyn · Back to Explore');
   expect(page().explore).toBe(true);
-  expect(container.querySelector('.om-app-brand')?.getAttribute('aria-label')).toBe('OpenDesign');
+  expect(container.querySelector('.om-app-brand')?.getAttribute('aria-label')).toBe('Kinevyn');
   expect(container.querySelector('.om-app-rail, [data-project]')).toBeNull();
   await click('Motion Studio'); await click('Open Motion Editor');
   expect(container.querySelector('[data-project]')?.getAttribute('data-project')).toBe(first);
@@ -433,7 +433,7 @@ it('keeps Assets and editor drafts mounted across page history and restores the 
   expect(page().assets).toBe(true);
   expect(container.querySelector('[aria-label="Asset draft"]')).toBe(assetDraft);
   expect(assetDraft.value).toBe('Keep asset prompt');
-  await click('OpenDesign · Back to Explore');
+  await click('Kinevyn · Back to Explore');
   expect(page().assets).toBe(false);
   expect(container.querySelector('[aria-label="Editor draft"]')).toBe(draft);
   expect(draft.value).toBe('Keep editor draft');

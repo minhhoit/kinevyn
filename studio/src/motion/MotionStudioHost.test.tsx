@@ -136,7 +136,7 @@ it('keeps project switching, templates, history actions and native export in the
   for (const text of ['预览', '布局', '历史', '连接 Agent', '新建会话', '首页']) expect(button(text)).toBeUndefined();
   expect(container.querySelector('.motion-save-state')).toBeNull();
   expect(container.querySelector('a[download]')).toBeNull();
-  expect(container.querySelector('.om-app-brand [role=img]')?.getAttribute('aria-label')).toBe('OpenDesign');
+  expect(container.querySelector('.om-app-brand [role=img]')?.getAttribute('aria-label')).toBe('Kinevyn');
   expect(container.querySelector('.om-app-brand .motion-brand-lockup--responsive')).not.toBeNull();
   expect(document.querySelector('.motion-sidebar-utilities [aria-label="模型供应商"]')).not.toBeNull();
   expect(document.querySelector('.motion-sidebar-utilities [aria-label="设置"]')).not.toBeNull();
@@ -202,7 +202,7 @@ it('prevents switching projects or issuing competing header undo while a version
 it('searches projects in an overlay and closes it without removing the header brand', () => {
   render();
   expect(document.querySelector('.motion-sidebar-drawer')).toBeNull();
-  expect(container.querySelector('.om-app-brand [role=img]')?.getAttribute('aria-label')).toBe('OpenDesign');
+  expect(container.querySelector('.om-app-brand [role=img]')?.getAttribute('aria-label')).toBe('Kinevyn');
   expect(container.querySelector('.om-app-header input')).toBeNull();
   expect(container.querySelector<HTMLInputElement>('.motion-studio-header input')?.value).toBe('Demo');
   openSidebar();
@@ -265,7 +265,7 @@ it.each([true, false])('preserves the desktop sidebar when opening and dismissin
   }
 });
 
-it.each([[1440, 'OpenDesign · 返回探索'], [800, 'OpenDesign · 返回探索'], [1440, '返回'], [800, '返回']] as const)('leaves settings without replacing the current editor at %ipx via %s', async (width, label) => {
+it.each([[1440, 'Kinevyn · 返回探索'], [800, 'Kinevyn · 返回探索'], [1440, '返回'], [800, '返回']] as const)('leaves settings without replacing the current editor at %ipx via %s', async (width, label) => {
   Object.defineProperty(window, 'innerWidth', { configurable: true, value: width });
   render();
   const editorUrl = location.href;

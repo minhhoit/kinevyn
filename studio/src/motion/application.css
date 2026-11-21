@@ -128,6 +128,9 @@
 .om-provider-items { display: flex; flex-direction: column; min-height: 0; flex: 1; overflow: auto; gap: var(--motion-space-4); }
 .om-provider-divider { height: 1px; flex-shrink: 0; margin: var(--motion-space-4) var(--motion-space-8); background: var(--motion-border-subtle); }
 .om-provider-item { width: 100%; min-height: 36px; flex-shrink: 0; }
+/* Account and OpenDesign Cloud stay registered, reachable providers (their own settings/tests still
+   cover them) but are not offered in this deployment's provider list. */
+.om-provider-item[data-provider="account"], .om-provider-item[data-provider="opendesign"] { display: none !important; }
 .om-provider-item .om-avatar { width: 24px; height: 24px; font-size: var(--motion-text-xs); }
 .om-provider-item-name { min-width: 0; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 [data-motion-studio] .om-official-badge { flex-shrink: 0; padding: var(--motion-space-2) var(--motion-space-6); font-size: var(--motion-text-xs); color: var(--motion-strong); background: var(--motion-raised); border-color: var(--motion-border); }

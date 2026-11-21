@@ -22,11 +22,11 @@ test('generated entry heads contain one complete metadata set before JavaScript 
 test('sharing copy stays public, localized and HTML-safe', () => {
   for (const locale of ['en', 'zh-CN', 'ja', 'ko', 'de', 'fr', 'ru', 'es', 'pt-BR', 'it', 'tr']) {
     const meta = pageMetadata(locale);
-    assert.equal(meta.title, 'OpenDesign Motion — AI Video & Motion Design');
-    assert.equal(meta.property['og:site_name'], 'OpenDesign Motion');
-    assert.equal(meta.name['application-name'], 'OpenDesign Motion');
+    assert.equal(meta.title, 'Kinevyn — AI Video & Motion Design');
+    assert.equal(meta.property['og:site_name'], 'Kinevyn');
+    assert.equal(meta.name['application-name'], 'Kinevyn');
     assert.equal(meta.property['og:title'], meta.name['twitter:title']);
-    assert.equal(meta.property['og:title'], 'OpenDesign Motion — Create with your AI agent');
+    assert.equal(meta.property['og:title'], 'Kinevyn — Create with your AI agent');
     assert.equal(meta.property['og:description'], meta.name.description);
     assert.match(meta.property['og:locale'], /^[a-z]{2}_[A-Z]{2}$/);
     assert.doesNotMatch(JSON.stringify(meta), /localhost|127\.0\.0\.1|session=|project=/);

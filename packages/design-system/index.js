@@ -7,11 +7,11 @@ export const designSystemBase = '/design-system';
 export const designSystemAsset = (name) => `${designSystemBase}/${name}`;
 export const brand = Object.freeze({
   productName: 'Kinevyn',
-  website: Object.freeze({ name: 'OpenDesign Motion', tagline: 'The fullstack agentic video editor' }),
-  editorName: 'OpenDesign',
-  editorLogo: Object.freeze({ light: 'opendesign-dark.svg', dark: 'opendesign-light.svg' }),
+  website: Object.freeze({ name: 'Kinevyn', tagline: 'The fullstack agentic video editor' }),
+  editorName: 'Kinevyn',
+  editorLogo: Object.freeze({ light: 'brand/kinevyn-logo.svg', dark: 'brand/kinevyn-logo.svg' }),
   productLogo: 'brand/kinevyn-logo.svg',
-  loadingMark: 'brand/loading-mark.svg',
+  loadingMark: 'brand/neutral-mark.svg',
   favicon: 'brand/favicon.svg',
   communityFeishu: 'brand/community-feishu.svg',
 });
@@ -25,7 +25,7 @@ export const publicDesignFiles = Object.freeze([
   'studio/control-recipes.css',
   'index.html', 'theme.js', 'catalog.js', 'catalog-view.js', 'catalog.css', 'token-model.js', 'generate.js', 'icons.svg',
   'opendesign-dark.svg', 'opendesign-light.svg', 'brand/kinevyn-logo.svg',
-  'brand/loading-mark.svg', 'brand/loading-wordmark.svg', 'brand/favicon.svg', 'brand/favicon-32.png', 'brand/apple-touch-icon.png',
+  'brand/loading-mark.svg', 'brand/neutral-mark.svg', 'brand/loading-wordmark.svg', 'brand/favicon.svg', 'brand/favicon-32.png', 'brand/apple-touch-icon.png',
   'brand/community-feishu.svg',
   'fonts/AlbertSans-VariableFont_wght.ttf', 'fonts/IBMPlexMono-Regular.ttf',
   'fonts/Albert-Sans-OFL.txt', 'fonts/IBM-Plex-Mono-OFL.txt', 'fonts/NOTICES.txt',

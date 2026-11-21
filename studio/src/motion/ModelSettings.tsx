@@ -111,7 +111,7 @@ export function ModelSettings({ onClose, openAccount, initialCategory = 'all', p
   const renderProviderItem = (item: ProviderConnection) => {
     const official = isOfficialProvider(item);
     const roleHint = item.category === 'account' ? t('Your account') : official ? t('Official') : item.custom ? t('Custom provider') : item.kinds.length > 1 ? t('Multimodal') : modelKindLabel(item.kinds[0], t, locale);
-    return <Tooltip label={`${item.label} · ${roleHint}`} wrap key={item.id}><Button variant="plain" aria-label={`${item.label} · ${roleHint}${providerListStatus(item) ? ` · ${t(providerListStatus(item) === 'available' ? 'Available' : 'Disabled')}` : ''}`} className="om-nav-item om-provider-item" data-status={providerListStatus(item)} onClick={() => select(item.id)} aria-current={item.id === selected ? 'page' : undefined}>
+    return <Tooltip label={`${item.label} · ${roleHint}`} wrap key={item.id}><Button variant="plain" aria-label={`${item.label} · ${roleHint}${providerListStatus(item) ? ` · ${t(providerListStatus(item) === 'available' ? 'Available' : 'Disabled')}` : ''}`} className="om-nav-item om-provider-item" data-provider={item.id} data-status={providerListStatus(item)} onClick={() => select(item.id)} aria-current={item.id === selected ? 'page' : undefined}>
       <ProviderAvatar name={item.label} provider={item} /><span className="om-provider-item-name">{item.label}<small className="sr-only">{roleHint}</small></span>
       {official && <span className="om-badge om-official-badge">{t('Official')}</span>}
       {providerListStatus(item) === 'available' ? <span className="om-status-dot" role="img" aria-label={t('Available')} /> : providerListStatus(item) === 'disabled' ? <span className="om-badge">{t('Disabled')}</span> : null}
