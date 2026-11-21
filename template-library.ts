@@ -6,10 +6,9 @@ export const welcomeTemplateId = 'kinevyn-welcome';
 // Brand resources and third-party dependencies retain their maintained sources.
 // Materialized projects receive private, portable copies they can edit freely.
 export const welcomeSharedAssets = [
-  ['packages/design-system/brand/loading-mark.svg', 'assets/brand-mark.svg'],
+  ['packages/design-system/brand/neutral-mark.svg', 'assets/brand-mark.svg'],
   ['packages/design-system/fonts/AlbertSans-VariableFont_wght.ttf', 'assets/fonts/AlbertSans.ttf'],
   ['packages/design-system/fonts/Albert-Sans-OFL.txt', 'assets/fonts/Albert-Sans-OFL.txt'],
-  ['packages/design-system/opendesign-logo-SOURCE.md', 'assets/brand-NOTICE.md'],
   ['library/skills/kinevyn-design-remix/vendor/fonts/libre-baskerville-f5bc4341f15d.ttf', 'assets/fonts/serif.ttf'],
   ['library/skills/kinevyn-design-remix/vendor/fonts/libre-baskerville-OFL.txt', 'assets/fonts/Libre-Baskerville-OFL.txt'],
   ['library/skills/kinevyn-design-remix/vendor/three-0.147.0/build/three.min.js', 'assets/three.min.js'],

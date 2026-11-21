@@ -7,7 +7,6 @@ import { installAcceleratedCanvasTracker } from "@hyperframes/core/page-motion-b
 import { useMountEffect } from "../../hooks/useMountEffect";
 import { applyPreviewVariablesToUrl } from "../../hooks/previewVariablesStore";
 import { HyperframesLoader } from "../../components/ui";
-import { brandPlayerLoading } from "../../components/ui/openDesignLoading";
 import { usePlayerStore } from "../store/playerStore";
 import { announcePreviewDocumentLoaded } from "../sceneSwap";
 import type { IframeWindow } from "../lib/playbackTypes";
@@ -247,7 +246,6 @@ export const Player = forwardRef<HTMLIFrameElement, PlayerProps>(
           player.setAttribute("src", retryUrl.pathname + retryUrl.search);
         };
         retryPreviewRef.current = retryPreview;
-        const stopLoadingBrand = brandPlayerLoading(player);
         const iframe = player.iframeElement;
         const preventToggle = (e: Event) => e.stopImmediatePropagation();
         const handleShaderTransitionState = (event: Event) => {
@@ -367,7 +365,6 @@ export const Player = forwardRef<HTMLIFrameElement, PlayerProps>(
         enableInteractiveIframe(player);
 
         cleanup = () => {
-          stopLoadingBrand();
           iframe.removeEventListener("load", handleLoad);
           player.removeEventListener("click", preventToggle, { capture: true });
           player.removeEventListener("shadertransitionstate", handleShaderTransitionState);

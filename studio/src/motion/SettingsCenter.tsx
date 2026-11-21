@@ -97,6 +97,6 @@ function ResourceSettings({ about, openConnections }: { about: boolean; openConn
         <span>{link === feishu ? t('Feishu group') : link.platform}</span><RemixIcon name="external-link-line" size={16} />
       </a>)}
     </section>}
-    {about && <section className="om-card om-card-stack"><h2 className="om-subtitle">{t('Acknowledgements')}</h2><p className="om-muted">{t('Built with Hyperframes and the Kinevyn design system. Provider presets include the MIT-licensed Cherry Studio registry. Account connections use OpenDesign.')}</p><a className="om-text-link" href="https://github.com/rivyn-labs/kinevyn/blob/main/shared/provider-registry-NOTICE.md" target="_blank" rel="noreferrer">{t('Licenses & acknowledgements')}</a></section>}
+    {about && <section className="om-card om-card-stack"><h2 className="om-subtitle">{t('Acknowledgements')}</h2><p className="om-muted">{t('Built with Hyperframes and the Kinevyn design system. Provider presets include the MIT-licensed Cherry Studio registry.')}</p><a className="om-text-link" href="https://github.com/rivyn-labs/kinevyn/blob/main/shared/provider-registry-NOTICE.md" target="_blank" rel="noreferrer">{t('Licenses & acknowledgements')}</a></section>}
   </div>;
 }

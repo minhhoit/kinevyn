@@ -34,8 +34,6 @@
 
 .motion-brand-lockup:where([data-brand="editor"]) {
   color: var(--motion-strong);
-  aspect-ratio: 1705 / 291;
-  mask-image: url("./opendesign-dark.svg");
 }
 
 /* Shared placement feedback: crisp target geometry and a readable live readout. */
@@ -67,6 +65,6 @@
 @container (max-width: 700px) {
   .motion-brand-lockup--responsive {
     aspect-ratio: 1;
-    mask-image: url("./brand/loading-mark.svg");
+    mask-image: url("./brand/neutral-mark.svg");
   }
 }

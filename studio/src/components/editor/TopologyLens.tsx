@@ -11,7 +11,7 @@ import {
   type RefObject,
 } from "react";
 import { studioEditLifecycle } from "../../webmcp/writeCoordinator";
-import openDesignMark from "../../../../packages/design-system/brand/loading-mark.svg";
+import neutralMark from "../../../../packages/design-system/brand/neutral-mark.svg";
 import { measureTopologyLensGeometry, type TopologyLensGeometry } from "./topologyLensGeometry";
 import { reduceTopologyLens, type TopologyLensState } from "./topologyLensState";
 
@@ -166,7 +166,7 @@ export function TopologyLens({ iframeRef, activeCompositionPath }: TopologyLensP
             >
               {state.phase === "sealing" && (
                 <span
-                  style={{ background: "currentColor", mask: `url(${openDesignMark}) center / contain no-repeat`, WebkitMask: `url(${openDesignMark}) center / contain no-repeat` }}
+                  style={{ background: "currentColor", mask: `url(${neutralMark}) center / contain no-repeat`, WebkitMask: `url(${neutralMark}) center / contain no-repeat` }}
                   data-topology-seal={state.receiptStage}
                   className="hf-topology-seal absolute right-2 top-2 h-7 w-7"
                 />
