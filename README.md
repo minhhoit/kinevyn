@@ -14,17 +14,11 @@
   <a href="https://github.com/rivyn-labs/kinevyn"><img src="docs/readme/badges/stars.svg" alt="GitHub Stars · 9.5k (2026-11-09)"></a>
   <a href="package.json"><img src="docs/readme/badges/node.svg" alt="Node.js 22.18+"></a>
   <a href="LICENSE"><img src="docs/readme/badges/license.svg" alt="Apache 2.0 license"></a>
-  <a href="https://github.com/rivyn-labs/open-design"><img src="docs/readme/badges/built-by-opendesign.svg" alt="Built by OpenDesign"></a>
 </p>
 
 <p align="center">
-  <a href="https://open-design.ai/motion/"><img src="docs/readme/badges/website.svg" alt="Kinevyn website" /></a>
-  <a href="https://go.open-design.ai/?utm_source=github&amp;utm_medium=referral&amp;utm_campaign=kinevyn&amp;utm_content=readme_en"><img src="docs/readme/badges/opendesign-go.svg" alt="OpenDesign Go model subscriptions" /></a>
   <a href="https://discord.com/invite/M7NnHS9gNa"><img src="docs/readme/badges/discord.svg" alt="Join the Kinevyn Discord" /></a>
   <a href="https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=b6cs46dc-acb2-48ed-941d-c45642ead841"><img src="docs/readme/badges/feishu.svg" alt="Join the Kinevyn Feishu group" /></a>
-  <a href="https://x.com/OpenDesignHQ"><img src="docs/readme/badges/x-opendesignhq.svg" alt="OpenDesign on X (@OpenDesignHQ)" /></a>
-  <a href="https://x.com/OpenDesignDevs"><img src="docs/readme/badges/x-opendesigndevs.svg" alt="OpenDesign Developers on X (@OpenDesignDevs)" /></a>
-  <a href="https://www.youtube.com/channel/UChtshixMhvtgBWzoD9R_Qfg"><img src="docs/readme/badges/youtube.svg" alt="OpenDesign on YouTube" /></a>
 </p>
 
 <p align="center"><a href="#quick-start">Install</a> · <a href="#agent-wall">Agents</a> · <a href="#showcase">Use cases &amp; remakes</a> · <a href="#features">Why Kinevyn</a> · <a href="#technical-guide">Setup & architecture</a> · <a href="#community">Community</a></p>
@@ -114,195 +108,9 @@ Import a **HyperFrames project ZIP** into Kinevyn to continue editing its compos
 
 ## 🎞️ Use cases and remake examples
 
-Explore product demos, brand films, talking-head videos and more. The previews below show reference videos.
+Kinevyn recreates product demos, brand films, explainers, data stories and talking-head videos from a reference clip, in your own brand kit.
 
-**[Browse the full template library →](https://open-design.ai/templates/)** — Find more templates, full videos, Motion.md and recreation instructions.
-
-### AI recuts & revisions
-
-<table width="100%">
-<tr>
-<td width="50%" valign="top">
-<picture><source media="(prefers-reduced-motion: reduce)" srcset="docs/readme/live-templates/many-possible-futures.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/f4a30a4a3b2dbc5c43df68837bebb284d204a1408394e248d7df339154914917.gif" width="480" alt="Build a story from multiple scenes"></picture><br>
-<strong>OpenAI · Build a story from multiple scenes</strong><br>
-Connect different scenes around one narrative idea, then expand into a broader montage.<br>
-<a href="https://open-design.ai/templates/many-possible-futures-motion-design/">View template</a>
-</td>
-<td width="50%" valign="top">
-<picture><source media="(prefers-reduced-motion: reduce)" srcset="docs/readme/live-templates/making-of-window-collage.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/dae76ee380e75eb257be035bda3697981c5cce42b53a0f61da34c46687b52e1d.gif" width="480" alt="Recut a making-of collage"></picture><br>
-<strong>Anthropic · Recut a making-of collage</strong><br>
-Layer clips and screenshots in sequence, keeping the main title readable above them.<br>
-<a href="https://open-design.ai/templates/making-of-window-collage-motion-design/">View template</a>
-</td>
-</tr>
-</table>
-
-### Product launches & demos
-
-<table width="100%">
-<tr>
-<td width="50%" valign="top">
-<picture><source media="(prefers-reduced-motion: reduce)" srcset="docs/readme/live-templates/notion-custom-agents.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/b62ffb99195f35396b6ec0b5f8f0abb8552ffd2493a5e982e5e10fd640c44a0f.gif" width="480" alt="Show a problem, then the solution"></picture><br>
-<strong>Notion · Show a problem, then the solution</strong><br>
-Move from crowded tasks to coordinated agents; adapt the sequence to your own product.<br>
-<a href="https://open-design.ai/templates/notion-custom-agents-motion-design/">View template</a>
-</td>
-<td width="50%" valign="top">
-<picture><source media="(prefers-reduced-motion: reduce)" srcset="https://releases.open-design.ai/open-motion/media/sha256/66bc3f14f916a58800562af5b2c8412b2f554f36a435da950faa39ef4b82da96.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/ecbb5b36bf9997451a02fbf6db8ef9083b93326eb81b5bd1c29b7ca988d008cd.gif" width="480" alt="Turn demand into a product reveal"></picture><br>
-<strong>OpenAI · Turn demand into a product reveal</strong><br>
-Build momentum with overlapping requests, then reveal the app in one clear beat.<br>
-<a href="https://open-design.ai/templates/demand-becomes-a-desktop-release-motion-design/">View template</a>
-</td>
-</tr>
-</table>
-
-### Brand films & motion
-
-<table width="100%">
-<tr>
-<td width="50%" valign="top">
-<picture><source media="(prefers-reduced-motion: reduce)" srcset="docs/readme/live-templates/a-world-connected-by-computational-fragments.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/d94806d916b9b7d9325db6901cc36b890ee0e4ff7503bfbd888b2d258b985925.gif" width="480" alt="Connect worlds through motion"></picture><br>
-<strong>Kimi · Connect worlds through motion</strong><br>
-Use code strips, offset slices and transitions to connect a series of brand scenes.<br>
-<a href="https://open-design.ai/templates/a-world-connected-by-computational-fragments-motion-design/">View template</a>
-</td>
-<td width="50%" valign="top">
-<picture><source media="(prefers-reduced-motion: reduce)" srcset="docs/readme/live-templates/slack-slack.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/e5f730483a177dad8cebd3f19728d04a590a075691ca2c48544c05c73490a505.gif" width="480" alt="Rebuild a brand mark"></picture><br>
-<strong>Slack · Rebuild a brand mark</strong><br>
-Break a mark into simple shapes and reassemble it with your own colors and name.<br>
-<a href="https://open-design.ai/templates/slack-slack-motion-design/">View template</a>
-</td>
-</tr>
-</table>
-
-### Explainers & tutorials
-
-<table width="100%">
-<tr>
-<td width="50%" valign="top">
-<picture><source media="(prefers-reduced-motion: reduce)" srcset="https://releases.open-design.ai/open-motion/media/sha256/79e74122a92470f1cfe4ce39552b1eacad81bf316514605fef8d64f0c62eea4b.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/f6372a94259356a96f71ab0be2414f2c793d4fc823a45bfba70ca53dba595f04.gif" width="480" alt="Explain a connected workflow"></picture><br>
-<strong>Anthropic · Explain a connected workflow</strong><br>
-Follow one question through data, actions and slides, keeping the context visible.<br>
-<a href="https://open-design.ai/templates/connected-tools-evidence-chain-motion-design/">View template</a>
-</td>
-<td width="50%" valign="top">
-<picture><source media="(prefers-reduced-motion: reduce)" srcset="docs/readme/live-templates/an-agent-payment-with-human-approval.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/caf3c5ba8c42668634ed37bfb7bf70b08aff3897eef89cc5b62980c1402532e4.gif" width="480" alt="Show an approval step by step"></picture><br>
-<strong>Stripe · Show an approval step by step</strong><br>
-Carry the same request from a conversation to phone confirmation with clear visual continuity.<br>
-<a href="https://open-design.ai/templates/an-agent-payment-with-human-approval-motion-design/">View template</a>
-</td>
-</tr>
-</table>
-
-### Data stories & charts
-
-<table width="100%">
-<tr>
-<td width="50%" valign="top">
-<picture><source media="(prefers-reduced-motion: reduce)" srcset="docs/readme/live-templates/mathematics-as-evolving-geometry.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/a1044ff2c0fadb69adc1eb9274e40665d7b4f87cd95e951d5dcb0e0d1cbedf1b.gif" width="480" alt="Turn complex ideas into diagrams"></picture><br>
-<strong>OpenAI · Turn complex ideas into diagrams</strong><br>
-Transform one geometric diagram into the next using shared points and connecting lines.<br>
-<a href="https://open-design.ai/templates/mathematics-as-evolving-geometry-motion-design/">View template</a>
-</td>
-<td width="50%" valign="top">
-<picture><source media="(prefers-reduced-motion: reduce)" srcset="https://releases.open-design.ai/open-motion/media/sha256/be5fc241ac81b90d7e7ded0bf1c90040d2823e6c659420d636722b5935c6e452.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/86184ef3b1da142db2dde7cfda80b69635e5adb9c2f6d0c0b87dc9c3e0bc7cb5.gif" width="480" alt="Make results progressively visible"></picture><br>
-<strong>Anthropic · Make results progressively visible</strong><br>
-Move from an overview to individual findings, then show the action taken for each result.<br>
-<a href="https://open-design.ai/templates/scan-to-suggested-fix-motion-design/">View template</a>
-</td>
-</tr>
-</table>
-
-### Music & art visuals
-
-<table width="100%">
-<tr>
-<td width="50%" valign="top">
-<picture><source media="(prefers-reduced-motion: reduce)" srcset="docs/readme/live-templates/controllable-song-composition.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/5e5f90231e7f456d70f002694eae9f3b1605bc06240e98224f719c8e1dcbbfa0.gif" width="480" alt="Visualize a song taking shape"></picture><br>
-<strong>ElevenLabs · Visualize a song taking shape</strong><br>
-Connect the prompt, sections and tempo to a waveform and the finished piece.<br>
-<a href="https://open-design.ai/templates/controllable-song-composition-motion-design/">View template</a>
-</td>
-<td width="50%" valign="top">
-<picture><source media="(prefers-reduced-motion: reduce)" srcset="docs/readme/live-templates/living-waveform-poster.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/1c892636aac9911c05b6aa44667d1e18c7b8813a47d55d408ba21595020cb121.gif" width="480" alt="Animate a music poster"></picture><br>
-<strong>Deezer · Animate a music poster</strong><br>
-Keep the headline steady while flowing waves add rhythm around it.<br>
-<a href="https://open-design.ai/templates/living-waveform-poster-motion-design/">View template</a>
-</td>
-</tr>
-</table>
-
-<a id="creator-video-gallery"></a> <a id="presenter-motion"></a>
-
-### AI talking-head edits
-
-Build a clear story around a speaker, with readable captions, screen inserts and animated keywords. Use these references to find a style for your own recording.
-
-<table width="100%">
-<tr><th colspan="3" align="left">🎓 Teach & explain</th></tr>
-<tr>
-<td width="33%" valign="top" align="center">
-<picture><source media="(prefers-reduced-motion: reduce)" srcset="docs/readme/people/careerwithriya.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/7716c7166bf9f098f67845d55872e08f5765eaeb1439eb5760db785fa6d2d41e.gif" width="216" alt="Presenter video reference: 6 essential skills to transform your career"></picture><br>
-<strong>6 essential skills to transform your career</strong><br>
-Numbered points + kinetic keywords<br>
-<sub>Reference · @careerwithriya</sub>
-</td>
-<td width="33%" valign="top" align="center">
-<picture><source media="(prefers-reduced-motion: reduce)" srcset="docs/readme/people/dan-martell-tools.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/0d7e7316322a28b6ce9013beaee4208c84b12bbb5565f04fcbc175c72e6aeadc.gif" width="216" alt="Presenter video reference: What's the best AI tool right now?"></picture><br>
-<strong>What's the best AI tool right now?</strong><br>
-Presenter + floating tool cards<br>
-<sub>Reference · Dan Martell</sub>
-</td>
-<td width="33%" valign="top" align="center">
-<picture><source media="(prefers-reduced-motion: reduce)" srcset="docs/readme/people/harpercarrollai.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/9b4a957dc004efc4f1ddfdfed546ca3ccc6b1a1978c15d0887d0175b84caa39f.gif" width="216" alt="Presenter video reference: 10 Days of AI Basics, Day 1"></picture><br>
-<strong>10 Days of AI Basics, Day 1</strong><br>
-A personal lesson + readable captions<br>
-<sub>Reference · @harpercarrollai</sub>
-</td>
-</tr>
-<tr><th colspan="3" align="left">🖥️ Show the workflow</th></tr>
-<tr>
-<td width="33%" valign="top" align="center">
-<picture><source media="(prefers-reduced-motion: reduce)" srcset="docs/readme/people/ali-abdaal-workflow.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/03b9096a894f0572289ec31f9476854e660113852a97b4898c5b88158030b9a8.gif" width="216" alt="Presenter video reference: 5 tools I use every day"></picture><br>
-<strong>5 tools I use every day</strong><br>
-Desk-side story + workflow inserts<br>
-<sub>Reference · Ali Abdaal</sub>
-</td>
-<td width="33%" valign="top" align="center">
-<picture><source media="(prefers-reduced-motion: reduce)" srcset="docs/readme/people/john-tagudin-capso.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/a8a09b0b4837125c948bcdeff964ae7a9ff971ea0275927d045bc72f81141d72.gif" width="216" alt="Presenter video reference: Tool demo with callouts"></picture><br>
-<strong>Tool demo with callouts</strong><br>
-Presenter + screens + callouts<br>
-<sub>Reference · @john.tagudin</sub>
-</td>
-<td width="33%" valign="top" align="center">
-<picture><source media="(prefers-reduced-motion: reduce)" srcset="docs/readme/people/aiwithsachi.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/e04f9c2fdfb1bce2a2f83bbf28bde8765af58c589bb52b904694ff8113d61a7e.gif" width="216" alt="Presenter video reference: Top 5 plugins to install in Claude"></picture><br>
-<strong>Top 5 plugins to install in Claude</strong><br>
-A spoken list + supporting screenshots<br>
-<sub>Reference · @aiwithsachi</sub>
-</td>
-</tr>
-<tr><th colspan="3" align="left">🎬 Tell a story, show a product</th></tr>
-<tr>
-<td width="33%" valign="top" align="center">
-<picture><source media="(prefers-reduced-motion: reduce)" srcset="docs/readme/people/khris-sheer-founder.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/0359b48294cb978df976f9ae2ab6ca4644854bee438dca09accc1144c30259bc.gif" width="216" alt="Presenter video reference: The Founder Experiments, Ep. 1"></picture><br>
-<strong>The Founder Experiments, Ep. 1</strong><br>
-Founder diary + everyday B-roll<br>
-<sub>Reference · @khris.sheer</sub>
-</td>
-<td width="33%" valign="top" align="center">
-<picture><source media="(prefers-reduced-motion: reduce)" srcset="docs/readme/people/ugc-rachelll.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/0b779052281e89a3efc44e5a4b4492e245a12a14c0c5118813e59876419ad5c5.gif" width="216" alt="Presenter video reference: AI creator with product"></picture><br>
-<strong>AI creator with product</strong><br>
-Product story + proof + picture-in-picture<br>
-<sub>Reference · @ugc.rachelll</sub>
-</td>
-<td width="33%" valign="top" align="center">
-<picture><source media="(prefers-reduced-motion: reduce)" srcset="docs/readme/people/kevinstratvert.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/31655004df5561a835eacd093fdd7e2a247b3c5fec0a9074ce59c6d9c9c56291.gif" width="216" alt="Presenter video reference: Stop Paying for 5 AI Tools"></picture><br>
-<strong>Stop Paying for 5 AI Tools</strong><br>
-Product tutorial + live demonstration<br>
-<sub>Reference · Kevin Stratvert</sub>
-</td>
-</tr>
-</table>
+**[Browse the full template library →](https://open-design.ai/templates/)** — full videos, Motion.md and recreation instructions.
 
 <a id="features"></a>
 <a id="why-kinevyn"></a>
@@ -758,11 +566,9 @@ Share a remake, a reusable template or a Motion.md that captures the rhythm of a
 
 This repository was renamed from `rivyn-labs/html-anything` to [`rivyn-labs/kinevyn`](https://github.com/rivyn-labs/kinevyn).
 
-[Kinevyn website](https://open-design.ai/motion/) · [OpenDesign Go](https://go.open-design.ai/?utm_source=github&utm_medium=referral&utm_campaign=kinevyn&utm_content=readme_en) · [Discord](https://discord.com/invite/M7NnHS9gNa) · [Feishu](https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=b6cs46dc-acb2-48ed-941d-c45642ead841) · [X @OpenDesignDevs](https://x.com/OpenDesignDevs) · [X @OpenDesignHQ](https://x.com/OpenDesignHQ) · [YouTube](https://www.youtube.com/channel/UChtshixMhvtgBWzoD9R_Qfg)
+[Discord](https://discord.com/invite/M7NnHS9gNa) · [Feishu](https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=b6cs46dc-acb2-48ed-941d-c45642ead841)
 
 [**Star Kinevyn on GitHub**](https://github.com/rivyn-labs/kinevyn)
-
-[![Stay tuned with us · Star Kinevyn](https://releases.open-design.ai/open-motion/media/sha256/eb32b6cd4736cbbf42a537af24ed1ab8745192efcd7f3f69ffd5f2d569fe1607.gif)](https://github.com/rivyn-labs/kinevyn)
 
 <a id="acknowledgements"></a>
 
@@ -777,12 +583,6 @@ Kinevyn is licensed under [Apache-2.0](LICENSE). Third-party code, templates, me
 | [OpenDesign](https://github.com/rivyn-labs/open-design) | Develops Kinevyn and provides its UI foundations, resource structure, brand direction and Apache-2.0 HTML design templates, design systems, Skills, craft guides and scenario task profiles; [design system](docs/design-system.md), [design library notices](library/design/NOTICE.md) and [Motion showcase](https://open-design.ai/motion/) |
 | [Hyperframes](https://github.com/heygen-com/hyperframes) | HTML-to-video composition, Studio and rendering foundations, pinned to 0.9.7; creator references, external adaptation demonstrations and component source; [engine notes](docs/hyperframes.md), [template notices](template-library/NOTICE.md) and [catalog provenance](docs/template-catalog.md) |
 | [MotionGit](https://motiongit.com/) / adunext | Kinetic Tech source packaged as Presenter Tech; [license and attribution](library/templates/presenter-tech/NOTICE.md) |
-| [Hypit](https://github.com/hypit-ai/hypit) | Inspiration for agent-led viral-video cloning and editable variants; no runtime imported here |
-| [rea-video](https://github.com/JuneYaooo/rea-video) | Reference analysis and case studies for [live-action unboxing](https://github.com/JuneYaooo/rea-video/blob/main/docs/cases/unboxing/report_en.md) and [characters, code and screen footage](https://github.com/JuneYaooo/rea-video/blob/main/docs/cases/dual_role/report_en.md); [showcase attribution](docs/readme/brand-showcase/README.md), no runtime imported here |
-| [OpenAI · Codex Originals](https://openai.com/codex-originals/) | External brand-film inspiration; official campaign still and outbound viewing link |
-| [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) / [Super-agent prototype](https://github.com/deepseek-ai/dsh-superagent-prototype) | Agent extensibility and continuing-task inspiration; the prototype is separate from Kinevyn's current runtime |
-| Claude Motion / CapCut / [ChatCut](https://chatcut.io/docs/what-is-chatcut) / [OpenChatCut](https://github.com/0xsline/OpenChatCut) | Product references for agent-led creation, approachable AI editing and continued revision |
-| [OpusClip](https://www.opus.pro/calendar) | Product reference for distribution and [external scheduling](https://www.opus.pro/tools/instagram-reels-scheduler); no built-in connector |
 | [GSAP](https://github.com/greensock/GSAP) / [FFmpeg](https://ffmpeg.org/) | Animation and media dependencies with versions retained in [package.json](package.json) and the [runtime lock](scripts/runtime-lock.json) |
 
 [Asset sources](docs/readme/ASSETS.md) · [Skills page covers](docs/readme/ASSETS.md#skills-page-covers) · [Additional showcase sources](docs/readme/brand-showcase/README.md) · [Font notices](web/design-system/fonts/NOTICES.txt) · [Studio license](studio/LICENSE)

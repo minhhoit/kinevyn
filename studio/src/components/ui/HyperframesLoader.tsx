@@ -1,4 +1,4 @@
-import { OpenDesignLoadingMark } from "./OpenDesignLoadingMark";
+import { NeutralLoadingMark } from "./NeutralLoadingMark";
 
 export interface HyperframesLoaderProps {
   /** Status text shown below the mark. */
@@ -33,7 +33,7 @@ export function HyperframesLoader({
         style={{ width: "100%", height: Math.round(size * 1.16) }}
         draggable={false}
       >
-        <OpenDesignLoadingMark height={markHeight} />
+        <NeutralLoadingMark height={markHeight} />
       </div>
       <div className="hf-loader-title">{title}</div>
       {detail && <div className="hf-loader-detail">{detail}</div>}

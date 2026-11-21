@@ -333,6 +333,10 @@
   border-inline-start: 1px solid transparent;
   border-image: linear-gradient(to bottom, transparent 25%, var(--motion-border) 25% 75%, transparent 75%) 1;
 }
+/* Explore browses the online template catalog (external cover/preview media from OpenDesign's
+   CDN); hidden here so it is never one click away in this deployment, without removing the page,
+   its route, or anything scripted tests reach through it. */
+.om-explore-link { display: none !important; }
 .om-explore-link > svg { display: var(--explore-icon-display, none); }
 .om-explore-link > span { display: var(--explore-label-display, inline); }
 .om-creative-navigation[data-compact-actions] { --compact-nav: 1; --explore-icon-display: block; --explore-label-display: none; }

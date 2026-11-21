@@ -631,6 +631,20 @@
   -webkit-user-drag: none;
 }
 
+.hf-loader-mark--neutral {
+  border-radius: 50%;
+  border: 3px solid color-mix(in srgb, var(--motion-strong) 14%, transparent);
+  border-top-color: var(--motion-accent);
+  animation: hf-loader-mark-spin 0.9s linear infinite;
+}
+
+@keyframes hf-loader-mark-spin {
+  to { transform: rotate(360deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hf-loader-mark--neutral { animation: none; }
+}
+
 .hf-loader-title {
   font-family: var(--font-sans);
   font-size: 1rem;
