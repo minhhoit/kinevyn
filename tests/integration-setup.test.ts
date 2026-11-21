@@ -69,10 +69,12 @@ test('setup works before local discovery and never copies machine-local details'
 test('public setup retains repository and published catalog environments', () => {
   assert.equal(setupGuideUrl(null), 'https://github.com/rivyn-labs/kinevyn/blob/main/docs/install.md');
   assert.equal(setupGuideUrl(info), setupGuideUrl(null));
+  // No MOTION_RELEASES_ORIGIN is configured for this fork yet, so a published/cms source
+  // falls back to the same source-install guide rather than upstream infrastructure.
   const published: IntegrationInfo = { ...info, templateSource: 'cms' };
-  assert.equal(setupGuideUrl(published), 'https://releases.open-design.ai/open-motion/install.md');
-  assert.equal(setupGuideUrl({ ...published, templateEnvironment: 'dev' }), 'https://releases.open-design.ai/open-motion/dev/install.md');
-  assert.equal(setupGuideUrl({ ...published, transport: { ...info.transport, env: { ...info.transport.env, MOTION_TEMPLATE_ENV: 'dev' } } }), 'https://releases.open-design.ai/open-motion/dev/install.md');
+  assert.equal(setupGuideUrl(published), setupGuideUrl(null));
+  assert.equal(setupGuideUrl({ ...published, templateEnvironment: 'dev' }), setupGuideUrl(null));
+  assert.equal(setupGuideUrl({ ...published, transport: { ...info.transport, env: { ...info.transport.env, MOTION_TEMPLATE_ENV: 'dev' } } }), setupGuideUrl(null));
   assert.equal(setupGuideUrl({ ...info, templateEnvironment: 'dev' }), setupGuideUrl(null));
   assert.match(setupPrompt(null, 'chatgpt', 'en'), /requires a public HTTPS MCP service/);
 });

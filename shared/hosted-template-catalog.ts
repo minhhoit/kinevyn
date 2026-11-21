@@ -3,8 +3,14 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { boundedMediaBody } from './repository-media.ts';
 import type { PublishedTemplate, TemplatePublication } from './repository-template-catalog.ts';
+import { releasesOrigin } from './template-config.ts';
 
-export const hostedCatalogUrl = 'https://releases.open-design.ai/open-motion/templates/main/catalog.json';
+// releases.invalid is RFC 2606 reserved and never resolves: an actual fetch against it fails
+// loudly (caught by the existing cache/fallback handling below), while a cache restore whose
+// manifest.baseUrl is already absolute never dereferences this at all.
+export function hostedCatalogUrl(): string {
+  return `${releasesOrigin() ?? 'https://releases.invalid'}/kinevyn/templates/main/catalog.json`;
+}
 const maxJsonBytes = 1024 * 1024;
 // The main catalog embeds library Skill instructions; per-file reads keep the 1 MB cap.
 const maxCatalogBytes = 16 * 1024 * 1024;
@@ -62,8 +68,8 @@ async function fetchJson(request: Request, url: string): Promise<any> {
 
 function createCatalog(manifest: any, publication: TemplatePublication, records: Map<string, TemplateRecord>, request: Request, warning?: string): HostedRepositoryCatalog {
   const commit = manifest.commit;
-  const baseUrl = new URL(manifest.baseUrl || `./snapshots/${commit}`, hostedCatalogUrl).href.replace(/\/$/, '');
-  const objectBaseUrl = new URL(manifest.objectBaseUrl || './objects', hostedCatalogUrl).href.replace(/\/$/, '');
+  const baseUrl = new URL(manifest.baseUrl || `./snapshots/${commit}`, hostedCatalogUrl()).href.replace(/\/$/, '');
+  const objectBaseUrl = new URL(manifest.objectBaseUrl || './objects', hostedCatalogUrl()).href.replace(/\/$/, '');
   const sourceManifests = new Map<string, HostedSourceManifest>();
   const loadSourceManifest = async (templateId: string) => {
     let value = sourceManifests.get(templateId);
@@ -112,7 +118,7 @@ export function restoreHostedCatalog(value: unknown, request: Request = fetch): 
 
 /** Read the latest published main catalog from Kinevyn's own public CDN. */
 export async function loadHostedCatalog(request: Request = fetch): Promise<HostedRepositoryCatalog> {
-  const manifest = await fetchJson(request, hostedCatalogUrl);
+  const manifest = await fetchJson(request, hostedCatalogUrl());
   assert(manifest.schemaVersion === 1 && typeof manifest.commit === 'string' && /^[a-f0-9]{40}$/.test(manifest.commit), 'Invalid hosted template catalog identity');
   assert(Array.isArray(manifest.templateIds) && manifest.templateIds.length > 0, 'Invalid hosted template catalog');
   assert(new Set(manifest.templateIds).size === manifest.templateIds.length, 'Duplicate hosted template ID');
@@ -123,7 +129,7 @@ export async function loadHostedCatalog(request: Request = fetch): Promise<Hoste
   const records = new Map<string, TemplateRecord>();
   const failures: string[] = [];
   let cursor = 0;
-  const baseUrl = new URL(manifest.baseUrl || `./snapshots/${manifest.commit}`, hostedCatalogUrl).href.replace(/\/$/, '');
+  const baseUrl = new URL(manifest.baseUrl || `./snapshots/${manifest.commit}`, hostedCatalogUrl()).href.replace(/\/$/, '');
   const worker = async () => {
     while (cursor < manifest.templateIds.length) {
       const id = manifest.templateIds[cursor++];

@@ -43,7 +43,7 @@ test('hosted catalog reads the moving main pointer and serves content-addressed 
     const url = String(input);
     calls.push(url);
     if (offline) throw new Error('offline');
-    if (url === hostedCatalogUrl) return response(manifest);
+    if (url === hostedCatalogUrl()) return response(manifest);
     if (url.endsWith(`/${id}/template.json`)) return response(record);
     if (url.endsWith(`/${id}/hosted-files.json`)) return response(hostedFiles);
     if (url.endsWith(`/${id}/source/manifest.json`)) return response(sourceManifest);
@@ -112,7 +112,7 @@ test('published repository files serve the HTTP gallery, public MCP and arbitrar
   const built = await buildTemplatePublication(work, commit);
   t.after(() => rm(built.staging, { recursive: true, force: true }));
   const uploaded = new Map(await Promise.all(built.uploads.map(async file => [`https://releases.open-design.ai/${file.key}`, await readFile(file.body)] as const)));
-  uploaded.set(hostedCatalogUrl, Buffer.from(JSON.stringify(built.catalog)));
+  uploaded.set(hostedCatalogUrl(), Buffer.from(JSON.stringify(built.catalog)));
   t.mock.method(globalThis, 'fetch', async input => {
     const bytes = uploaded.get(String(input));
     assert(bytes, 'Unexpected network access: ' + input);
@@ -159,7 +159,7 @@ test('hosted detail rejects corrupt content-addressed objects', async t => {
   t.after(() => rm(work, { recursive: true, force: true }));
   const request = async (input: RequestInfo | URL) => {
     const url = String(input);
-    if (url === hostedCatalogUrl) return response(manifest);
+    if (url === hostedCatalogUrl()) return response(manifest);
     if (url.endsWith('/template.json')) return response(record);
     if (url.endsWith('/hosted-files.json')) return response(hostedFiles);
     if (url.endsWith('/source/manifest.json')) return response(sourceManifest);

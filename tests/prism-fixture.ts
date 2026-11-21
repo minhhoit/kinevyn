@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
 
 export const resourceId = '1500c9af-186b-457f-b74d-a58113f657d8';
-export const catalogUrl = `https://r.open-design.ai/resources/${resourceId}/channels/default/main.json`;
+export const catalogUrl = `https://releases.invalid/resources/${resourceId}/channels/default/main.json`;
 export const contents = {
   'index.html': '<!doctype html><html><head><script src="assets/gsap.min.js"></script></head><body><main id="main" data-composition-id="main" data-width="320" data-height="180" data-start="0" data-duration="1"><div class="clip" data-start="0" data-duration="1" data-track-index="1">Prism template</div></main><script src="animation.js"></script></body></html>',
   'animation.js': 'window.__timelines={main:gsap.timeline({paused:true}).to(".clip",{opacity:0.5,duration:1})};',

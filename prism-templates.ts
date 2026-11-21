@@ -6,7 +6,7 @@ import { mkdir, readFile, rename, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { isShortFormTemplate, templatePage, templateWorkflow, type GalleryTemplate } from './shared/catalog.ts';
 import { catalogLocale } from './shared/template-locale.ts';
-import { templateConfig } from './shared/template-config.ts';
+import { templateConfig, releasesOrigin } from './shared/template-config.ts';
 import { libraryTemplates, templateRecipe } from './template-catalog.ts';
 import { copyTemplate } from './template-library.ts';
 import { loadRepositoryCatalog, lfsPointer, maxLfsAssetBytes, maxTemplateAssetBytes, readRepositoryFile, repositoryCatalogRoot } from './shared/repository-template-catalog.ts';
@@ -62,7 +62,9 @@ export class TemplateCatalog {
     this.locale = options.locale ?? config.locale;
     this.source = options.source ?? config.source;
     this.repositoryRoot = options.repositoryRoot ?? repositoryCatalogRoot;
-    const origin = this.environment === 'dev' ? 'https://r.powerformer.net' : 'https://r.open-design.ai';
+    // No release origin configured yet for the "cms" source mode; releases.invalid (RFC 2606)
+    // fails loudly on an actual fetch rather than silently reaching upstream infrastructure.
+    const origin = releasesOrigin() ?? 'https://releases.invalid';
     this.url = `${origin}/resources/${encodeURIComponent(this.resourceId)}/channels/default/main.json`;
     this.directory = path.resolve(dataDirectory, 'template-cache', hash(this.source + ':' + this.url + this.locale).slice(0, 16));
     this.request = options.fetch ?? fetch;

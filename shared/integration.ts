@@ -3,6 +3,7 @@ import { formatTemplatePrompt } from './template-prompts.ts';
 import { templateGuideContinuationInstruction } from './template-guide.ts';
 import { workflowEntryGuide } from './workflow-entry.js';
 import { transcriptWorkflowPrompt } from './transcript-workflow.ts';
+import { releasesOrigin } from './template-config.ts';
 
 export function transcriptExamplePrompt(info?: Pick<IntegrationInfo, 'previewUrl' | 'dataDirectory'> | null, locale = 'en') {
   return `First list projects with kinevyn_get_project and ask the user to identify the source project and media. Replace SELECTED_PROJECT_ID with that confirmed identity before any operation.\n\n` + transcriptWorkflowPrompt({
@@ -102,8 +103,12 @@ export const setupReadmeUrl = 'https://github.com/rivyn-labs/kinevyn#quick-start
 export function setupGuideUrl(info: IntegrationInfo | null) {
   if (info?.deployment?.type === 'docker') return 'https://github.com/rivyn-labs/kinevyn/blob/main/deploy/README.md';
   if (!info || info.templateSource === 'repository') return 'https://github.com/rivyn-labs/kinevyn/blob/main/docs/install.md';
+  const origin = releasesOrigin();
+  // No release origin configured yet for the npm-published channel: fall back to the same
+  // source-install guide rather than linking to upstream infrastructure this fork does not own.
+  if (!origin) return 'https://github.com/rivyn-labs/kinevyn/blob/main/docs/install.md';
   const environment = info.templateEnvironment ?? info.transport.env.MOTION_TEMPLATE_ENV ?? 'prod';
-  return `https://releases.open-design.ai/open-motion/${environment === 'dev' ? 'dev/' : ''}install.md`;
+  return `${origin}/kinevyn/${environment === 'dev' ? 'dev/' : ''}install.md`;
 }
 
 // Bootstrap instructions must work before an installation or local server exists.
