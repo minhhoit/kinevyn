@@ -17,17 +17,17 @@ export async function candidateFixture(t, branch = 'main', options = {}) {
   await writeJSON(path.join(app, 'package.json'), { version }); await writeJSON(path.join(app, 'package-lock.json'), {});
   await writeJSON(path.join(app, 'scripts/runtime-lock.json'), {});
   await writeJSON(path.join(app, 'shared/template-config.json'), { environment: templateEnvironment });
-  const application = path.join(pkg, 'payload', `openmotion-application-${version}-${templateEnvironment}.tar.gz`);
+  const application = path.join(pkg, 'payload', `kinevyn-application-${version}-${templateEnvironment}.tar.gz`);
   await runFile('tar', ['-czf', application, '-C', app, '.']);
   const manifest = { schemaVersion: 1, version, format: 'npm', templateEnvironment, commit,
-    mcp: { tools: Array.from({ length: 11 }, (_, index) => `openmotion_tool_${index}`) },
-    skills: options.skills || ['production', 'director', 'template-to-video', 'recreate', 'video-to-template'].flatMap(name => ['openmotion-' + name, 'motion-' + name]),
+    mcp: { tools: Array.from({ length: 11 }, (_, index) => `kinevyn_tool_${index}`) },
+    skills: options.skills || ['production', 'director', 'template-to-video', 'recreate', 'video-to-template'].flatMap(name => ['kinevyn-' + name, 'motion-' + name]),
     application: { url: './' + path.basename(application), sha256: await sha256(application) },
     locks: { npm: await sha256(path.join(app, 'package-lock.json')), native: await sha256(path.join(app, 'scripts/runtime-lock.json')) },
     runtime: { targets: { mac: { platform: 'darwin', arch: 'arm64' } } } };
   await writeJSON(path.join(pkg, 'payload/release-npm.json'), manifest);
-  await writeJSON(path.join(pkg, 'package.json'), { name: '@openmotion/app', version, private: false, bin: { openmotion: 'scripts/npm-installer.mjs' } });
-  const tgz = path.join(build, `openmotion-app-${version}.tgz`);
+  await writeJSON(path.join(pkg, 'package.json'), { name: '@kinevyn/app', version, private: false, bin: { kinevyn: 'scripts/npm-installer.mjs' } });
+  const tgz = path.join(build, `kinevyn-app-${version}.tgz`);
   await runFile('tar', ['-czf', tgz, '-C', work, 'package']);
   await writeJSON(path.join(build, 'release-npm.json'), { ...manifest, installer: { url: './' + path.basename(tgz), sha256: await sha256(tgz) } });
   for (const name of ['source-scan.json', 'package-scan.json']) await writeJSON(path.join(build, name), { status: 'passed' });
@@ -37,12 +37,12 @@ export async function candidateFixture(t, branch = 'main', options = {}) {
   if (options.dsh) {
     const plugin = path.join(work, 'dsh/package');
     await mkdir(plugin, { recursive: true });
-    await writeJSON(path.join(plugin, 'package.json'), { name: 'openmotion-dsh', version, private: true });
-    const filename = path.join(build, `openmotion-dsh-${version}.tgz`);
+    await writeJSON(path.join(plugin, 'package.json'), { name: 'kinevyn-dsh', version, private: true });
+    const filename = path.join(build, `kinevyn-dsh-${version}.tgz`);
     await runFile('tar', ['-czf', filename, '-C', path.dirname(plugin), 'package']);
     const digest = await sha256(filename);
-    await writeJSON(path.join(build, 'dsh-plugin.json'), { schemaVersion: 1, name: 'openmotion-dsh', version, dshVersion: '0.2.2-rc.1', sourceCommit: commit,
-      sha256: digest, bytes: (await readFile(filename)).length, tarballUrl: `${downloadOrigin}/${downloadPrefix}/snapshots/${commit}/${digest}/openmotion-dsh.tgz` });
+    await writeJSON(path.join(build, 'dsh-plugin.json'), { schemaVersion: 1, name: 'kinevyn-dsh', version, dshVersion: '0.2.2-rc.1', sourceCommit: commit,
+      sha256: digest, bytes: (await readFile(filename)).length, tarballUrl: `${downloadOrigin}/${downloadPrefix}/snapshots/${commit}/${digest}/kinevyn-dsh.tgz` });
     await writeJSON(path.join(build, 'dsh-package-scan.json'), { status: 'passed', version, tgzSHA256: digest });
   }
   const candidate = await sealCandidate(build, directory, root, env);

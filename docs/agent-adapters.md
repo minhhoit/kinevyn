@@ -2,7 +2,7 @@
 
 适配器继承外置运行时的 MCP 发布 profile，`scope.json.mcpProfile` 记录 legacy／phase1，不单独维护 Tool allowlist。注册与构建规则见[一期 MCP 契约](mcp-phase1-tools.md)；旧运行时没有此标记时按 legacy 记录，不据此宣称一期已验收。
 
-Codex、Claude Code、DeepSeek Harness（DSH）与 WorkBuddy 从同一份已安装的 OpenMotion 运行时生成薄适配器。适配器包含宿主清单、连接配置、制作 Skills、AGENTS.md、CLAUDE.md 和产品文档，不包含服务源码、node_modules、Node、浏览器、FFmpeg、用户工程或账号凭据。
+Codex、Claude Code、DeepSeek Harness（DSH）与 WorkBuddy 从同一份已安装的 Kinevyn 运行时生成薄适配器。适配器包含宿主清单、连接配置、制作 Skills、AGENTS.md、CLAUDE.md 和产品文档，不包含服务源码、node_modules、Node、浏览器、FFmpeg、用户工程或账号凭据。
 
 各宿主分别启动 stdio MCP 进程，业务能力仍由同一份 `mcp.ts`、会话/工程、Model Gateway、Hyperframes 编辑器和渲染器提供。它们可以使用相同或不同的 `MOTION_DATA_DIR`；共用代码不代表共用一个 MCP 进程。macOS 同一数据目录的连接现在复用完整编辑器后台，各自保留工程绑定，Studio 仍只有一个活动工程；协议、版本或代码不兼容时拒绝复用，见 [共享编辑器](shared-editor.md)。Windows / Linux 保留原预览服务复用。Agent 仍需按最新工具契约读取会话、选择产物和校验 revision。
 
@@ -12,18 +12,18 @@ Codex、Claude Code、DeepSeek Harness（DSH）与 WorkBuddy 从同一份已安�
 
 | 从哪里开始 | 操作路径 | 适合谁 |
 | --- | --- | --- |
-| **OpenMotion 应用** | 打开工程 → Connect Agent → 按当前工作区指引配置客户端 → 将需求与工程上下文交给 Agent → 在 Studio 预览和细调 | 先浏览素材、模板或操作时间轴的创作者 |
+| **Kinevyn 应用** | 打开工程 → Connect Agent → 按当前工作区指引配置客户端 → 将需求与工程上下文交给 Agent → 在 Studio 预览和细调 | 先浏览素材、模板或操作时间轴的创作者 |
 | **已有 Agent 客户端** | 安装 Skills 与运行时连接 → 通过 MCP 读写工程、按需使用 CLI → 打开 Studio 预览 → 导出 | 已经在 Codex、Claude Code 等客户端中工作的用户 |
 
 两条路径使用同一套工程契约。Skills 提供方法，MCP 提供工程工具和引擎指引，CLI 提供原生编写/渲染入口。Agent 推理运行在所连接的外部客户端；Connect Agent 提供配置与指引，不是 Studio 内置聊天执行器。要共同编辑同一作品，客户端须连接同一工作区并读取明确的工程与 revision。
 
-公开入口：[在 OpenMotion 中连接 Agent](README.zh-CN.md#connect-your-agent) · [把 OpenMotion 接入 Agent](README.zh-CN.md#从-agent-接入)。
+公开入口：[在 Kinevyn 中连接 Agent](README.zh-CN.md#connect-your-agent) · [把 Kinevyn 接入 Agent](README.zh-CN.md#从-agent-接入)。
 
 三种展示入口和单模板交接的实际截图见[产品演示](product-tour.md)。Codex 图展示供宿主使用的嵌入 Viewer；Claude Code 图展示本地 Skill 列表与单独执行的 CLI 检查，分别标明宿主外框与模型执行的验证范围。
 
 ## 其他本地客户端
 
-在 Vela、Amp、CodeBuddy、MiMo、AtomCode、Claude Desktop、OpenClaw、Cline、Raven 或 VS Code 中的 GitHub Copilot 里使用 OpenMotion 时，先查看当前客户端支持的连接方式。如果能添加本地 stdio MCP 服务，复制 Studio 的 **Connect Agent** 配置，再让 Agent 列出可用模板。如果客户端能运行本机命令，也可以在工程目录内使用引擎 CLI。[工作区配置与 CLI 入口](README.zh-CN.md#local-agent-connection)
+在 Vela、Amp、CodeBuddy、MiMo、AtomCode、Claude Desktop、OpenClaw、Cline、Raven 或 VS Code 中的 GitHub Copilot 里使用 Kinevyn 时，先查看当前客户端支持的连接方式。如果能添加本地 stdio MCP 服务，复制 Studio 的 **Connect Agent** 配置，再让 Agent 列出可用模板。如果客户端能运行本机命令，也可以在工程目录内使用引擎 CLI。[工作区配置与 CLI 入口](README.zh-CN.md#local-agent-connection)
 
 ## 仅安装 Skills：npx skills
 
@@ -31,7 +31,7 @@ Codex、Claude Code、DeepSeek Harness（DSH）与 WorkBuddy 从同一份已安�
 
 ```sh
 npx skills add ./skills --list
-npx skills add ./skills --skill openmotion-director openmotion-production openmotion-template-to-video openmotion-recreate openmotion-video-to-template
+npx skills add ./skills --skill kinevyn-director kinevyn-production kinevyn-template-to-video kinevyn-recreate kinevyn-video-to-template
 ```
 
 显式选择五个正式入口，保留相互引用的同级目录。选择目标宿主后按 CLI 提示安装，不使用 `--all` 扩大安装范围。Skills CLI 有自己的 Node 要求；README 使用 CI 固定的 Node 26.11.1。
@@ -54,34 +54,34 @@ npm run export:adapters -- /absolute/runtime /absolute/projects /absolute/new-ad
 & "$motionRuntime/runtime/node/node.exe" --experimental-strip-types "$motionRuntime/scripts/export-adapters.ts" $motionRuntime $motionData $motionAdapters
 ```
 
-Mac 对应使用 `runtime/node/bin/node`。完整内部测试包保留原有 `motion@openmotion-test` 安装入口，同时带有本脚本供其他宿主生成适配器；本功能不自动改写既有安装或发布新测试版本。旧包没有此脚本，需从包含本次修改的新包生成。
+Mac 对应使用 `runtime/node/bin/node`。完整内部测试包保留原有 `motion@kinevyn-test` 安装入口，同时带有本脚本供其他宿主生成适配器；本功能不自动改写既有安装或发布新测试版本。旧包没有此脚本，需从包含本次修改的新包生成。
 
 | 输出 | 用途 |
 | --- | --- |
-| `codex/openmotion/`、`codex/.agents/plugins/marketplace.json` | 原生 Codex 薄插件及本地 marketplace |
-| `claude/openmotion/`、`claude/.claude-plugin/marketplace.json` | 原生 Claude Code 薄插件及本地 marketplace |
-| `workbuddy/openmotion/` | 本机 MCP + Skill Connector，含 `connector-meta.json`、`mcp.json`、图标和共用说明 |
+| `codex/kinevyn/`、`codex/.agents/plugins/marketplace.json` | 原生 Codex 薄插件及本地 marketplace |
+| `claude/kinevyn/`、`claude/.claude-plugin/marketplace.json` | 原生 Claude Code 薄插件及本地 marketplace |
+| `workbuddy/kinevyn/` | 本机 MCP + Skill Connector，含 `connector-meta.json`、`mcp.json`、图标和共用说明 |
 | `workbuddy/mcp.json` | 手动添加自定义 MCP 的配置 |
-| `deepseek/openmotion/cordis.patch.yml` | DSH Cordis patch-list，插入官方 MCP 客户端 |
-| `openmotion-<host>-<version>-local.zip` | 各宿主的本机目录归档，非完整应用安装程序 |
+| `deepseek/kinevyn/cordis.patch.yml` | DSH Cordis patch-list，插入官方 MCP 客户端 |
+| `kinevyn-<host>-<version>-local.zip` | 各宿主的本机目录归档，非完整应用安装程序 |
 | `launch-spec.json` | 四家共用的 Node、参数、工作目录和工程路径 |
 
-ZIP 使用安装机器的绝对路径；跨机器、移动运行时或切换版本后重新生成，不能作为通用安装包公开分发。New plugin manifests, marketplace entries and MCP registrations use `openmotion`. Old Tool/resource names remain compatibility aliases; retired Skill entries are removed. Update explicit Skill invocations to `openmotion-*`. Existing `motion` MCP configurations may still launch the same runtime. Replace the owned package and refresh host Skill discovery; separately copied old entries require manual review. See [upgrade cleanup](npm-installation.md#public-names-and-compatibility).
+ZIP 使用安装机器的绝对路径；跨机器、移动运行时或切换版本后重新生成，不能作为通用安装包公开分发。New plugin manifests, marketplace entries and MCP registrations use `kinevyn`. Old Tool/resource names remain compatibility aliases; retired Skill entries are removed. Update explicit Skill invocations to `kinevyn-*`. Existing `motion` MCP configurations may still launch the same runtime. Replace the owned package and refresh host Skill discovery; separately copied old entries require manual review. See [upgrade cleanup](npm-installation.md#public-names-and-compatibility).
 
 ## Codex / Claude Code
 
 ```sh
 codex plugin marketplace add "$motionAdapters/codex"
-codex plugin add motion@openmotion-local
-codex plugin list --marketplace openmotion-local --json
+codex plugin add motion@kinevyn-local
+codex plugin list --marketplace kinevyn-local --json
 codex mcp get motion --json
 
 claude plugin marketplace add "$motionAdapters/claude"
-claude plugin install motion@openmotion-local
+claude plugin install motion@kinevyn-local
 claude plugin list --json
 ```
 
-Codex 声明 `requires_local_executor`；两家原生插件均引用同一外置 Node、bootstrap、MCP 入口和数据目录。marketplace 位于各自插件 ZIP 外，原生安装使用生成的 `codex/` 或 `claude/` 目录。同名旧 `motion-local`、`openmotion-test` 或手动 MCP 已启用时，先核对、选择一个连接，避免重复加载。
+Codex 声明 `requires_local_executor`；两家原生插件均引用同一外置 Node、bootstrap、MCP 入口和数据目录。marketplace 位于各自插件 ZIP 外，原生安装使用生成的 `codex/` 或 `claude/` 目录。同名旧 `motion-local`、`kinevyn-test` 或手动 MCP 已启用时，先核对、选择一个连接，避免重复加载。
 
 Generated Codex and Claude plugin descriptions reuse the selected runtime's `.codex-plugin/plugin.json` discovery description, and Codex also retains its short description. Older runtimes without that manifest retain the generic adapter description, while an invalid manifest (a non-object manifest or interface, or an empty/non-string `description` or `interface.shortDescription`) is rejected with a clear error before any adapter is written. The five Skills carry their own intent descriptions across plugin and npm installation paths. Regenerate adapters after updating this metadata and refresh the host's discovery as described in [installation and recovery](npm-installation.md#missing-mcp-tools-or-a-failed-connection).
 
@@ -89,17 +89,17 @@ Codex plugin icons are configured by `interface.logo`, `logoDark`, `composerIcon
 
 The default plugin logo/composer SVG also switches its fill through `prefers-color-scheme`. This supports host surfaces that use only the default logo, including the local-MCP row of the Codex plugin detail page; dedicated dark-logo fields remain available for surfaces that select them explicitly.
 
-独立验证使用临时 `CODEX_HOME` / `CLAUDE_CONFIG_DIR`，安装后读取宿主实际解析的启动配置，检查工具和 `openmotion_get_project.dataDirectory`。卸载仅移除薄入口，保留外置运行时和用户数据。旧自带服务源码的 `check-installed-mcp.mjs` / `resolve-installed.mjs` 不用于新适配器缓存；本轮不改变旧安装器行为。
+独立验证使用临时 `CODEX_HOME` / `CLAUDE_CONFIG_DIR`，安装后读取宿主实际解析的启动配置，检查工具和 `kinevyn_get_project.dataDirectory`。卸载仅移除薄入口，保留外置运行时和用户数据。旧自带服务源码的 `check-installed-mcp.mjs` / `resolve-installed.mjs` 不用于新适配器缓存；本轮不改变旧安装器行为。
 
 For an npm-managed installation, the installed `scripts/npm-installer.mjs diagnose --host HOST --home HOME` reuses the transport probe with that installation's launcher, host configuration and expected data directory; it does not inspect an assumed plugin cache. Missing/disabled registration, startup errors, invalid protocol output, version/tool mismatches and a different workspace are reported separately. Its independent probe cannot observe every active host session or reconnect a closed chat transport. Follow [connection diagnosis and recovery](npm-installation.md#missing-mcp-tools-or-a-failed-connection), then verify the original project through the real host MCP connection.
 
 ## DeepSeek Harness
 
 ```sh
-dsh --profile headless --patch "$motionAdapters/deepseek/openmotion/cordis.patch.yml" --json   '仅查询Motion工作流和builtin模板，不修改工程或导出。'
+dsh --profile headless --patch "$motionAdapters/deepseek/kinevyn/cordis.patch.yml" --json   '仅查询Motion工作流和builtin模板，不修改工程或导出。'
 ```
 
-需要活动 profile 已具备可用模型接入。patch 使用 `insert`，保留已有插件和设置；stdio 启动不需要 DeepSeek 模型 API Key，模型账号由 Harness 管理。工具通常显示为 `mcp__openmotion__openmotion_get_project`，以实际发现的名称为准。参见 [DSH 官方 MCP 客户端](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/mcp/mcp-client/README.md)。
+需要活动 profile 已具备可用模型接入。patch 使用 `insert`，保留已有插件和设置；stdio 启动不需要 DeepSeek 模型 API Key，模型账号由 Harness 管理。工具通常显示为 `mcp__kinevyn__kinevyn_get_project`，以实际发现的名称为准。参见 [DSH 官方 MCP 客户端](https://github.com/deepseek-ai/deepseek-harness/blob/master/packages/mcp/mcp-client/README.md)。
 
 ## WorkBuddy
 

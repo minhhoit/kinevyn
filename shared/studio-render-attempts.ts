@@ -57,7 +57,7 @@ export class StudioRenderAttempts {
   constructor(projectDirectory: string, onComplete?: (attempt: StudioRenderAttempt) => Promise<void>) {
     this.onComplete = onComplete;
     this.directory = path.join(projectDirectory, 'renders');
-    this.snapshot = path.join(this.directory, '.openmotion-render-attempts.json');
+    this.snapshot = path.join(this.directory, '.kinevyn-render-attempts.json');
     this.checkDirectory();
     const stat = fileStat(this.snapshot);
     if (!stat) return;
@@ -83,7 +83,7 @@ export class StudioRenderAttempts {
     mkdirSync(this.directory, { recursive: true });
     const current = fileStat(this.snapshot);
     if (current && !current.isFile()) throw new Error('Invalid Studio render attempts file');
-    const temporary = path.join(this.directory, '.openmotion-render-attempts-' + randomUUID() + '.tmp');
+    const temporary = path.join(this.directory, '.kinevyn-render-attempts-' + randomUUID() + '.tmp');
     try {
       writeFileSync(temporary, JSON.stringify({ version: 1, attempts: [...this.saved.values()] }), { flag: 'wx', mode: 0o600 });
       renameSync(temporary, this.snapshot);

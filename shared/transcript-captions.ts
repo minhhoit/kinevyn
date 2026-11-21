@@ -54,7 +54,7 @@ export function createCaptionSourceOperations({ decodeAuthoredAttribute, scanHtm
     if (!selected.length) throw new Error('Caption track no longer exists');
     if (selected.some(tag => tag.attributes.some(a => a.name === 'data-timeline-locked'))) throw new Error('Unlock the caption track before changing it');
     if (remove) {
-      const begin = `<!-- openmotion-transcript:${id}:start -->`, end = `<!-- openmotion-transcript:${id}:end -->`, a = html.indexOf(begin), b = html.indexOf(end);
+      const begin = `<!-- kinevyn-transcript:${id}:start -->`, end = `<!-- kinevyn-transcript:${id}:end -->`, a = html.indexOf(begin), b = html.indexOf(end);
       if (a < 0 || b <= a || selected.some(tag => tag.start < a || tag.end > b) || html.indexOf(begin, a + 1) >= 0 || html.indexOf(end, b + 1) >= 0) throw new Error('Caption markers changed; remove individual clips in the timeline');
       return { content: html.slice(0, a) + html.slice(b + end.length), count: 0 };
     }
@@ -100,8 +100,8 @@ export function createCaptionSourceOperations({ decodeAuthoredAttribute, scanHtm
     const previous = existing.find(track => track.id === doc.id) ?? (kind === 'caption' ? existing.find(track => track.kind === 'caption' && track.cueCount === 0 && !track.locked) : undefined);
     if (previous?.locked) throw new Error('Unlock the caption track before changing it');
     const settings = captionSettings({ ...previous?.settings, ...options });
-    const begin = `<!-- openmotion-transcript:${doc.id}:start -->`, end = `<!-- openmotion-transcript:${doc.id}:end -->`;
-    const previousBegin = `<!-- openmotion-transcript:${previous?.id ?? id}:start -->`, previousEnd = `<!-- openmotion-transcript:${previous?.id ?? id}:end -->`;
+    const begin = `<!-- kinevyn-transcript:${doc.id}:start -->`, end = `<!-- kinevyn-transcript:${doc.id}:end -->`;
+    const previousBegin = `<!-- kinevyn-transcript:${previous?.id ?? id}:start -->`, previousEnd = `<!-- kinevyn-transcript:${previous?.id ?? id}:end -->`;
     const a = html.indexOf(previousBegin), b = html.indexOf(previousEnd);
     if ((a >= 0) !== (b >= 0) || (previous && a < 0) || (a >= 0 && (b < a || html.indexOf(previousBegin, a + 1) >= 0 || html.indexOf(previousEnd, b + 1) >= 0))) throw new Error('Caption markers changed; restore the caption layer before replacing it');
     if (a >= 0) html = html.slice(0, a) + html.slice(b + previousEnd.length);

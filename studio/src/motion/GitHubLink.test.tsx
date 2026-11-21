@@ -34,7 +34,7 @@ it('shows the 10K baseline in a safe, keyboard-accessible link while loading and
   expect(link.href).toBe(GITHUB_REPOSITORY);
   expect(link.target).toBe('_blank');
   expect(link.rel).toBe('noopener noreferrer');
-  expect(link.getAttribute('aria-label')).toBe('OpenMotion on GitHub');
+  expect(link.getAttribute('aria-label')).toBe('Kinevyn on GitHub');
   expect(link.textContent).toBe('10K');
   link.focus();
   expect(document.activeElement).toBe(link);

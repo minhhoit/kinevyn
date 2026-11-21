@@ -51,12 +51,12 @@ export function BlackFridayTopBanner({ onClose, onExpire, trackingPage }: { onCl
     return () => window.clearInterval(timer);
   }, [onExpire]);
 
-  const pricingHref = campaignPricingUrl(locale, 'openmotion_bf_banner', entryId);
+  const pricingHref = campaignPricingUrl(locale, 'kinevyn_bf_banner', entryId);
   const method = (event: MouseEvent) => event.detail === 0 ? 'keyboard' as const : 'pointer' as const;
   function claimOffer(event: MouseEvent<HTMLAnchorElement>) {
     void trackMotion('ui_click', { page_name: trackingPage, area: 'campaign_banner', element: 'claim_offer', campaign_id: BLACK_FRIDAY_CAMPAIGN, entry_id: entryId, interaction_method: method(event) });
     // Stamp the click time on the address the browser is about to open, then replace the id for the next click.
-    event.currentTarget.href = campaignPricingUrl(locale, 'openmotion_bf_banner', entryId);
+    event.currentTarget.href = campaignPricingUrl(locale, 'kinevyn_bf_banner', entryId);
     window.setTimeout(() => setEntryId(newCampaignEntryId()), 0);
   }
   function close(event: MouseEvent) {

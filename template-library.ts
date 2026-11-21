@@ -2,7 +2,7 @@ import { copyFile, cp, mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { nativeProjectConfig, pluginRoot } from './hyperframes.ts';
 
-export const welcomeTemplateId = 'openmotion-welcome';
+export const welcomeTemplateId = 'kinevyn-welcome';
 // Brand resources and third-party dependencies retain their maintained sources.
 // Materialized projects receive private, portable copies they can edit freely.
 export const welcomeSharedAssets = [
@@ -10,10 +10,10 @@ export const welcomeSharedAssets = [
   ['packages/design-system/fonts/AlbertSans-VariableFont_wght.ttf', 'assets/fonts/AlbertSans.ttf'],
   ['packages/design-system/fonts/Albert-Sans-OFL.txt', 'assets/fonts/Albert-Sans-OFL.txt'],
   ['packages/design-system/opendesign-logo-SOURCE.md', 'assets/brand-NOTICE.md'],
-  ['library/skills/openmotion-design-remix/vendor/fonts/libre-baskerville-f5bc4341f15d.ttf', 'assets/fonts/serif.ttf'],
-  ['library/skills/openmotion-design-remix/vendor/fonts/libre-baskerville-OFL.txt', 'assets/fonts/Libre-Baskerville-OFL.txt'],
-  ['library/skills/openmotion-design-remix/vendor/three-0.147.0/build/three.min.js', 'assets/three.min.js'],
-  ['library/skills/openmotion-design-remix/vendor/three-0.147.0/LICENSE', 'assets/three-LICENSE.txt'],
+  ['library/skills/kinevyn-design-remix/vendor/fonts/libre-baskerville-f5bc4341f15d.ttf', 'assets/fonts/serif.ttf'],
+  ['library/skills/kinevyn-design-remix/vendor/fonts/libre-baskerville-OFL.txt', 'assets/fonts/Libre-Baskerville-OFL.txt'],
+  ['library/skills/kinevyn-design-remix/vendor/three-0.147.0/build/three.min.js', 'assets/three.min.js'],
+  ['library/skills/kinevyn-design-remix/vendor/three-0.147.0/LICENSE', 'assets/three-LICENSE.txt'],
 ] as const;
 
 export const templates = [
@@ -21,8 +21,8 @@ export const templates = [
   { id: 'nyt-graph', title: 'NYT Graph', label: '数据叙事', description: '报刊风格的动态图表，查看数据、标注与图形的节奏。', duration: 15, width: 1920, height: 1080, posterTime: 9 },
   { id: 'decision-tree', title: 'Decision Tree', label: '流程动画', description: '逐步展开的决策树，查看节点、连线与分支动画。', duration: 10, width: 1920, height: 1080, posterTime: 7 },
 ].map(template => ({ ...template, author: 'Hyperframes', poster: `/api/templates/${template.id}/poster`, source: `https://github.com/heygen-com/hyperframes/tree/3baf81f9a92615507f76fe8de33e489034ee77ec/registry/examples/${template.id}` })).concat([
-  { id: welcomeTemplateId, title: 'OpenMotion Welcome', label: 'Official welcome', description: 'An editable brand welcome with kinetic typography, a motion gallery and a three-dimensional closing mark.', duration: 37.3, width: 1920, height: 1080, posterTime: 3.8,
-    author: 'OpenMotion', poster: `/api/templates/${welcomeTemplateId}/poster`, source: 'https://github.com/nexu-io/openmotion/tree/main/template-library/openmotion-welcome' },
+  { id: welcomeTemplateId, title: 'Kinevyn Welcome', label: 'Official welcome', description: 'An editable brand welcome with kinetic typography, a motion gallery and a three-dimensional closing mark.', duration: 37.3, width: 1920, height: 1080, posterTime: 3.8,
+    author: 'Kinevyn', poster: `/api/templates/${welcomeTemplateId}/poster`, source: 'https://github.com/rivyn-labs/kinevyn/tree/main/template-library/kinevyn-welcome' },
 ]);
 
 export function findTemplate(id: string) {

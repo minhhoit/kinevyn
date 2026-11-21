@@ -8,7 +8,7 @@ import { PlatformExportPanel } from './PlatformExportPanel';
 const state = vi.hoisted(() => ({
   projectId: 'project-a', statusId: 'project-a', blocked: false, empty: false, loading: false, failed: false,
   save: vi.fn<() => Promise<void>>(), connect: vi.fn(), retry: vi.fn(), close: vi.fn(),
-  info: { name: 'OpenMotion', previewUrl: 'http://127.0.0.1:4567', dataDirectory: '/fixture/workspace', transport: { env: { SECRET: 'must-not-copy' } } },
+  info: { name: 'Kinevyn', previewUrl: 'http://127.0.0.1:4567', dataDirectory: '/fixture/workspace', transport: { env: { SECRET: 'must-not-copy' } } },
 }));
 vi.mock('../../contexts/StudioContext', () => ({ useStudioShellContext: () => ({ projectId: state.projectId, renderQueue: { emptyComposition: state.empty } }) }));
 vi.mock('../../motion/WorkspaceChromeContext', () => ({ useWorkspaceChrome: () => ({
@@ -35,7 +35,7 @@ it('waits for saves, coalesces double clicks and copies a project-bound instruct
   await act(async () => finish());
   expect(copy).toHaveBeenCalledOnce();
   const prompt = copy.mock.calls[0][0];
-  for (const value of ['Project ID: project-a', '/fixture/workspace', '/#project/project-a', 'YouTube Shorts', 'openmotion_manage_project', 'openmotion_export_request']) expect(prompt).toContain(value);
+  for (const value of ['Project ID: project-a', '/fixture/workspace', '/#project/project-a', 'YouTube Shorts', 'kinevyn_manage_project', 'kinevyn_export_request']) expect(prompt).toContain(value);
   expect(prompt).not.toContain('must-not-copy');
   expect(document.querySelector('.motion-feedback-layer')?.textContent).toContain('Copied. Paste into your Agent.');
   expect(document.querySelector('[data-testid=platform-export-panel] .motion-feedback-layer')).toBeNull();

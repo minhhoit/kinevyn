@@ -98,4 +98,4 @@ export function allocateProjectAssetNames(paths: readonly string[], records: rea
 }
 
 /** Shared copyable request for the MCP handbook. */
-export const assetNamingInstruction = "Use openmotion_get_project to read my saved project and its namingLanguage. Preserve meaningful existing names. Name only unnamed or newly generated assets by content and optional purpose. If no naming language is saved, choose the initial brief’s primary language, then the interface language, and save it. Use guarded openmotion_edit_project assetNames metadata to repair existing names without moving files. Confirm the saved names; reread after version conflicts.";
+export const assetNamingInstruction = "Use kinevyn_get_project to read my saved project and its namingLanguage. Preserve meaningful existing names. Name only unnamed or newly generated assets by content and optional purpose. If no naming language is saved, choose the initial brief’s primary language, then the interface language, and save it. Use guarded kinevyn_edit_project assetNames metadata to repair existing names without moving files. Confirm the saved names; reread after version conflicts.";

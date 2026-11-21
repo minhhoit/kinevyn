@@ -11,7 +11,7 @@ Test candidates continue to generate automatic commit-based notes. They do not r
 ## Prepare a stable version
 
 1. Update [the English draft](unreleased/en.md) and [the Chinese draft](unreleased/zh-CN.md) with user-visible highlights, additions, changes, fixes, upgrade notes, known issues and acceptance focus. Link relevant public PRs; keep private test results outside the repository.
-2. Select the next stable version. Copy the reviewed drafts into `docs/CHANGELOG/v{version}/en.md` and `zh-CN.md`, change their first lines to `# OpenMotion {version}`, and replace the draft notice with the reviewed version scope. Use absolute public HTTPS links so the same Markdown works in GitHub Releases. For example, a selected `0.0.2` uses `v0.0.2/` and `# OpenMotion 0.0.2`; this is an example, not a reserved or published version.
+2. Select the next stable version. Copy the reviewed drafts into `docs/CHANGELOG/v{version}/en.md` and `zh-CN.md`, change their first lines to `# Kinevyn {version}`, and replace the draft notice with the reviewed version scope. Use absolute public HTTPS links so the same Markdown works in GitHub Releases. For example, a selected `0.0.2` uses `v0.0.2/` and `# Kinevyn 0.0.2`; this is an example, not a reserved or published version.
 3. Submit those files through a PR to `main`. Build that exact stable version from a source SHA containing the descriptions. Review the sealed Notes in the candidate Summary alongside the package identity.
 4. After the separately authorized publication succeeds, add the confirmed version/date and source/Release links to the root index through a PR. Begin the next Unreleased draft. Never label a draft or candidate as published.
 

@@ -1,11 +1,11 @@
 ---
 name: add-byok-provider
-description: Add or maintain a built-in BYOK media provider in the OpenMotion repository, including official API research, credentials, model discovery, generation adapters, editor configuration, provider references and verification. Use for contributor requests to integrate a supplier; ordinary media generation uses the openmotion-media Skill.
+description: Add or maintain a built-in BYOK media provider in the Kinevyn repository, including official API research, credentials, model discovery, generation adapters, editor configuration, provider references and verification. Use for contributor requests to integrate a supplier; ordinary media generation uses the kinevyn-media Skill.
 ---
 
 # Add a BYOK provider
 
-Use this repository-local contributor Skill to implement a provider through the existing `openmotion_media_use` Tool and Model Gateway. Read the checkout's `AGENTS.md` and follow its current development/PR rules. Paths below are relative to the repository root. This Skill stays in `.agents/skills/`; product guidance ships from root `skills/`.
+Use this repository-local contributor Skill to implement a provider through the existing `kinevyn_media_use` Tool and Model Gateway. Read the checkout's `AGENTS.md` and follow its current development/PR rules. Paths below are relative to the repository root. This Skill stays in `.agents/skills/`; product guidance ships from root `skills/`.
 
 Start with [gateway behavior](../../../docs/model-gateway.md), then inspect the current callers and the closest existing adapter. Use Atlas for a shared image/video/audio prediction API, fal for returned queue URLs, WaveSpeed for authenticated discovery, and OpenDesign for a custom HTTPS gateway. Check current code instead of copying an entire provider or its assumptions.
 
@@ -33,7 +33,7 @@ Inspect these boundaries and update the ones the provider needs:
 | Generation | `gateway/providers.ts`, or a focused provider module | Implement `ProviderAdapter.generate` and register it in `providerAdapters`. Reuse persisted jobs, progress/remoteId, validation, downloads and project import. |
 | Editor configuration | `gateway/settings.ts`, `studio/src/motion/ModelSettings.tsx` | Settings consumes registry metadata, including setup/reference links and endpoint editability. Reuse catalogue sync, capability filtering and the common default-model storage entry. Keep account authorization separate from provider API keys. Distinguish listed presets from implemented execution protocols. |
 | Reference delivery | `shared/workflow.ts`, `server.ts`, `gateway/media-use.ts` | Register the provider document under media resources, plus the matching production alias kept for older clients, and include its HTTP reference route. Confirm inspect/reference/models accept and return the new ID. |
-| User guidance | `skills/openmotion-media/references/providers/`, `references/jobs.md` in that media Skill, relevant `docs/` | Maintain one provider reference, listed in the media job procedure and available through the Tool. |
+| User guidance | `skills/kinevyn-media/references/providers/`, `references/jobs.md` in that media Skill, relevant `docs/` | Maintain one provider reference, listed in the media job procedure and available through the Tool. |
 
 The public Tool already covers inspect/reference/models/generate/status/cancel. Reuse those actions; a supplier does not need its own MCP Tool or distributable Skill. Preserve the existing production routes and intentional UI visibility decisions. Tool and Skill lists come from their actual registries; do not introduce fixed quantity gates.
 
@@ -47,9 +47,9 @@ The public Tool already covers inspect/reference/models/generate/status/cancel. 
 
 ## Write the provider reference
 
-Create `skills/openmotion-media/references/providers/<provider-id>.md` and register it as described above. Read one existing document, such as [Atlas](../../../skills/openmotion-media/references/providers/atlascloud.md), for the maintained shape; do not duplicate its supplier-specific facts.
+Create `skills/kinevyn-media/references/providers/<provider-id>.md` and register it as described above. Read one existing document, such as [Atlas](../../../skills/kinevyn-media/references/providers/atlascloud.md), for the maintained shape; do not duplicate its supplier-specific facts.
 
-Include key setup, authentication and model-list queries; `openmotion_assets_use` JSON templates for each supported modality; their exact HTTP endpoint/body mapping; polling/result retrieval; representative error codes with meaning, next action and retry boundaries; official source/model links and known integration limits. Distinguish Tool arguments from wire JSON, local job IDs from remote task IDs, and HTTP status from application/task codes. Mark unspecified behavior as unknown.
+Include key setup, authentication and model-list queries; `kinevyn_assets_use` JSON templates for each supported modality; their exact HTTP endpoint/body mapping; polling/result retrieval; representative error codes with meaning, next action and retry boundaries; official source/model links and known integration limits. Distinguish Tool arguments from wire JSON, local job IDs from remote task IDs, and HTTP status from application/task codes. Mark unspecified behavior as unknown.
 
 Keep real keys and internal/private source material out of the document. Put shell wire examples in this Skill's [wire examples](references/wire-examples.md), not in the product reference, using environment placeholders only. Direct Agents through the Tools so the service owns credentials. Templates do not execute paid requests by themselves. Do not add this contributor Skill to `packagedSkills`, workflow resources or host installation lists.
 

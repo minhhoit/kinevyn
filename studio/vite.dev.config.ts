@@ -3,17 +3,17 @@ import studioConfig from './vite.config';
 
 export default mergeConfig(studioConfig, defineConfig({
   plugins: [{
-    name: 'openmotion-studio-dev-backend',
+    name: 'kinevyn-studio-dev-backend',
     apply: 'serve',
     // Static analysis imports this file without starting a development server.
     config() {
-      const backend = process.env.OPENMOTION_STUDIO_BACKEND;
-      if (!backend) throw new Error('Set OPENMOTION_STUDIO_BACKEND to the previewUrl printed by npm start.');
+      const backend = process.env.KINEVYN_STUDIO_BACKEND;
+      if (!backend) throw new Error('Set KINEVYN_STUDIO_BACKEND to the previewUrl printed by npm start.');
 
       const target = new URL(backend);
       if (target.protocol !== 'http:' || !['127.0.0.1', 'localhost', '[::1]'].includes(target.hostname)
         || !target.port || target.pathname !== '/' || target.username || target.password || target.search || target.hash) {
-        throw new Error('OPENMOTION_STUDIO_BACKEND must be an HTTP loopback origin with a port.');
+        throw new Error('KINEVYN_STUDIO_BACKEND must be an HTTP loopback origin with a port.');
       }
 
       // Preserve the browser Host so Studio can check it against Origin on writes.

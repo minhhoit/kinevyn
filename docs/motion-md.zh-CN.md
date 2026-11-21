@@ -1,4 +1,4 @@
-[English](motion-md.md) · **简体中文** · [OpenMotion](README.zh-CN.md)
+[English](motion-md.md) · **简体中文** · [Kinevyn](README.zh-CN.md)
 
 # Motion.md
 
@@ -8,7 +8,7 @@
 
 **Motion.md 通过引用组织完整的创作上下文。** Design 章节可直接引用独立的 `DESIGN.md`，复用它的视觉身份和 tokens；Brand Kit 章节维护产品事实、语气与已确认素材，与叙事、动效、声音和审阅规则共同使用。已有 `BRANDKIT.md` 仍可作为引用材料，不另维护一份重复的配色和字体定义。
 
-[六组 reference / remix 动态对比](motion-design-examples.zh-CN.md) · [可运行的 Skill 包](../library/skills/openmotion-design-remix/SKILL.md) · [Ink & Water 设计体系](../library/design-systems/ink-water/MOTION_DESIGN.md) · [Brandkit](../library/brandkits/openmotion/BRANDKIT.md)
+[六组 reference / remix 动态对比](motion-design-examples.zh-CN.md) · [可运行的 Skill 包](../library/skills/kinevyn-design-remix/SKILL.md) · [Ink & Water 设计体系](../library/design-systems/ink-water/MOTION_DESIGN.md) · [Brandkit](../library/brandkits/kinevyn/BRANDKIT.md)
 
 **当前状态：** v0.1 创作文档继续可读；新的 [Motion Package v0.2 草案](motion-package-spec.md) 补充 manifest、DESIGN.md 引用、可选 SKILL.md、依赖声明与文件哈希清单。[本地工具和完整示例](../packages/motion-package/README.md) 可检查并组装可移交目录。创作文档仍由 Agent 显式读取，没有自动动画解析、Studio 导入、注册或跨引擎执行保证。既有 Remix Skill 脚本仍只处理六种指定源码。
 
@@ -59,14 +59,14 @@ REFERENCE VIDEO                                 你的需求与素材
 
 v0.2 便携包使用 `motion-package.json` 声明这些入口与完整分发清单；它与 npm `package.json`、渲染时间轴和可选 Skill 的 frontmatter 分别维护。
 
-现有 `openmotion-video-to-template` 仍以 **`TEMPLATE.md` 作为单份模板交接文档**。可按需链接 Motion Design 说明，不要求所有现有模板增加第二份 manifest。便携工程、Agent Skill 和 `.motion` 压缩包有联系，也有各自不同的契约。
+现有 `kinevyn-video-to-template` 仍以 **`TEMPLATE.md` 作为单份模板交接文档**。可按需链接 Motion Design 说明，不要求所有现有模板增加第二份 manifest。便携工程、Agent Skill 和 `.motion` 压缩包有联系，也有各自不同的契约。
 
 ## 3. 可以直接检查的包结构
 
-[Motion Design Remix Skill](../library/skills/openmotion-design-remix/SKILL.md) 提供六种 profile，源码来自 OpenMotion 资源目录已有的 registry 条目：
+[Motion Design Remix Skill](../library/skills/kinevyn-design-remix/SKILL.md) 提供六种 profile，源码来自 Kinevyn 资源目录已有的 registry 条目：
 
 ```text
-openmotion-design-remix/
+kinevyn-design-remix/
 ├── SKILL.md                         Agent 入口：选择 → 改编 → 对比
 ├── references/<profile>/
 │   └── MOTION_DESIGN.md              这一类动效的创作规则
@@ -120,7 +120,7 @@ Version: 0.1.0
 保留镜头路径、揭示时间、随机种子与缓动。
 
 ## 替换
-标题：OPENMOTION（此 profile 最多 18 字符）。
+标题：KINEVYN（此 profile 最多 18 字符）。
 立体短句：TELL YOUR STORY。
 副标题：YOUR STORY. IN MOTION.
 
@@ -138,7 +138,7 @@ Version: 0.1.0
 保存源码/preset 哈希和真实产物，记录剩余问题。
 ```
 
-[完整 portal profile](../library/skills/openmotion-design-remix/references/wireframe-portal-title/MOTION_DESIGN.md) 适合复用局部动效。需要整支影片的叙事简报时，可参考既有的[产品发布 Motion.md](examples/product-launch.MOTION.zh-CN.md)。
+[完整 portal profile](../library/skills/kinevyn-design-remix/references/wireframe-portal-title/MOTION_DESIGN.md) 适合复用局部动效。需要整支影片的叙事简报时，可参考既有的[产品发布 Motion.md](examples/product-launch.MOTION.zh-CN.md)。
 
 ## 5. 复刻怎样沉淀为社区资产
 
@@ -154,13 +154,13 @@ Version: 0.1.0
   → Fork、改进、评审下一个版本
 ```
 
-当前 `openmotion-recreate` 负责参考作品重建，`openmotion-template-to-video` 负责已有模板改编，`openmotion-video-to-template` 在用户需要可复用模板时负责模板交付。Library Skill 可以携带特定风格和改编方法。这些都是用户 Agent 读取的指导，不是另起一个后台编排 Agent。
+当前 `kinevyn-recreate` 负责参考作品重建，`kinevyn-template-to-video` 负责已有模板改编，`kinevyn-video-to-template` 在用户需要可复用模板时负责模板交付。Library Skill 可以携带特定风格和改编方法。这些都是用户 Agent 读取的指导，不是另起一个后台编排 Agent。
 
 可发布案例应回答：**保留了什么、修改了什么、实际渲染出了什么。** 优先使用同一时钟的左右对比，记录截取区间、裁切和速度变化。用户工程和凭据放在源码包外。Git 分支保存 preset 或实现修改，PR 同时审阅源码差异和成片差异。文件分享、社区评审和人工沉淀方法现在即可进行；自动 marketplace 入库、传播数据学习和 RAG 检索仍是产品方向。
 
 ## 真人剪辑：同一个故事，两套时钟
 
-Motion Design 也要描述人物、语言与辅助画面之间的关系。[Presenter Story Skill](../library/skills/openmotion-presenter-story/SKILL.md) 提供三份设计配方与[有出处的上游对比](motion-design-examples.zh-CN.md#presenter-motion)。这些媒体说明设计模式，不是新配方已完成成片的证明。
+Motion Design 也要描述人物、语言与辅助画面之间的关系。[Presenter Story Skill](../library/skills/kinevyn-presenter-story/SKILL.md) 提供三份设计配方与[有出处的上游对比](motion-design-examples.zh-CN.md#presenter-motion)。这些媒体说明设计模式，不是新配方已完成成片的证明。
 
 ```text
 你的口播录制 + 屏幕录制 + 实际语音时间码
@@ -192,7 +192,7 @@ Motion Design 也要描述人物、语言与辅助画面之间的关系。[Prese
 
 ## 6. 从 MotionGit、Hypit 与 rea-video 借鉴什么
 
-| 参考 | 借鉴的思路 | 在 OpenMotion 中的应用 |
+| 参考 | 借鉴的思路 | 在 Kinevyn 中的应用 |
 | --- | --- | --- |
 | [MotionGit 规范](https://motiongit.com/spec) / [motion-spec](https://github.com/motiontemplates/motion-spec) | 区分内容、运行时和分发，明确素材、参数、依赖与许可 | 把创作规则、工程源码、内容输入、证据分别组织；不声称已支持 `.motion` 导入导出。 |
 | [MotionGit 模板合集](https://github.com/motiontemplates/all) | Demo、素材要求和真正可用的工程入口一起呈现 | 每个对比都能找到 Skill、Motion.md 和替换配置。 |

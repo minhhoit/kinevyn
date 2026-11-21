@@ -29,7 +29,7 @@ function stdio(directory: string, messages: Record<string, unknown>[], entry = p
 
 function workflowCall(id: number, args?: any) {
   const valid = args === undefined || args && !Array.isArray(args) && typeof args === 'object' && Object.keys(args).every(key => ['workflow', 'section'].includes(key)) && (args.workflow === undefined || typeof args.workflow === 'string') && (args.section === undefined || typeof args.section === 'string');
-  return { id, method: 'resources/read', params: { uri: valid ? `openmotion://workflow/${args?.workflow ?? 'production'}/${args?.section ?? 'start'}` : 'invalid' } };
+  return { id, method: 'resources/read', params: { uri: valid ? `kinevyn://workflow/${args?.workflow ?? 'production'}/${args?.section ?? 'start'}` : 'invalid' } };
 }
 
 test('MCP-only client discovers and reads the packaged workflow without starting a preview', async () => {
@@ -44,10 +44,10 @@ test('MCP-only client discovers and reads the packaged workflow without starting
       ...sections.map((section, index) => workflowCall(index + 4, { section })),
     ]);
     assert.match(responses.get(1).instructions, /resources\/read/);
-    assert.ok(!responses.get(2).tools.some((tool: any) => tool.name === 'openmotion_get_workflow'));
-    assert.ok(responses.get(20).resources.some((resource: { uri: string }) => resource.uri === 'openmotion://workflow/production/materials'));
-    assert.equal(responses.get(3).structuredContent.documentId, 'skills/openmotion-production/SKILL.md');
-    assert.equal(responses.get(21).structuredContent.documentId, 'skills/openmotion-production/references/materials.md');
+    assert.ok(!responses.get(2).tools.some((tool: any) => tool.name === 'kinevyn_get_workflow'));
+    assert.ok(responses.get(20).resources.some((resource: { uri: string }) => resource.uri === 'kinevyn://workflow/production/materials'));
+    assert.equal(responses.get(3).structuredContent.documentId, 'skills/kinevyn-production/SKILL.md');
+    assert.equal(responses.get(21).structuredContent.documentId, 'skills/kinevyn-production/references/materials.md');
     assert.equal(responses.get(21).structuredContent.contentHash, (await getWorkflow('materials')).contentHash);
     for (const [index, section] of sections.entries()) {
       const result = responses.get(index + 4).structuredContent;
@@ -99,16 +99,16 @@ test('every workflow document and linked reference is reachable over MCP with ca
         assert.equal(target.documentId, reference.documentId);
       }
     }
-    assert.equal(returned.get('skills/openmotion-template-to-video/SKILL.md').status, 'ready');
-    assert.equal(returned.get('skills/openmotion-template-to-video/SKILL.md').workflow, 'template');
-    assert.equal(returned.get('skills/openmotion-recreate/SKILL.md').status, 'ready');
-    assert.equal(returned.get('skills/openmotion-video-to-template/SKILL.md').status, 'ready');
-    assert.equal(returned.get('skills/openmotion-video-to-template/SKILL.md').workflow, 'video-to-template');
+    assert.equal(returned.get('skills/kinevyn-template-to-video/SKILL.md').status, 'ready');
+    assert.equal(returned.get('skills/kinevyn-template-to-video/SKILL.md').workflow, 'template');
+    assert.equal(returned.get('skills/kinevyn-recreate/SKILL.md').status, 'ready');
+    assert.equal(returned.get('skills/kinevyn-video-to-template/SKILL.md').status, 'ready');
+    assert.equal(returned.get('skills/kinevyn-video-to-template/SKILL.md').workflow, 'video-to-template');
     for (const route of workflows) {
       assert.ok(returned.get(workflowRegistry[route as keyof typeof workflowRegistry].sections.start).references.some((reference: { documentId: string }) =>
-        reference.documentId === 'skills/openmotion-production/references/edit.md'), `${route} must expose the shared edit workflow`);
+        reference.documentId === 'skills/kinevyn-production/references/edit.md'), `${route} must expose the shared edit workflow`);
       assert.ok(returned.get(workflowRegistry[route as keyof typeof workflowRegistry].sections.start).references.some((reference: { documentId: string }) =>
-        reference.documentId === 'skills/openmotion-production/references/materials.md'), `${route} must expose the shared material policy`);
+        reference.documentId === 'skills/kinevyn-production/references/materials.md'), `${route} must expose the shared material policy`);
     }
     assert.deepEqual(await store.get(), before);
     assert.deepEqual(await readdir(directory, { recursive: true }), filesBefore);
@@ -141,19 +141,19 @@ test('MCP template delivery exposes a paused zero-second handoff with user playb
 });
 
 test('Markdown references resolve across workflows, deduplicate canonical paths, and reject missing internal instructions', () => {
-  const documentId = 'skills/openmotion-director/SKILL.md';
+  const documentId = 'skills/kinevyn-director/SKILL.md';
   const refs = workflowReferences([
     '[sound](references/sound-narrative.md#anchors)',
     '[sound again](./references/sound-narrative.md?version=1)',
-    '[shared context](<../openmotion-production/references/context.md> "Common context")',
+    '[shared context](<../kinevyn-production/references/context.md> "Common context")',
     '[actions][script]', '[script]: references/action-script.md',
     '[external](https://example.com/other.md)', '[protocol-relative](//example.com/other.md)', '[anchor](#local)',
     '`[example](not-a-document.md)`', '```markdown', '[example](also-not-a-document.md)', '```',
   ].join('\n'), documentId);
   assert.deepEqual(refs, [
-    { workflow: 'director', section: 'sound', documentId: 'skills/openmotion-director/references/sound-narrative.md' },
-    { workflow: 'production', section: 'context', documentId: 'skills/openmotion-production/references/context.md' },
-    { workflow: 'director', section: 'actions', documentId: 'skills/openmotion-director/references/action-script.md' },
+    { workflow: 'director', section: 'sound', documentId: 'skills/kinevyn-director/references/sound-narrative.md' },
+    { workflow: 'production', section: 'context', documentId: 'skills/kinevyn-production/references/context.md' },
+    { workflow: 'director', section: 'actions', documentId: 'skills/kinevyn-director/references/action-script.md' },
   ]);
   for (const target of ['missing.md', '../../../outside.md', '/absolute.md', '..%2F..%2Foutside.md']) {
     assert.throws(() => workflowReferences(`[missing](${target})`, documentId), /Unregistered workflow Markdown link/);
@@ -172,14 +172,14 @@ test('Markdown heading anchors follow rendered slugs and every packaged #fragmen
   assert.deepEqual([...anchors], ['check-and-deliver', '1-export-the-inspected-version', '旁白选角与语气', 'measure-cli-probe', 'notes', 'notes-1', 'closed-heading',
     'emphasis-and-tags', 'a_b-snake_case', '_private', 'init-hook', 'a', 'a-1', 'a-2', 'after-the-fence']);
 
-  const documentId = 'skills/openmotion-director/SKILL.md';
+  const documentId = 'skills/kinevyn-director/SKILL.md';
   const links = workflowLinkAnchors([
     '[sound](references/sound-narrative.md#审听与比较)', '[encoded](references/sound-narrative.md#%E5%AE%A1%E5%90%AC%E4%B8%8E%E6%AF%94%E8%BE%83)',
     '[self](#local)', '[whole](references/action-script.md)', '`[code](references/action-script.md#ignored)`', '[external](https://example.com/a.md#b)',
   ].join('\n'), documentId);
   assert.deepEqual(links.map(({ documentId, anchor }) => ({ documentId, anchor })), [
-    { documentId: 'skills/openmotion-director/references/sound-narrative.md', anchor: '审听与比较' },
-    { documentId: 'skills/openmotion-director/references/sound-narrative.md', anchor: '审听与比较' },
+    { documentId: 'skills/kinevyn-director/references/sound-narrative.md', anchor: '审听与比较' },
+    { documentId: 'skills/kinevyn-director/references/sound-narrative.md', anchor: '审听与比较' },
     { documentId, anchor: 'local' },
   ]);
 
@@ -200,7 +200,7 @@ test('MCP rejects unknown routes, invalid route-section pairs and arbitrary path
       { workflow: 'unknown' }, { workflow: 'debug-media' }, { workflow: '__proto__' }, { workflow: '../director' }, { workflow: null }, { workflow: [] },
       { section: '../.env' }, { section: 'constructor' }, { section: null }, { section: 1 }, { section: {} },
       { workflow: 'director', section: 'intake' }, { workflow: 'template', section: 'production' }, { workflow: 'recreate', section: 'native' },
-      { workflow: 'production', section: 'actions' }, { path: 'skills/openmotion-director/SKILL.md' }, [], 'director',
+      { workflow: 'production', section: 'actions' }, { path: 'skills/kinevyn-director/SKILL.md' }, [], 'director',
       { workflow: 'video-to-template', section: 'intake' }, { workflow: 'video--to-template' }, { workflow: 'video-to-template-' }, { workflow: 'template-to-video' }, { workflow: 'motion-template' },
     ];
     const responses = stdio(directory, invalid.map((args, index) => workflowCall(index + 1, args)));
@@ -233,9 +233,9 @@ test('phase1 resource discovery exposes all five routes and their supporting doc
   try {
     const result = stdio(directory, [{ id: 1, method: 'resources/list' }]).get(1);
     const uris = result.resources.map((resource: { uri: string }) => resource.uri);
-    const expected = entries.map(({ workflow, section }) => `openmotion://workflow/${workflow}/${section}`);
-    assert.deepEqual(uris, [...expected, 'openmotion://fonts/index', 'openmotion://engine/SKILL.md', 'ui://openmotion/inline-video/v2/player.html']);
-    assert.ok(uris.includes('openmotion://workflow/video-to-template/verification'));
+    const expected = entries.map(({ workflow, section }) => `kinevyn://workflow/${workflow}/${section}`);
+    assert.deepEqual(uris, [...expected, 'kinevyn://fonts/index', 'kinevyn://engine/SKILL.md', 'ui://kinevyn/inline-video/v2/player.html']);
+    assert.ok(uris.includes('kinevyn://workflow/video-to-template/verification'));
     assert.ok(!uris.some(uri => uri.includes('debug-media')));
     const reads = stdio(directory, expected.map((uri, i) => ({ id: i, method: 'resources/read', params: { uri } })));
     for (const [i, entry] of entries.entries()) assert.equal(reads.get(i).structuredContent.documentId, entry.documentId);
@@ -247,9 +247,9 @@ test('engine resource reads reject every uri outside the pinned guide root', asy
   const directory = await mkdtemp(path.join(tmpdir(), 'motion-engine-uri-'));
   try {
     // Grammar rejections are resolved without touching the installed runtime.
-    for (const uri of [42, 'http://example.com/SKILL.md', 'openmotion://engine/package.json',
-      'openmotion://engine/../SKILL.md', 'openmotion://engine/..%2fREADME.md', 'openmotion://engine/',
-      'openmotion://workflow/production', 'openmotion://engine/SKILL.md/extra']) {
+    for (const uri of [42, 'http://example.com/SKILL.md', 'kinevyn://engine/package.json',
+      'kinevyn://engine/../SKILL.md', 'kinevyn://engine/..%2fREADME.md', 'kinevyn://engine/',
+      'kinevyn://workflow/production', 'kinevyn://engine/SKILL.md/extra']) {
       await assert.rejects(() => readWorkflowResource(uri as unknown as string, directory),
         /INVALID_RESOURCE_URI/, 'Must reject: ' + String(uri));
     }
@@ -277,7 +277,7 @@ test('engine resource reads reject every uri outside the pinned guide root', asy
     // exists once the locked runtime is installed.
     const installed = path.join(root, 'node_modules/hyperframes/dist/skills/hyperframes');
     if (!existsSync(installed)) return;
-    await assert.rejects(() => readWorkflowResource('openmotion://engine/absent-guide.md', directory),
+    await assert.rejects(() => readWorkflowResource('kinevyn://engine/absent-guide.md', directory),
       /INVALID_RESOURCE_URI/, 'A missing target is a rejected uri, not a raw filesystem error');
   } finally { await rm(directory, { recursive: true, force: true }); }
 });

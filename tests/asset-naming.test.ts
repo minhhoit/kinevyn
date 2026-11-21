@@ -15,7 +15,7 @@ const api = (store: any) => new Phase1Service(store, pluginRoot, {
 
 test('project naming language and metadata-only asset renames survive reads, retries and conflicts', () => fixture(async store => {
   const service = api(store);
-  const project = await service.call('openmotion_create_project', {
+  const project = await service.call('kinevyn_create_project', {
     requestId: 'naming-project', projectType: 'natural_language', title: 'Dia', requirements: '制作中文介绍', namingLanguage: 'zh-CN',
   });
   assert.equal(project.namingLanguage, 'zh-CN');
@@ -26,28 +26,28 @@ test('project naming language and metadata-only asset renames survive reads, ret
   await writeFile(path.join(scoped.projectDirectory, 'motion-assets.json'), JSON.stringify([
     { path: assetPath, assetId: 'original-id', name: 'original-audio.m4a' },
   ]));
-  const before = await service.call('openmotion_get_project', { projectId: project.projectId });
+  const before = await service.call('kinevyn_get_project', { projectId: project.projectId });
   assert.equal(before.assetNames[assetPath], 'original-audio');
   const input = { projectId: project.projectId, requestId: 'rename-audio', expectedRevision: before.revision,
     expectedVersionId: before.currentVersionId, files: [], assetNames: [{ path: assetPath, name: 'Dia 参考视频－原声' }] };
-  const saved = await service.call('openmotion_edit_project', input);
+  const saved = await service.call('kinevyn_edit_project', input);
   assert.equal(saved.assetNames[assetPath], 'Dia 参考视频－原声');
-  const replay = await service.call('openmotion_edit_project', input);
+  const replay = await service.call('kinevyn_edit_project', input);
   assert.equal(replay.version.versionId, saved.version.versionId);
   assert.deepEqual(replay.assetNames, JSON.parse(JSON.stringify(saved.assetNames)));
-  const after = await api(store).call('openmotion_get_project', { projectId: project.projectId });
+  const after = await api(store).call('kinevyn_get_project', { projectId: project.projectId });
   assert.equal(after.namingLanguage, 'zh-CN');
   assert.equal(after.assets[0].assetId, 'original-id');
   assert.equal(after.assets[0].originalName, 'original-audio.m4a');
   assert.equal(await readFile(path.join(scoped.projectDirectory, assetPath), 'utf8'), 'unchanged audio bytes');
   assert.equal(after.assetNames[assetPath], 'Dia 参考视频－原声');
-  await assert.rejects(service.call('openmotion_edit_project', { ...input, requestId: 'stale', namingLanguage: 'en' }), /VERSION_CONFLICT/);
-  assert.equal((await service.call('openmotion_get_project', { projectId: project.projectId })).namingLanguage, 'zh-CN');
+  await assert.rejects(service.call('kinevyn_edit_project', { ...input, requestId: 'stale', namingLanguage: 'en' }), /VERSION_CONFLICT/);
+  assert.equal((await service.call('kinevyn_get_project', { projectId: project.projectId })).namingLanguage, 'zh-CN');
 }, false));
 
 test('anonymous and duplicate captions keep their allocation across additions, removals and fresh readers', () => fixture(async store => {
   const service = api(store);
-  const project = await service.call('openmotion_create_project', { requestId: 'stable', projectType: 'natural_language', title: 'Names', requirements: 'x', namingLanguage: 'zh-CN' });
+  const project = await service.call('kinevyn_create_project', { requestId: 'stable', projectType: 'natural_language', title: 'Names', requirements: 'x', namingLanguage: 'zh-CN' });
   const scoped = store.forProject(project.projectId);
   const oldPath = 'assets/ffffffff-ffff-4fff-8fff-ffffffffffff.svg';
   const addedPath = 'assets/00000000-0000-4000-8000-000000000000.svg';
@@ -77,15 +77,15 @@ test('anonymous and duplicate captions keep their allocation across additions, r
 
 test('ICO and EOT display renames retain storage paths and bytes through the public contract', () => fixture(async store => {
   const service = api(store);
-  const project = await service.call('openmotion_create_project', { requestId: 'formats', projectType: 'natural_language', title: 'Formats', requirements: 'x' });
+  const project = await service.call('kinevyn_create_project', { requestId: 'formats', projectType: 'natural_language', title: 'Formats', requirements: 'x' });
   const scoped = store.forProject(project.projectId);
   await mkdir(path.join(scoped.projectDirectory, 'assets'), { recursive: true });
   for (const extension of ['ico', 'eot']) {
     const asset = `assets/source.${extension}`;
     await writeFile(await scoped.safePath(asset), 'naming-only fixture');
-    const before = await service.call('openmotion_get_project', { projectId: project.projectId });
+    const before = await service.call('kinevyn_get_project', { projectId: project.projectId });
     assert.equal(before.assetNames[asset], 'source');
-    const saved = await service.call('openmotion_edit_project', { projectId: project.projectId, requestId: extension,
+    const saved = await service.call('kinevyn_edit_project', { projectId: project.projectId, requestId: extension,
       expectedRevision: before.revision, expectedVersionId: before.currentVersionId, files: [], assetNames: [{ path: asset, name: `Readable ${extension}` }] });
     assert.equal(saved.assetNames[asset], `Readable ${extension}`);
     assert.equal(await readFile(await scoped.safePath(asset), 'utf8'), 'naming-only fixture');
@@ -149,15 +149,15 @@ test('display names preserve meaningful sources, parse unnamed fonts and localiz
 
 test('invalid language or asset-name batches leave metadata unchanged', () => fixture(async store => {
   const service = api(store);
-  await assert.rejects(service.call('openmotion_create_project', {
+  await assert.rejects(service.call('kinevyn_create_project', {
     requestId: 'bad-lang', projectType: 'natural_language', title: 'x', requirements: 'x', namingLanguage: 'not a locale',
   }), /INVALID_NAMING_LANGUAGE/);
-  const project = await service.call('openmotion_create_project', {
+  const project = await service.call('kinevyn_create_project', {
     requestId: 'legacy-language', projectType: 'natural_language', title: 'x', requirements: 'x',
   });
   assert.equal(project.namingLanguage, null);
   const input = { projectId: project.projectId, requestId: 'bad-name-batch', expectedRevision: project.revision,
     expectedVersionId: project.currentVersionId, files: [], namingLanguage: 'en', assetNames: [{ path: 'index.html', name: 'New name' }] };
-  await assert.rejects(service.call('openmotion_edit_project', input), /INVALID_ASSET_PATH/);
-  assert.equal((await service.call('openmotion_get_project', { projectId: project.projectId })).revision, project.revision);
+  await assert.rejects(service.call('kinevyn_edit_project', input), /INVALID_ASSET_PATH/);
+  assert.equal((await service.call('kinevyn_get_project', { projectId: project.projectId })).revision, project.revision);
 }, false));

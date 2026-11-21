@@ -34,21 +34,21 @@ export async function installedTool(state, connection, name, args = {}, timeout 
   assert(args && typeof args === 'object' && !Array.isArray(args), 'Tool arguments must be a JSON object');
   const transport = validateTransport(connection);
   const allowed = tool => (!connection.enabled_tools || connection.enabled_tools.includes(tool)) && !connection.disabled_tools?.includes(tool);
-  assert(allowed('openmotion_get_project') && (name === undefined || allowed(name)), 'MCP_TOOL_DISABLED: requested tool or workspace read is disabled in this host');
+  assert(allowed('kinevyn_get_project') && (name === undefined || allowed(name)), 'MCP_TOOL_DISABLED: requested tool or workspace read is disabled in this host');
   const expected = JSON.parse(await readFile(path.join(state.appRoot, 'shared/mcp-profiles.json'), 'utf8')).phase1.tools;
   assert(name === undefined || expected.includes(name), 'MCP_TOOL_NOT_EXPOSED: ' + name);
   const { child, rpc } = protocolClient(transport, { ...process.env, ...(transport.env || {}) }, timeout);
   try {
-    const hello = await rpc('initialize', { protocolVersion: '2025-11-25', capabilities: {}, clientInfo: { name: 'openmotion-cli', version: '1' } });
+    const hello = await rpc('initialize', { protocolVersion: '2025-11-25', capabilities: {}, clientInfo: { name: 'kinevyn-cli', version: '1' } });
     assert.equal(hello.serverInfo?.version, state.version, 'Installed MCP version mismatch');
     child.stdin.write(JSON.stringify({ jsonrpc: '2.0', method: 'notifications/initialized' }) + '\n');
     const { tools } = await rpc('tools/list', {});
     assert(Array.isArray(tools) && tools.length === expected.length && expected.every(name => tools.some(tool => tool.name === name)), 'Installed MCP tool contract mismatch');
-    const read = await rpc('tools/call', { name: 'openmotion_get_project', arguments: {} });
+    const read = await rpc('tools/call', { name: 'kinevyn_get_project', arguments: {} });
     assert(!read.isError && typeof read.structuredContent?.dataDirectory === 'string'
       && sameWorkspaceDirectory(read.structuredContent.dataDirectory, state.dataDirectory), 'Installed MCP data directory mismatch; no requested operation was applied');
     if (name === undefined) return { serverInfo: hello.serverInfo, dataDirectory: state.dataDirectory, tools: tools.filter(tool => allowed(tool.name)) };
-    return name === 'openmotion_get_project' && Object.keys(args).length === 0 ? read : await rpc('tools/call', { name, arguments: args });
+    return name === 'kinevyn_get_project' && Object.keys(args).length === 0 ? read : await rpc('tools/call', { name, arguments: args });
   } catch (error) {
     throw new Error(redact(error.message, { ...process.env, ...(transport.env || {}) }));
   } finally {

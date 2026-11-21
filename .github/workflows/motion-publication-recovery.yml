@@ -22,7 +22,7 @@ permissions:
 
 jobs:
   select-ref:
-    if: github.repository == 'nexu-io/openmotion'
+    if: github.repository == 'rivyn-labs/kinevyn'
     runs-on: ubuntu-24.04
     steps:
       - name: Require Motion integration branch

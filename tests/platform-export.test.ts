@@ -28,7 +28,7 @@ test('Chinese prompt and unbound MCP example retain safe project selection and l
   assert.match(text, /不自动上传或发布平台/);
   for (const locale of ['en', 'zh-CN', 'ja']) {
     const example = platformExportExample(locale);
-    assert.match(example, /openmotion_get_project/);
+    assert.match(example, /kinevyn_get_project/);
     assert.match(example, locale === 'zh-CN' ? /让我指定源工程/ : /ask me to identify the source project/);
     assert.ok(example.includes(locale === 'zh-CN' ? 'Douyin' : 'YouTube Shorts'));
     assert.doesNotMatch(example, /Project ID:|项目 ID：/);
@@ -75,7 +75,7 @@ test('platform subtitle language requests use shared transcript operations and p
 test('handoff edit and export tracking calls name all required identities', () => {
   for (const locale of ['en', 'zh-CN']) {
     const text = platformExportPrompt({ target: 'shorts', goal: 'adapt', locale, context });
-    assert.match(text, /4\.[^\n]*openmotion_edit_project[^\n]*requestId[^\n]*expectedRevision[^\n]*expectedVersionId/);
-    assert.match(text, /openmotion_get_project\(projectId, exportJobId\)/);
+    assert.match(text, /4\.[^\n]*kinevyn_edit_project[^\n]*requestId[^\n]*expectedRevision[^\n]*expectedVersionId/);
+    assert.match(text, /kinevyn_get_project\(projectId, exportJobId\)/);
   }
 });

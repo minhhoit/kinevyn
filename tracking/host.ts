@@ -17,7 +17,7 @@ export function identifyHost(clientInfo: unknown, env: Record<string, string | u
       ...(clientNames.test(name) ? { mcp_client_name: name } : {}),
       ...(typeof version === 'string' && versions.test(version) ? { mcp_client_version: version } : {}) };
   }
-  const explicit = env.OPENMOTION_HOST_AGENT;
+  const explicit = env.KINEVYN_HOST_AGENT;
   const agent = explicit && (hostAgents as readonly string[]).includes(explicit) ? explicit as HostContext['host_agent']
     : env.CODEX_THREAD_ID ? 'codex' : env.CLAUDECODE === '1' ? 'claude' : undefined;
   return agent ? { host_agent: agent, host_agent_source: 'launch_environment' } : { ...unknownHost };

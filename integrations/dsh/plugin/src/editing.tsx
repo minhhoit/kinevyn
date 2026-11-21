@@ -17,14 +17,14 @@ export function StudioWorkspace({ useTabInfo, sessionId }: StudioProps): React.J
   const url = templates ? studio + "/?embed=1&templates=1"
     : studio + "/?embed=1&hostChrome=1#project/" + encodeURIComponent(params?.projectId || "project");
   return <section className="omd-studio-seat" data-motion-ui data-theme={theme}>
-    <iframe title={templates ? "OpenMotion Templates" : "OpenMotion Studio"} src={url}
-      onLoad={() => { if (templates) window.dispatchEvent(new Event("openmotion:library-ready")); }}
+    <iframe title={templates ? "Kinevyn Templates" : "Kinevyn Studio"} src={url}
+      onLoad={() => { if (templates) window.dispatchEvent(new Event("kinevyn:library-ready")); }}
       allow="clipboard-write; fullscreen" />
   </section>;
 }
 
 export function registerEditingWorkspace(ctx: any): void {
   ctx.slots.inject("sidebar.right.pane.tab", () => ctx.slots.register({
-    name: "sidebar.right.pane.tab", key: "openmotion.studio", inject: (sessionId: string) => ({ sessionId }),
+    name: "sidebar.right.pane.tab", key: "kinevyn.studio", inject: (sessionId: string) => ({ sessionId }),
   }, StudioWorkspace));
 }

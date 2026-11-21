@@ -1,6 +1,6 @@
 import type { Language } from "../../../../mcp-ui/template-recommendations/types.ts";
 
-export const OPENMOTION_TEMPLATE_ACTION = "openmotion_template_recommendation";
+export const KINEVYN_TEMPLATE_ACTION = "kinevyn_template_recommendation";
 export type RecommendedTemplate = {
   id: string;
   title: string;

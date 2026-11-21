@@ -49,7 +49,7 @@ test('publication order reserves the historical 0.6.x line without changing stan
 test('0.0.1 stages after native checks, then replaces historical latest and guide without changing old snapshots', async t => {
   const f = await candidateFixture(t, 'main', { version: '0.0.1' }), store = services(f);
   store.setLatest('0.6.7');
-  const previous = Buffer.from('# Install OpenMotion 0.6.7\nHistorical guide\n');
+  const previous = Buffer.from('# Install Kinevyn 0.6.7\nHistorical guide\n');
   store.objects.set('open-motion/install.md', previous);
   store.objects.set('open-motion/0.6.7/install.md', previous);
   await publishNpm(f.directory, f.inputs, store);
@@ -62,9 +62,9 @@ test('0.0.1 stages after native checks, then replaces historical latest and guid
   assert.equal((await promoteStable(f.directory, f.inputs, store)).status, 'promoted');
   assert.equal(store.getLatest(), '0.0.1');
   await archiveRelease(f.directory, f.inputs, config, store);
-  assert(store.objects.get('open-motion/install.md').toString().startsWith('# Install OpenMotion 0.0.1\n'));
-  assert(store.objects.get('open-motion/install.md').toString().includes('@openmotion/app@latest'));
-  assert(store.objects.get('open-motion/0.0.1/install.md').toString().includes('@openmotion/app@0.0.1'));
+  assert(store.objects.get('open-motion/install.md').toString().startsWith('# Install Kinevyn 0.0.1\n'));
+  assert(store.objects.get('open-motion/install.md').toString().includes('@kinevyn/app@latest'));
+  assert(store.objects.get('open-motion/0.0.1/install.md').toString().includes('@kinevyn/app@0.0.1'));
   assert(store.objects.get('open-motion/0.6.7/install.md').equals(previous));
   assert.equal((JSON.parse(await readFile(path.join(f.directory, 'npm-publication.json')))).previousTest, '0.6.4-test.8');
   const writes = store.writes.length;
@@ -121,7 +121,7 @@ test('stable native acceptance, stage, latest and exact/prod guides use the same
   await archiveRelease(f.directory, f.inputs, config, store);
   const exact = store.objects.get('open-motion/0.6.4/install.md').toString();
   const moving = store.objects.get('open-motion/install.md').toString();
-  assert(exact.includes('@openmotion/app@0.6.4')); assert(moving.includes('@openmotion/app@latest'));
+  assert(exact.includes('@kinevyn/app@0.6.4')); assert(moving.includes('@kinevyn/app@latest'));
   assert(![...store.objects.keys()].some(key => key.startsWith('open-motion/dev/')));
   const record = JSON.parse(store.objects.get('open-motion/0.6.4/release-record.json'));
   assert.equal(record.nativeChecks, 'passed-before-latest'); assert.equal(record.platformVerification.length, 2);
@@ -144,7 +144,7 @@ test('stable treats native Tool and Skill counts as informational', async t => {
 });
 
 test('stable accepts an older candidate with only the five canonical Skills', async t => {
-  const skills = ['production', 'director', 'template-to-video', 'recreate', 'video-to-template'].map(name => 'openmotion-' + name);
+  const skills = ['production', 'director', 'template-to-video', 'recreate', 'video-to-template'].map(name => 'kinevyn-' + name);
   const f = await candidateFixture(t, 'main', { version: '0.6.5', skills }), store = services(f);
   await publishNpm(f.directory, f.inputs, store);
   assert.equal((await promoteStable(f.directory, f.inputs, store)).status, 'promoted');

@@ -9,8 +9,8 @@ Embedded documentation images must fit GitHub's 5 MB image-proxy limit. Three la
 ## Clone and run
 
 ```sh
-git clone --depth 1 https://github.com/nexu-io/openmotion.git
-cd openmotion
+git clone --depth 1 https://github.com/rivyn-labs/kinevyn.git
+cd kinevyn
 npm ci
 npm run build:studio
 npm start
@@ -34,7 +34,7 @@ Choose one scope and override the default exclusion explicitly:
 
 ```sh
 # Reference films for one optional Library Skill.
-git lfs pull --include="library/skills/openmotion-design-remix/**" --exclude=""
+git lfs pull --include="library/skills/kinevyn-design-remix/**" --exclude=""
 
 # Presenter Tech archive and its full preview video.
 git lfs pull --include="library/templates/presenter-tech/**" --exclude=""
@@ -66,7 +66,7 @@ The PR author stays unchanged. On a personal-account fork, the contributor must 
 
 - Merge this workflow into `main` to register its manual Actions entry.
 - Configure **Squash merge only**: enable Squash merging and disable merge commits and rebase merging. CI verifies these settings before accepting sanitized PR trees. Existing history is unchanged.
-- Add Actions secret `OPENMOTION_MEDIA_MAINTAINER_TOKEN` for a maintainer user identity with upstream write access and access to allowed fork edits. A classic PAT with `public_repo` access is suitable for public repositories; organization SSO and token policies still apply. A base-repository installation token or default `GITHUB_TOKEN` cannot edit an arbitrary fork. Do not store a token in a checked-in file.
+- Add Actions secret `KINEVYN_MEDIA_MAINTAINER_TOKEN` for a maintainer user identity with upstream write access and access to allowed fork edits. A classic PAT with `public_repo` access is suitable for public repositories; organization SSO and token policies still apply. A base-repository installation token or default `GITHUB_TOKEN` cannot edit an arbitrary fork. Do not store a token in a checked-in file.
 - The workflow reuses the existing `CLOUDFLARE_R2_RELEASES_AK` / `CLOUDFLARE_R2_RELEASES_SK` secrets and bucket/endpoint variables. It writes only under the media prefix and never publishes an application or changes installation guides. No contributor receives these credentials.
 
 Ordinary code PRs with no changed media skip upload and cleanup and keep their original head; fork edit permission is needed only when a cleanup commit must be pushed. Template metadata/text changes still receive normal policy checks but do not upload media.
@@ -84,7 +84,7 @@ For Skill cards, the registered URL in `repository-media.json` takes precedence 
 Other optional media retains its local logical path in `repository-media.json`. Fetch one scope or the complete legacy set:
 
 ```sh
-npm run media:pull -- library/skills/openmotion-design-remix
+npm run media:pull -- library/skills/kinevyn-design-remix
 
 # Recover original README artwork at its recorded local paths.
 npm run media:pull -- docs/readme

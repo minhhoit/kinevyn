@@ -37,8 +37,8 @@ test('rejects missing, empty and malformed cues and supports explicit legacy tex
 });
 test('public MCP exports manual captions without a transcript or a model and respects composition scope', () => fixture(async store => {
   const service = new Phase1Service(store, pluginRoot, { origin: () => 'http://127.0.0.1:4173', nativeUrl: () => undefined, openProject: async () => {}, mutation: async task => task(), cancel: async () => {} });
-  const call = (transcript: object) => service.call('openmotion_assets_use', { action: 'transcript', transcript });
-  const detail = await service.call('openmotion_get_project', { projectId: store.projectId });
+  const call = (transcript: object) => service.call('kinevyn_assets_use', { action: 'transcript', transcript });
+  const detail = await service.call('kinevyn_get_project', { projectId: store.projectId });
   const added = await call({ command: 'caption_add', projectId: store.projectId, compositionPath: 'index.html', requestId: 'manual-export', expectedRevision: detail.revision, expectedVersionId: detail.currentVersionId, timelineStart: 2, segments: [{ id: 'first', text: 'Manual caption', start: 0, end: 2 }] });
   const input = { command: 'caption_export', projectId: store.projectId, compositionPath: 'index.html', format: 'srt' };
   const all = await call(input), one = await call({ ...input, transcriptId: added.trackId });

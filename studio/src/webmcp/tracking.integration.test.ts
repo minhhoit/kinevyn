@@ -1,6 +1,6 @@
 // @vitest-environment happy-dom
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
-import { buildOpenMotionWebMcpTools } from '../../../shared/webmcp-tools';
+import { buildKinevynWebMcpTools } from '../../../shared/webmcp-tools';
 import { buildStudioTools } from './useStudioAgentTools';
 import type { ModelContextTool } from './types';
 
@@ -15,7 +15,7 @@ async function registerTools() {
   const { registerStudioTools } = await import('./registrar');
   const reply = { ok: true, private: 'PRIVATE_RESULT' };
   const execute = vi.fn(async () => reply);
-  const tools = [...buildOpenMotionWebMcpTools(vi.fn()), ...buildStudioTools({ current: {} as never })]
+  const tools = [...buildKinevynWebMcpTools(vi.fn()), ...buildStudioTools({ current: {} as never })]
     .map(tool => ({ ...tool, execute }));
   const registered: ModelContextTool[] = [];
   await registerStudioTools({ registerTool: async tool => { registered.push(tool); } }, tools, new AbortController().signal);
@@ -33,7 +33,7 @@ it('delivers all registered tools through the actual browser sender and never qu
   const { registered, execute, reply } = await registerTools();
   for (const tool of registered) {
     expect(await tool.execute({ path: '/PRIVATE', prompt: 'PRIVATE',
-      ...(tool.name === 'openmotion_assets_use' ? { action: 'read' } : tool.name === 'openmotion_assets' ? { action: 'get' } : {}) })).toBe(reply);
+      ...(tool.name === 'kinevyn_assets_use' ? { action: 'read' } : tool.name === 'kinevyn_assets' ? { action: 'get' } : {}) })).toBe(reply);
     // Keep the burst under the bounded browser queue (64); production also flushes on an interval.
     await vi.dynamicImportSettled(); await tracking.flushMotionTracking();
   }

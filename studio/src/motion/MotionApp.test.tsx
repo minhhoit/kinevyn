@@ -37,7 +37,7 @@ it.each([false, true])('prepares only existing projects while browsing, and crea
       return Response.json({ projectId: preparedId, revision: 'new-revision' });
     }
     return Response.json(
-      url.includes('/template-catalog') ? { items: [{ id: 'product-promo', title: 'Product Promo', kind: 'builtin', tags: [], author: 'OpenMotion', hasHtmlProject: true }], total: 1, next: null, catalogVersion: 'test' }
+      url.includes('/template-catalog') ? { items: [{ id: 'product-promo', title: 'Product Promo', kind: 'builtin', tags: [], author: 'Kinevyn', hasHtmlProject: true }], total: 1, next: null, catalogVersion: 'test' }
       : parsed.pathname.endsWith('/projects') ? catalog
       : parsed.pathname.endsWith('/sessions') && init?.method === 'POST' ? { sessionId: preparedSessionId, session: { artifacts: [] } }
       : parsed.pathname.includes('/sessions/') ? catalog.sessions.find(session => session.id === parsed.pathname.split('/').at(-1))

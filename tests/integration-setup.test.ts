@@ -4,21 +4,21 @@ import { containerIntegration, integrationConfig, isIntegrationInfo, manualConne
 import { validateTransport } from '../scripts/check-installed-mcp.mjs';
 
 const info: IntegrationInfo = {
-  name: 'OpenMotion', version: '1.0.0', templateSource: 'repository',
+  name: 'Kinevyn', version: '1.0.0', templateSource: 'repository',
   previewUrl: 'http://127.0.0.1:49937', dataDirectory: '/private/project-data', tools: [],
   transport: { type: 'stdio', command: '/private/node', args: ['/private/mcp.ts'], cwd: '/private', env: { MOTION_DATA_DIR: '/private/project-data' } },
 };
 
 test('container setup preserves its workspace without launching container-internal paths on the host', () => {
   assert.equal(containerIntegration(info), info);
-  const docker = containerIntegration(info, 'openmotion');
+  const docker = containerIntegration(info, 'kinevyn');
   assert.equal(isIntegrationInfo(info), true);
   assert.equal(isIntegrationInfo(docker), true);
   assert.equal(isIntegrationInfo({ ...docker, deployment: undefined }), false);
   assert.equal(isIntegrationInfo({ ...docker, transport: { ...docker.transport, command: 'node' } }), false);
   assert.doesNotThrow(() => validateTransport({ transport: docker.transport }));
   assert.equal(docker.transport.cwd, undefined);
-  assert.equal(setupGuideUrl(docker), 'https://github.com/nexu-io/openmotion/blob/main/deploy/README.md');
+  assert.equal(setupGuideUrl(docker), 'https://github.com/rivyn-labs/kinevyn/blob/main/deploy/README.md');
   for (const host of ['codex', 'claude', 'deepseek', 'mcp'] as const) {
     assert.match(manualConnection(docker, host), /docker/);
     assert.match(integrationConfig(docker, host).text, /docker/);
@@ -27,15 +27,15 @@ test('container setup preserves its workspace without launching container-intern
       const prompt = setupPrompt(docker, host, locale);
       assert.match(prompt, /deploy\/README.md/);
       assert.match(prompt, /connect\/config/);
-      assert.match(prompt, /skills\/openmotion\/SKILL.md/);
-      assert.match(prompt, /openmotion#quick-start/);
+      assert.match(prompt, /skills\/kinevyn\/SKILL.md/);
+      assert.match(prompt, /kinevyn#quick-start/);
       assert.doesNotMatch(prompt, /blob\/main\/install.md/);
     }
     assert.match(setupPrompt(docker, host, 'en'), /same turn.*welcome and video cards.*template library/);
     assert.match(setupPrompt(docker, host, 'en'), /as text only when card presentation is unsupported or fails/);
     assert.match(setupPrompt(docker, host, 'zh-CN'), /本轮完成引导.*欢迎语.*视频推荐卡片.*模板库/);
   }
-  assert.deepEqual(docker.transport.args, ['exec', '-i', '--workdir', '/private', '--env', 'MOTION_DATA_DIR=/private/project-data', 'openmotion', '/private/node', '/private/mcp.ts']);
+  assert.deepEqual(docker.transport.args, ['exec', '-i', '--workdir', '/private', '--env', 'MOTION_DATA_DIR=/private/project-data', 'kinevyn', '/private/node', '/private/mcp.ts']);
   assert.throws(() => containerIntegration(info, '--privileged'), /Invalid MOTION_CONTAINER_NAME/);
 });
 
@@ -44,9 +44,9 @@ test('setup works before local discovery and never copies machine-local details'
     for (const host of ['codex', 'claude', 'deepseek', 'mcp'] as const) {
       for (const discovery of [null, info]) {
         const prompt = setupPrompt(discovery, host, locale);
-        assert.match(prompt, /https:\/\/github.com\/nexu-io\/openmotion#quick-start/);
+        assert.match(prompt, /https:\/\/github.com\/rivyn-labs\/kinevyn#quick-start/);
         assert.ok(prompt.includes(setupGuideUrl(discovery)));
-        assert.match(prompt, /openmotion_get_project/);
+        assert.match(prompt, /kinevyn_get_project/);
         assert.doesNotMatch(prompt, /127\.0\.0\.1|localhost|\/connect\/guide|\/private|49937/);
       }
     }
@@ -67,7 +67,7 @@ test('setup works before local discovery and never copies machine-local details'
 });
 
 test('public setup retains repository and published catalog environments', () => {
-  assert.equal(setupGuideUrl(null), 'https://github.com/nexu-io/openmotion/blob/main/docs/install.md');
+  assert.equal(setupGuideUrl(null), 'https://github.com/rivyn-labs/kinevyn/blob/main/docs/install.md');
   assert.equal(setupGuideUrl(info), setupGuideUrl(null));
   const published: IntegrationInfo = { ...info, templateSource: 'cms' };
   assert.equal(setupGuideUrl(published), 'https://releases.open-design.ai/open-motion/install.md');
@@ -87,7 +87,7 @@ test('template prompt uses the public GitHub link independently of setup guide e
   ]) {
     for (const locale of ['en', 'zh-CN']) {
       const prompt = templatePrompt(published, 'codex', template, locale);
-      assert.ok(prompt.includes('https://github.com/nexu-io/openmotion'));
+      assert.ok(prompt.includes('https://github.com/rivyn-labs/kinevyn'));
       assert.ok(prompt.includes(template.title) && prompt.includes(template.id));
       assert.doesNotMatch(prompt, /releases\.open-design\.ai/);
     }

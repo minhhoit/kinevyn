@@ -57,7 +57,7 @@ export async function renderInlineStoryboard({ manifestPath, output }) {
     assert(Array.isArray(entries) && entries.length >= 1 && entries.length <= 12,
       'Provide one to twelve frames in storyboard order');
   }
-  const root = 'openmotion-storyboard-' + randomUUID();
+  const root = 'kinevyn-storyboard-' + randomUUID();
   const directory = path.dirname(manifestPath);
   const cards = await Promise.all(entries.map(async (entry, index) => {
     const heading = label(entry.title, 'card title', 100);

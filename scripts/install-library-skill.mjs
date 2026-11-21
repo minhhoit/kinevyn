@@ -10,21 +10,21 @@ const source = fileURLToPath(new URL('../library/skills/', import.meta.url));
 // Frozen fingerprints identify only the retired, unmodified forwarding folders.
 // Standalone installs have no ownership marker; never remove a folder by name alone.
 const retired = {
-  'openmotion-brandkit': { name: 'brandkit', files: {
+  'kinevyn-brandkit': { name: 'brandkit', files: {
     'SKILL.md': 'baa4d65961044ca2270046e370612283d3506b8f4edd40d3389403f3b3f9b2d7',
     [path.join('agents', 'openai.yaml')]: '6e52c9f977f57f04230ed5d626813b089dee5bac66a415875c96b574ef849e66',
   } },
-  'openmotion-presenter-story': { name: 'presenter-story', files: {
+  'kinevyn-presenter-story': { name: 'presenter-story', files: {
     'SKILL.md': '0013c1a3b460aafc740313dcfa9fcb2655b5221ca951d482163de1ef623f9fdf',
     [path.join('agents', 'openai.yaml')]: '48c3e961a7d04c901bf8d8f00b2dd6fe36ee8ed24bbb6751d450d38e4cb9d292',
   } },
-  'openmotion-design-remix': { name: 'motion-design-remix', files: {
+  'kinevyn-design-remix': { name: 'motion-design-remix', files: {
     'SKILL.md': 'cd3be67e615d05fa097166709ffabb932ab929cc685b852660c09f70da3f91ba',
     [path.join('agents', 'openai.yaml')]: '53ba8d5b90b65f9b163607acb68367c7f0355e7315175bb6ff2aad864c3cfe1e',
   } },
 };
 // Library Skills that never shipped a retired forwarding folder.
-const current = ['openmotion-ad-script', 'openmotion-adaptive-layout', 'openmotion-ai-assistant-tour', 'openmotion-archive-collage', 'openmotion-article-illustrations', 'openmotion-aurora-gradient', 'openmotion-before-after', 'openmotion-bilingual-captions', 'openmotion-bold-type-poster', 'openmotion-bubble-field', 'openmotion-caption-styling', 'openmotion-card-carousel', 'openmotion-cards-and-text', 'openmotion-chalk-blueprint', 'openmotion-cinematic-logo', 'openmotion-clay-explainer', 'openmotion-color-pop-poster', 'openmotion-content-cover', 'openmotion-coral-title-cards', 'openmotion-corner-frames', 'openmotion-dark-premium-poster', 'openmotion-design-styles', 'openmotion-doc-promo', 'openmotion-echo-stack-type', 'openmotion-edit-to-script', 'openmotion-editorial-explainer', 'openmotion-editorial-poster', 'openmotion-editorial-webinar', 'openmotion-electric-impact-type', 'openmotion-felt-stop-motion', 'openmotion-flat-beat', 'openmotion-flat-card-explainer', 'openmotion-flat-lay-product', 'openmotion-folder-pop', 'openmotion-footage-to-handpainted', 'openmotion-giant-flip-type', 'openmotion-glitch-logo-sting', 'openmotion-growth-teardown', 'openmotion-hand-drawn-explainer', 'openmotion-hidden-feature-demo', 'openmotion-highlighter-notes', 'openmotion-in-hand-product', 'openmotion-ink-ribbon', 'openmotion-isometric-card-flight', 'openmotion-juicy-splash-poster', 'openmotion-light-shadow-product', 'openmotion-liquid-blob', 'openmotion-liquid-glass-logo', 'openmotion-liquid-logo', 'openmotion-livestream-clips', 'openmotion-magnet-particles', 'openmotion-manifesto-pop', 'openmotion-monochrome-magazine', 'openmotion-motion-graphic-placement', 'openmotion-multi-clips-to-reels', 'openmotion-multicam-edit', 'openmotion-mystery-box-reveal', 'openmotion-neon-outline-type', 'openmotion-nova-intro', 'openmotion-one-bit-dither', 'openmotion-orange-unfiltered', 'openmotion-paper-collage-explainer', 'openmotion-paper-diorama', 'openmotion-paper-map-journey', 'openmotion-paper-stop-motion', 'openmotion-pastel-flat-2d', 'openmotion-pixel-art-explainer', 'openmotion-pop-style', 'openmotion-premium-halo', 'openmotion-push-in-type', 'openmotion-quantum-particles', 'openmotion-red-pen-archive', 'openmotion-relight-reveal', 'openmotion-retro-flat-scene', 'openmotion-retro-print-poster', 'openmotion-ring-mask-reveal', 'openmotion-runway-rebel', 'openmotion-sale-carousel', 'openmotion-sale-countdown', 'openmotion-sale-promo', 'openmotion-shortlist-shorts', 'openmotion-shot-breakdown', 'openmotion-shutter-bands', 'openmotion-smooth-wipes', 'openmotion-spec-sheet', 'openmotion-splash-float-product', 'openmotion-split-slot-type', 'openmotion-step-by-step-tutorial', 'openmotion-sticker-bounce', 'openmotion-sticker-peel', 'openmotion-storyboard-to-motion', 'openmotion-storybook-myth', 'openmotion-surreal-3d-poster', 'openmotion-talking-head-recreation', 'openmotion-time-freeze', 'openmotion-translucent-glass', 'openmotion-velocity-lines', 'openmotion-website-launch', 'openmotion-whiteboard-doodle', 'openmotion-whiteboard-marker', 'openmotion-wireframe-style'];
+const current = ['kinevyn-ad-script', 'kinevyn-adaptive-layout', 'kinevyn-ai-assistant-tour', 'kinevyn-archive-collage', 'kinevyn-article-illustrations', 'kinevyn-aurora-gradient', 'kinevyn-before-after', 'kinevyn-bilingual-captions', 'kinevyn-bold-type-poster', 'kinevyn-bubble-field', 'kinevyn-caption-styling', 'kinevyn-card-carousel', 'kinevyn-cards-and-text', 'kinevyn-chalk-blueprint', 'kinevyn-cinematic-logo', 'kinevyn-clay-explainer', 'kinevyn-color-pop-poster', 'kinevyn-content-cover', 'kinevyn-coral-title-cards', 'kinevyn-corner-frames', 'kinevyn-dark-premium-poster', 'kinevyn-design-styles', 'kinevyn-doc-promo', 'kinevyn-echo-stack-type', 'kinevyn-edit-to-script', 'kinevyn-editorial-explainer', 'kinevyn-editorial-poster', 'kinevyn-editorial-webinar', 'kinevyn-electric-impact-type', 'kinevyn-felt-stop-motion', 'kinevyn-flat-beat', 'kinevyn-flat-card-explainer', 'kinevyn-flat-lay-product', 'kinevyn-folder-pop', 'kinevyn-footage-to-handpainted', 'kinevyn-giant-flip-type', 'kinevyn-glitch-logo-sting', 'kinevyn-growth-teardown', 'kinevyn-hand-drawn-explainer', 'kinevyn-hidden-feature-demo', 'kinevyn-highlighter-notes', 'kinevyn-in-hand-product', 'kinevyn-ink-ribbon', 'kinevyn-isometric-card-flight', 'kinevyn-juicy-splash-poster', 'kinevyn-light-shadow-product', 'kinevyn-liquid-blob', 'kinevyn-liquid-glass-logo', 'kinevyn-liquid-logo', 'kinevyn-livestream-clips', 'kinevyn-magnet-particles', 'kinevyn-manifesto-pop', 'kinevyn-monochrome-magazine', 'kinevyn-motion-graphic-placement', 'kinevyn-multi-clips-to-reels', 'kinevyn-multicam-edit', 'kinevyn-mystery-box-reveal', 'kinevyn-neon-outline-type', 'kinevyn-nova-intro', 'kinevyn-one-bit-dither', 'kinevyn-orange-unfiltered', 'kinevyn-paper-collage-explainer', 'kinevyn-paper-diorama', 'kinevyn-paper-map-journey', 'kinevyn-paper-stop-motion', 'kinevyn-pastel-flat-2d', 'kinevyn-pixel-art-explainer', 'kinevyn-pop-style', 'kinevyn-premium-halo', 'kinevyn-push-in-type', 'kinevyn-quantum-particles', 'kinevyn-red-pen-archive', 'kinevyn-relight-reveal', 'kinevyn-retro-flat-scene', 'kinevyn-retro-print-poster', 'kinevyn-ring-mask-reveal', 'kinevyn-runway-rebel', 'kinevyn-sale-carousel', 'kinevyn-sale-countdown', 'kinevyn-sale-promo', 'kinevyn-shortlist-shorts', 'kinevyn-shot-breakdown', 'kinevyn-shutter-bands', 'kinevyn-smooth-wipes', 'kinevyn-spec-sheet', 'kinevyn-splash-float-product', 'kinevyn-split-slot-type', 'kinevyn-step-by-step-tutorial', 'kinevyn-sticker-bounce', 'kinevyn-sticker-peel', 'kinevyn-storyboard-to-motion', 'kinevyn-storybook-myth', 'kinevyn-surreal-3d-poster', 'kinevyn-talking-head-recreation', 'kinevyn-time-freeze', 'kinevyn-translucent-glass', 'kinevyn-velocity-lines', 'kinevyn-website-launch', 'kinevyn-whiteboard-doodle', 'kinevyn-whiteboard-marker', 'kinevyn-wireframe-style'];
 async function snapshot(directory, relative = '') {
   const files = {};
   for (const item of await readdir(path.join(directory, relative), { withFileTypes: true })) {
@@ -44,7 +44,7 @@ async function snapshot(directory, relative = '') {
 
 // The destination is explicit; user-owned or different-version content is never overwritten.
 export async function installLibrarySkill(name, destination) {
-  assert(Object.hasOwn(retired, name) || current.includes(name), 'Unknown Library Skill: ' + name + '. Use an openmotion-* Library Skill name.');
+  assert(Object.hasOwn(retired, name) || current.includes(name), 'Unknown Library Skill: ' + name + '. Use an kinevyn-* Library Skill name.');
   const canonical = name;
   assert(destination, 'An explicit destination skills directory is required');
   const media = validateMediaManifest(JSON.parse(await readFile(new URL('../repository-media.json', import.meta.url), 'utf8')));
@@ -72,7 +72,7 @@ export async function installLibrarySkill(name, destination) {
     try { removeLegacy = isDeepStrictEqual(await snapshot(legacyTarget), legacy.files); }
     catch (error) { if (error.code !== 'ERR_ASSERTION') throw error; }
   }
-  const staging = await mkdtemp(path.join(directory, '.openmotion-install-'));
+  const staging = await mkdtemp(path.join(directory, '.kinevyn-install-'));
   const backup = path.join(staging, 'retired');
   let movedLegacy = false, preserveBackup = false;
   try {

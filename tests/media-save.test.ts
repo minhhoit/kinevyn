@@ -72,12 +72,12 @@ test('partial commits recover through public retry_save after restart without pa
     return saved;
   });
   try {
-    const queued = await api.call('openmotion_media_use', request(store));
+    const queued = await api.call('kinevyn_media_use', request(store));
     let job = await finish(store, queued.job.id);
     assert.equal(job.phase, 'save_failed'); assert.equal(job.savePending, true); assert.equal(submissions(), 1);
     assert.equal((await new AssetLibrary(store).list()).total, 2);
     assert.ok((await assetOperation(store, { action: 'jobs' })).jobs.some(j => j.id === job.id));
-    assert.equal((await api.call('openmotion_media_use', request(store))).job.id, job.id);
+    assert.equal((await api.call('kinevyn_media_use', request(store))).job.id, job.id);
     failure.mock.restore();
     await gateway.close();
     // A restarted worker must not need credentials or provider access to save.
@@ -102,18 +102,18 @@ test('partial commits recover through public retry_save after restart without pa
 test('a project file conflict preserves generated assets and recovery refuses to overwrite edited bytes', () => fixture(async store => {
   const { gateway, api, submissions } = await setup(store);
   try {
-    const { job: queued } = await api.call('openmotion_media_use', request(store));
+    const { job: queued } = await api.call('kinevyn_media_use', request(store));
     const target = path.join(store.projectDirectory, `assets/generated/${queued.id}-1.png`);
     await mkdir(path.dirname(target), { recursive: true }); await writeFile(target, 'user content');
     let job = await finish(store, queued.id);
     assert.equal(job.phase, 'save_failed'); assert.match(job.error!, /refusing to overwrite/);
     assert.equal((await readFile(target)).toString(), 'user content'); assert.equal(job.libraryAssets?.length, 1);
-    await assert.rejects(api.call('openmotion_media_use', { action: 'retry_save', jobId: job.id, projectId: store.projectId }), /requestId/);
-    await api.call('openmotion_assets_use', { action: 'retry_save', jobId: job.id, requestId: 'retry-conflict' });
+    await assert.rejects(api.call('kinevyn_media_use', { action: 'retry_save', jobId: job.id, projectId: store.projectId }), /requestId/);
+    await api.call('kinevyn_assets_use', { action: 'retry_save', jobId: job.id, requestId: 'retry-conflict' });
     job = await finish(store, job.id); assert.equal(job.phase, 'save_failed');
     assert.equal((await readFile(target)).toString(), 'user content');
     await rm(target);
-    await api.call('openmotion_media_use', { action: 'retry_save', projectId: store.projectId, jobId: job.id, requestId: 'save-only' });
+    await api.call('kinevyn_media_use', { action: 'retry_save', projectId: store.projectId, jobId: job.id, requestId: 'save-only' });
     job = await finish(store, job.id); assert.equal(job.state, 'completed', job.error);
     assert.equal(submissions(), 1); assert.equal((await new AssetLibrary(store).list()).assets[0].versions.length, 1);
   } finally { await gateway.close(); }
@@ -153,11 +153,11 @@ test('library edits recover an already-committed version without duplicating it 
     await original.apply(this, args); throw new Error('Job receipt write failed after asset commit');
   });
   try {
-    const { job: queued } = await api.call('openmotion_assets_use', { action: 'generate', requestId: 'edit-original', model: 'fal:vendor/image', modality: 'image', prompt: 'Edit the lake', assetId: asset.id, parentVersionId: asset.currentVersionId });
+    const { job: queued } = await api.call('kinevyn_assets_use', { action: 'generate', requestId: 'edit-original', model: 'fal:vendor/image', modality: 'image', prompt: 'Edit the lake', assetId: asset.id, parentVersionId: asset.currentVersionId });
     let job = await finish(store, queued.id);
     assert.equal(job.savePending, true); assert.equal((await library.get(asset.id)).versions.length, 2);
     failure.mock.restore();
-    await api.call('openmotion_assets_use', { action: 'retry_save', jobId: job.id, requestId: 'save-edit' });
+    await api.call('kinevyn_assets_use', { action: 'retry_save', jobId: job.id, requestId: 'save-edit' });
     job = await finish(store, job.id);
     assert.equal(job.state, 'completed', job.error); assert.equal(job.assets.length, 0); assert.equal(submissions(), 1);
     await tracking.flush();
@@ -185,8 +185,8 @@ for (const damage of ['missing-manifest', 'corrupt-manifest', 'empty-manifest', 
     if (damage === 'changed-file') await writeFile(file, 'Changed retained bytes');
     const retry = { action: 'retry_save', jobId: queued.id, requestId: 'save-only' };
     if (damage === 'missing-after-queue') {
-      await api.call('openmotion_assets_use', retry); await rm(file); await finish(store, queued.id);
-    } else await assert.rejects(api.call('openmotion_assets_use', retry), /SAVE_NOT_AVAILABLE/);
+      await api.call('kinevyn_assets_use', retry); await rm(file); await finish(store, queued.id);
+    } else await assert.rejects(api.call('kinevyn_assets_use', retry), /SAVE_NOT_AVAILABLE/);
     let failed = await gateway.getJob(queued.id);
     assert.equal(failed.state, 'failed'); assert.equal(failed.phase, 'save_unavailable'); assert.equal(failed.savePending, false);
     assert.match(failed.error!, /SAVE_NOT_AVAILABLE/); assert.equal(submissions(), 0);

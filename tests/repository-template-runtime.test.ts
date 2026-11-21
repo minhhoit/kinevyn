@@ -22,7 +22,7 @@ const appRoot = fileURLToPath(new URL('../', import.meta.url));
 const firstId = 'motion-f4b325fd-64ba-42da-9f7e-6a6b77cfafd2';
 
 async function fixture(t: { after: (fn: () => Promise<void>) => void }) {
-  const work = await mkdtemp(path.join(tmpdir(), 'openmotion-repository-runtime-'));
+  const work = await mkdtemp(path.join(tmpdir(), 'kinevyn-repository-runtime-'));
   t.after(() => rm(work, { recursive: true, force: true }));
   const root = path.join(work, 'catalog'), id = 'motion-local', folder = path.join(root, id);
   await mkdir(path.join(folder, 'source'), { recursive: true });
@@ -49,7 +49,7 @@ test('repository index, detail and gallery read local files with no CMS dependen
   assert.equal(detail.motionDocument?.content, '# Local motion');
   assert.equal(detail.hasHtmlProject, false);
   assert.equal(detail.workflowGuide.workflow, 'recreate');
-  assert.match(templateRecipe(await f.catalog.get(f.id)), /openmotion:\/\/workflow\/recreate\/start/);
+  assert.match(templateRecipe(await f.catalog.get(f.id)), /kinevyn:\/\/workflow\/recreate\/start/);
   assert.equal((await f.catalog.page({ query: '本地', locale: 'zh-CN' })).items[0].title, '本地指南');
   f.record.entry.original.templateName = 'Edited locally';
   await f.save(f.id + '/template.json', f.record);
@@ -115,7 +115,7 @@ test('transferred PR media appears in Studio and detail without downloading and 
 });
 
 test('HTTP gallery and guide routes use the same repository source; copied prompts use the shared creation brief', async t => {
-  const work = await mkdtemp(path.join(tmpdir(), 'openmotion-local-http-')); t.after(() => rm(work, { recursive: true, force: true }));
+  const work = await mkdtemp(path.join(tmpdir(), 'kinevyn-local-http-')); t.after(() => rm(work, { recursive: true, force: true }));
   t.mock.method(globalThis, 'fetch', async () => { throw new Error('Unexpected network'); });
   const request = transport(new WorkspaceStore(work));
   const page = await (await request('/motion-api/template-catalog?locale=en&query=Figma')).json();
@@ -138,22 +138,22 @@ test('HTTP gallery and guide routes use the same repository source; copied promp
   assert.equal(info.templateSource, 'repository'); assert.equal(info.transport.env.MOTION_TEMPLATE_SOURCE, 'repository');
   const prompt = templatePrompt(info, 'codex', { id: template.id, title: template.title });
   assert(prompt.includes(firstId) && prompt.includes(template.title));
-  assert(prompt.includes('https://github.com/nexu-io/openmotion'));
+  assert(prompt.includes('https://github.com/rivyn-labs/kinevyn'));
   assert.match(prompt, /HTML.*MP4/);
-  assert.doesNotMatch(prompt, /openmotion_get_template|localSource/);
+  assert.doesNotMatch(prompt, /kinevyn_get_template|localSource/);
   assert(!prompt.includes('releases.open-design.ai'));
   const localized = Object.keys(templatePrompts).map(locale => templatePrompt(info, 'codex', { id: firstId, title: '$& literal {name}' }, locale));
   assert.equal(new Set(localized).size, 11);
-  for (const message of localized) assert(message.includes('$& literal {name}') && message.includes(firstId) && message.includes('https://github.com/nexu-io/openmotion'));
+  for (const message of localized) assert(message.includes('$& literal {name}') && message.includes(firstId) && message.includes('https://github.com/rivyn-labs/kinevyn'));
 });
 
 test('the real stdio MCP resolves the loaded checkout from a different cwd without starting a backend', async t => {
-  const work = await mkdtemp(path.join(tmpdir(), 'openmotion-local-stdio-')); t.after(() => rm(work, { recursive: true, force: true }));
+  const work = await mkdtemp(path.join(tmpdir(), 'kinevyn-local-stdio-')); t.after(() => rm(work, { recursive: true, force: true }));
   const hook = path.join(work, 'offline.mjs');
   await writeFile(hook, 'globalThis.fetch = async () => { throw new Error("Unexpected network"); };');
-  const messages = [{ jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'openmotion_list_templates', arguments: {} } },
-    { jsonrpc: '2.0', id: 2, method: 'tools/call', params: { name: 'openmotion_get_template', arguments: { templateId: firstId } } }];
-  const env = { ...process.env, MOTION_DATA_DIR: path.join(work, 'data'), OPENMOTION_TELEMETRY: '0' }; delete env.MOTION_TEMPLATE_SOURCE;
+  const messages = [{ jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'kinevyn_list_templates', arguments: {} } },
+    { jsonrpc: '2.0', id: 2, method: 'tools/call', params: { name: 'kinevyn_get_template', arguments: { templateId: firstId } } }];
+  const env = { ...process.env, MOTION_DATA_DIR: path.join(work, 'data'), KINEVYN_TELEMETRY: '0' }; delete env.MOTION_TEMPLATE_SOURCE;
   const output = execFileSync(process.execPath, ['--import', hook, path.join(appRoot, 'mcp.ts')], { cwd: work, env, input: messages.map(x => JSON.stringify(x)).join('\n') + '\n', encoding: 'utf8', timeout: 20_000 });
   const responses = output.trim().split('\n').map(line => JSON.parse(line));
   assert.equal(responses[0].result.isError, undefined); assert.equal(responses[0].result.structuredContent.source, 'repository');
@@ -180,7 +180,7 @@ test('registered project files with arbitrary extensions copy locally without CM
   const editable = await f.catalog.detail(f.id);
   assert.equal(editable.hasHtmlProject, true);
   assert.equal(editable.workflowGuide.workflow, 'template');
-  assert.match(templateRecipe(await f.catalog.get(f.id)), /openmotion:\/\/workflow\/template\/start/);
+  assert.match(templateRecipe(await f.catalog.get(f.id)), /kinevyn:\/\/workflow\/template\/start/);
   const output = path.join(f.work, 'editable');
   await f.catalog.copy(await f.catalog.get(f.id), output, appRoot);
   assert.deepEqual(await readFile(path.join(output, '工程.custom')), contents['工程.custom']);

@@ -113,7 +113,7 @@
     "industries": [],
     "creationModels": [],
     "conversionStatus": "pending",
-    "conversionNotes": "参考视频与动效说明包，尚无已验证可编辑的 OpenMotion 工程。",
+    "conversionNotes": "参考视频与动效说明包，尚无已验证可编辑的 Kinevyn 工程。",
     "verification": {
       "render": "not_run",
       "portableFiles": "not_run",
@@ -147,7 +147,7 @@
         "templateId": "V021",
         "sourceVideoTitle": "google-doodle-salsa.mp4"
       },
-      "conversionNotes": "Referenzvideo und Paket mit Bewegungsrichtlinien; ein geprüftes, bearbeitbares OpenMotion-Projekt ist noch nicht verfügbar."
+      "conversionNotes": "Referenzvideo und Paket mit Bewegungsrichtlinien; ein geprüftes, bearbeitbares Kinevyn-Projekt ist noch nicht verfügbar."
     },
     "en": {
       "original": {
@@ -176,7 +176,7 @@
       },
       "motionDocumentUrl": "https://r.open-design.ai/files/04f9f6762d0700d596bcc51afe5361c2a003c8fbea07afc23be95f9f3d011e5f",
       "motionGuideUrl": "https://r.open-design.ai/files/a0612524ee3a0e04cd013a81866031a734896431de025540ccb848249b87d42d",
-      "conversionNotes": "Reference video and motion guidance package; no verified editable OpenMotion project is available yet."
+      "conversionNotes": "Reference video and motion guidance package; no verified editable Kinevyn project is available yet."
     },
     "es": {
       "original": {
@@ -205,7 +205,7 @@
       },
       "motionDocumentUrl": "https://r.open-design.ai/files/c35b16b9a204a73e2ca926ed810ad7d4ac978020e84e60c43d1cdf6583e54065",
       "motionGuideUrl": "https://r.open-design.ai/files/ad665e75f73e78a2a5218e9b33e85cfcc31907fc72c291432965892cd3dd65ac",
-      "conversionNotes": "Vídeo de referencia y paquete de instrucciones de animación; aún no hay un proyecto editable de OpenMotion verificado."
+      "conversionNotes": "Vídeo de referencia y paquete de instrucciones de animación; aún no hay un proyecto editable de Kinevyn verificado."
     },
     "fr": {
       "original": {
@@ -232,7 +232,7 @@
         "templateId": "V021",
         "sourceVideoTitle": "google-doodle-salsa.mp4"
       },
-      "conversionNotes": "Vidéo de référence et dossier de consignes d’animation ; aucun projet OpenMotion modifiable et vérifié n’est encore disponible."
+      "conversionNotes": "Vidéo de référence et dossier de consignes d’animation ; aucun projet Kinevyn modifiable et vérifié n’est encore disponible."
     },
     "it": {
       "original": {
@@ -259,7 +259,7 @@
         "templateId": "V021",
         "sourceVideoTitle": "google-doodle-salsa.mp4"
       },
-      "conversionNotes": "Video di riferimento e pacchetto di indicazioni sull’animazione; non è ancora disponibile un progetto OpenMotion modificabile e verificato."
+      "conversionNotes": "Video di riferimento e pacchetto di indicazioni sull’animazione; non è ancora disponibile un progetto Kinevyn modificabile e verificato."
     },
     "ja": {
       "original": {
@@ -286,7 +286,7 @@
         "templateId": "V021",
         "sourceVideoTitle": "google-doodle-salsa.mp4"
       },
-      "conversionNotes": "参考動画とモーションガイドのパッケージです。検証済みの編集可能なOpenMotionプロジェクトはまだありません。"
+      "conversionNotes": "参考動画とモーションガイドのパッケージです。検証済みの編集可能なKinevynプロジェクトはまだありません。"
     },
     "ko": {
       "original": {
@@ -313,7 +313,7 @@
         "templateId": "V021",
         "sourceVideoTitle": "google-doodle-salsa.mp4"
       },
-      "conversionNotes": "참고 영상과 모션 가이드 패키지입니다. 검증된 편집 가능한 OpenMotion 프로젝트는 아직 없습니다."
+      "conversionNotes": "참고 영상과 모션 가이드 패키지입니다. 검증된 편집 가능한 Kinevyn 프로젝트는 아직 없습니다."
     },
     "pt-br": {
       "original": {
@@ -342,7 +342,7 @@
       },
       "motionDocumentUrl": "https://r.open-design.ai/files/f6c32e4897a2e1ac6d4168be947b91edc29adb1a6d1ae8a1be57800f2ce401c0",
       "motionGuideUrl": "https://r.open-design.ai/files/68d7b761c87bdae43ba4a81863817e68e06030f32268ea5d1078a77bed3c8fec",
-      "conversionNotes": "Vídeo de referência e pacote de orientações de animação; ainda não há um projeto editável do OpenMotion verificado."
+      "conversionNotes": "Vídeo de referência e pacote de orientações de animação; ainda não há um projeto editável do Kinevyn verificado."
     },
     "ru": {
       "original": {
@@ -369,7 +369,7 @@
         "templateId": "V021",
         "sourceVideoTitle": "google-doodle-salsa.mp4"
       },
-      "conversionNotes": "Референсное видео и пакет рекомендаций по анимации; проверенного редактируемого проекта OpenMotion пока нет."
+      "conversionNotes": "Референсное видео и пакет рекомендаций по анимации; проверенного редактируемого проекта Kinevyn пока нет."
     },
     "tr": {
       "original": {
@@ -396,7 +396,7 @@
         "templateId": "V021",
         "sourceVideoTitle": "google-doodle-salsa.mp4"
       },
-      "conversionNotes": "Referans video ve hareket tasarımı kılavuz paketi; henüz doğrulanmış, düzenlenebilir bir OpenMotion projesi yok."
+      "conversionNotes": "Referans video ve hareket tasarımı kılavuz paketi; henüz doğrulanmış, düzenlenebilir bir Kinevyn projesi yok."
     },
     "zh-CN": {}
   },

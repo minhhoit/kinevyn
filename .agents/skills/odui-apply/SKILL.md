@@ -1,6 +1,6 @@
 ---
 name: odui-apply
-description: Apply an existing Open Design UI component in OpenMotion Studio. Use when wiring a shared control into a Studio feature, replacing a native button or range input, or reviewing whether a call site reuses the component library.
+description: Apply an existing Open Design UI component in Kinevyn Studio. Use when wiring a shared control into a Studio feature, replacing a native button or range input, or reviewing whether a call site reuses the component library.
 ---
 
 # Apply an Open Design UI component

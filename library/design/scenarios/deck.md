@@ -1,4 +1,4 @@
-# OpenMotion Design — Presentation Task Profile v3.1.0
+# Kinevyn Design — Presentation Task Profile v3.1.0
 
 > Rollout: active
 
@@ -215,22 +215,22 @@ Apply these requirements only to this output. Reuse the complete same-version Sk
 
 Before building an HTML deck, use the host deck protocol if it is already in context; otherwise read .od-frames/deck-framework.md. Preserve an existing deck or selected template scaffold using its compatibility guidance; use the canonical scaffold only for a new deck. These rules apply only to the PPT output.
 
-## OpenMotion Design Studio deck protocol
+## Kinevyn Design Studio deck protocol
 
-To integrate with the OpenMotion Design editor (thumbnail rail, slide counter, keyboard navigation, Present mode and PPTX export):
+To integrate with the Kinevyn Design editor (thumbnail rail, slide counter, keyboard navigation, Present mode and PPTX export):
 
 1. Wrap each slide in an element matching `.slide` (or `.deck-slide` / `.ppt-slide` / `[data-screen-label]`), sized for 1920×1080 (`aspect-ratio: 16 / 9`) with `.slide.active` marking the visible slide.
 2. Include the deck host postMessage listener and state announcer:
    - Receive `{ type: 'od:slide', action: 'next' | 'prev' | 'first' | 'last' | 'go', index?: number }`.
    - Announce `{ type: 'od:deck-ready', capabilities: ['absolute-navigation', 'state-events'] }` on load and `{ type: 'od:slide-state', active: currentIndex, count: totalSlides, protocolVersion: 1 }` whenever the active slide changes.
 3. Optional speaker notes: embed `<script type="application/json" id="speaker-notes">["Slide 1 note", ...]</script>` or `<aside class="notes">...</aside>` inside each slide.
-4. Save via `openmotion_design_edit` (`action="write"`) and present via `openmotion_design_project` (`action="open"`).
+4. Save via `kinevyn_design_edit` (`action="write"`) and present via `kinevyn_design_project` (`action="open"`).
 
 
-## OpenMotion MCP delivery workflow
+## Kinevyn MCP delivery workflow
 
-1. Discover templates, skills, design systems and craft references with `openmotion_design_catalog`.
-2. Create or fetch the project with `openmotion_design_project` (`action="create"` or `"get"`).
-3. Write complete files with `openmotion_design_edit` (`action="write"`, passing `expectedRevision` and a concise `summary`). Every write creates an immutable version snapshot.
-4. When revising from user annotations, call `openmotion_design_comments` (`action="list"`), apply scoped edits, then mark addressed comments `resolved` with `openmotion_design_comments` (`action="update"`).
-5. Call `openmotion_design_project` (`action="open"`) so the user can review the rendered HTML in Design Studio.
+1. Discover templates, skills, design systems and craft references with `kinevyn_design_catalog`.
+2. Create or fetch the project with `kinevyn_design_project` (`action="create"` or `"get"`).
+3. Write complete files with `kinevyn_design_edit` (`action="write"`, passing `expectedRevision` and a concise `summary`). Every write creates an immutable version snapshot.
+4. When revising from user annotations, call `kinevyn_design_comments` (`action="list"`), apply scoped edits, then mark addressed comments `resolved` with `kinevyn_design_comments` (`action="update"`).
+5. Call `kinevyn_design_project` (`action="open"`) so the user can review the rendered HTML in Design Studio.

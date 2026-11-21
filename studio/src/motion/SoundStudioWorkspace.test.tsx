@@ -199,8 +199,8 @@ describe('sound domain helpers', () => {
 
   it('estimates speaking time for Latin and CJK text while accounting for speed', () => {
     expect(estimateSpeechSeconds('')).toBe(0);
-    const normal = estimateSpeechSeconds('Build polished motion graphics quickly with OpenMotion Studio every day.');
-    const fast = estimateSpeechSeconds('Build polished motion graphics quickly with OpenMotion Studio every day.', 2);
+    const normal = estimateSpeechSeconds('Build polished motion graphics quickly with Kinevyn Studio every day.');
+    const fast = estimateSpeechSeconds('Build polished motion graphics quickly with Kinevyn Studio every day.', 2);
     expect(normal).toBeGreaterThan(fast);
     expect(estimateSpeechSeconds('欢迎使用开放设计工作室，现在即可快速生成专业旁白配音。')).toBeGreaterThanOrEqual(4);
   });
@@ -574,7 +574,7 @@ describe('SoundStudioWorkspace', () => {
   it('filters audio tracks by domain, copies asset refs, reuses cross-tab settings, and hides empty starters when populated', async () => {
     const musicAsset = makeAsset('music-1', { name: 'Sunrise Score' }, { model: accountMusic.id, prompt: 'Warm piano sunrise' });
     const sfxAsset = makeAsset('sfx-1', { name: 'UI Click' }, { model: falSfx.id, prompt: 'Crisp glass tap', parameters: { duration_seconds: 2, loop: true } });
-    const speechAsset = makeAsset('speech-1', { name: 'Launch VO' }, { model: elevenSpeech.id, prompt: 'Welcome to OpenMotion', parameters: { voice: '21m00Tcm4TlvDq8ikWAM' } });
+    const speechAsset = makeAsset('speech-1', { name: 'Launch VO' }, { model: elevenSpeech.id, prompt: 'Welcome to Kinevyn', parameters: { voice: '21m00Tcm4TlvDq8ikWAM' } });
 
     const writeText = vi.fn(async () => {});
     Object.defineProperty(navigator, 'clipboard', { value: { writeText }, configurable: true });
@@ -609,7 +609,7 @@ describe('SoundStudioWorkspace', () => {
     await act(async () => { reuseBtn.click(); });
     expect(studio.selectSoundTab).toHaveBeenCalledWith(
       'speech',
-      expect.objectContaining({ prompt: 'Welcome to OpenMotion', model: elevenSpeech.id, parameters: { voice: '21m00Tcm4TlvDq8ikWAM' } }),
+      expect.objectContaining({ prompt: 'Welcome to Kinevyn', model: elevenSpeech.id, parameters: { voice: '21m00Tcm4TlvDq8ikWAM' } }),
       elevenSpeech.id,
     );
 
@@ -690,7 +690,7 @@ describe('SoundStudioWorkspace', () => {
       id: 'job-speech-live',
       state: 'running',
       modality: 'audio',
-      prompt: 'Welcome to OpenMotion Studio.',
+      prompt: 'Welcome to Kinevyn Studio.',
       model: { id: elevenSpeech.id, provider: 'account', label: elevenSpeech.label },
       parameters: { voice: '21m00Tcm4TlvDq8ikWAM' },
       createdAt: now,
@@ -701,7 +701,7 @@ describe('SoundStudioWorkspace', () => {
     const studio = makeStudio('speech', elevenSpeech.id);
     const { browser, onCancelJob, getDraft, updateState } = await renderSound(studio, {
       assets: [makeAsset('older-1', { name: 'Older score', createdAt: now - 86_400_000, updatedAt: now - 86_400_000 }, { createdAt: now - 86_400_000 })],
-      initialPrompt: 'Welcome to OpenMotion Studio.',
+      initialPrompt: 'Welcome to Kinevyn Studio.',
       source: 'upload',
       query: 'stale',
       page: 1,
@@ -722,7 +722,7 @@ describe('SoundStudioWorkspace', () => {
     expect(browser.setSource).toHaveBeenCalledWith('all');
     expect(browser.setQuery).toHaveBeenCalledWith('');
     expect(browser.setPage).toHaveBeenCalledWith(0);
-    expect(getDraft().prompt).toBe('Welcome to OpenMotion Studio.');
+    expect(getDraft().prompt).toBe('Welcome to Kinevyn Studio.');
 
     // Parent pushes the accepted running job into the unified stream.
     await updateState({ jobs: [runningJob] });
@@ -753,11 +753,11 @@ describe('SoundStudioWorkspace', () => {
     // Library refreshes with saved track -> generating row disappears cleanly (0 duplicates) and playable row shows New badge.
     const newAsset = makeAsset(
       'speech-new',
-      { name: 'Welcome to OpenMotion Studio', createdAt: now + 2000, updatedAt: now + 2000 },
+      { name: 'Welcome to Kinevyn Studio', createdAt: now + 2000, updatedAt: now + 2000 },
       {
         createdAt: now + 2000,
         model: elevenSpeech.id,
-        prompt: 'Welcome to OpenMotion Studio.',
+        prompt: 'Welcome to Kinevyn Studio.',
         parameters: { voice: '21m00Tcm4TlvDq8ikWAM' },
       },
     );
@@ -769,7 +769,7 @@ describe('SoundStudioWorkspace', () => {
     expect(rows[0]!.textContent).toContain('New');
 
     // Playing the track renders the vertical playhead line inside its waveform.
-    const playBtn = host.querySelector<HTMLButtonElement>('button[aria-label="Play Welcome to OpenMotion Studio"]')!;
+    const playBtn = host.querySelector<HTMLButtonElement>('button[aria-label="Play Welcome to Kinevyn Studio"]')!;
     await act(async () => { playBtn.click(); });
     expect(host.querySelector('.om-sound-waveform-btn[data-active="true"] rect.om-sound-playhead')).not.toBeNull();
   });

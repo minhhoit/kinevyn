@@ -17,8 +17,8 @@ vi.mock('./useWorkspace', () => ({ motionApi: async (path: string, options: Requ
   return response.json();
 } }));
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
-const info = { name: 'OpenMotion', version: '1.2.3', previewUrl: 'http://127.0.0.1:4567', dataDirectory: '/fixture/data', templateSource: 'repository',
-  transport: { type: 'stdio', command: 'node', args: ['/fixture/mcp.ts'], cwd: '/fixture', env: { MOTION_DATA_DIR: '/fixture/data' } }, tools: [{ name: 'openmotion_media_use', description: 'Media Use' }] };
+const info = { name: 'Kinevyn', version: '1.2.3', previewUrl: 'http://127.0.0.1:4567', dataDirectory: '/fixture/data', templateSource: 'repository',
+  transport: { type: 'stdio', command: 'node', args: ['/fixture/mcp.ts'], cwd: '/fixture', env: { MOTION_DATA_DIR: '/fixture/data' } }, tools: [{ name: 'kinevyn_media_use', description: 'Media Use' }] };
 const template = { id: 'fixture-film', title: 'Fixture film', description: 'Editable typography', subtitle: 'Launch', posterUrl: '/poster.png' };
 let root: Root | undefined;
 afterEach(() => { act(() => root?.unmount()); root = undefined; document.body.innerHTML = ''; vi.restoreAllMocks(); vi.unstubAllGlobals(); });
@@ -46,7 +46,7 @@ it.each(['en', 'zh-CN'] as const)('copies a workspace-bound review read plan and
   const instruction = copy.mock.calls[0][0];
   for (const value of ['Project ID: review-project', info.dataDirectory, info.previewUrl, 'file.nextOffset', 'expectedCommentRevision=latestComment.revision', 'operation="delete"']) expect(instruction).toContain(value);
   const requests = JSON.parse(instruction.split('Read requests (JSON):\n')[1].split('\n\n')[0]);
-  expect(requests[2]).toEqual({ name: 'openmotion_manage_project', arguments: { action: 'comments', operation: 'list', projectId: 'review-project' } });
+  expect(requests[2]).toEqual({ name: 'kinevyn_manage_project', arguments: { action: 'comments', operation: 'list', projectId: 'review-project' } });
   expect(instruction).toContain('ask which IDs');
   copy.mockRejectedValue(new Error('Clipboard unavailable'));
   await act(async () => trigger.click());
@@ -70,14 +70,14 @@ it('does not copy a review handoff without workspace discovery and recovers from
 });
 
 it('loads Docker discovery through the real hook and enables container setup, copying and downloads', async () => {
-  const docker = containerIntegration(info as IntegrationInfo, 'openmotion');
+  const docker = containerIntegration(info as IntegrationInfo, 'kinevyn');
   vi.stubGlobal('fetch', vi.fn(async (url: string) => Response.json(url.includes('template-catalog') ? { items: [] } : docker)));
   const copy = vi.spyOn(navigator.clipboard, 'writeText').mockResolvedValue();
   await mount();
   expect(document.querySelector('pre')?.textContent).toContain('deploy/README.md');
   expect(document.querySelector('pre')?.textContent).toContain('welcome and video cards');
   await act(async () => button('Copy connection instruction').click());
-  expect(copy).toHaveBeenLastCalledWith(expect.stringContaining('existing OpenMotion Docker deployment'));
+  expect(copy).toHaveBeenLastCalledWith(expect.stringContaining('existing Kinevyn Docker deployment'));
   expect([...document.querySelectorAll('a')].find(link => link.textContent?.trim() === 'Connection guide')?.href).toContain('deploy/README.md');
   for (const [client, host] of [['Codex', 'codex'], ['Claude Code', 'claude'], ['DeepSeek Harness', 'deepseek'], ['Other MCP clients', 'mcp']]) {
     await act(async () => tab(client).click());
@@ -134,7 +134,7 @@ it('switches client-specific setup, copies exact template instructions and perfo
   await act(async () => button('Copy template prompt').click());
   expect(copy).toHaveBeenCalledWith(expect.stringContaining('fixture-film'));
   expect(copy.mock.calls[0][0]).toContain('Claude Code');
-  expect(copy.mock.calls[0][0]).toContain('https://github.com/nexu-io/openmotion#quick-start');
+  expect(copy.mock.calls[0][0]).toContain('https://github.com/rivyn-labs/kinevyn#quick-start');
   expect(copy.mock.calls[0][0]).not.toContain('127.0.0.1');
   expect(document.querySelector('.motion-feedback-layer [role=status]')?.textContent).toContain('Copied to clipboard');
   expect(document.querySelector('.om-mcp-content [role=status]')).toBeNull();
@@ -164,7 +164,7 @@ it('contains unavailable setup and catalogue independently, retries and reserves
   await mount();
   expect(button('Copy connection instruction').disabled).toBe(false);
   await act(async () => button('Copy connection instruction').click());
-  expect(copy).toHaveBeenCalledWith(expect.stringContaining('https://github.com/nexu-io/openmotion#quick-start'));
+  expect(copy).toHaveBeenCalledWith(expect.stringContaining('https://github.com/rivyn-labs/kinevyn#quick-start'));
   expect(copy.mock.calls[0][0]).not.toContain('127.0.0.1');
   await act(async () => tab('Manual setup').click());
   expect(document.body.textContent).toContain('Could not load settings');
@@ -197,7 +197,7 @@ it('aborts pending setup and template reads when leaving the page', async () => 
   for (const { path, signal } of reads) expect(signal?.aborted, path).toBe(false);
   expect(button('Copy connection instruction').disabled).toBe(false);
   await act(async () => button('Copy connection instruction').click());
-  expect(copy).toHaveBeenCalledWith(expect.stringContaining('https://github.com/nexu-io/openmotion#quick-start'));
+  expect(copy).toHaveBeenCalledWith(expect.stringContaining('https://github.com/rivyn-labs/kinevyn#quick-start'));
   expect(document.querySelector('a[download]')).toBeNull();
   act(() => root!.unmount()); root = undefined;
   for (const { path, signal } of reads) expect(signal?.aborted, path).toBe(true);
@@ -287,7 +287,7 @@ it.each(['en', 'zh-CN', 'ja'] as const)('copies the asset naming scenario in %s 
   await act(async () => card.querySelector('button')!.click());
   expect(copy).toHaveBeenCalledOnce();
   const instruction = copy.mock.calls[0][0];
-  for (const token of ['openmotion_get_project', 'namingLanguage', 'openmotion_edit_project', 'assetNames']) expect(instruction).toContain(token);
+  for (const token of ['kinevyn_get_project', 'namingLanguage', 'kinevyn_edit_project', 'assetNames']) expect(instruction).toContain(token);
   if (locale === 'zh-CN') expect(instruction).toContain('保留已有可读名称');
 });
 
@@ -305,5 +305,5 @@ it.each([
   expect(faq.open).toBe(true);
   expect(faq.textContent).toContain(exclusive);
   expect(faq.textContent).toContain('Codex');
-  expect(faq.textContent).toContain('OpenMotion');
+  expect(faq.textContent).toContain('Kinevyn');
 });

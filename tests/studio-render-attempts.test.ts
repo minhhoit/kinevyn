@@ -190,7 +190,7 @@ test('a disconnected progress stream does not lose the worker result or submit m
   const state = states()[0];
   await writeFile(state.outputPath, 'completed-without-stream');
   state.status = 'complete'; state.progress = 100;
-  const snapshot = path.join(project, 'renders/.openmotion-render-attempts.json');
+  const snapshot = path.join(project, 'renders/.kinevyn-render-attempts.json');
   const deadline = Date.now() + 3000;
   while (JSON.parse(await readFile(snapshot, 'utf8')).attempts[0].status !== 'complete') {
     assert.ok(Date.now() < deadline, 'The terminal fact must persist independently of progress connections');
@@ -359,7 +359,7 @@ test('deleting an unknown recovered attempt preserves its partial output, metada
   assert.equal(await readFile(outputPath, 'utf8'), 'unfinished-output');
   assert.equal(await readFile(metadata, 'utf8'), '{}');
   assert.equal((await list())[0].status, 'unknown');
-  const snapshot = JSON.parse(await readFile(path.join(project, 'renders/.openmotion-render-attempts.json'), 'utf8'));
+  const snapshot = JSON.parse(await readFile(path.join(project, 'renders/.kinevyn-render-attempts.json'), 'utf8'));
   assert.equal(snapshot.attempts[0].id, receipt.jobId);
   assert.equal(snapshot.attempts[0].status, 'unknown');
 }));
@@ -412,7 +412,7 @@ test('a failed cancellation save can be retried after storage recovers and calls
   const state = {status: 'rendering', progress: 0, cancelCalls: 0, cancel() { this.cancelCalls++; }};
   const id = 'native-cancel-save-failure';
   attempts.start({jobId: id, outputPath: path.join(project, 'renders/native.mp4')}, 'Export', () => state);
-  const snapshot = path.join(project, 'renders/.openmotion-render-attempts.json');
+  const snapshot = path.join(project, 'renders/.kinevyn-render-attempts.json');
   const original = await readFile(snapshot);
   try {
     // Keep reads valid while making the cancellation transition's save fail.

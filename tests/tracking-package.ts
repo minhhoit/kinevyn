@@ -8,8 +8,8 @@ import { transport } from './http.ts';
 // Run only in a child process against an extracted package; never contact a collector.
 const [root, mode] = process.argv.slice(2);
 assert(root && ['test', 'stable', 'local'].includes(mode));
-for (const key of ['OPENMOTION_TELEMETRY', 'DO_NOT_TRACK', 'OPENMOTION_POSTHOG_HOST', 'OPENMOTION_POSTHOG_KEY']) delete process.env[key];
-process.env.OPENMOTION_TRACKING_ENV = 'test'; process.env.OPENMOTION_TRACKING_TEST_RUN_ID = crypto.randomUUID();
+for (const key of ['KINEVYN_TELEMETRY', 'DO_NOT_TRACK', 'KINEVYN_POSTHOG_HOST', 'KINEVYN_POSTHOG_KEY']) delete process.env[key];
+process.env.KINEVYN_TRACKING_ENV = 'test'; process.env.KINEVYN_TRACKING_TEST_RUN_ID = crypto.randomUUID();
 const directory = await mkdtemp(path.join(tmpdir(), 'motion-tracking-package-'));
 process.env.MOTION_DATA_DIR = directory;
 const load = (file: string) => import(pathToFileURL(path.join(root, file)).href);

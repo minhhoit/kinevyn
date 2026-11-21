@@ -7,7 +7,7 @@ import { diagnosticFetch } from './diagnosticRequests';
 import { initializeWorkspaceHistory, WORKSPACE_LOCATION_CHANGED, workspaceHistoryIndex, workspaceHistorySession, writeWorkspaceHistory } from '../utils/workspaceHistory';
 import { readWorkspacePage } from './workspacePageRouting';
 
-export type SavedProject = { id: string; title: string; titleKey?: 'OpenMotion Sample Video' | null; templateId?: string; createdAt?: number; openedAt?: number; trashedAt?: number };
+export type SavedProject = { id: string; title: string; titleKey?: 'Kinevyn Sample Video' | null; templateId?: string; createdAt?: number; openedAt?: number; trashedAt?: number };
 type Job = { id: string; state: 'pending' | 'running' | 'completed' | 'failed'; error?: string };
 export type WorkspaceStatus = { revision: string; projectId: string; projectTitle: string; exportJob: Job | null; sessionId?: string;
   historyRestoreError?: { requestId: string; message: string } | null };
@@ -31,7 +31,7 @@ export function useWorkspace(waitForSaves: () => Promise<void>, projectId?: stri
   const { t } = useI18n();
   const [projects, setProjects] = useState<SavedProject[]>([]);
   const [activeProjectId, setActiveProjectId] = useState<string | null>(null);
-  const displayedProjects = useMemo(() => projects.map(project => project.id === 'project' && project.titleKey === 'OpenMotion Sample Video'
+  const displayedProjects = useMemo(() => projects.map(project => project.id === 'project' && project.titleKey === 'Kinevyn Sample Video'
     ? { ...project, title: t(project.titleKey) } : project), [projects, t]);
   const [sessions, setSessions] = useState<CreativeSession[]>([]);
   const visibleSessions = useMemo(() => {

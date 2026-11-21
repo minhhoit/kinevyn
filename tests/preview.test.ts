@@ -65,9 +65,9 @@ test('a phase1 call reuses compatible stable and prerelease backends without res
   for (const version of ['0.6.4', '0.6.4-test.8']) await t.test(version, () => fixture(async store => {
     const mock = runtime(store), port = Number(process.env.PORT || 4173);
     mock.occupied.set(port, { kind: 'motion', health: { service: 'motion-preview', protocol: 2, version,
-      dataDirectory: store.directory, ffmpeg: true, ready: true, mcp: { protocol: 1, tools: ['openmotion_export_request'] } } });
+      dataDirectory: store.directory, ffmpeg: true, ready: true, mcp: { protocol: 1, tools: ['kinevyn_export_request'] } } });
     const before = await store.get();
-    const result = await ensureService(store, mock.environment, 'openmotion_export_request');
+    const result = await ensureService(store, mock.environment, 'kinevyn_export_request');
     assert.equal(result.previewUrl, `http://localhost:${port}`);
     assert.equal(result.reused, true);
     assert.deepEqual(mock.launches, []); assert.deepEqual(mock.stops, []);
@@ -77,19 +77,19 @@ test('a phase1 call reuses compatible stable and prerelease backends without res
 });
 test('phase1 port discovery leaves unrelated services and other workspaces intact', () => fixture(async store => {
   const mock = runtime(store), port = Number(process.env.PORT || 4173);
-  const health = { service: 'motion-preview', protocol: 2, version: '0.6.4', dataDirectory: store.directory, ffmpeg: true, ready: true, mcp: { protocol: 1, tools: ['openmotion_export_request'] } };
+  const health = { service: 'motion-preview', protocol: 2, version: '0.6.4', dataDirectory: store.directory, ffmpeg: true, ready: true, mcp: { protocol: 1, tools: ['kinevyn_export_request'] } };
   const changes = [{ dataDirectory: '/other' }, { service: 'unrelated-service' }];
   changes.forEach((change, i) => mock.occupied.set(port + i, { kind: 'motion', health: { ...health, ...change } }));
-  const result = await ensureService(store, mock.environment, 'openmotion_export_request');
+  const result = await ensureService(store, mock.environment, 'kinevyn_export_request');
   assert.equal(result.previewUrl, `http://localhost:${port + changes.length}`);
   assert.deepEqual(mock.stops, []);
 }, false));
 test('phase1 port discovery refuses an incompatible same-workspace authority without launching another', async t => {
-  for (const change of [{ protocol: 999 }, { version: VERSION, mcp: { protocol: 2, tools: ['openmotion_export_request'] } }, { mcp: { protocol: 1, tools: ['openmotion_get_project'] } }, { mcp: undefined }]) await t.test(JSON.stringify(change), () => fixture(async store => {
+  for (const change of [{ protocol: 999 }, { version: VERSION, mcp: { protocol: 2, tools: ['kinevyn_export_request'] } }, { mcp: { protocol: 1, tools: ['kinevyn_get_project'] } }, { mcp: undefined }]) await t.test(JSON.stringify(change), () => fixture(async store => {
     const mock = runtime(store), port = Number(process.env.PORT || 4173);
     mock.occupied.set(port, { kind: 'motion', health: { service: 'motion-preview', protocol: 2, version: '0.6.4', dataDirectory: store.directory, ffmpeg: true, ready: true, ...change } });
     const before = await store.get();
-    await assert.rejects(ensureService(store, mock.environment, 'openmotion_export_request'), { code: 'EDITOR_RUNTIME_INCOMPATIBLE' });
+    await assert.rejects(ensureService(store, mock.environment, 'kinevyn_export_request'), { code: 'EDITOR_RUNTIME_INCOMPATIBLE' });
     assert.deepEqual(mock.launches, []); assert.deepEqual(mock.stops, []);
     assert.deepEqual(await store.get(), before);
   }, false));
@@ -111,7 +111,7 @@ test('real HTTP discovery preserves Motion identity before checking compatibilit
     for (const change of [{ protocol: 999, ready: true }, { protocol: 2, ready: false }]) {
       Object.assign(health, change);
       assert.deepEqual(await probe(address.port), { kind: 'motion', health });
-      await assert.rejects(ensureService(store, mock.environment, 'openmotion_export_request'), { code: 'EDITOR_RUNTIME_INCOMPATIBLE' });
+      await assert.rejects(ensureService(store, mock.environment, 'kinevyn_export_request'), { code: 'EDITOR_RUNTIME_INCOMPATIBLE' });
       assert.deepEqual(mock.launches, []); assert.deepEqual(mock.stops, []);
       assert.deepEqual(await store.get(), before);
       assert.deepEqual(JSON.parse(await readFile(path.join(store.directory, 'preview.json'), 'utf8')), { port: address.port });
@@ -122,7 +122,7 @@ test('real HTTP discovery preserves Motion identity before checking compatibilit
       }
     }
     health.ready = true;
-    assert.equal((await ensureService(store, mock.environment, 'openmotion_export_request')).reused, true);
+    assert.equal((await ensureService(store, mock.environment, 'kinevyn_export_request')).reused, true);
     assert.deepEqual(mock.launches, []);
   } finally { server.closeAllConnections(); await new Promise<void>(resolve => server.close(() => resolve())); }
 }, false));

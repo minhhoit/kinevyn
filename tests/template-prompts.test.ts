@@ -14,7 +14,7 @@ test('every catalog source and host copies the same brief with the selected titl
       for (const host of integrationHosts) {
         for (const template of templates) {
           assert.equal(templatePrompt(info, host, template, 'zh-CN'), [
-            '使用说明：请使用 OpenMotion 插件。如未安装，请按 `https://github.com/nexu-io/openmotion` 安装并接入后继续。',
+            '使用说明：请使用 Kinevyn 插件。如未安装，请按 `https://github.com/rivyn-labs/kinevyn` 安装并接入后继续。',
             `指定模板：${template.title}（${template.id}）`,
             '创作要求：基于模板，结合我的要求和附件创作，默认保留主要动效与风格，并交付 HTML 和 MP4。',
             '我的要求：\n',
@@ -31,10 +31,10 @@ test('all localized briefs share the GitHub URL and preserve literal template va
   for (const locale of Object.keys(templatePrompts)) {
     const prompt = templatePrompt({ ...info, templateSource: 'repository' }, 'codex', template, locale);
     assert.equal(prompt, templatePrompt({ ...info, templateSource: 'cms' }, 'claude', template, locale));
-    assert.ok(prompt.includes('https://github.com/nexu-io/openmotion'));
+    assert.ok(prompt.includes('https://github.com/rivyn-labs/kinevyn'));
     assert.ok(prompt.includes(template.title));
     assert.ok(prompt.includes(template.id));
     assert.match(prompt, /HTML.*MP4/);
-    assert.doesNotMatch(prompt, /openmotion_get_template|localSource|releases\.open-design\.ai|\{installUrl\}/);
+    assert.doesNotMatch(prompt, /kinevyn_get_template|localSource|releases\.open-design\.ai|\{installUrl\}/);
   }
 });

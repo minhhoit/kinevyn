@@ -322,7 +322,7 @@ it('prepares link and local-video instructions, retains drafts and distinguishes
   await act(async () => button('Copy request', recovery()).click());
   expect(events('template_search_handoff_result').at(-1)).toMatchObject({ source_kind: 'local', handoff_status: 'manual_fallback' });
   const manual = recovery().querySelector<HTMLTextAreaElement>('textarea[readonly]')!;
-  expect(manual.value).toContain('openmotion_assets_use {"action":"read","assetId":"pinned-asset","versionId":"pinned-version"}');
+  expect(manual.value).toContain('kinevyn_assets_use {"action":"read","assetId":"pinned-asset","versionId":"pinned-version"}');
   expect(manual.value).toContain('/motion-api/assets/pinned-asset/versions/pinned-version/file');
   expect(JSON.stringify(tracked)).not.toContain(file.name);
   expect(JSON.stringify(tracked)).not.toContain(asset.id);
@@ -537,7 +537,7 @@ it('copies the shared brief, retains guides and gates editable-project opening',
   await act(async () => button('复刻模板').click());
   expect(host.querySelector('dialog[aria-label=复刻模板]')).toBeNull();
   expect(document.querySelector('[data-feedback-layer]')?.textContent).toContain('已复制，发给 Agent 即可。');
-  expect(navigator.clipboard.writeText).toHaveBeenCalledWith('使用说明：请使用 OpenMotion 插件。如未安装，请按 `https://github.com/nexu-io/openmotion` 安装并接入后继续。\n指定模板：First（one）\n创作要求：基于模板，结合我的要求和附件创作，默认保留主要动效与风格，并交付 HTML 和 MP4。\n我的要求：\n');
+  expect(navigator.clipboard.writeText).toHaveBeenCalledWith('使用说明：请使用 Kinevyn 插件。如未安装，请按 `https://github.com/rivyn-labs/kinevyn` 安装并接入后继续。\n指定模板：First（one）\n创作要求：基于模板，结合我的要求和附件创作，默认保留主要动效与风格，并交付 HTML 和 MP4。\n我的要求：\n');
   await act(async () => button('打开并编辑').click());
   expect(onOpen).toHaveBeenCalledWith('one');
   await act(async () => button('预览模板 Second', host.querySelector('main')!).click());
@@ -549,7 +549,7 @@ it.each(['repository', 'cms'] as const)('updates the displayed and copied title 
   await act(async () => button('预览模板 First', host.querySelector('main')!).click());
   for (const [title, id] of [['First', 'one'], ['Second', 'two']]) {
     const expected = [
-      '使用说明：请使用 OpenMotion 插件。如未安装，请按 `https://github.com/nexu-io/openmotion` 安装并接入后继续。',
+      '使用说明：请使用 Kinevyn 插件。如未安装，请按 `https://github.com/rivyn-labs/kinevyn` 安装并接入后继续。',
       `指定模板：${title}（${id}）`,
       '创作要求：基于模板，结合我的要求和附件创作，默认保留主要动效与风格，并交付 HTML 和 MP4。',
       '我的要求：\n',
@@ -724,7 +724,7 @@ it('does not duplicate a brand when the catalog has no author identity', async (
 
 it('copies contribution instructions with the selected template without opening another dialog', async () => {
   await mount();
-  expect(host.querySelector('a[href="https://github.com/nexu-io/openmotion/blob/main/CONTRIBUTING.md"]')?.textContent).toContain('Submit template');
+  expect(host.querySelector('a[href="https://github.com/rivyn-labs/kinevyn/blob/main/CONTRIBUTING.md"]')?.textContent).toContain('Submit template');
   await act(async () => preview('First'));
   await act(async () => button('Recreate and submit').click());
   expect(navigator.clipboard.writeText).toHaveBeenCalledWith(expect.stringContaining('First (one)'));

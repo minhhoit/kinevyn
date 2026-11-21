@@ -202,10 +202,10 @@
     "basis": "announcement",
     "evidence": "The official article embeds this exact MP4 and lists datePublished 2026-09-08."
   },
-  "https://github.com/nexu-io/openmotion/tree/main/library/templates/catalog/motion-orbit-launch": {
+  "https://github.com/rivyn-labs/kinevyn/tree/main/library/templates/catalog/motion-orbit-launch": {
     "value": "2026-11-13",
     "precision": "day",
-    "sourceUrl": "https://github.com/nexu-io/openmotion/commit/53975937",
+    "sourceUrl": "https://github.com/rivyn-labs/kinevyn/commit/53975937",
     "basis": "repository-added",
     "evidence": "The template was introduced by commit 53975937 on 2026-11-13 (#347), verified with git log --diff-filter=A."
   },

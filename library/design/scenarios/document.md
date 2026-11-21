@@ -1,4 +1,4 @@
-# OpenMotion Design — Document Task Profile v3.1.1
+# Kinevyn Design — Document Task Profile v3.1.1
 
 Use for reports, guides, manuals, and long-form documents. Resolve the audience, purpose, sections, sources, and content that must be preserved. Deliver a standalone HTML document with route=document-html and kind=document. Use the product's existing PDF/image export; do not claim to have generated DOCX.
 
@@ -13,10 +13,10 @@ Cite user-provided or actually read sources; do not invent data, quotations, or 
 - Use one main heading and a sequential section hierarchy. Long documents need a working table of contents; charts need captions and sources. Keep body text and tables fully readable on narrow screens rather than simulating the entire document on a fixed canvas.
 - Hide navigation controls in print styles. Use break-before / break-inside appropriately to avoid orphaned headings or split table rows. Do not replace selectable text with screenshots. Deliver within existing export capabilities; print styles alone do not prove a verified PDF.
 
-## OpenMotion MCP delivery workflow
+## Kinevyn MCP delivery workflow
 
-1. Discover templates, skills, design systems and craft references with `openmotion_design_catalog`.
-2. Create or fetch the project with `openmotion_design_project` (`action="create"` or `"get"`).
-3. Write complete files with `openmotion_design_edit` (`action="write"`, passing `expectedRevision` and a concise `summary`). Every write creates an immutable version snapshot.
-4. When revising from user annotations, call `openmotion_design_comments` (`action="list"`), apply scoped edits, then mark addressed comments `resolved` with `openmotion_design_comments` (`action="update"`).
-5. Call `openmotion_design_project` (`action="open"`) so the user can review the rendered HTML in Design Studio.
+1. Discover templates, skills, design systems and craft references with `kinevyn_design_catalog`.
+2. Create or fetch the project with `kinevyn_design_project` (`action="create"` or `"get"`).
+3. Write complete files with `kinevyn_design_edit` (`action="write"`, passing `expectedRevision` and a concise `summary`). Every write creates an immutable version snapshot.
+4. When revising from user annotations, call `kinevyn_design_comments` (`action="list"`), apply scoped edits, then mark addressed comments `resolved` with `kinevyn_design_comments` (`action="update"`).
+5. Call `kinevyn_design_project` (`action="open"`) so the user can review the rendered HTML in Design Studio.

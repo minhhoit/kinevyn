@@ -1,14 +1,14 @@
 ---
-name: openmotion-onboarding
+name: kinevyn-onboarding
 description: Show the welcome and three embedded project-preview cards; accept automatic MCP activation separately.
 ---
 
-# OpenMotion onboarding
+# Kinevyn onboarding
 
 Follow the [shared installation contract](../../docs/install.md#installation-success-reply). Open the library and deliver the maintained welcome followed by the prepared self-contained HTML cards. These are silent project renders, not original reference films. Accept automatic current-chat MCP activation independently; registration, a later connected chat and an independent probe do not prove it.
 
 1. **Reuse setup.** Preserve its application, workspace, language and frozen three-of-four selection. If setup supplied no result, run the installed `node --experimental-strip-types scripts/install-onboarding.mjs` once with the connection's workspace and request language. Never reinstall or enqueue a user message.
-2. **Check connection only as needed.** Reuse a successful same-chat workspace read from `hostHandoff.hostSessionVerified`; otherwise use a working native `openmotion_get_project` once. Registration or a separate process probe does not prove current-chat activation. If setup queued a refresh, finish this tool step and run the saved recovery command once; do not reload again. An unavailable host control path does not block prepared HTML delivery. Read the contract's automatic-activation section only for a connection failure; do not scan sockets, change security or restart the host.
+2. **Check connection only as needed.** Reuse a successful same-chat workspace read from `hostHandoff.hostSessionVerified`; otherwise use a working native `kinevyn_get_project` once. Registration or a separate process probe does not prove current-chat activation. If setup queued a refresh, finish this tool step and run the saved recovery command once; do not reload again. An unavailable host control path does not block prepared HTML delivery. Read the contract's automatic-activation section only for a connection failure; do not scan sockets, change security or restart the host.
 3. **Open the library once.** Reuse its tab or open the exact `preview.previewUrl` in this chat's right-hand browser, retaining query parameters. Use the opening call's result or initial page state and finish mandatory browser bookkeeping. Do not add snapshots, screenshots, inventory, layout, image or playback checks. A failed, queued or unconfirmed opening does not block installation; report that result and a usable link without claiming the library is visible.
 4. **Deliver the selected route.** For `prepared`, publish its path/SHA256 in this chat's explicitly permitted visualization directory, then emit the returned complete `finalReplyMarkdown` verbatim after successful library opening. Do not call the native card tool for this route. If the library did not open, replace only the library-visible heading with the actual result and usable link, retaining the introduction and cards. For explicit `native_required`, use the prepared native arguments with the working discovered tool; `onboarding:true` includes its welcome after successful library opening, so do not repeat it. If library opening failed or is unconfirmed, use `onboarding:false` and provide the truthful welcome in reply text. Use `--welcome-delivered` for publication or `onboarding:false` for native recovery after an already delivered welcome. Never resample or substitute templates.
 

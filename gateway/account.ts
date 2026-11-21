@@ -54,12 +54,12 @@ const failureMessages: Record<AccountErrorCode, string> = {
 };
 // A connector that cannot be prepared explains why; each message ends with the manual installation command.
 const connectorMessages: Record<ConnectorProblem, string> = {
-  npm_missing: "OpenMotion couldn't find npm to set up the OpenDesign sign-in component. Run this command in a terminal, then select Retry:",
+  npm_missing: "Kinevyn couldn't find npm to set up the OpenDesign sign-in component. Run this command in a terminal, then select Retry:",
   install_failed: failureMessages.connector_unavailable,
   start_failed: "The OpenDesign sign-in component couldn't start on this device. Run this command in a terminal to reinstall it, then select Retry:",
 };
-// A connector named by OPENMOTION_ACCOUNT_CLI is used as is, so no install command is offered for it.
-const explicitConnectorMessage = "The OpenDesign sign-in component set by OPENMOTION_ACCOUNT_CLI couldn't start. Check or clear that path, then select Retry.";
+// A connector named by KINEVYN_ACCOUNT_CLI is used as is, so no install command is offered for it.
+const explicitConnectorMessage = "The OpenDesign sign-in component set by KINEVYN_ACCOUNT_CLI couldn't start. Check or clear that path, then select Retry.";
 /** Sign-in failure messages Studio translates by exact text. */
 export const accountSignInMessages = [...new Set([...Object.values(failureMessages), ...Object.values(connectorMessages), explicitConnectorMessage])];
 // Billing, media and sign-out use the control key; models use the runtime key. Accept only a complete pair.
@@ -220,7 +220,7 @@ export class OpenDesignAccount {
     const errorKind = attempt.stages.findLast(entry => entry.split(':')[1] === 'failed' && !entry.startsWith('browser_open_result'))?.split(':')[2];
     const browser = attempt.stages.find(entry => entry.startsWith('browser_open_result:'))?.split(':')[1];
     const record = { attempt_id: attempt.id, outcome, error_code: errorCode, connector_problem: connector?.problem, connector_version: connectorVersion, resumed: Boolean(attempt.resumed),
-      source_product: 'openmotion', source_detail: 'openmotion_editor_login', entry_id: this.clock.entryId, entry_occurred_at: this.clock.occurredAt,
+      source_product: 'kinevyn', source_detail: 'kinevyn_editor_login', entry_id: this.clock.entryId, entry_occurred_at: this.clock.occurredAt,
       ...(outcome === 'success' && validField('code', amrUserId) ? { amr_user_id: amrUserId } : {}),
       last_stage: lastStage, last_result: lastResult, browser_opened: browser === undefined ? undefined : browser === 'success', receipt: attempt.receipt,
       error_kind: errorKind === undefined ? undefined : (accountErrorKinds as readonly string[]).includes(errorKind) ? errorKind : 'unknown',
@@ -233,7 +233,7 @@ export class OpenDesignAccount {
     this.stateWrites = this.stateWrites.catch(() => {}).then(async () => { if (generation === this.generation) await task(); });
     return this.stateWrites;
   }
-  private explicitBinary() { return this.options.binary || process.env.OPENMOTION_ACCOUNT_CLI; }
+  private explicitBinary() { return this.options.binary || process.env.KINEVYN_ACCOUNT_CLI; }
   private async resolveRuntime(install = false) {
     if (this.explicitBinary()) return this.explicitBinary()!;
     // A sign-in retry must rediscover a connector replaced since startup.
@@ -460,7 +460,7 @@ export class OpenDesignAccount {
    * carries over. A one-time account intent makes the page confirm it is the account signed in here before any purchase.
    */
   async openSubscription(launch: (url: string) => Promise<void> = openSystemBrowser) {
-    const target = '/dashboard?' + new URLSearchParams({ billing: 'plan', od_origin: 'openmotion', od_entry_source: 'openmotion_manage_subscription',
+    const target = '/dashboard?' + new URLSearchParams({ billing: 'plan', od_origin: 'kinevyn', od_entry_source: 'kinevyn_manage_subscription',
       od_entry_id: randomUUID(), od_entry_at: new Date().toISOString() });
     let url = consoleUrl + target;
     const profile = await this.profile();

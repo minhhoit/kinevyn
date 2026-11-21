@@ -8,7 +8,7 @@ import { renderInlineStoryboard } from '../scripts/inline-storyboard.mjs';
 const pixel = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgAI/ScLttAAAAABJRU5ErkJggg==', 'base64');
 
 async function storyboard(t) {
-  const directory = await mkdtemp(path.join(tmpdir(), 'openmotion-storyboard-'));
+  const directory = await mkdtemp(path.join(tmpdir(), 'kinevyn-storyboard-'));
   t.after(() => rm(directory, { recursive: true, force: true }));
   const manifestPath = path.join(directory, 'storyboard.json');
   const output = path.join(directory, 'storyboard.html');

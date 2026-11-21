@@ -35,7 +35,7 @@ function response(value: unknown, status = 200) {
 }
 
 test('hosted catalog reads the moving main pointer and serves content-addressed source files', async t => {
-  const work = await mkdtemp(path.join(tmpdir(), 'openmotion-hosted-catalog-'));
+  const work = await mkdtemp(path.join(tmpdir(), 'kinevyn-hosted-catalog-'));
   t.after(() => rm(work, { recursive: true, force: true }));
   const calls: string[] = [];
   let offline = false;
@@ -76,7 +76,7 @@ test('hosted catalog reads the moving main pointer and serves content-addressed 
 });
 
 test('built-in template detail stays local when the hosted catalog is unreachable', async t => {
-  const work = await mkdtemp(path.join(tmpdir(), 'openmotion-hosted-builtin-'));
+  const work = await mkdtemp(path.join(tmpdir(), 'kinevyn-hosted-builtin-'));
   t.after(() => rm(work, { recursive: true, force: true }));
   const request = async (input: RequestInfo | URL) => { throw new Error('Hosted catalog unavailable: ' + String(input)); };
   const catalog = new TemplateCatalog(work, { source: 'hosted', locale: 'en', fetch: request });
@@ -97,7 +97,7 @@ test('published repository files serve the HTTP gallery, public MCP and arbitrar
   const { WorkspaceStore } = await import('../workspace.ts');
   const { transport } = await import('./http.ts');
   const { rpc, mcpRegistry } = await import('../mcp.ts');
-  const work = await mkdtemp(path.join(tmpdir(), 'openmotion-hosted-integration-'));
+  const work = await mkdtemp(path.join(tmpdir(), 'kinevyn-hosted-integration-'));
   t.after(() => rm(work, { recursive: true, force: true }));
   const root = path.join(work, 'library/templates/catalog'), folder = path.join(root, id);
   await mkdir(path.join(folder, 'source'), { recursive: true });
@@ -132,10 +132,10 @@ test('published repository files serve the HTTP gallery, public MCP and arbitrar
     assert.equal(result.result.isError, undefined, JSON.stringify(result));
     return result.result.structuredContent;
   };
-  const index = await call('openmotion_list_templates');
+  const index = await call('kinevyn_list_templates');
   assert.equal(index.catalogVersion, page.catalogVersion);
   assert.match(await readFile(index.indexPath, 'utf8'), /Hosted fixture/);
-  const detail = await call('openmotion_get_template', { templateId: id });
+  const detail = await call('kinevyn_get_template', { templateId: id });
   assert.equal(detail.motionDocument.content, motion.toString());
   assert.equal(detail.localSource, undefined);
   assert.equal(detail.workflowGuide.workflow, 'template');
@@ -155,7 +155,7 @@ test('published repository files serve the HTTP gallery, public MCP and arbitrar
 });
 
 test('hosted detail rejects corrupt content-addressed objects', async t => {
-  const work = await mkdtemp(path.join(tmpdir(), 'openmotion-hosted-corrupt-'));
+  const work = await mkdtemp(path.join(tmpdir(), 'kinevyn-hosted-corrupt-'));
   t.after(() => rm(work, { recursive: true, force: true }));
   const request = async (input: RequestInfo | URL) => {
     const url = String(input);

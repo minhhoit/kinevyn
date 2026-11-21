@@ -16,17 +16,17 @@ import { checkTransport, redact } from './check-installed-mcp.mjs';
 import { exportDiagnostics, recordDiagnostic } from './diagnostics.mjs';
 
 // Keep ownership stable so earlier local installations remain upgradable.
-export const managedBy = '@openmotion/installer';
+export const managedBy = '@kinevyn/installer';
 const bundledManifest = fileURLToPath(new URL('../payload/release-npm.json', import.meta.url));
 const contains = (parent, child) => { const rel = path.relative(parent, child); return rel === '' || (!rel.startsWith('..' + path.sep) && rel !== '..' && !path.isAbsolute(rel)); };
 const usage = `Usage:
-  openmotion setup --host <${hosts.join('|')}|AGENT> [options]
-  openmotion prepare [--home DIR]
-  openmotion diagnose --host <${hosts.join('|')}|AGENT> [--home DIR] [host options]
-  openmotion tools --host HOST [--home DIR]
-  openmotion call TOOL --args-file FILE.json --host HOST [--home DIR]
-  openmotion diagnostics [--home DIR] [--data-dir DIR] [--output FILE.zip]
-  openmotion --version
+  kinevyn setup --host <${hosts.join('|')}|AGENT> [options]
+  kinevyn prepare [--home DIR]
+  kinevyn diagnose --host <${hosts.join('|')}|AGENT> [--home DIR] [host options]
+  kinevyn tools --host HOST [--home DIR]
+  kinevyn call TOOL --args-file FILE.json --host HOST [--home DIR]
+  kinevyn diagnostics [--home DIR] [--data-dir DIR] [--output FILE.zip]
+  kinevyn --version
 
 Select the current Agent host explicitly; installed CLIs do not identify the current host.
 Setup options:
@@ -59,7 +59,7 @@ Use separate host configuration, home, data and Skills paths for test candidates
 
 export async function localManifest(filename) {
   const file = path.resolve(filename), manifest = await readJSON(file);
-  assert(manifest?.schemaVersion === 1 && /^\d+\.\d+\.\d+(?:[-+][\w.-]+)?$/.test(manifest.version), 'Invalid OpenMotion release manifest');
+  assert(manifest?.schemaVersion === 1 && /^\d+\.\d+\.\d+(?:[-+][\w.-]+)?$/.test(manifest.version), 'Invalid Kinevyn release manifest');
   assert(/^[a-f0-9]{64}$/.test(manifest.application?.sha256), 'Application requires a pinned SHA256');
   assert(manifest.runtime?.targets && !Array.isArray(manifest.runtime.targets) && Object.keys(manifest.runtime.targets).length, 'Missing native runtime manifest');
   const resolveAsset = asset => {
@@ -108,11 +108,11 @@ export async function setup(options) {
     assert(!plan.metadata.configFile || !['apps', 'cache', 'hosts'].some(name => contains(path.join(home, name), plan.metadata.configFile)), 'Keep host configuration outside managed application/cache/host directories');
     if (plan.layout !== 'deepseek') assert(!contains(dataDirectory, plan.skillsDirectory) && !contains(plan.skillsDirectory, dataDirectory)
       && !contains(plan.skillsDirectory, home) && !contains(home, plan.skillsDirectory), 'Keep user data, installed Skills and application/cache directories separate');
-    if (plan.layout === 'bundle') await checkSkillOwner(path.join(plan.skillsDirectory, 'openmotion-workflows'), home, plan.skillOwner || plan.host, plan.layout);
+    if (plan.layout === 'bundle') await checkSkillOwner(path.join(plan.skillsDirectory, 'kinevyn-workflows'), home, plan.skillOwner || plan.host, plan.layout);
     const appRoot = path.join(home, 'apps', manifest.version + '-' + manifest.application.sha256.slice(0, 16));
     if (!await readJSON(path.join(appRoot, '.npm-install.json'))) {
       const archive = path.join(home, 'cache/downloads', manifest.application.sha256 + '.tar.gz');
-      console.error('OpenMotion: preparing application ' + manifest.version);
+      console.error('Kinevyn: preparing application ' + manifest.version);
       await obtainAsset(manifest.application, archive, true);
       await mkdir(path.dirname(appRoot), { recursive: true });
       const temporary = await mkdtemp(path.join(home, 'apps', '.install-'));
@@ -121,14 +121,14 @@ export async function setup(options) {
         const pkg = await readJSON(path.join(temporary, 'package.json'));
         assert.equal(pkg?.version, manifest.version, 'Application version does not match manifest');
         if (manifest.templateEnvironment) assert.equal((await readJSON(path.join(temporary, 'shared/template-config.json')))?.environment, templateEnvironment, 'Application template environment does not match manifest');
-        for (const file of ['mcp.ts', 'scripts/npm-runtime.mjs', 'studio/build/index.html', 'skills/openmotion-production/SKILL.md']) await readFile(path.join(temporary, file));
+        for (const file of ['mcp.ts', 'scripts/npm-runtime.mjs', 'studio/build/index.html', 'skills/kinevyn-production/SKILL.md']) await readFile(path.join(temporary, file));
         assert(!contains(temporary, process.execPath), 'Node must remain external to the lightweight application');
         const npm = process.env.npm_execpath || path.join(path.dirname(process.execPath), process.platform === 'win32' ? 'node_modules/npm/bin/npm-cli.js' : '../lib/node_modules/npm/bin/npm-cli.js');
         if (manifest.bundledDependencies) {
           await verifyBundledDependencies(temporary, manifest.bundledDependencies);
-          console.error('OpenMotion: verified prebuilt npm runtime; no dependency download required.');
+          console.error('Kinevyn: verified prebuilt npm runtime; no dependency download required.');
         } else {
-          console.error('OpenMotion: installing locked npm runtime (no native media/browser download).');
+          console.error('Kinevyn: installing locked npm runtime (no native media/browser download).');
           await runFile(process.execPath, [npm, 'ci', '--omit=dev', '--ignore-scripts', '--no-audit', '--no-fund'], { cwd: temporary });
         }
         await writeJSON(path.join(temporary, '.npm-install.json'), { schemaVersion: 1, applicationSHA256: manifest.application.sha256, installHome: home, commit: manifest.commit,
@@ -142,7 +142,7 @@ export async function setup(options) {
     const attribution = await import(pathToFileURL(path.join(appRoot, 'shared/install-attribution.ts')).href);
     try {
       await attribution.recordInstallationStart(dataDirectory, plan.host, options.utmSource);
-    } catch (error) { console.error('OpenMotion: installation attribution unavailable: ' + error.message); }
+    } catch (error) { console.error('Kinevyn: installation attribution unavailable: ' + error.message); }
     const { prepareInstallationFlow, installationInstructions, persistInstallationOnboarding } = await import(pathToFileURL(path.join(appRoot, 'scripts/install-onboarding.mjs')).href);
     await installationInstructions(appRoot);
     const targets = await skillTargets(plan, appRoot), directories = [];
@@ -152,7 +152,7 @@ export async function setup(options) {
     try {
       for (const item of directories) {
         await mkdir(path.dirname(item.target), { recursive: true });
-        item.stage = await mkdtemp(path.join(path.dirname(item.target), '.openmotion-'));
+        item.stage = await mkdtemp(path.join(path.dirname(item.target), '.kinevyn-'));
         item.backup = item.stage + '-previous';
         if (!item.removeOnly) await copyHostSkills(item.stage, item.target, appRoot, plan, home, manifest.version, dataDirectory);
       }
@@ -172,10 +172,10 @@ export async function setup(options) {
       await prepareAccountConnector(appRoot, dataDirectory);
       await plan.register();
       if (plan.host === 'deepseek' && previous?.hosts?.deepseek?.bundleDirectory) {
-        console.error('OpenMotion: previous Harness bundle retained at ' + previous.hosts.deepseek.bundleDirectory + '. Refresh host Tools/Skills; remove this old bundle only after the host has stopped.');
+        console.error('Kinevyn: previous Harness bundle retained at ' + previous.hosts.deepseek.bundleDirectory + '. Refresh host Tools/Skills; remove this old bundle only after the host has stopped.');
       }
       for (const item of directories) await rm(item.backup, { recursive: true, force: true }).catch(error => console.error('Old instruction backup retained: ' + error.message));
-      await startNativePreparation(appRoot).catch(error => console.error('OpenMotion: background preparation could not start; retry in Studio or run prepare. ' + error.message));
+      await startNativePreparation(appRoot).catch(error => console.error('Kinevyn: background preparation could not start; retry in Studio or run prepare. ' + error.message));
       let onboarding = await prepareInstallationFlow({ appRoot, dataDirectory, templateEnvironment,
         host: plan.host, onboardingOutput: options.onboardingOutput, codex: options.codex, expectedVersion: manifest.version });
       onboarding.directAccess = directAccess(home, plan.host, appRoot, options);
@@ -183,13 +183,13 @@ export async function setup(options) {
       let publicSkill = { status: 'skipped', reason: 'custom Skills directory' };
       if (!options.skillsDirectory) {
         publicSkill = await installPublicSkill({ host: plan.host, ref: manifest.commit }).catch(error => {
-          console.error('OpenMotion: public Skill installation failed; runtime remains installed. ' + error.message);
+          console.error('Kinevyn: public Skill installation failed; runtime remains installed. ' + error.message);
           return { status: 'failed', reason: error.message };
         });
       }
       try {
         await attribution.recordInstallation(dataDirectory, plan.host, options.utmSource);
-      } catch (error) { console.error('OpenMotion: installation attribution unavailable: ' + error.message); }
+      } catch (error) { console.error('Kinevyn: installation attribution unavailable: ' + error.message); }
       return { ...state, publicSkill, host: plan.host, hostInstallation: plan.metadata, nativeDependencies: 'background-preparation; status and retry available in Studio',
         ...(plan.agentRegistration ? { agentRegistration: { ...plan.agentRegistration, instructions: agentRegistrationInstructions } } : {}), onboarding };
     } catch (error) {
@@ -197,7 +197,7 @@ export async function setup(options) {
         // Registration can update the profile before throwing. Never delete a referenced bundle.
         const registered = await plan.isRegistered().catch(() => null);
         if (registered !== false) {
-          if (state && registered) await writeJSON(stateFile, state).catch(failure => console.error('OpenMotion: registered bundle retained; state recovery is needed: ' + failure.message));
+          if (state && registered) await writeJSON(stateFile, state).catch(failure => console.error('Kinevyn: registered bundle retained; state recovery is needed: ' + failure.message));
           error.message += ' Harness registration may already be active; its bundle was retained. Retry setup for this same home/profile.';
           throw error;
         }
@@ -221,16 +221,16 @@ export async function setup(options) {
 async function prepareAccountConnector(appRoot, dataDirectory) {
   try {
     const connector = await import(pathToFileURL(path.join(appRoot, 'gateway/account-connector.ts')).href);
-    console.error('OpenMotion: preparing the OpenDesign sign-in component.');
+    console.error('Kinevyn: preparing the OpenDesign sign-in component.');
     // Bounded so a slow registry cannot hold up setup; the service installs it at first sign-in instead.
     await connector.installConnector(connector.connectorRuntime(dataDirectory), { timeoutMs: 60_000 });
   } catch (error) {
-    console.error('OpenMotion: the OpenDesign sign-in component will be prepared at first sign-in. ' + (error.detail || error.message));
+    console.error('Kinevyn: the OpenDesign sign-in component will be prepared at first sign-in. ' + (error.detail || error.message));
   }
 }
 
 // Hosts without an adapter: the Agent applies its own documented MCP format, so the installer never guesses a config file.
-const agentRegistrationInstructions = 'No registration adapter exists for this host, so its configuration was not changed. Add a local stdio MCP server named serverName with exactly transport.command and transport.args (no shell, no extra environment; the launcher sets the workspace and native tools) using this host\'s documented MCP configuration, and make sure the host reads Skills from skillsDirectory. Preserve unrelated settings. Then refresh or reconnect MCP and verify with an actual openmotion_get_project call. Until native tools load, use onboarding.directAccess in this same chat. Report the exact step if the host cannot add a local stdio MCP server.';
+const agentRegistrationInstructions = 'No registration adapter exists for this host, so its configuration was not changed. Add a local stdio MCP server named serverName with exactly transport.command and transport.args (no shell, no extra environment; the launcher sets the workspace and native tools) using this host\'s documented MCP configuration, and make sure the host reads Skills from skillsDirectory. Preserve unrelated settings. Then refresh or reconnect MCP and verify with an actual kinevyn_get_project call. Until native tools load, use onboarding.directAccess in this same chat. Report the exact step if the host cannot add a local stdio MCP server.';
 
 export function checkBundledDependencyTarget(info) {
   if (!info) return;
@@ -284,15 +284,15 @@ export async function diagnose(options) {
   let stage = 'installation';
   const host = options.host || 'codex';
   const recovery = host === 'claude'
-    ? 'After correcting the reported cause, open /mcp in the current Claude Code session and select Reconnect for openmotion.'
-    : `After correcting the reported cause, refresh or reconnect openmotion in the current ${host} host${options.profile ? ' profile ' + options.profile : ''}.`;
+    ? 'After correcting the reported cause, open /mcp in the current Claude Code session and select Reconnect for kinevyn.'
+    : `After correcting the reported cause, refresh or reconnect kinevyn in the current ${host} host${options.profile ? ' profile ' + options.profile : ''}.`;
   try {
     const { state, connection, home } = await installedConnection(options);
     stage = 'mcp_probe';
     const expectedTools = (await readJSON(path.join(state.appRoot, 'shared/mcp-profiles.json'))).phase1.tools;
     const checked = checkTransport(connection, state.version, { expectedTools, dataDirectory: state.dataDirectory });
     return { status: 'passed', host, ...checked, hostSessionVerified: false, directAccess: directAccess(home, host, state.appRoot, options),
-      nextAction: 'Use working native tools for this installation, otherwise use directAccess in this same chat. Verify openmotion_get_project and the original project/version before continuing. This probe does not refresh native discovery. Request host recovery only if permitted direct access also fails.' };
+      nextAction: 'Use working native tools for this installation, otherwise use directAccess in this same chat. Verify kinevyn_get_project and the original project/version before continuing. This probe does not refresh native discovery. Request host recovery only if permitted direct access also fails.' };
   } catch (error) {
     return { status: 'failed', host, stage: error.stage || stage, code: error.code || 'MCP_DIAGNOSIS_FAILED', message: redact(error.message, process.env),
       hostSessionVerified: false, nextAction: recovery + ' Keep existing projects and exports; do not create replacement work or blindly replay a mutation.' };
@@ -345,4 +345,4 @@ async function main() {
     console.log(JSON.stringify(await exportDiagnostics({ appRoot: state?.appRoot || fileURLToPath(new URL('../', import.meta.url)), installHome: home, dataDirectory, output: values.output }), null, 2));
   } else throw new Error('Supported commands: setup, prepare, tools, call, diagnose, diagnostics');
 }
-if (process.argv[1] && realpathSync(process.argv[1]) === realpathSync(fileURLToPath(import.meta.url))) main().catch(error => { console.error(error.message + '\nRun openmotion --help for supported hosts and installation options.'); process.exitCode = 1; });
+if (process.argv[1] && realpathSync(process.argv[1]) === realpathSync(fileURLToPath(import.meta.url))) main().catch(error => { console.error(error.message + '\nRun kinevyn --help for supported hosts and installation options.'); process.exitCode = 1; });

@@ -131,8 +131,8 @@ const threeDCardDescriptions: Partial<Record<string, string>> = {
   'babylon-js': 'Light a product turntable and move the camera smoothly.',
   lume: 'Float cards or objects in 3D with lighting and camera movement.',
   blender: 'Animate a character with anticipation and follow-through.',
-  'openmotion-isometric-card-flight': 'Fly in tilted UI cards, then straighten and enlarge the main screen.',
-  'openmotion-surreal-3d-poster': 'Reveal a product among drifting clay shapes with oversized type behind it.',
+  'kinevyn-isometric-card-flight': 'Fly in tilted UI cards, then straighten and enlarge the main screen.',
+  'kinevyn-surreal-3d-poster': 'Reveal a product among drifting clay shapes with oversized type behind it.',
 };
 
 function SkillFeedCard({ skill, section, icon, onSkill, playing, onPriority, community }: FeedPlayback & {

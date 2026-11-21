@@ -20,7 +20,7 @@ describe('editor language resources', () => {
       expect(Object.keys(entries).sort(), locale).toEqual(keys);
       for (const [message, translation] of Object.entries(entries)) {
         expect(translation.trim(), `${locale}: ${message}`).not.toBe('');
-        expect(translation.match(/openmotion_\w+/g) ?? []).toEqual(message.match(/openmotion_\w+/g) ?? []);
+        expect(translation.match(/kinevyn_\w+/g) ?? []).toEqual(message.match(/kinevyn_\w+/g) ?? []);
       }
       for (const label of [...creativeStudios.map(studio => studio.title), 'More Studio']) {
         const translated = translate(locale, label);

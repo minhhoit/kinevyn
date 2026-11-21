@@ -19,7 +19,7 @@ export function validateGuideIdentity(pkg, manifest) {
   assert.equal(pkg.version, manifest.version, 'Package and embedded manifest versions differ');
   assert.equal(manifest.schemaVersion, 1, 'Unsupported release manifest');
   assert.equal(manifest.templateEnvironment, releaseTemplateEnvironment(pkg.version), 'Template defaults must match the release channel');
-  assert.equal(pkg.bin?.openmotion, 'scripts/npm-installer.mjs', 'Missing OpenMotion entry point');
+  assert.equal(pkg.bin?.kinevyn, 'scripts/npm-installer.mjs', 'Missing Kinevyn entry point');
   assert.match(manifest.commit || '', /^[a-f0-9]{40}$/, 'Require the built source SHA');
   for (const hash of [manifest.application?.sha256, manifest.locks?.npm, manifest.locks?.native]) assert.match(hash || '', /^[a-f0-9]{64}$/, 'Require release checksums');
   const targets = Object.values(manifest.runtime?.targets || {});
@@ -36,12 +36,12 @@ export async function generateInstallGuide(tgz, output, candidate = false) {
   const values = { VERSION: pkg.version, PACKAGE_SPEC: packageSpec, CHANNEL: channel, COMMIT: manifest.commit,
     TEMPLATE_ENVIRONMENT: manifest.templateEnvironment, TGZ_SHA256: digest,
     TARGETS: Object.values(manifest.runtime.targets).map(t => `${t.platform}/${t.arch}${t.minimumOS ? ` (${t.minimumOS}+)` : ''}`).join(', '),
-    DETAILS_URL: `https://github.com/nexu-io/openmotion/blob/${manifest.commit}/docs/npm-installation.md` };
+    DETAILS_URL: `https://github.com/rivyn-labs/kinevyn/blob/${manifest.commit}/docs/npm-installation.md` };
   const guide = await readFile(new URL('../docs/install.md', import.meta.url), 'utf8');
   // Source checkout commands never belong to a published npm installation.
   const template = guide.replace(/<!-- source-only:start -->[\s\S]*?<!-- source-only:end -->\s*/g, '')
-    .replace(/^# Install OpenMotion$/m, '# Install OpenMotion {{VERSION}}')
-    .replace('skills@1.9.0 add nexu-io/openmotion ', `skills@1.9.0 add https://github.com/nexu-io/openmotion/tree/${manifest.commit} `);
+    .replace(/^# Install Kinevyn$/m, '# Install Kinevyn {{VERSION}}')
+    .replace('skills@1.9.0 add rivyn-labs/kinevyn ', `skills@1.9.0 add https://github.com/rivyn-labs/kinevyn/tree/${manifest.commit} `);
   assert(!template.includes('<!-- source-only:'), 'Installation guide has unmatched source-only markers');
   // The repository warning is unnecessary after all release placeholders are resolved.
   const text = (candidate ? '> Build preview only: this candidate is not an approved registry installation entry.\n\n' : '') + template.replace(/^If you are reading this file.*\n\n/m, '').replace(/\{\{([A-Z0-9_]+)\}\}/g, (_, key) => {

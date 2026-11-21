@@ -1,6 +1,6 @@
 import { App } from '@modelcontextprotocol/ext-apps';
 import { mountFinalVideo } from './final-video-component.js';
-const app = new App({ name: 'OpenMotion final video', version: '1.0.0' }, {});
+const app = new App({ name: 'Kinevyn final video', version: '1.0.0' }, {});
 document.documentElement.dataset.motionUi = '';
 const root = document.createElement('main'); document.body.append(root);
 const ui = mountFinalVideo(root, app);

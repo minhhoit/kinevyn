@@ -28,7 +28,7 @@ export class Client {
     if (response.error) throw new Error(response.error.message);
     return response.result;
   }
-  initialize() { return this.rpc('initialize', { protocolVersion: '2025-11-25', capabilities: {}, clientInfo: { name: 'openmotion-poc-process-test', version: '1' } }); }
+  initialize() { return this.rpc('initialize', { protocolVersion: '2025-11-25', capabilities: {}, clientInfo: { name: 'kinevyn-poc-process-test', version: '1' } }); }
   async call(name, args = {}) {
     const value = await this.rpc('tools/call', { name, arguments: args });
     if (value.isError) throw Object.assign(new Error(value.structuredContent.error?.message ?? value.structuredContent.error), { code: value.structuredContent.error?.code ?? value.structuredContent.code });

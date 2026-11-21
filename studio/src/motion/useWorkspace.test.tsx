@@ -73,8 +73,8 @@ it('switches the default project label in all interface languages without saving
   let custom = false;
   fetcher.mockImplementation(async (url: string) => Response.json(url.endsWith('/projects') ? {
     activeId: 'project', projects: [
-      { id: 'project', title: 'OpenMotion 示例短片', titleKey: custom ? null : 'OpenMotion Sample Video' },
-      { id: second, title: 'OpenMotion 示例短片' },
+      { id: 'project', title: 'Kinevyn 示例短片', titleKey: custom ? null : 'Kinevyn Sample Video' },
+      { id: second, title: 'Kinevyn 示例短片' },
     ],
   } : { ...status, projectId: 'project' }));
   const wait = async () => {};
@@ -82,14 +82,14 @@ it('switches the default project label in all interface languages without saving
   await act(async () => root.render(<I18nProvider initialLocale="zh-CN"><Harness /></I18nProvider>));
   for (const { locale: language } of languages) {
     act(() => locale.setLocale(language));
-    expect(workspace.projects[0].title).toBe(translate(language, 'OpenMotion Sample Video'));
-    if (language !== 'en') expect(workspace.projects[0].title).not.toBe('OpenMotion Sample Video');
-    expect(workspace.projects[1].title).toBe('OpenMotion 示例短片');
+    expect(workspace.projects[0].title).toBe(translate(language, 'Kinevyn Sample Video'));
+    if (language !== 'en') expect(workspace.projects[0].title).not.toBe('Kinevyn Sample Video');
+    expect(workspace.projects[1].title).toBe('Kinevyn 示例短片');
   }
   custom = true;
   await act(async () => workspace.retryConnection());
   act(() => locale.setLocale('en'));
-  expect(workspace.projects[0].title).toBe('OpenMotion 示例短片');
+  expect(workspace.projects[0].title).toBe('Kinevyn 示例短片');
   expect(fetcher.mock.calls.every(([, init]) => !init?.method || init.method === 'GET')).toBe(true);
 });
 

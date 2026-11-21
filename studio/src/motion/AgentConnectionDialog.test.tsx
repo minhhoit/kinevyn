@@ -8,7 +8,7 @@ import { ConnectionDialog } from './ConnectionDialog';
 vi.mock('./StudioHost', () => ({ useMvpEditor: () => true }));
 vi.mock('./TemplateLibraryDialog', () => ({ TemplateLibraryDialog: () => <div>Template library fixture</div> }));
 (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
-const info = { name: 'OpenMotion', version: '1.2.3', previewUrl: 'http://127.0.0.1:4567', dataDirectory: '/fixture/data',
+const info = { name: 'Kinevyn', version: '1.2.3', previewUrl: 'http://127.0.0.1:4567', dataDirectory: '/fixture/data',
   transport: { type: 'stdio', command: 'node', args: ['/fixture/mcp.ts'], cwd: '/fixture', env: { MOTION_DATA_DIR: '/fixture/data' } }, tools: [] };
 let root: Root | undefined;
 afterEach(() => { act(() => root?.unmount()); root = undefined; document.body.innerHTML = ''; vi.restoreAllMocks(); vi.unstubAllGlobals(); });
@@ -28,7 +28,7 @@ it('opens connection setup in the MVP and copies public installation instruction
   expect(document.body.textContent).not.toContain('Template library fixture');
   expect(document.body.textContent).toContain('Workspace reachable');
   await act(async () => button('Copy connection instruction').click());
-  expect(copy).toHaveBeenCalledWith(expect.stringContaining('https://github.com/nexu-io/openmotion#quick-start'));
+  expect(copy).toHaveBeenCalledWith(expect.stringContaining('https://github.com/rivyn-labs/kinevyn#quick-start'));
   expect(document.querySelector('[role=status]')?.textContent).toContain('Copied to clipboard');
   expect(document.querySelector('.om-agent-connection [role=status]')).toBeNull();
   expect(fetcher).toHaveBeenCalledTimes(1);
@@ -65,7 +65,7 @@ it('updates manual setup with the selected client and explains unsupported cloud
     await act(async () => option.click());
   };
   await select('Claude Code');
-  expect(document.querySelector('.om-agent-connection')?.textContent).toContain('connect OpenMotion in Claude Code');
+  expect(document.querySelector('.om-agent-connection')?.textContent).toContain('connect Kinevyn in Claude Code');
   expect(document.querySelector('a[download]')?.getAttribute('href')).toBe('/connect/config?host=claude');
   expect(document.querySelector('details pre')?.textContent).toContain('claude mcp add');
   await select('ChatGPT');

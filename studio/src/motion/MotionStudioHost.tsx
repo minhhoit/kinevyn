@@ -18,7 +18,7 @@ import { ProjectAgentAction } from './ProjectAgentAction';
 import { WorkspaceSaveStatus } from './WorkspaceSaveStatus';
 import { trackMotion } from './tracking';
 import { installEditorTracking, openTemplateFields, projectFields, projectScaleFields, setProjectTemplate } from './editorTracking';
-import { OpenMotionAgentTools } from './OpenMotionAgentTools';
+import { KinevynAgentTools } from './KinevynAgentTools';
 
 installEditorTracking(trackMotion);
 
@@ -103,5 +103,5 @@ const host: StudioHost = {
 };
 
 export function MotionStudioHost({ children }: { children: ReactNode }) {
-  return <I18nProvider><MotionHistoryProvider><StudioHostContext.Provider value={host}><StudioErrorBoundary><OpenMotionAgentTools />{children}</StudioErrorBoundary></StudioHostContext.Provider></MotionHistoryProvider></I18nProvider>;
+  return <I18nProvider><MotionHistoryProvider><StudioHostContext.Provider value={host}><StudioErrorBoundary><KinevynAgentTools />{children}</StudioErrorBoundary></StudioHostContext.Provider></MotionHistoryProvider></I18nProvider>;
 }

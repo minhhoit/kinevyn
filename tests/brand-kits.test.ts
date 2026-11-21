@@ -110,7 +110,7 @@ test('MCP Brand Kits share HTTP records, style handoff and stale revision protec
     origin: () => base, nativeUrl: () => undefined, openProject: async () => {},
     mutation: async task => task(), cancel: async () => {},
   });
-  const call = (operation: string, fields = {}) => api.call('openmotion_assets_use', { action: 'brand_kit', brandKit: { operation, ...fields } });
+  const call = (operation: string, fields = {}) => api.call('kinevyn_assets_use', { action: 'brand_kit', brandKit: { operation, ...fields } });
   await assert.rejects(call('create', { url: 'https://example.com/' }), /INVALID_ARGUMENT/);
   assert.ok((await call('catalog', { query: 'agentic' })).entries.some(entry => entry.id === 'agentic'));
   const { kit } = await call('import', { catalogId: 'agentic' });
@@ -214,7 +214,7 @@ test("extract, package, reopen and edit preserve the style-only contract and ver
   const result = await inspectPackage(ready.packagePath);
   assert.deepEqual(result.manifest.tags, ["brand-kit", "style-only"]);
   assert.equal(
-    result.manifest.extensions["openmotion.brand-kit"].referenceScope,
+    result.manifest.extensions["kinevyn.brand-kit"].referenceScope,
     "style-only",
   );
   assert(result.entries.has("index.html"));

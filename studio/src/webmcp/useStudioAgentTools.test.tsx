@@ -33,7 +33,7 @@ function installModelContext() {
 
 async function executeFirstRegistered<T>(registered: ModelContextTool[]): Promise<T> {
   const look = registered[0];
-  if (!look) throw new Error("expected openmotion_studio_look to be registered");
+  if (!look) throw new Error("expected kinevyn_studio_look to be registered");
   return (await look.execute({}, { signal: new AbortController().signal })) as T;
 }
 
@@ -77,11 +77,11 @@ describe("useStudioAgentTools", () => {
     });
 
     expect(registered.map((tool) => tool.name)).toEqual([
-      "openmotion_studio_look",
-      "openmotion_studio_select",
-      "openmotion_studio_seek",
-      "openmotion_studio_frame",
-      "openmotion_studio_inspect",
+      "kinevyn_studio_look",
+      "kinevyn_studio_select",
+      "kinevyn_studio_seek",
+      "kinevyn_studio_frame",
+      "kinevyn_studio_inspect",
     ]);
     expect(trackEvent).toHaveBeenCalledWith("webmcp.native_present");
   });
@@ -195,7 +195,7 @@ describe("useStudioAgentTools", () => {
 
     expect(trackEvent).toHaveBeenCalledWith("webmcp_registration_failed", {
       error_name: "NotAllowedError",
-      tool_name: "openmotion_studio_look",
+      tool_name: "kinevyn_studio_look",
     });
   });
 
@@ -228,7 +228,7 @@ describe("useStudioAgentTools", () => {
     const setStyle = vi.fn();
     await act(async () => mountTools(studioAgentToolsDeps({ setText, setStyle })));
     for (const action of ["set_text", "set_style", "transform", "add_animation", "update_animation", "add_keyframe", "delete_animation"]) {
-      expect(registered.find(tool => tool.name === `openmotion_studio_${action}`)).toBeUndefined();
+      expect(registered.find(tool => tool.name === `kinevyn_studio_${action}`)).toBeUndefined();
     }
     expect(setText).not.toHaveBeenCalled();
     expect(setStyle).not.toHaveBeenCalled();

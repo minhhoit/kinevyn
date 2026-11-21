@@ -1,6 +1,6 @@
 /*!
  * Copyright 2026 Open Design contributors. SPDX-License-Identifier: Apache-2.0
- * Adapted from nexu-io/open-design, apps/desktop/src/main/splash-pixel-scan.ts
+ * Adapted from rivyn-labs/open-design, apps/desktop/src/main/splash-pixel-scan.ts
  * at bc06128813c99fa63f5af53ad2c903c27db057f2. Shaders and sweep timing are unchanged;
  * this adapter adds per-instance cleanup, reduced motion and a visible static fallback.
  */

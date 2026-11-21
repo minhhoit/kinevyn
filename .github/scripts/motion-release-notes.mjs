@@ -42,11 +42,11 @@ export async function prepareCandidateNotes(directory, { env = process.env, fetc
   const channel = releaseChannel(manifest.version), source = manifest.commit;
   assert.equal(manifest.version, env.MOTION_VERSION); assert.equal(source, env.MOTION_SOURCE_SHA);
   assert.match(source, /^[a-f0-9]{40}$/);
-  assert.equal(manifest.installer.url, `./openmotion-app-${manifest.version}.tgz`);
+  assert.equal(manifest.installer.url, `./kinevyn-app-${manifest.version}.tgz`);
   assert.equal(await sha256(path.join(directory, manifest.installer.url)), manifest.installer.sha256);
   const api = githubApi(env, fetcher);
   const save = async content => {
-    const body = `# OpenMotion ${manifest.version}\n\nChannel: ${channel}; templates: ${manifest.templateEnvironment}.\nSource: [${source}](https://github.com/${repository}/commit/${source}).\n\n${content}\n\n${candidateNoteIdentity({ version: manifest.version, sourceCommit: source, tgzSHA256: manifest.installer.sha256 })}\n`;
+    const body = `# Kinevyn ${manifest.version}\n\nChannel: ${channel}; templates: ${manifest.templateEnvironment}.\nSource: [${source}](https://github.com/${repository}/commit/${source}).\n\n${content}\n\n${candidateNoteIdentity({ version: manifest.version, sourceCommit: source, tgzSHA256: manifest.installer.sha256 })}\n`;
     assert(Buffer.byteLength(body) <= 1024 * 1024, 'Candidate notes exceed 1 MiB');
     await writeFile(path.join(directory, 'release-notes.md'), body, { flag: 'wx' });
     return body;
@@ -62,7 +62,7 @@ export async function prepareCandidateNotes(directory, { env = process.env, fetc
       const bytes = Buffer.from(file.content, 'base64');
       assert.equal(bytes.length, file.size, 'Stable release note size mismatch');
       const text = new TextDecoder('utf-8', { fatal: true }).decode(bytes).trim();
-      assert.equal(text.split(/\r?\n/, 1)[0], `# OpenMotion ${manifest.version}`, 'Stable release note heading must match its exact version');
+      assert.equal(text.split(/\r?\n/, 1)[0], `# Kinevyn ${manifest.version}`, 'Stable release note heading must match its exact version');
       const content = text.slice(text.indexOf('\n') + 1).trim();
       assert(text.includes('\n') && content, 'Stable release note body is empty');
       return `## ${locale === 'en' ? 'English' : '简体中文'}\n\n[Source](https://github.com/${repository}/blob/${source}/${filename})\n\n${content}`;
@@ -125,7 +125,7 @@ export async function publishReleaseNotes(directory, { env = process.env, fetche
   assert(origin.protocol === 'https:' && origin.pathname === '/' && !origin.username && !origin.password && !origin.search && !origin.hash);
   const api = githubApi(env, fetcher);
   const tag = 'v' + candidate.version, prerelease = inputs.channel === 'test';
-  const marker = `<!-- openmotion source=${candidate.sourceCommit} sha256=${candidate.tgzSHA256} -->`;
+  const marker = `<!-- kinevyn source=${candidate.sourceCommit} sha256=${candidate.tgzSHA256} -->`;
   // Refuse an existing tag pointing at other bytes; never force or move a tag.
   const ref = await api(`/git/ref/tags/${tag}`, 'GET', undefined, true);
   if (ref) {
@@ -150,7 +150,7 @@ export async function publishReleaseNotes(directory, { env = process.env, fetche
     const prefix = prerelease ? 'open-motion/dev' : 'open-motion';
     const body = `## Installation\n\n- [Exact ${candidate.version} installation](${origin.origin}/${prefix}/${candidate.version}/install.md)\n- [Current ${inputs.channel} installation](${origin.origin}/${prefix}/install.md)\n- npm: \`${candidate.packageName}@${candidate.version}\`; templates: **${prerelease ? 'DEV' : 'prod'}**.\n\n## Release identity\n\n- Source: [\`${candidate.sourceCommit}\`](https://github.com/${repository}/commit/${candidate.sourceCommit})\n- npm tgz SHA256: \`${candidate.tgzSHA256}\`\n- [Publication and verification](https://github.com/${repository}/actions/runs/${env.GITHUB_RUN_ID})\n\n${prerelease ? 'Test installation checks run separately and may still be pending.' : 'Both exact-version macOS ARM64 and Windows x64 installation checks passed.'} Live templates, real Agent creation and human audiovisual acceptance are separate checks.\n\n${changes}\n\n${marker}\n`;
     await writeFile(path.join(directory, 'github-release-notes.md'), body);
-    release = await api('/releases', 'POST', { tag_name: tag, target_commitish: candidate.sourceCommit, name: `OpenMotion ${candidate.version}`, body, draft: true, prerelease });
+    release = await api('/releases', 'POST', { tag_name: tag, target_commitish: candidate.sourceCommit, name: `Kinevyn ${candidate.version}`, body, draft: true, prerelease });
   }
   assert.equal(release.tag_name, tag); assert.equal(release.prerelease, prerelease);
   assert(release.body?.includes(marker), 'Existing release belongs to another candidate; preserve manual content');

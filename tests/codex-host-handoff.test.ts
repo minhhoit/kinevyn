@@ -9,16 +9,16 @@ import path from 'node:path';
 import { prepareCodexHostHandoff } from '../scripts/codex-host-handoff.mjs';
 
 const threadId = 'current-chat';
-const dataDirectory = '/workspace/openmotion-data';
+const dataDirectory = '/workspace/kinevyn-data';
 function host({ tools = true, directory = dataDirectory, loaded = true, denied = false, acceptedIds = undefined as string[] | undefined } = {}) {
   const calls: any[] = [];
   const request = async (method: string, params: any) => {
     calls.push({ method, params });
     if (method === 'thread/loaded/list') return { data: loaded ? [threadId] : [], nextCursor: null };
     if (method === 'config/mcpServer/reload') return {};
-    if (method === 'mcpServerStatus/list') return { data: [{ name: 'openmotion',
-      tools: tools ? { openmotion_get_project: {}, openmotion_show_template_recommendations: { inputSchema: { properties: { templateIds: { items: { enum: acceptedIds } } } } } } : {},
-      serverInfo: { name: 'openmotion', version: '0.0.1' } }], nextCursor: null };
+    if (method === 'mcpServerStatus/list') return { data: [{ name: 'kinevyn',
+      tools: tools ? { kinevyn_get_project: {}, kinevyn_show_template_recommendations: { inputSchema: { properties: { templateIds: { items: { enum: acceptedIds } } } } } } : {},
+      serverInfo: { name: 'kinevyn', version: '0.0.1' } }], nextCursor: null };
     if (method === 'mcpServer/tool/call') {
       if (denied) throw Object.assign(new Error('Host denied the read'), { code: -32000 });
       return { content: [], structuredContent: { dataDirectory: directory } };
@@ -38,7 +38,7 @@ test('a healthy calling chat is verified without an unnecessary reload', async (
     'mcpServerStatus/list', 'mcpServer/tool/call']);
   assert.equal(calls[1].params.threadId, threadId);
   assert.equal(calls[2].params.threadId, threadId);
-  assert.equal(calls[2].params.tool, 'openmotion_get_project');
+  assert.equal(calls[2].params.tool, 'kinevyn_get_project');
   assert.deepEqual(result.presentation.arguments, { templateIds: onboardingTemplateIds.slice(-3),
     onboarding: true, language: 'zh' });
   assert.match(result.welcomeMarkdown, /我是你的开源视频创作搭档/);
@@ -56,7 +56,7 @@ test('builtin-only stale native discovery cannot accept curated reference cards'
 test('the same package version with an outdated card resource queues activation', async () => {
   const { request, calls } = host();
   const result = await prepareCodexHostHandoff({ threadId, dataDirectory, request,
-    expectedResourceUri: 'ui://openmotion/template-recommendations/current/index.html' });
+    expectedResourceUri: 'ui://kinevyn/template-recommendations/current/index.html' });
   assert.equal(result.status, 'refresh_requested');
   assert.equal(result.reason, 'NATIVE_PRESENTATION_RESOURCE_MISMATCH');
   assert.equal(result.hostSessionVerified, false);
@@ -67,7 +67,7 @@ test('an explicit builtin document can verify domain MCP without requiring the n
   const fixture = host();
   const request = async (method: string, params: any) => {
     const result = await fixture.request(method, params);
-    if (method === 'mcpServerStatus/list') delete result.data[0].tools.openmotion_show_template_recommendations;
+    if (method === 'mcpServerStatus/list') delete result.data[0].tools.kinevyn_show_template_recommendations;
     return result;
   };
   const result = await prepareCodexHostHandoff({ threadId, dataDirectory, requirePresentation: false, request });
@@ -100,7 +100,7 @@ test('an unrelated daemon must not be refreshed or receive project calls', async
 
 test('missing native host access remains explicit and never starts another app-server', async () => {
   const result = await prepareCodexHostHandoff({ threadId, dataDirectory,
-    socketPath: '/nonexistent/openmotion-host.sock', env: {} });
+    socketPath: '/nonexistent/kinevyn-host.sock', env: {} });
   assert.equal(result.status, 'host_action_required');
   assert.equal(result.reason, 'HOST_CONTROL_UNAVAILABLE');
   assert.equal(result.hostSessionVerified, false);
@@ -153,7 +153,7 @@ for await (const line of readline.createInterface({input:process.stdin})) {
   if(call.id===undefined) continue;
   let result={};
   if(call.method==='thread/loaded/list') result={data:[${JSON.stringify(threadId)}]};
-  if(call.method==='mcpServerStatus/list') result={data:[{name:'openmotion',serverInfo:{version:'0.0.1'},tools:{openmotion_get_project:{},openmotion_show_template_recommendations:{}}}]};
+  if(call.method==='mcpServerStatus/list') result={data:[{name:'kinevyn',serverInfo:{version:'0.0.1'},tools:{kinevyn_get_project:{},kinevyn_show_template_recommendations:{}}}]};
   if(call.method==='mcpServer/tool/call') result={content:[],structuredContent:{dataDirectory:${JSON.stringify(dataDirectory)}}};
   process.stdout.write(JSON.stringify({id:call.id,result})+'\\n');
 }
@@ -171,13 +171,13 @@ for await (const line of readline.createInterface({input:process.stdin})) {
         assert.deepEqual(calls[0].argv, ['app-server', 'proxy', '--sock', resolvedSocketPath]);
         assert.deepEqual(calls.slice(1).map(call => call.method), ['initialize', 'initialized', 'thread/loaded/list',
           'mcpServerStatus/list', 'mcpServer/tool/call']);
-        assert.equal(calls.some(call => call.method === 'openmotion_show_template_recommendations'), false);
+        assert.equal(calls.some(call => call.method === 'kinevyn_show_template_recommendations'), false);
       }
     }
     await t.test('the profile default resolves its existing socket symlink', async () => {
       await writeFile(log, '');
       const result = await prepareCodexHostHandoff({ threadId, dataDirectory, codex,
-        env: { ...process.env, CODEX_HOME: directory, OPENMOTION_CODEX_SOCKET: undefined } });
+        env: { ...process.env, CODEX_HOME: directory, KINEVYN_CODEX_SOCKET: undefined } });
       assert.equal(result.status, 'ready_for_presentation');
       assert.deepEqual(JSON.parse((await readFile(log, 'utf8')).split('\n')[0]).argv,
         ['app-server', 'proxy', '--sock', resolvedSocketPath]);

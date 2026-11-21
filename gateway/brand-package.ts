@@ -154,7 +154,7 @@ export async function packageBrandKit(
   await writeFile(
     path.join(directory, "brand-kit.json"),
     json({
-      schema: "openmotion.brand-kit@1",
+      schema: "kinevyn.brand-kit@1",
       kind: "brand-kit",
       referenceScope: "style-only",
       name: kit.name,
@@ -169,7 +169,7 @@ export async function packageBrandKit(
       fonts: capture.fonts,
       warnings: capture.warnings,
       context: kit.context || { rules: [], files: [] },
-      extractor: capture.sourceKind === "catalog" ? undefined : { upstream: "heygen-com/hyperframes", revision: "fb1a383bde6a0716fdc6041bf68b9bc1da9726b5", implementation: "openmotion-capture-v2" },
+      extractor: capture.sourceKind === "catalog" ? undefined : { upstream: "heygen-com/hyperframes", revision: "fb1a383bde6a0716fdc6041bf68b9bc1da9726b5", implementation: "kinevyn-capture-v2" },
     }),
   );
   await writeFile(
@@ -178,11 +178,11 @@ export async function packageBrandKit(
   );
   await writeFile(
     path.join(directory, "LICENSE.txt"),
-    (capture.sourceKind === 'catalog' ? "The OpenDesign canonical design-system snapshot is distributed under Apache-2.0 with upstream MIT notices where applicable. See source/OPENDESIGN-LICENSE.txt, source/THIRD-PARTY-NOTICES.txt and source/NOTICE.md. Brand names describe design references and do not imply endorsement or ownership of brand assets.\n\n" : "Captured brand assets and fonts retain their original owners’ rights. No redistribution license is inferred from public availability. Obtain the applicable permission before sharing or publishing.\n\n") + "The original OpenMotion showcase source is Apache-2.0. See OPENMOTION-LICENSE.txt. GSAP retains its original copyright and license reference in assets/gsap-LICENSE.txt and in its source header.\n",
+    (capture.sourceKind === 'catalog' ? "The OpenDesign canonical design-system snapshot is distributed under Apache-2.0 with upstream MIT notices where applicable. See source/OPENDESIGN-LICENSE.txt, source/THIRD-PARTY-NOTICES.txt and source/NOTICE.md. Brand names describe design references and do not imply endorsement or ownership of brand assets.\n\n" : "Captured brand assets and fonts retain their original owners’ rights. No redistribution license is inferred from public availability. Obtain the applicable permission before sharing or publishing.\n\n") + "The original Kinevyn showcase source is Apache-2.0. See KINEVYN-LICENSE.txt. GSAP retains its original copyright and license reference in assets/gsap-LICENSE.txt and in its source header.\n",
   );
   await copyFile(
     path.join(pluginRoot, "LICENSE"),
-    path.join(directory, "OPENMOTION-LICENSE.txt"),
+    path.join(directory, "KINEVYN-LICENSE.txt"),
   );
   const files: { path: string; role: string; sha256: string }[] = [];
   const walk = async (folder: string) => {
@@ -199,7 +199,7 @@ export async function packageBrandKit(
       if (
         !item.isFile() ||
         !kit.context?.files.some(file => file.path === relative) &&
-        !/^(?:assets\/[\w.-]+|source\/(?:DESIGN.md|tokens.css|manifest.json|OPENDESIGN-LICENSE.txt|THIRD-PARTY-NOTICES.txt|NOTICE.md)|index.html|hyperframes.json|DESIGN.md|MOTION.md|brand-kit.json|AGENT.txt|LICENSE.txt|OPENMOTION-LICENSE.txt|website.png|poster.png|preview.mp4)$/.test(
+        !/^(?:assets\/[\w.-]+|source\/(?:DESIGN.md|tokens.css|manifest.json|OPENDESIGN-LICENSE.txt|THIRD-PARTY-NOTICES.txt|NOTICE.md)|index.html|hyperframes.json|DESIGN.md|MOTION.md|brand-kit.json|AGENT.txt|LICENSE.txt|KINEVYN-LICENSE.txt|website.png|poster.png|preview.mp4)$/.test(
           relative,
         )
       )
@@ -244,7 +244,7 @@ export async function packageBrandKit(
     tags: ["brand-kit", "style-only"],
     files,
     extensions: {
-      "openmotion.brand-kit": {
+      "kinevyn.brand-kit": {
         kind: "brand-kit",
         referenceScope: "style-only",
         showcase: brandKitShowcase.id,

@@ -2,11 +2,11 @@
 
 This catalogue adapts the 152 design-system packages present in OpenDesign commit `59e4f2ae85de7e7318a5e6bdcf3a34584c4b7582`.
 
-Source: https://github.com/nexu-io/open-design/tree/59e4f2ae85de7e7318a5e6bdcf3a34584c4b7582/design-systems
+Source: https://github.com/rivyn-labs/open-design/tree/59e4f2ae85de7e7318a5e6bdcf3a34584c4b7582/design-systems
 
 `sources/<id>/` preserves the original canonical DESIGN.md, tokens.css and manifest.json byte for byte. The archived manifest records upstream package metadata; it is not a complete local OpenDesign runtime package. Rich component fixtures, preview pages and importer evidence remain accessible at the pinned source URL. File hashes in catalog.json verify the included canonical files before materialization.
 
-OpenMotion compiles representative token roles into its own fixed film for comparison. The complete original prose and tokens travel inside the downloadable Motion Package as inert reference files. They are not loaded into application CSS or executed. Fonts use the recorded stack and local fallbacks; no proprietary font binaries or brand logos are inferred or downloaded.
+Kinevyn compiles representative token roles into its own fixed film for comparison. The complete original prose and tokens travel inside the downloadable Motion Package as inert reference files. They are not loaded into application CSS or executed. Fonts use the recorded stack and local fallbacks; no proprietary font binaries or brand logos are inferred or downloaded.
 
 “Official collection” means curated by OpenDesign. Brand-referencing systems are aesthetic references, not official assets or endorsements of the named companies. This snapshot contains only the reviewed design-systems directory.
 

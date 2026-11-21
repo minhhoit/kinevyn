@@ -27,7 +27,7 @@ async function fixture(t: any, bundledMedia = false, environment = 'prod') {
   const localAppData = process.env.LOCALAPPDATA;
   if (process.platform === 'win32') process.env.LOCALAPPDATA = directory;
   t.after(() => localAppData === undefined ? delete process.env.LOCALAPPDATA : process.env.LOCALAPPDATA = localAppData);
-  const installHome = path.join(process.platform === 'win32' ? directory : path.join(directory, '.local/share'), environment === 'dev' ? 'openmotion-dev' : 'openmotion');
+  const installHome = path.join(process.platform === 'win32' ? directory : path.join(directory, '.local/share'), environment === 'dev' ? 'kinevyn-dev' : 'kinevyn');
   const paths: Record<string, string> = {};
   const cache = async (layout = 'cache/native') => {
     for (const [name, value] of Object.entries(info).filter(([, value]) => typeof value === 'object') as [string, any][]) {

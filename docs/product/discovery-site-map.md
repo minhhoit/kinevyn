@@ -4,7 +4,7 @@ Explore, modality menus and Studio shortcuts use one [catalogue](../../shared/st
 
 | Start | Choose | Address and next action |
 | --- | --- | --- |
-| Workspace root or OpenMotion wordmark | Explore | Opens the full Explore feed. Direct project links resume the editor. |
+| Workspace root or Kinevyn wordmark | Explore | Opens the full Explore feed. Direct project links resume the editor. |
 | Explore heading | Templates or Skills | Opens the complete template or Skill library using the same page as the corresponding shelf action. Close the library to return to Explore. |
 | Primary navigation | Motion Studio | `?page=motion` shows the Motion banner and four-column template grid. Browse the complete catalog in batches or filter by purpose, industry or editability. Cards show the catalog's purpose and motion style when available. The banner opens the first project in the editor, where the project sidebar is available. The new project card creates a blank project. Template library carries the selected collection to the global library. |
 | First Explore spotlight action | Motion Editor | Opens the last available project, or the first project on a fresh visit. |
@@ -44,7 +44,7 @@ The installation’s catalogue determines which models, credits and templates ap
 
 The following map groups the public destinations linked from [Higgsfield Explore](https://higgsfield.ai/) on November 19, 2026. The Marketing community and its generator, and the Shorts gallery and a preset detail, were opened in the browser. The other rows describe navigation links. Account-specific projects, individual works and model versions vary.
 
-| Reference page family | Reference destinations | OpenMotion counterpart or gap |
+| Reference page family | Reference destinations | Kinevyn counterpart or gap |
 | --- | --- | --- |
 | Explore and scenario communities | The homepage links to the general project community, short-form presets, motion-transfer examples, image-model galleries and the Marketing community. | Explore collections lead to individual works, creator credits, Skills and supported creation scenes. Public posting, follows and contests would require a hosted community. |
 | Image, Video and Audio | Each top menu groups tasks with compatible models. Feature links can open an introduction or a specific generator. Examples include [text to video](https://higgsfield.ai/text-to-video-ai) and the [video workspace](https://higgsfield.ai/ai/video). | Modality menus, model overviews and scene workbenches carry the selected qualified model into generation. Availability depends on the installed provider. |

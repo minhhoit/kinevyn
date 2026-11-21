@@ -34,7 +34,7 @@ const firstUrl = `/?session=${first}&project=${first}&embed=1#project/${first}?v
 const artifacts = [first, second].map(projectId => ({ id: projectId, projectId, kind: 'motion-project', title: projectId === first ? 'First project' : 'Second project' }));
 const catalog = { activeId: first, projects: artifacts.map(item => ({ id: item.projectId, title: item.title })), sessions: artifacts.map(item => ({ id: item.id, artifacts: [item] })) };
 const provider = { id: 'account', label: 'OpenDesign', protocol: 'account', category: 'account', kinds: ['text'], configured: false, enabled: false, available: false };
-const info = { name: 'OpenMotion', version: '1.2.3', previewUrl: 'http://localhost', dataDirectory: '/fixture', templateSource: 'repository', tools: [], transport: { type: 'stdio', command: 'node', args: ['/fixture/mcp.ts'], env: { MOTION_DATA_DIR: '/fixture' } } };
+const info = { name: 'Kinevyn', version: '1.2.3', previewUrl: 'http://localhost', dataDirectory: '/fixture', templateSource: 'repository', tools: [], transport: { type: 'stdio', command: 'node', args: ['/fixture/mcp.ts'], env: { MOTION_DATA_DIR: '/fixture' } } };
 let root: Root, container: HTMLDivElement, fetcher: ReturnType<typeof vi.fn>;
 const page = () => readWorkspacePage(location.search);
 const button = (label: string) => [...document.querySelectorAll<HTMLButtonElement>('button')].find(node => node.getAttribute('aria-label') === label || node.textContent?.trim() === label)!;
@@ -690,7 +690,7 @@ it('shows mixed media in one Explore feed and opens templates and editing preset
   await traverse(-1);
   const preset = [...container.querySelectorAll<HTMLButtonElement>('.om-scene-tile')].find(button => button.textContent?.includes('Scored shortlist before shorts'));
   await act(async () => preset!.click());
-  expect(page()).toMatchObject({ specialty: { id: 'shorts' }, skill: 'openmotion-shortlist-shorts' });
+  expect(page()).toMatchObject({ specialty: { id: 'shorts' }, skill: 'kinevyn-shortlist-shorts' });
 });
 
 it('opens a collection with its filters and opens individual Explore cards directly', async () => {
@@ -973,15 +973,15 @@ it('shows every Studio in Explore and opens the selected example or technique', 
     expect(item, selector).toBeTruthy();
     await act(async () => item!.click());
   };
-  await select('.om-studio-collection [data-playback-id="motion/openmotion-liquid-glass-logo"]');
-  expect(page()).toMatchObject({ skills: true, skill: 'openmotion-liquid-glass-logo' });
+  await select('.om-studio-collection [data-playback-id="motion/kinevyn-liquid-glass-logo"]');
+  expect(page()).toMatchObject({ skills: true, skill: 'kinevyn-liquid-glass-logo' });
   await traverse(-1);
   await select('.om-studio-collection[data-studio="design"] [data-scene="image-edit"]');
   expect(page().studio).toMatchObject({ studio: { id: 'design' }, scene: { id: 'image-edit' } });
   expect(container.querySelector<HTMLInputElement>('[aria-label="Asset draft"]')?.value).toContain('Keep the speaker in place');
   await traverse(-1);
   await select('.om-studio-collection[data-studio="marketing"] .om-scene-tile');
-  expect(page()).toMatchObject({ specialty: { id: 'marketing' }, skill: 'openmotion-flat-lay-product' });
+  expect(page()).toMatchObject({ specialty: { id: 'marketing' }, skill: 'kinevyn-flat-lay-product' });
   await traverse(-1);
   await select('.om-studio-collection[data-studio="sound"] [data-scene="speech"]');
   expect(page().studio).toMatchObject({ studio: { id: 'sound' }, scene: { id: 'speech' } });
@@ -1075,7 +1075,7 @@ it('opens Black Friday from the second Explore slide and reuses the native Skill
   expect(promo.getAttribute('aria-label')).toBe('Holiday sale promo');
   expect(carousel.querySelector('[aria-current="true"]')?.getAttribute('aria-label')).toBe('Holiday sale promo');
   await act(async () => promo.querySelector<HTMLElement>('.om-gallery-card-arrow')!.click());
-  expect(page().skill).toBe('openmotion-sale-promo');
+  expect(page().skill).toBe('kinevyn-sale-promo');
   await click('Close skill');
   expect(document.activeElement).toBe(promo);
   const gallery = () => collection.querySelector('.om-gallery-masonry');
@@ -1235,7 +1235,7 @@ it('keeps Agent Skills available while the 3D studio is pending and preserves th
   expect(container.querySelector('.om-specialty-intro .om-specialty-actions')).toBeNull();
   expect(container.querySelector('.om-studio-template-shelf')).not.toBeNull();
   expect([...container.querySelectorAll('.om-skills-grid [data-skill-id]')].map(node => node.getAttribute('data-skill-id'))).toEqual([
-    'babylon-js', 'lume', 'blender', 'openmotion-isometric-card-flight', 'openmotion-surreal-3d-poster',
+    'babylon-js', 'lume', 'blender', 'kinevyn-isometric-card-flight', 'kinevyn-surreal-3d-poster',
   ]);
   expect(container.querySelector('.om-specialty-feature')?.textContent).toContain('3D');
   expect(button('Create a shot from this brief')).toBeUndefined();
@@ -1566,7 +1566,7 @@ it('shows only templates tagged as 3D animation on the 3D studio shelf, eight at
   expect([...shelf.querySelectorAll('button')].some(node => node.textContent === 'More templates')).toBe(false);
 });
 
-it.each(['three-js', 'babylon-js', 'lume', 'blender', 'openmotion-surreal-3d-poster', 'openmotion-isometric-card-flight'])('keeps %s usable through an Agent without offering 3D generation', async skill => {
+it.each(['three-js', 'babylon-js', 'lume', 'blender', 'kinevyn-surreal-3d-poster', 'kinevyn-isometric-card-flight'])('keeps %s usable through an Agent without offering 3D generation', async skill => {
   history.replaceState(null, '', `/?page=3d&skill=${skill}`);
   await mount();
   expect(button('Copy for Agent')).toBeDefined();

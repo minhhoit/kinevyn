@@ -87,7 +87,7 @@ export interface StudioAgentToolsDeps
 
 /**
  * Build the observation and navigation tools once.
- * Video content changes go through version-checked openmotion_edit_project.
+ * Video content changes go through version-checked kinevyn_edit_project.
  *
  * The atomic editor write tools are intentionally absent from this list while
  * their modules stay maintained; see the retention note on the imports above.
@@ -101,10 +101,10 @@ export function buildStudioTools(depsRef: {
 }): ModelContextTool[] {
   return [
     {
-      name: "openmotion_studio_look",
+      name: "kinevyn_studio_look",
       title: "Look at the composition",
       description: STUDIO_LOOK_DESCRIPTION +
-        " Content changes use openmotion_get_project and openmotion_edit_project. The can flags describe Studio manual editing capabilities.",
+        " Content changes use kinevyn_get_project and kinevyn_edit_project. The can flags describe Studio manual editing capabilities.",
       inputSchema: STUDIO_LOOK_INPUT_SCHEMA,
       annotations: {
         readOnlyHint: true,
@@ -113,50 +113,50 @@ export function buildStudioTools(depsRef: {
         untrustedContentHint: true,
       },
       execute: (input): Promise<ToolResult<StudioLook>> =>
-        runToolBody("openmotion_studio_look", async () =>
+        runToolBody("kinevyn_studio_look", async () =>
           buildStudioLook(depsRef.current.getSnapshot(), input as StudioLookInput),
         ),
     },
     {
-      name: "openmotion_studio_select",
+      name: "kinevyn_studio_select",
       title: "Select an element",
       description: STUDIO_SELECT_DESCRIPTION,
       inputSchema: STUDIO_SELECT_INPUT_SCHEMA,
       annotations: { readOnlyHint: false, untrustedContentHint: true },
       execute: (input): Promise<ToolResult<StudioSelectResult>> =>
-        runToolBody("openmotion_studio_select", () =>
+        runToolBody("kinevyn_studio_select", () =>
           studioSelect(depsRef.current, readStringInput(input, "handle")),
         ),
     },
     {
-      name: "openmotion_studio_seek",
+      name: "kinevyn_studio_seek",
       title: "Move the playhead",
       description: STUDIO_SEEK_DESCRIPTION,
       inputSchema: STUDIO_SEEK_INPUT_SCHEMA,
       annotations: { readOnlyHint: false },
       execute: (input): Promise<ToolResult<StudioSeekResult>> =>
-        runToolBody("openmotion_studio_seek", async () =>
+        runToolBody("kinevyn_studio_seek", async () =>
           studioSeek(depsRef.current, readNumberInput(input, "time")),
         ),
     },
     {
-      name: "openmotion_studio_frame",
+      name: "kinevyn_studio_frame",
       title: "See the composition",
       description: STUDIO_FRAME_DESCRIPTION,
       inputSchema: STUDIO_FRAME_INPUT_SCHEMA,
       annotations: { readOnlyHint: true, untrustedContentHint: true },
       execute: (input): Promise<ToolResult<StudioFrameResult>> =>
-        runToolBody("openmotion_studio_frame", () => studioFrame(depsRef.current, input as StudioFrameInput)),
+        runToolBody("kinevyn_studio_frame", () => studioFrame(depsRef.current, input as StudioFrameInput)),
     },
     {
-      name: "openmotion_studio_inspect",
+      name: "kinevyn_studio_inspect",
       title: "Inspect one element",
       description: STUDIO_INSPECT_DESCRIPTION +
-        " Content changes use openmotion_get_project and openmotion_edit_project. The can flags describe Studio manual editing capabilities.",
+        " Content changes use kinevyn_get_project and kinevyn_edit_project. The can flags describe Studio manual editing capabilities.",
       inputSchema: STUDIO_INSPECT_INPUT_SCHEMA,
       annotations: { readOnlyHint: true, untrustedContentHint: true },
       execute: (input): Promise<ToolResult<StudioInspectResult>> =>
-        runToolBody("openmotion_studio_inspect", () =>
+        runToolBody("kinevyn_studio_inspect", () =>
           studioInspect(depsRef.current, input as StudioInspectInput),
         ),
     },

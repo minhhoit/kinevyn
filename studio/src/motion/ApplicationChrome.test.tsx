@@ -44,7 +44,7 @@ it('uses the same direct GitHub destinations in the account menu and settings re
   mountHost(<I18nProvider initialLocale="en"><ApplicationAccountMenu settings="help" openSettings={() => {}} /><SettingsCenter section="help" onSection={() => {}} openConnections={() => {}} /></I18nProvider>);
   await settle();
   await click(document.querySelector('[aria-label="Account menu"]'));
-  for (const [label, href] of [["What's new", 'https://github.com/nexu-io/openmotion/releases'], ['Feedback', 'https://github.com/nexu-io/openmotion/issues/new/choose']]) {
+  for (const [label, href] of [["What's new", 'https://github.com/rivyn-labs/kinevyn/releases'], ['Feedback', 'https://github.com/rivyn-labs/kinevyn/issues/new/choose']]) {
     const links = [...document.querySelectorAll<HTMLAnchorElement>('a')].filter(link => link.textContent === label);
     expect(links).toHaveLength(2);
     expect(links.every(link => link.href === href && link.target === '_blank' && link.rel.includes('noopener'))).toBe(true);

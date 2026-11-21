@@ -62,7 +62,7 @@ export const SOUND_SFX_TAGS: readonly SoundTag[] = [
 export const SOUND_MUSIC_RECIPES: readonly SoundMusicRecipe[] = [
   {
     id: 'ambient-sunrise',
-    title: 'OpenMotion welcome soundtrack',
+    title: 'Kinevyn welcome soundtrack',
     prompt: welcomeExample.prompt,
     audio: welcomeExample.audio,
     waveform: welcomeExample.waveform,

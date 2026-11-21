@@ -6,7 +6,7 @@ A six-second, original motion recipe for a product announcement: a moving signal
 
 1. Read [the motion specification](source/motion.md).
 2. Open [the interactive example](source/preview.html). It runs offline with no build, remote font or JavaScript dependency. Play, pause, replay or scrub the six-second animation.
-3. Replace the headline, supporting line and accent color in the example, then adapt the composition to your project using the connected OpenMotion Agent.
+3. Replace the headline, supporting line and accent color in the example, then adapt the composition to your project using the connected Kinevyn Agent.
 4. Keep the marker, headline and supporting line in that reveal order. Check legibility at your target size.
 
 This catalog entry contains guidance and an authored HTML example. It is not registered as a directly copyable Studio project; `hasHtmlProject` remains false. An Agent should read the local source and create an independent project rather than request a template-copy operation.

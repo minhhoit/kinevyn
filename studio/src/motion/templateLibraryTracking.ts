@@ -1,4 +1,4 @@
-// Reports for the editor's template library. Event, area, element and field names follow the shared OpenMotion
+// Reports for the editor's template library. Event, area, element and field names follow the shared Kinevyn
 // tracking sheet so one funnel reads the same on the website and in the editor.
 // The dialog calls these and owns no tracking code of its own; nothing here may throw into it.
 import type { SeriesAttribution } from './brandStoryTracking';

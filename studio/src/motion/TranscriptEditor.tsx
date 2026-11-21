@@ -80,7 +80,7 @@ export function TranscriptEditor({ document: doc, busy, setDocument, onDirty, on
     if (!compositionPath || state.current.blocked) throw new Error('The timeline is currently unavailable for editing');
     await shell.waitForPendingDomEditSaves();
     if (!alive.current || state.current.composition !== compositionPath || state.current.blocked) throw new Error('The composition changed. Review caption placement again.');
-    const detail = await gatewayRequest<{ revision: string; currentVersionId: string }>('phase1/call', 'POST', { name: 'openmotion_get_project', arguments: { projectId: doc.source.projectId } });
+    const detail = await gatewayRequest<{ revision: string; currentVersionId: string }>('phase1/call', 'POST', { name: 'kinevyn_get_project', arguments: { projectId: doc.source.projectId } });
     if (!alive.current || state.current.composition !== compositionPath || state.current.blocked) throw new Error('The composition changed. Review caption placement again.');
     const input = { command: 'captions', projectId: doc.source.projectId, transcriptId: doc.id, expectedTranscriptRevision: doc.revision, compositionPath,
       timelineStart, sourceStart, sourceEnd, playbackRate: rate, expectedRevision: detail.revision, expectedVersionId: detail.currentVersionId };

@@ -23,18 +23,18 @@ async function createInput(store: WorkspaceStore): Promise<ReviewCommentsInput> 
 test('HTTP creation and MCP status updates share persisted records without modifying video source', () => fixture(async store => {
   const before = await store.get(), input = await createInput(store);
   const response = await transport(store, { runtimeRoot: pluginRoot })('/motion-api/phase1/call', { method: 'POST',
-    headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: 'openmotion_manage_project', arguments: input }) });
+    headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: 'kinevyn_manage_project', arguments: input }) });
   assert.equal(response.status, 200, await response.clone().text());
   const created = await response.json() as ReviewCommentsResult, comment = created.comment!;
   assert.equal(comment.anchor.time, 1.25);
   assert.equal(comment.sourceRevision, before.revision);
   const api = service(new WorkspaceStore(store.directory));
-  const updated = await api.call('openmotion_manage_project', { ...list, operation: 'update', commentId: comment.id,
+  const updated = await api.call('kinevyn_manage_project', { ...list, operation: 'update', commentId: comment.id,
     expectedCommentRevision: 1, status: 'resolved', requestId: 'resolve' });
   assert.equal(updated.comment.status, 'resolved');
   assert.equal(updated.comment.revision, 2);
   assert.deepEqual(await store.get(), before);
-  const reopened = await api.call('openmotion_manage_project', { ...list, operation: 'update', commentId: comment.id,
+  const reopened = await api.call('kinevyn_manage_project', { ...list, operation: 'update', commentId: comment.id,
     expectedCommentRevision: 2, status: 'open', requestId: 'reopen' });
   assert.equal(reopened.comment.status, 'open');
 }));
@@ -79,9 +79,9 @@ test('comment contract rejects invalid operations, anchors, foreign IDs and empt
     { anchor: { scope: 'element', compositionPath: 'index.html', time: 1 } },
     { anchor: { scope: 'frame', compositionPath: 'missing.html', time: 1 } },
     { anchor: { scope: 'frame', compositionPath: 'index.html', time: Infinity } },
-  ]) await assert.rejects(api.call('openmotion_manage_project', { ...input, ...patch }));
-  await assert.rejects(api.call('openmotion_manage_project', { ...list, operation: 'delete', commentId: crypto.randomUUID(), expectedCommentRevision: 1, requestId: 'foreign' }), /COMMENT_NOT_FOUND/);
-  await assert.rejects(api.call('openmotion_manage_project', { ...list, projectId: crypto.randomUUID() }), /PROJECT_NOT_FOUND/);
+  ]) await assert.rejects(api.call('kinevyn_manage_project', { ...input, ...patch }));
+  await assert.rejects(api.call('kinevyn_manage_project', { ...list, operation: 'delete', commentId: crypto.randomUUID(), expectedCommentRevision: 1, requestId: 'foreign' }), /COMMENT_NOT_FOUND/);
+  await assert.rejects(api.call('kinevyn_manage_project', { ...list, projectId: crypto.randomUUID() }), /PROJECT_NOT_FOUND/);
 }));
 
 test('handoff preserves exact selected IDs and source evidence with guarded editing and completion', () => fixture(async store => {
@@ -110,15 +110,15 @@ test('copied read requests retrieve current raw records and complete UTF-8 sourc
   assert.deepEqual(JSON.parse(prompt.split('Selected review records (JSON):\n')[1]), [created]);
   let text = '', offset: number | null = 0, chunks = 0;
   while (offset !== null) {
-    const result = await api.call('openmotion_get_project', { projectId: 'project', expectedRevision: results[1].revision, file: { path: created.anchor.compositionPath, offset, length: 65536 } });
+    const result = await api.call('kinevyn_get_project', { projectId: 'project', expectedRevision: results[1].revision, file: { path: created.anchor.compositionPath, offset, length: 65536 } });
     text += result.file.content; offset = result.file.nextOffset; chunks++;
   }
   assert(chunks > 1); assert.equal(text, source);
   const current = results[2].comments[0];
-  const completed = await api.call('openmotion_manage_project', { ...list, operation: 'update', commentId: current.id, expectedCommentRevision: current.revision, status: 'resolved', requestId: 'complete-current' });
+  const completed = await api.call('kinevyn_manage_project', { ...list, operation: 'update', commentId: current.id, expectedCommentRevision: current.revision, status: 'resolved', requestId: 'complete-current' });
   assert.equal(completed.comment.status, 'resolved');
-  const reopened = await api.call('openmotion_manage_project', { ...list, operation: 'update', commentId: current.id, expectedCommentRevision: completed.comment.revision, status: 'open', requestId: 'reopen-current' });
-  const deleted = await api.call('openmotion_manage_project', { ...list, operation: 'delete', commentId: current.id, expectedCommentRevision: reopened.comment.revision, requestId: 'delete-current' });
+  const reopened = await api.call('kinevyn_manage_project', { ...list, operation: 'update', commentId: current.id, expectedCommentRevision: completed.comment.revision, status: 'open', requestId: 'reopen-current' });
+  const deleted = await api.call('kinevyn_manage_project', { ...list, operation: 'delete', commentId: current.id, expectedCommentRevision: reopened.comment.revision, requestId: 'delete-current' });
   assert.equal(deleted.deletedId, current.id);
   assert.equal(await readFile(path.join(store.projectDirectory, 'index.html'), 'utf8'), source, 'Comment-only actions preserve source');
   assert.throws(() => reviewCommentsPrompt({ projectId: 'different-project', comments: [created] }), /selected project/);
@@ -136,11 +136,11 @@ test('frame annotations round-trip through HTTP/MCP, survive restart and remain 
   const before = await store.get(), input = await createInput(store);
   input.anchor!.annotation = annotation;
   const response = await transport(store, { runtimeRoot: pluginRoot })('/motion-api/phase1/call', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name: 'openmotion_manage_project', arguments: input }) });
+    body: JSON.stringify({ name: 'kinevyn_manage_project', arguments: input }) });
   assert.equal(response.status, 200, await response.clone().text());
   const created = (await response.json() as ReviewCommentsResult).comment!;
   const restarted = new WorkspaceStore(store.directory);
-  const records = await service(restarted).call('openmotion_manage_project', list);
+  const records = await service(restarted).call('kinevyn_manage_project', list);
   assert.deepEqual(records.comments[0].anchor.annotation, annotation);
   assert.equal(records.comments[0].anchor.time, 1.25);
   assert.deepEqual(await store.get(), before);
@@ -148,7 +148,7 @@ test('frame annotations round-trip through HTTP/MCP, survive restart and remain 
   await assert.rejects(reviewComments(restarted, { ...input, anchor: { ...input.anchor!, annotation: { ...annotation, width: 1280 } } }), /REQUEST_ID_CONFLICT/);
   const prompt = reviewCommentsPrompt({ comments: records.comments });
   for (const expected of ['normalized', 'sourceRevision', 'anchor.time', 'Move title here', created.id]) assert.ok(prompt.includes(expected));
-  await service(restarted).call('openmotion_manage_project', { ...list, operation: 'update', commentId: created.id, expectedCommentRevision: 1, status: 'resolved', requestId: 'done' });
+  await service(restarted).call('kinevyn_manage_project', { ...list, operation: 'update', commentId: created.id, expectedCommentRevision: 1, status: 'resolved', requestId: 'done' });
   assert.deepEqual((await reviewComments(restarted, list)).comments[0].anchor.annotation, annotation);
 }));
 
@@ -167,7 +167,7 @@ test('annotation validation rejects unbounded, nonfinite, mismatched and executa
   for (const value of bad) {
     const invalid = { ...input, anchor: { ...input.anchor!, annotation: value } } as ReviewCommentsInput;
     await assert.rejects(reviewComments(store, invalid), /INVALID_ARGUMENT/);
-    await assert.rejects(api.call('openmotion_manage_project', invalid));
+    await assert.rejects(api.call('kinevyn_manage_project', invalid));
   }
   await assert.rejects(reviewComments(store, { ...input, anchor: { scope: 'project', compositionPath: 'index.html', annotation } }), /Annotations require a frame time/);
 }));

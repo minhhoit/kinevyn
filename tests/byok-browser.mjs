@@ -18,8 +18,8 @@ await rm(path.join(output, 'result.json'), { force: true });
 await rm(path.join(output, 'failure.png'), { force: true });
 // Honor a host browser-lock lane when supplied; otherwise reserve a dedicated,
 // exclusive headless lane. This test never connects to the user's browser profile.
-const lane = process.env.D4_LANE || 'openmotion-settings-isolated';
-const lock = path.join(tmpdir(), 'openmotion-settings-browser.lock');
+const lane = process.env.D4_LANE || 'kinevyn-settings-isolated';
+const lock = path.join(tmpdir(), 'kinevyn-settings-browser.lock');
 await mkdir(lock);
 const data = await mkdtemp(path.join(tmpdir(), 'motion-settings-browser-'));
 const store = new WorkspaceStore(data), errors = [];
@@ -200,7 +200,7 @@ try {
   await clickText('.om-account-summary button', 'Sign out');
   await page.waitForFunction(() => document.querySelector('.om-plan-guide h2')?.textContent === 'Sign in to start multimodal generation');
   assert.equal((await gateway.account.summary()).state, 'signed-out');
-  await settings('About OpenMotion'); await shot('about-dark');
+  await settings('About Kinevyn'); await shot('about-dark');
   await page.setViewport({ width: 390, height: 844 });
   await settings('Model providers'); await page.waitForSelector('.om-provider-list');
   await shot('providers-mobile-dark'); await noOverflow();

@@ -27,4 +27,4 @@ process.env.PATH = [node, media, ...system, process.env.PATH || ''].join(path.de
 process.env.HYPERFRAMES_NO_TELEMETRY = '1';
 process.env.HYPERFRAMES_NO_UPDATE_CHECK = '1';
 process.env.HYPERFRAMES_NO_AUTO_INSTALL = '1';
-process.env.MOTION_DATA_DIR ||= path.join(os.homedir(), 'OpenMotion-test-data');
+process.env.MOTION_DATA_DIR ||= path.join(os.homedir(), 'Kinevyn-test-data');

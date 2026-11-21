@@ -1,4 +1,4 @@
-// OpenMotion corrections shared by the adapted Hyperframes extractors.
+// Kinevyn corrections shared by the adapted Hyperframes extractors.
 export const browserHelpers = String.raw`
   var isVisible = (el) => {
     var r = el.getBoundingClientRect();

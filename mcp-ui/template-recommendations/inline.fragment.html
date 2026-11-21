@@ -1,11 +1,11 @@
-<style>/*__OPENMOTION_INLINE_STYLE__*/</style>
-<div id="__OPENMOTION_INLINE_ROOT__"></div>
-<script>/*__OPENMOTION_INLINE_APP__*/</script>
+<style>/*__KINEVYN_INLINE_STYLE__*/</style>
+<div id="__KINEVYN_INLINE_ROOT__"></div>
+<script>/*__KINEVYN_INLINE_APP__*/</script>
 <script>
 (() => {
-  const root = document.getElementById('__OPENMOTION_INLINE_ROOT__');
-  const bootstrap = /*__OPENMOTION_INLINE_BOOTSTRAP__*/;
-  const recommendation = /*__OPENMOTION_INLINE_RECOMMENDATION__*/;
+  const root = document.getElementById('__KINEVYN_INLINE_ROOT__');
+  const bootstrap = /*__KINEVYN_INLINE_BOOTSTRAP__*/;
+  const recommendation = /*__KINEVYN_INLINE_RECOMMENDATION__*/;
   // This host has an inline document renderer, not a negotiated MCP message
   // extension. Copy the brief to the clipboard without sending a task or
   // pretending that native composer access has been negotiated.
@@ -14,7 +14,7 @@
     getHostCapabilities: () => ({}),
     sendMessage: async () => { throw new Error('No negotiated composer bridge'); },
   };
-  const ui = OpenMotionTemplateCards.mountTemplateCards(root, bootstrap, host);
+  const ui = KinevynTemplateCards.mountTemplateCards(root, bootstrap, host);
   ui.setConnected(true);
   ui.update(recommendation);
   root.dataset.presentationMode = 'inline-document';

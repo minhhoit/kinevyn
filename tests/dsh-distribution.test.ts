@@ -15,14 +15,14 @@ import { publishPlugin } from '../integrations/dsh/publish.ts';
 const commit = 'a'.repeat(40);
 const archive = Buffer.from('a test plugin archive');
 const sha256 = createHash('sha256').update(archive).digest('hex');
-const manifest = { schemaVersion: 1 as const, name: 'openmotion-dsh' as const, version: '0.1.0', dshVersion: '0.2.2-rc.1', sourceCommit: commit, bytes: archive.length, sha256, tarballUrl: `${downloadOrigin}/${downloadPrefix}/snapshots/${commit}/${sha256}/openmotion-dsh.tgz` };
+const manifest = { schemaVersion: 1 as const, name: 'kinevyn-dsh' as const, version: '0.1.0', dshVersion: '0.2.2-rc.1', sourceCommit: commit, bytes: archive.length, sha256, tarballUrl: `${downloadOrigin}/${downloadPrefix}/snapshots/${commit}/${sha256}/kinevyn-dsh.tgz` };
 
 test('public plugin downloads bind an immutable URL to a source commit and digest', () => {
   assert.equal(validateDownload(manifest), manifest);
   for (const invalid of [
     { schemaVersion: 2 }, { sourceCommit: 'main' }, { sha256: 'bad' }, { bytes: -1 },
     { version: 'latest' }, { dshVersion: '*' }, { tarballUrl: 'https://example.com/evil.tgz' },
-    { tarballUrl: `${downloadOrigin}/${downloadPrefix}/main/openmotion-dsh.tgz` },
+    { tarballUrl: `${downloadOrigin}/${downloadPrefix}/main/kinevyn-dsh.tgz` },
   ]) assert.throws(() => validateDownload({ ...manifest, ...invalid } as typeof manifest));
 });
 
@@ -115,7 +115,7 @@ test('installation routing and workflow keep plugin distribution separate from n
   assert(install.includes(manifestUrl) && install.includes('integrations/dsh/README.md#download-and-install-the-plugin'));
   const workflow = await readFile(new URL('../.github/workflows/dsh-integration.yml', import.meta.url), 'utf8');
   const step = workflow.slice(workflow.indexOf('      - name: Publish verified main plugin downloads'));
-  assert(step.includes("github.repository == 'nexu-io/openmotion' && github.ref == 'refs/heads/main'"));
+  assert(step.includes("github.repository == 'rivyn-labs/kinevyn' && github.ref == 'refs/heads/main'"));
   assert(step.includes("github.event_name == 'push' || github.event_name == 'workflow_dispatch'"));
   assert(!workflow.slice(0, workflow.indexOf(step)).includes('secrets.'));
   assert(step.includes('run: node integrations/dsh/publish.ts'));
@@ -151,9 +151,9 @@ test('candidate preparation packs the real plugin at the application version wit
   const commit = (await run('git', ['rev-parse', 'HEAD'], { cwd: root })).stdout.trim();
   const original = await readFile(path.join(root, 'integrations/dsh/plugin/package.json'));
   const metadata = await prepareCandidatePlugin(root, output, '0.0.3-test.99', commit);
-  const archive = path.join(output, 'openmotion-dsh-0.0.3-test.99.tgz');
+  const archive = path.join(output, 'kinevyn-dsh-0.0.3-test.99.tgz');
   const pkg = JSON.parse((await run('tar', ['-xOf', archive, 'package/package.json'])).stdout);
-  assert.equal(pkg.name, 'openmotion-dsh'); assert.equal(pkg.version, '0.0.3-test.99');
+  assert.equal(pkg.name, 'kinevyn-dsh'); assert.equal(pkg.version, '0.0.3-test.99');
   assert.equal(metadata.sourceCommit, commit);
   assert.equal(metadata.sha256, createHash('sha256').update(await readFile(archive)).digest('hex'));
   assert.deepEqual(await readFile(path.join(root, 'integrations/dsh/plugin/package.json')), original);

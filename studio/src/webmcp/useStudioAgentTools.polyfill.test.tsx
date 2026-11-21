@@ -136,13 +136,13 @@ async function mountNavigationTools() {
 describe("useStudioAgentTools through @mcp-b/global", () => {
   it("exposes only observation/navigation tools through both registries", async () => {
     const { requestSeek } = await mountNavigationTools();
-    const names = ["openmotion_studio_look", "openmotion_studio_select", "openmotion_studio_seek", "openmotion_studio_frame", "openmotion_studio_inspect"].sort();
+    const names = ["kinevyn_studio_look", "kinevyn_studio_select", "kinevyn_studio_seek", "kinevyn_studio_frame", "kinevyn_studio_inspect"].sort();
     expect((await bridge().getTools()).map(tool => tool.name).sort()).toEqual(names);
     expect(mirrored.map(tool => tool.name).sort()).toEqual(names);
 
-    const viaEntry = await bridgeEntry("openmotion_studio_seek").execute({ time: 0.9 });
+    const viaEntry = await bridgeEntry("kinevyn_studio_seek").execute({ time: 0.9 });
     expect(viaEntry).toMatchObject({ ok: true, playhead: 0.9 });
-    const descriptor = (await bridge().getTools()).find(tool => tool.name === "openmotion_studio_seek")!;
+    const descriptor = (await bridge().getTools()).find(tool => tool.name === "kinevyn_studio_seek")!;
     const viaExecuteTool = await bridge().executeTool(descriptor, JSON.stringify({ time: 1.2 }));
     expect(JSON.parse(viaExecuteTool ?? "null")).toMatchObject({ ok: true, playhead: 1.2 });
     expect(requestSeek).toHaveBeenCalledTimes(2);
@@ -150,7 +150,7 @@ describe("useStudioAgentTools through @mcp-b/global", () => {
 
   it("seeks through the descriptor mirrored into a native modelContext", async () => {
     const { requestSeek } = await mountNavigationTools();
-    const result = await mirroredTool("openmotion_studio_seek").execute(
+    const result = await mirroredTool("kinevyn_studio_seek").execute(
       { time: 0.9 }, { signal: new AbortController().signal },
     );
     expect(result).toMatchObject({ ok: true, playhead: 0.9 });

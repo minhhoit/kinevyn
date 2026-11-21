@@ -246,7 +246,7 @@ async function input(req: IncomingMessage, maxBytes = 9 * 1024 * 1024) {
   return JSON.parse(Buffer.concat(chunks).toString());
 }
 function revision(value: unknown): asserts value is string {
-  if (typeof value !== 'string' || !/^[a-f0-9]{64}$/.test(value)) throw new Error('需要 openmotion_get_project 返回的 expectedRevision');
+  if (typeof value !== 'string' || !/^[a-f0-9]{64}$/.test(value)) throw new Error('需要 kinevyn_get_project 返回的 expectedRevision');
 }
 
 async function openProject(store: WorkspaceStore, context: Service, origin: string, expectedRevision: string, target: { templateId: string } | { projectId: string } | { title: string; instruction?: string }, expectedProjectId?: string, sessionTarget?: { sessionId?: string; title?: string; templateId?: string; instruction?: string }) {
@@ -519,7 +519,7 @@ export async function handler(req: IncomingMessage, res: ServerResponse, store =
       const info: IntegrationInfo = containerIntegration({
         templateSource: templateCatalogFor(store.directory).source,
         templateEnvironment: templateCatalogFor(store.directory).environment as 'dev' | 'prod',
-        name: 'OpenMotion', version: VERSION, previewUrl: address.origin, dataDirectory: store.directory,
+        name: 'Kinevyn', version: VERSION, previewUrl: address.origin, dataDirectory: store.directory,
         transport: { type: 'stdio', command: process.execPath, args: ['--experimental-strip-types', path.join(pluginRoot, 'mcp.ts')], cwd: pluginRoot,
           env: { MOTION_DATA_DIR: store.directory, PORT: address.port || '80', MOTION_TEMPLATE_SOURCE: templateCatalogFor(store.directory).source, ...Object.fromEntries(['MOTION_TEMPLATE_ENV', 'MOTION_TEMPLATE_RESOURCE_ID', 'MOTION_TEMPLATE_LOCALE', 'MOTION_BROWSER_PATH', 'HYPERFRAMES_BROWSER_PATH', 'HYPERFRAMES_FFMPEG_PATH', 'HYPERFRAMES_FFPROBE_PATH', 'FFMPEG_PATH', 'FFPROBE_PATH'].filter(key => process.env[key]).map(key => [key, process.env[key]!])) } },
         tools: mcpTools.map(({ name, description }) => ({ name, description })),
@@ -829,7 +829,7 @@ export async function startServer(store = sharedStore, port = Number(process.env
     tracking: await createAppTracking(store.directory, 'mcp') };
   store.tracking = context.tracking;
   context.launchStudio = async (directory, chosenPort) => {
-    if (!process.env.OPENMOTION_EDITOR_LOCK_FD) return startStudio(runtimeRoot, directory, path.join(store.directory, 'studio.log'), chosenPort, store.directory);
+    if (!process.env.KINEVYN_EDITOR_LOCK_FD) return startStudio(runtimeRoot, directory, path.join(store.directory, 'studio.log'), chosenPort, store.directory);
     const probe = createServer();
     await new Promise<void>((resolve, reject) => { probe.once('error', reject); probe.listen(0, '127.0.0.1', resolve); });
     const available = (probe.address() as any).port;

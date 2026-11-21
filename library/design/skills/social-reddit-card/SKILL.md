@@ -23,7 +23,7 @@ od:
   surface: web
   platform: desktop
   scenario: marketing
-  upstream: "https://github.com/nexu-io/html-anything"
+  upstream: "https://github.com/rivyn-labs/html-anything"
   preview:
     type: html
     entry: index.html

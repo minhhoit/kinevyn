@@ -1,6 +1,6 @@
 # Additional README showcase sources
 
-These assets support the [main README](../../../README.md) and its Chinese and Japanese translations. They are viewing references and campaign imagery, with their original ownership retained. They are not OpenMotion-generated results, customer endorsements or new editable templates.
+These assets support the [main README](../../../README.md) and its Chinese and Japanese translations. They are viewing references and campaign imagery, with their original ownership retained. They are not Kinevyn-generated results, customer endorsements or new editable templates.
 
 ## Acknowledgements
 
@@ -8,7 +8,7 @@ These assets support the [main README](../../../README.md) and its Chinese and J
 
 The Lovable, Kimi, Firecrawl, Figma and ElevenLabs cards reuse the complete local reference videos and previews already in the repository. Titles and creator credits follow the existing Hyperframes catalog. Original source URLs and video hashes are recorded in the [media manifest](../media/manifest.json); the Kimi, Firecrawl and ElevenLabs excerpt settings are in the [gallery manifest](../gallery/manifest.json). The suggestions below the cards are new creative briefs, not claims about completed remakes.
 
-The **Codex Originals** card uses a group portrait from [OpenAI's official campaign](https://openai.com/codex-originals/). Its click target is the official campaign page, where readers can watch the films. The local WebP is the unmodified downloaded campaign still, not an animated preview or an OpenMotion output. The third-party Codex-dashboard moment in the Hyperframes catalog was not relabeled as an official OpenAI film.
+The **Codex Originals** card uses a group portrait from [OpenAI's official campaign](https://openai.com/codex-originals/). Its click target is the official campaign page, where readers can watch the films. The local WebP is the unmodified downloaded campaign still, not an animated preview or an Kinevyn output. The third-party Codex-dashboard moment in the Hyperframes catalog was not relabeled as an official OpenAI film.
 
 ### Mixed-production case studies
 
@@ -26,5 +26,5 @@ See [manifest.json](manifest.json) for source URLs, download hashes, dimensions 
 ### Other sources used in the README
 
 - [MotionGit](https://motiongit.com/) / adunext: the existing [Presenter Tech package and attribution](../../../library/templates/presenter-tech/NOTICE.md).
-- [Hyperframes](https://github.com/heygen-com/hyperframes): the existing creator and brand reference catalog, plus OpenMotion's native engine foundations.
+- [Hyperframes](https://github.com/heygen-com/hyperframes): the existing creator and brand reference catalog, plus Kinevyn's native engine foundations.
 - [Hypit](https://github.com/hypit-ai/hypit): inspiration for an agent-led cloning and variation workflow. No Hypit runtime or example media was imported by this documentation change.

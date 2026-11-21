@@ -8,15 +8,15 @@ import { inspectProject, pluginRoot, startStudio } from '../hyperframes.ts';
 import { fixture } from './fixtures.ts';
 
 test('default project labels migrate while explicit names survive reopening', () => fixture(async store => {
-  assert.equal(store.projectCatalog().projects[0].titleKey, 'OpenMotion Sample Video');
-  for (const title of ['初始工程', 'OpenMotion 示例短片']) {
+  assert.equal(store.projectCatalog().projects[0].titleKey, 'Kinevyn Sample Video');
+  for (const title of ['初始工程', 'Kinevyn 示例短片']) {
     const otherId = crypto.randomUUID();
     await writeFile(path.join(store.directory, 'projects.json'), JSON.stringify({ activeId: 'project', projects: [
       { id: 'project', title }, { id: otherId, title },
     ] }));
     const migrated = store.projectCatalog();
-    assert.equal(migrated.projects[0].title, 'OpenMotion 示例短片');
-    assert.equal(migrated.projects[0].titleKey, 'OpenMotion Sample Video');
+    assert.equal(migrated.projects[0].title, 'Kinevyn 示例短片');
+    assert.equal(migrated.projects[0].titleKey, 'Kinevyn Sample Video');
     assert.equal(migrated.projects[1].title, title);
     assert.equal(migrated.projects[1].titleKey, undefined);
     await store.renameProject('project', title);
@@ -49,11 +49,11 @@ for (const entry of ['sidebar', 'direct preview'] as const) {
       const initial = store.forProject('project');
       const file = path.join(initial.projectDirectory, 'index.html');
       const withoutStampedIds = (source: string) => source.replace(/ data-hf-id="[^"]*"/g, '');
-      assert.equal(withoutStampedIds(await readFile(file, 'utf8')), await readFile(path.join(pluginRoot, 'template-library/openmotion-welcome/index.html'), 'utf8'));
+      assert.equal(withoutStampedIds(await readFile(file, 'utf8')), await readFile(path.join(pluginRoot, 'template-library/kinevyn-welcome/index.html'), 'utf8'));
       assert.ok((await initial.files()).some(file => file.path === 'compositions/intro.html'));
       assert.equal(withoutStampedIds(await readFile(path.join(directory, 'index.html'), 'utf8')), before);
       if (entry === 'direct preview') assert.equal(store.projectId, id, 'preview warming retains active project ownership');
-      const edited = (await readFile(file, 'utf8')).replace('OpenMotion Welcome', 'My saved title');
+      const edited = (await readFile(file, 'utf8')).replace('Kinevyn Welcome', 'My saved title');
       await writeFile(file, edited);
       await running.openProject(id);
       await running.openProject('project');

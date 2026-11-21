@@ -55,7 +55,7 @@ test('one preparation freezes a random selection across inline cards and fallbac
   assert.match(result.inlinePresentation.welcomeMarkdown, /我是你的开源视频创作搭档/);
   assert.match(result.inlinePresentation.welcomeMarkdown, /下方|👇/);
   const presentation = loadTemplatePresentation();
-  const bootstrap = JSON.parse(presentation.content.text.match(/window\.__OPENMOTION_TEMPLATE_CARDS__=(.*?);<\/script>/s)![1]);
+  const bootstrap = JSON.parse(presentation.content.text.match(/window\.__KINEVYN_TEMPLATE_CARDS__=(.*?);<\/script>/s)![1]);
   const window = new Window(); t.after(() => window.happyDOM.abort());
   window.URL.createObjectURL = () => 'blob:verified'; window.URL.revokeObjectURL = () => {};
   const root = window.document.createElement('main'); window.document.body.append(root);
@@ -142,16 +142,16 @@ test('reference recommendations keep exact catalog identities without builtin cr
     const record = JSON.parse(requireRecord(card.templateId));
     assert.equal(card.durationSeconds, Number(record.entry.original.durationSeconds));
   }
-  assert.match(result.selectionGuide, /openmotion_get_template/);
-  assert.match(result.selectionGuide, /If hasHtmlProject is true, follow openmotion-template-to-video/);
-  assert.match(result.selectionGuide, /openmotion-recreate only for reference-only sources/);
-  const bootstrap = JSON.parse(presentation.content.text.match(/window\.__OPENMOTION_TEMPLATE_CARDS__=(.*?);<\/script>/s)![1]) as TemplateCardsBootstrap;
+  assert.match(result.selectionGuide, /kinevyn_get_template/);
+  assert.match(result.selectionGuide, /If hasHtmlProject is true, follow kinevyn-template-to-video/);
+  assert.match(result.selectionGuide, /kinevyn-recreate only for reference-only sources/);
+  const bootstrap = JSON.parse(presentation.content.text.match(/window\.__KINEVYN_TEMPLATE_CARDS__=(.*?);<\/script>/s)![1]) as TemplateCardsBootstrap;
   assert(readRecommendation(result, bootstrap));
   for (const card of result.cards) for (const language of ['zh', 'en', 'ja', 'ko', 'fr', 'es', 'pt'] as const) {
     const prompt = recreationPrompt(card, language);
     assert(prompt.includes(card.templateId));
     assert.equal(prompt, formatTemplatePrompt({ id: card.templateId, title: card.title }, language === 'pt' ? 'pt-br' : language));
-    assert.doesNotMatch(prompt, /openmotion-recreate/);
+    assert.doesNotMatch(prompt, /kinevyn-recreate/);
   }
   const injected = structuredClone(result);
   Object.assign(injected.cards[0], { createArgs: { projectType: 'template', templateId: selected[0] } });
@@ -190,8 +190,8 @@ for (const host of ['claude', 'deepseek', 'workbuddy', 'opencode']) {
     assert.deepEqual(result.inlinePresentation.templateIds, selected);
     if (host === 'deepseek') {
       assert.equal(result.cardPresentation.tool, 'propose_action');
-      assert.equal(result.cardPresentation.skill, 'openmotion-template-recommendations');
-      assert.equal(result.cardPresentation.arguments.action, 'openmotion_template_recommendation');
+      assert.equal(result.cardPresentation.skill, 'kinevyn-template-recommendations');
+      assert.equal(result.cardPresentation.arguments.action, 'kinevyn_template_recommendation');
       assert.deepEqual(result.cardPresentation.arguments.details.templates.map((item: any) => item.id), selected);
       assert.equal(result.cardPresentation.arguments.details.language, 'zh');
       assert.equal(result.cardPresentation.arguments.details.onboarding, true);

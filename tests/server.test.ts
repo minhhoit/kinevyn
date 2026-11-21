@@ -85,7 +85,7 @@ test('the listening address is loopback or a wildcard, never a specific interfac
 
 test('container connection instructions launch Docker on the host, preserving the workspace inside', () => fixture(async store => {
   const previous = process.env.MOTION_CONTAINER_NAME;
-  process.env.MOTION_CONTAINER_NAME = 'openmotion';
+  process.env.MOTION_CONTAINER_NAME = 'kinevyn';
   try {
     const request = transport(store);
     const info = await (await request('/api/integration')).json();
@@ -94,7 +94,7 @@ test('container connection instructions launch Docker on the host, preserving th
     assert.deepEqual(info.transport.env, {});
     assert.deepEqual(info.transport.args.slice(0, 3), ['exec', '-i', '--workdir']);
     assert.ok(info.transport.args.includes('MOTION_DATA_DIR=' + store.directory));
-    assert.ok(info.transport.args.includes('openmotion'));
+    assert.ok(info.transport.args.includes('kinevyn'));
     for (const host of ['codex', 'claude', 'deepseek', 'mcp']) {
       const config = await (await request('/connect/config?host=' + host)).text();
       assert.match(config, /docker/);

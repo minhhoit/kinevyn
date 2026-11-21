@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
 import { repairCodeExtrudeMaterial } from '../shared/registry-material-compat.ts';
 
-const template = readFileSync(new URL('../library/skills/openmotion-design-remix/assets/code-3d-extrude/index.html', import.meta.url), 'utf8');
+const template = readFileSync(new URL('../library/skills/kinevyn-design-remix/assets/code-3d-extrude/index.html', import.meta.url), 'utf8');
 const original = `          var edgeMat = new THREE.MeshStandardMaterial({
             color: 0x141d2b,
             roughness: 0.3,

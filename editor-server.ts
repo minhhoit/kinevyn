@@ -38,7 +38,7 @@ export function renderDownloadDisposition(title: string | undefined, extension: 
   const stem = renderFilenameStem(title);
   const encoded = encodeURIComponent(stem + extension).replace(/['()*]/g, char =>
     '%' + char.charCodeAt(0).toString(16).toUpperCase());
-  return `attachment; filename="OpenMotion${extension}"; filename*=UTF-8''${encoded}`;
+  return `attachment; filename="Kinevyn${extension}"; filename*=UTF-8''${encoded}`;
 }
 
 /** Preserve native HTTP semantics (SSE, byte ranges, multipart uploads and optimistic file writes). */

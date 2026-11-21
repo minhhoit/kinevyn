@@ -8,14 +8,14 @@ test('legacy director resources return the shared body while references use prod
   for (const [legacy, canonical] of Object.entries(workflowDocumentAliases)) {
     const section = canonical.endsWith('/review.md') ? 'review' : 'decisions';
     const current = await getWorkflow(section, 'production');
-    const previous = JSON.parse((await readWorkflowResource(`openmotion://workflow/director/${section}`, '/unused')).text);
+    const previous = JSON.parse((await readWorkflowResource(`kinevyn://workflow/director/${section}`, '/unused')).text);
     assert.equal(previous.workflow, 'director');
     assert.equal(previous.section, section);
     assert.equal(previous.documentId, canonical);
     assert.equal(previous.content, current.content);
     assert.equal(previous.contentHash, current.contentHash);
     assert.deepEqual(previous.references, current.references);
-    const linked = workflowReferences(`[legacy](../openmotion-director/references/${legacy.split('/').at(-1)})`, 'skills/openmotion-recreate/SKILL.md');
+    const linked = workflowReferences(`[legacy](../kinevyn-director/references/${legacy.split('/').at(-1)})`, 'skills/kinevyn-recreate/SKILL.md');
     assert.deepEqual(linked, [{ workflow: 'production', section, documentId: canonical }]);
     await assert.rejects(readFile(new URL('../' + legacy, import.meta.url), 'utf8'), { code: 'ENOENT' }, 'Old local paths must not keep a forwarding copy');
   }
@@ -24,11 +24,11 @@ test('legacy director resources return the shared body while references use prod
 test('provider guides belong to the media Skill while older production resources return the same bodies', async () => {
   for (const provider of ['account', 'compatible', 'fal', 'opendesign', 'atlascloud', 'wavespeed']) {
     const current = await getWorkflow(provider, 'media');
-    const previous = JSON.parse((await readWorkflowResource(`openmotion://workflow/production/${provider}`, '/unused')).text);
-    assert.equal(current.documentId, `skills/openmotion-media/references/providers/${provider}.md`);
+    const previous = JSON.parse((await readWorkflowResource(`kinevyn://workflow/production/${provider}`, '/unused')).text);
+    assert.equal(current.documentId, `skills/kinevyn-media/references/providers/${provider}.md`);
     assert.equal(previous.documentId, current.documentId);
     assert.equal(previous.contentHash, current.contentHash);
-    assert.deepEqual(workflowReferences(`[guide](references/providers/${provider}.md)`, 'skills/openmotion-media/SKILL.md'), [{ workflow: 'media', section: provider, documentId: current.documentId }]);
+    assert.deepEqual(workflowReferences(`[guide](references/providers/${provider}.md)`, 'skills/kinevyn-media/SKILL.md'), [{ workflow: 'media', section: provider, documentId: current.documentId }]);
     assert.doesNotMatch(current.content, /```bash/, `${provider} templates must not use shell wire examples`);
     for (const block of current.content.matchAll(/```json\n([\s\S]*?)\n```/g)) {
       const input = JSON.parse(block[1]);
@@ -76,7 +76,7 @@ test('shared delivery prefers native playback and forbids uncertain duplicate pr
   const templates = await getWorkflow('templates');
   const template = await getWorkflow('start', 'template');
   assert.match(runtime.content, /In Codex, the default is one video embed in the final reply/);
-  assert.match(runtime.content, /do not call `openmotion_show_video` on this route/);
+  assert.match(runtime.content, /do not call `kinevyn_show_video` on this route/);
   assert.match(runtime.content, /Only when native preview is unavailable and the connection exposes/);
   assert.match(runtime.content, /If neither route is usable, deliver an accessible verified file\/link/);
   assert.match(runtime.content, /mutually exclusive for the same completed export/);
@@ -100,7 +100,7 @@ test('final presentation timeout preserves file verification and pending editor 
   const runtime = await getWorkflow('production');
   const verification = await getWorkflow('verification');
   const native = await getWorkflow('native');
-  assert.match(runtime.content, /openmotion_show_video` in its own host tool call/);
+  assert.match(runtime.content, /kinevyn_show_video` in its own host tool call/);
   assert.match(runtime.content, /about 60 seconds[\s\S]*already verified MP4's absolute file path and finish/);
   assert.match(runtime.content, /timeout cannot turn a pending\/hidden\/unavailable editor into confirmed delivery/);
   assert.match(verification.content, /Retain all actual-file playback checks above/);
@@ -115,7 +115,7 @@ test('recreation delivers the same final version once and limits file supplement
   assert.match(recreate.content, /host-native embedding without a download request/);
   assert.match(recreate.content, /Playback recovery reuses the completed export/);
   const delivery = await getWorkflow('verification', 'recreate');
-  assert.match(delivery.content, /openmotion_export_request\(\{projectId,workId,requestId,versionId,expectedRevision,audio\}\)/);
+  assert.match(delivery.content, /kinevyn_export_request\(\{projectId,workId,requestId,versionId,expectedRevision,audio\}\)/);
   assert.match(delivery.content, /same editor version and workId, presenting the final chat video once/);
 });
 
@@ -134,7 +134,7 @@ test('cold-start scoped examples expose only the shared methods needed by each r
     assert.deepEqual(references.map(reference => reference.section), sections, request);
     for (const reference of references) {
       assert.equal(reference.workflow, 'production');
-      const response = JSON.parse((await readWorkflowResource(`openmotion://workflow/${reference.workflow}/${reference.section}`, '/unused')).text);
+      const response = JSON.parse((await readWorkflowResource(`kinevyn://workflow/${reference.workflow}/${reference.section}`, '/unused')).text);
       assert.equal(response.documentId, reference.documentId);
       assert.ok(!response.references.some(target => target.workflow === 'director'), request);
     }
@@ -148,9 +148,9 @@ test('cold-start scoped examples expose only the shared methods needed by each r
 
 test('reference-video routes share one reading and measurement method and keep only their own rules', async () => {
   const shared = await getWorkflow('reference');
-  assert.equal(shared.documentId, 'skills/openmotion-production/references/reference-video.md');
+  assert.equal(shared.documentId, 'skills/kinevyn-production/references/reference-video.md');
   assert.ok(!shared.references.some(reference => reference.workflow !== 'production'));
-  assert.ok(!/openmotion-(recreate|video-to-template)|TEMPLATE\.md/.test(shared.content), 'Shared reading must not name a selecting entry or its record format');
+  assert.ok(!/kinevyn-(recreate|video-to-template)|TEMPLATE\.md/.test(shared.content), 'Shared reading must not name a selecting entry or its record format');
   for (const phrase of ['never evidence of motion', 'measure probe', 'two consecutive fixes', 'Restore a missing original hard cut', 'distinctive lettering', 'runtime/media/bin']) {
     assert.ok(shared.content.includes(phrase), phrase);
   }
@@ -177,7 +177,7 @@ test('reference-video routes share one reading and measurement method and keep o
 });
 
 const skillRoot = new URL('../skills/', import.meta.url);
-const creativeEntries = ['openmotion-director', 'openmotion-recreate', 'openmotion-template-to-video', 'openmotion-video-to-template'];
+const creativeEntries = ['kinevyn-director', 'kinevyn-recreate', 'kinevyn-template-to-video', 'kinevyn-video-to-template'];
 
 async function skillMarkdown() {
   const { readdir } = await import('node:fs/promises');
@@ -189,8 +189,8 @@ const withoutCode = (text: string) => text.replace(/^ {0,3}(`{3,}|~{3,})[^\n]*\n
 
 test('the media Skill serves every entry without naming any of them', async () => {
   for (const { file, text } of await skillMarkdown()) {
-    if (!file.startsWith('openmotion-media/')) continue;
-    assert.doesNotMatch(text, /openmotion-(?:director|recreate|template-to-video|video-to-template)\b|workflow\/(?:director|recreate|template|video-to-template)\//, file);
+    if (!file.startsWith('kinevyn-media/')) continue;
+    assert.doesNotMatch(text, /kinevyn-(?:director|recreate|template-to-video|video-to-template)\b|workflow\/(?:director|recreate|template|video-to-template)\//, file);
   }
 });
 
@@ -208,30 +208,30 @@ test('an entry reaches another creative entry only through its SKILL.md', async 
   assert.deepEqual(crossings, []);
 });
 
-test('non-media Skills reach openmotion-media only through its SKILL.md', async () => {
+test('non-media Skills reach kinevyn-media only through its SKILL.md', async () => {
   const crossings: string[] = [];
   for (const { file, text } of await skillMarkdown()) {
     const [owner] = file.split('/');
-    if (owner === 'openmotion-media') continue;
+    if (owner === 'kinevyn-media') continue;
     for (const [, target] of withoutCode(text).matchAll(/\]\(<?([^)\s>#]+)/g)) {
       if (/^[a-z][a-z0-9+.-]*:|^\/\//i.test(target)) continue;
       const resolved = path.posix.normalize(path.posix.join(path.posix.dirname(file), target));
       const [entry, ...rest] = resolved.split('/');
-      if (entry === 'openmotion-media' && rest.join('/') !== 'SKILL.md') crossings.push(`${file} -> ${resolved}`);
+      if (entry === 'kinevyn-media' && rest.join('/') !== 'SKILL.md') crossings.push(`${file} -> ${resolved}`);
     }
   }
   assert.deepEqual(crossings, []);
 });
 
-test('entry routing tables in openmotion and openmotion-production cover every creative entry consistently', async () => {
-  const bootstrap = await readFile(new URL('openmotion/SKILL.md', skillRoot), 'utf8');
+test('entry routing tables in kinevyn and kinevyn-production cover every creative entry consistently', async () => {
+  const bootstrap = await readFile(new URL('kinevyn/SKILL.md', skillRoot), 'utf8');
   const production = await getWorkflow('start', 'production');
   for (const entry of creativeEntries) {
-    assert.ok(bootstrap.includes(entry), `openmotion/SKILL.md missing ${entry}`);
-    assert.ok(production.content.includes(`../${entry}/SKILL.md`), `openmotion-production/SKILL.md missing link to ${entry}`);
+    assert.ok(bootstrap.includes(entry), `kinevyn/SKILL.md missing ${entry}`);
+    assert.ok(production.content.includes(`../${entry}/SKILL.md`), `kinevyn-production/SKILL.md missing link to ${entry}`);
   }
-  assert.ok(bootstrap.includes('openmotion-production'), 'openmotion/SKILL.md missing openmotion-production');
-  assert.ok(bootstrap.includes('openmotion-media'), 'openmotion/SKILL.md missing openmotion-media');
+  assert.ok(bootstrap.includes('kinevyn-production'), 'kinevyn/SKILL.md missing kinevyn-production');
+  assert.ok(bootstrap.includes('kinevyn-media'), 'kinevyn/SKILL.md missing kinevyn-media');
 });
 
 test('no long sentence is copied between Skill files', async () => {
@@ -247,7 +247,7 @@ test('no long sentence is copied between Skill files', async () => {
       const shingle = words.slice(index, index + width).join(' ');
       const first = seen.get(shingle);
       // Each provider guide follows the same template and must stand alone.
-      const providers = (name: string) => name.startsWith('openmotion-media/references/providers/');
+      const providers = (name: string) => name.startsWith('kinevyn-media/references/providers/');
       if (first && first !== file && !(providers(first) && providers(file))) copies.add(`${first} | ${file}: ${shingle}`);
       else if (!first) seen.set(shingle, file);
     }
@@ -267,7 +267,7 @@ test('each moved rule stays in its owner and entries link to it', async () => {
     for (const heading of headings) assert.ok(document.content.split('\n').includes(heading), `${section}: ${heading}`);
   }
   const jobs = await getWorkflow('jobs', 'media');
-  const providerGuides = (await readdir(new URL('../skills/openmotion-media/references/providers/', import.meta.url))).filter(name => name.endsWith('.md')).map(name => 'skills/openmotion-media/references/providers/' + name).sort();
+  const providerGuides = (await readdir(new URL('../skills/kinevyn-media/references/providers/', import.meta.url))).filter(name => name.endsWith('.md')).map(name => 'skills/kinevyn-media/references/providers/' + name).sort();
   assert.deepEqual(jobs.references.filter(reference => reference.documentId.includes('/providers/')).map(reference => reference.documentId).sort(), providerGuides);
   const links = [
     ['recreate', 'templates', 'first-run-delivery'],

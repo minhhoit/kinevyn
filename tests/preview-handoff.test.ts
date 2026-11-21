@@ -11,10 +11,10 @@ function api(store: any, openProject = async () => { throw new Error('The host m
   mutation: async task => task(), cancel: async () => {},
 }); }
 async function create(service: Phase1Service) {
-  return service.call('openmotion_create_project', { requestId: crypto.randomUUID(), projectType: 'natural_language', title: 'Preview handoff', requirements: 'An editable film' });
+  return service.call('kinevyn_create_project', { requestId: crypto.randomUUID(), projectType: 'natural_language', title: 'Preview handoff', requirements: 'An editable film' });
 }
 async function edit(service: Phase1Service, p: any, text: string, presentation?: string) {
-  return service.call('openmotion_edit_project', { projectId: p.projectId, expectedRevision: p.revision, expectedVersionId: p.version.versionId,
+  return service.call('kinevyn_edit_project', { projectId: p.projectId, expectedRevision: p.revision, expectedVersionId: p.version.versionId,
     requestId: crypto.randomUUID(), files: [{ path: 'note.txt', content: text }], ...(presentation ? { presentation } : {}) });
 }
 function display(saved: any, visibility = 'visible', contentVerified = true) {
@@ -26,7 +26,7 @@ function display(saved: any, visibility = 'visible', contentVerified = true) {
 test('template library opens without a bound project or initializing source, preserving existing work', async () => {
   for (const initialized of [false, true]) await fixture(async store => {
     const service = api(store), before = await store.get(), catalog = store.projectCatalog();
-    const opened = await service.call('openmotion_open_preview', { target: 'templates' });
+    const opened = await service.call('kinevyn_open_preview', { target: 'templates' });
     assert.equal(opened.projectCreated, false);
     assert.equal(opened.projectId, undefined);
     assert.equal(new URL(opened.previewUrl).searchParams.get('templates'), '1');
@@ -36,8 +36,8 @@ test('template library opens without a bound project or initializing source, pre
     assert.equal(opened.previewHandoff.focusPolicy, 'preserve_current_chat');
     assert.deepEqual(await store.get(), before);
     assert.deepEqual(store.projectCatalog(), catalog);
-    await assert.rejects(service.call('openmotion_open_preview', { target: 'templates', projectId: 'project' }), /INVALID_ARGUMENT/);
-    await assert.rejects(service.call('openmotion_open_preview', { target: 'templates', action: 'record_display' }), /INVALID_ARGUMENT/);
+    await assert.rejects(service.call('kinevyn_open_preview', { target: 'templates', projectId: 'project' }), /INVALID_ARGUMENT/);
+    await assert.rejects(service.call('kinevyn_open_preview', { target: 'templates', action: 'record_display' }), /INVALID_ARGUMENT/);
   }, initialized);
 });
 
@@ -45,7 +45,7 @@ test('provider setup opens without a project and preserves workspace state', asy
   for (const initialized of [false, true]) await fixture(async store => {
     const service = api(store), before = await store.get(), catalog = store.projectCatalog();
     for (const presentation of ['foreground', 'background', 'now']) {
-      const opened = await service.call('openmotion_open_preview', { target: 'providers', presentation });
+      const opened = await service.call('kinevyn_open_preview', { target: 'providers', presentation });
       const url = new URL(opened.previewUrl);
       assert.equal(url.searchParams.get('page'), 'settings');
       assert.equal(url.searchParams.get('section'), 'providers');
@@ -62,7 +62,7 @@ test('provider setup opens without a project and preserves workspace state', asy
       assert.doesNotMatch(opened.previewHandoff.instructions, /Settings > Account|Subscription & usage/);
     }
     for (const entry of ['agent_media_signed_out', 'agent_media_upgrade_free', 'agent_media_upgrade_go', 'agent_media_balance_low', 'agent_media_key_rejected', 'agent_media_handbook']) {
-      const handoff = await service.call('openmotion_open_preview', { target: 'providers', entry });
+      const handoff = await service.call('kinevyn_open_preview', { target: 'providers', entry });
       const url = new URL(handoff.previewUrl);
       assert.equal(url.searchParams.get('entry_from'), entry);
       assert.equal(url.searchParams.get('embed'), '1');
@@ -72,24 +72,24 @@ test('provider setup opens without a project and preserves workspace state', asy
     assert.deepEqual(await store.get(), before);
     assert.deepEqual(store.projectCatalog(), catalog);
     for (const args of [{ projectId: 'project' }, { sessionId: 'session' }, { action: 'begin' }, { action: 'record_display' }, { entry: 'PRIVATE_ENTRY' }]) {
-      await assert.rejects(service.call('openmotion_open_preview', { target: 'providers', ...args }), /INVALID_ARGUMENT/);
+      await assert.rejects(service.call('kinevyn_open_preview', { target: 'providers', ...args }), /INVALID_ARGUMENT/);
     }
-    await assert.rejects(service.call('openmotion_open_preview', { target: 'templates', entry: 'agent_media_signed_out' }), /INVALID_ARGUMENT/);
-    const project = await service.call('openmotion_create_project', { requestId: crypto.randomUUID(), projectType: 'natural_language', title: 'Entry guard', requirements: 'Reject provider entry on project previews' });
-    await assert.rejects(service.call('openmotion_open_preview', { target: 'project', action: 'begin', projectId: project.projectId, requestId: crypto.randomUUID(), mode: 'create', entry: 'agent_media_upgrade_free' }), /INVALID_ARGUMENT/);
-    await assert.rejects(service.call('openmotion_open_preview', { action: 'begin', projectId: project.projectId, requestId: crypto.randomUUID(), mode: 'create', entry: 'agent_media_upgrade_free' }), /INVALID_ARGUMENT/);
+    await assert.rejects(service.call('kinevyn_open_preview', { target: 'templates', entry: 'agent_media_signed_out' }), /INVALID_ARGUMENT/);
+    const project = await service.call('kinevyn_create_project', { requestId: crypto.randomUUID(), projectType: 'natural_language', title: 'Entry guard', requirements: 'Reject provider entry on project previews' });
+    await assert.rejects(service.call('kinevyn_open_preview', { target: 'project', action: 'begin', projectId: project.projectId, requestId: crypto.randomUUID(), mode: 'create', entry: 'agent_media_upgrade_free' }), /INVALID_ARGUMENT/);
+    await assert.rejects(service.call('kinevyn_open_preview', { action: 'begin', projectId: project.projectId, requestId: crypto.randomUUID(), mode: 'create', entry: 'agent_media_upgrade_free' }), /INVALID_ARGUMENT/);
     assert.deepEqual(new Set(store.projectCatalog().projects.map(item => item.id)), new Set([...catalog.projects.map(item => item.id), project.projectId]));
   }, initialized);
 });
 
 test('confirmed inactive-chat deferral preserves the current chat and resolves the latest version on return', () => fixture(async store => {
   const service = api(store, async () => {}), p = await create(service), first = await edit(service, p, 'first');
-  const opened = await service.call('openmotion_open_preview', first.previewHandoff.nextAction.arguments);
+  const opened = await service.call('kinevyn_open_preview', first.previewHandoff.nextAction.arguments);
   assert.equal(opened.previewHandoff.focusPolicy, 'preserve_current_chat');
   assert.equal(opened.previewHandoff.nextAction.codex.recovery.tool, undefined);
   const queued = display(first, 'queued', false);
   queued.display = { ...queued.display, hostStatus: 'queued', evidence: 'Host confirms the calling chat is inactive; preview is queued for its return.' } as any;
-  const pending = await service.call('openmotion_open_preview', queued);
+  const pending = await service.call('kinevyn_open_preview', queued);
   assert.equal(pending.previewHandoff.state, 'pending');
   assert.equal(pending.previewHandoff.nextAction.operation, 'wait_for_calling_chat');
   const second = await edit(service, first, 'second');
@@ -97,8 +97,8 @@ test('confirmed inactive-chat deferral preserves the current chat and resolves t
   const latest = await service.call(resume.tool, resume.arguments);
   assert.equal(latest.currentVersionId, second.version.versionId);
   assert.equal(latest.previewHandoff.focusPolicy, 'preserve_current_chat');
-  await assert.rejects(service.call('openmotion_open_preview', display(first)), /VERSION_CONFLICT/);
-  assert.equal((await service.call('openmotion_open_preview', display({ ...second, previewHandoff: latest.previewHandoff }))).previewHandoff.state, 'confirmed');
+  await assert.rejects(service.call('kinevyn_open_preview', display(first)), /VERSION_CONFLICT/);
+  assert.equal((await service.call('kinevyn_open_preview', display({ ...second, previewHandoff: latest.previewHandoff }))).previewHandoff.state, 'confirmed');
 }, false));
 
 test('a queued acknowledgment with a hidden or unavailable panel retains presentation recovery', () => fixture(async store => {
@@ -107,7 +107,7 @@ test('a queued acknowledgment with a hidden or unavailable panel retains present
   for (const visibility of ['hidden', 'unavailable']) {
     const receipt = display(saved, visibility, true);
     receipt.display = { ...receipt.display, hostStatus: 'queued', hostTabId: nativeTabId } as any;
-    const result = await service.call('openmotion_open_preview', receipt);
+    const result = await service.call('kinevyn_open_preview', receipt);
     assert.equal(result.previewHandoff.state, 'pending');
     assert.equal(result.previewHandoff.openedByHost, false);
     assert.equal(result.previewHandoff.nextAction.operation, 'present_preview');
@@ -129,17 +129,17 @@ test('every edit returns a version-bound foreground handoff without claiming the
   assert.equal(first.previewHandoff.openedByHost, false);
   assert.equal(new URL(first.previewHandoff.previewUrl).searchParams.get('project'), p.projectId);
   const args = display(first);
-  const confirmed = await service.call('openmotion_open_preview', args);
+  const confirmed = await service.call('kinevyn_open_preview', args);
   assert.equal(confirmed.previewHandoff.state, 'confirmed');
   assert.equal(confirmed.previewHandoff.confirmationSource, 'host_reported');
-  assert.equal((await service.call('openmotion_open_preview', args)).replayed, true);
+  assert.equal((await service.call('kinevyn_open_preview', args)).replayed, true);
   const second = await edit(service, first, 'second');
   assert.equal(second.previewHandoff.state, 'pending');
   assert.notEqual(second.previewHandoff.versionId, first.previewHandoff.versionId);
-  await assert.rejects(service.call('openmotion_open_preview', display(first)), /VERSION_CONFLICT/);
-  await assert.rejects(service.call('openmotion_open_preview', args), /VERSION_CONFLICT/, 'replaying an old confirmation must not confirm the new version');
-  await assert.rejects(service.call('openmotion_open_preview', { projectId: p.projectId, expectedRevision: first.revision, expectedVersionId: first.version.versionId }), /VERSION_CONFLICT/);
-  const detail = await service.call('openmotion_get_project', { projectId: p.projectId });
+  await assert.rejects(service.call('kinevyn_open_preview', display(first)), /VERSION_CONFLICT/);
+  await assert.rejects(service.call('kinevyn_open_preview', args), /VERSION_CONFLICT/, 'replaying an old confirmation must not confirm the new version');
+  await assert.rejects(service.call('kinevyn_open_preview', { projectId: p.projectId, expectedRevision: first.revision, expectedVersionId: first.version.versionId }), /VERSION_CONFLICT/);
+  const detail = await service.call('kinevyn_get_project', { projectId: p.projectId });
   assert.equal(detail.previewDisplay.isCurrentVersion, false);
   assert.equal(detail.previewDisplay.liveVisibilityVerified, false);
 }, false));
@@ -147,14 +147,14 @@ test('every edit returns a version-bound foreground handoff without claiming the
 test('queued, hidden, unavailable and unverified content remain pending; background is explicit', () => fixture(async store => {
   const service = api(store), p = await create(service), saved = await edit(service, p, 'first');
   for (const visibility of ['queued', 'hidden', 'unavailable']) {
-    const result = await service.call('openmotion_open_preview', display(saved, visibility));
+    const result = await service.call('kinevyn_open_preview', display(saved, visibility));
     assert.equal(result.previewHandoff.state, 'pending');
     assert.equal(result.previewHandoff.openedByHost, false);
     assert.equal(result.previewHandoff.nextAction.kind, 'host');
   }
-  assert.equal((await service.call('openmotion_open_preview', display(saved, 'visible', false))).previewHandoff.state, 'pending');
+  assert.equal((await service.call('kinevyn_open_preview', display(saved, 'visible', false))).previewHandoff.state, 'pending');
   const bad = display(saved); bad.display.previewUrl = origin + '/?project=' + crypto.randomUUID();
-  await assert.rejects(service.call('openmotion_open_preview', bad), /PREVIEW_TARGET_MISMATCH/);
+  await assert.rejects(service.call('kinevyn_open_preview', bad), /PREVIEW_TARGET_MISMATCH/);
   const background = await edit(service, saved, 'background', 'background');
   assert.equal(background.previewHandoff.state, 'background');
   assert.equal(background.previewHandoff.hostActionRequired, false);
@@ -166,23 +166,23 @@ test('queued, hidden, unavailable and unverified content remain pending; backgro
 
 test('restoring identical content still requires a new display confirmation', () => fixture(async store => {
   const service = api(store), p = await create(service), first = await edit(service, p, 'first');
-  await service.call('openmotion_open_preview', display(first));
+  await service.call('kinevyn_open_preview', display(first));
   const second = await edit(service, first, 'second');
-  const restored = await service.call('openmotion_restore_version', { projectId: p.projectId, requestId: crypto.randomUUID(),
+  const restored = await service.call('kinevyn_restore_version', { projectId: p.projectId, requestId: crypto.randomUUID(),
     versionId: first.version.versionId, expectedRevision: second.revision, expectedVersionId: second.version.versionId });
   assert.equal(restored.previewHandoff.state, 'pending');
   assert.equal(restored.previewHandoff.versionId, restored.version.versionId);
   assert.equal(restored.revision, first.revision);
   assert.notEqual(restored.version.versionId, first.version.versionId);
-  await assert.rejects(service.call('openmotion_open_preview', display(first)), /VERSION_CONFLICT/);
-  assert.equal((await service.call('openmotion_get_project', { projectId: p.projectId })).previewDisplay.isCurrentVersion, false);
+  await assert.rejects(service.call('kinevyn_open_preview', display(first)), /VERSION_CONFLICT/);
+  assert.equal((await service.call('kinevyn_get_project', { projectId: p.projectId })).previewDisplay.isCurrentVersion, false);
 }, false));
 
 test('opening prepares the host action without recursively reopening and preserves full-workspace links', () => fixture(async store => {
   let opened = 0;
   const service = api(store, async () => { opened++; }), p = await create(service);
   const saved = await edit(service, p, 'first');
-  const result = await service.call('openmotion_open_preview', { ...saved.previewHandoff.nextAction.arguments, embedded: false });
+  const result = await service.call('kinevyn_open_preview', { ...saved.previewHandoff.nextAction.arguments, embedded: false });
   assert.equal(opened, 1);
   assert.equal(result.previewHandoff.nextAction.kind, 'host');
   assert.equal(result.previewHandoff.nextAction.codex.arguments.placement, 'right');
@@ -202,42 +202,42 @@ test('opening prepares the host action without recursively reopening and preserv
   assert.equal(new URL(result.previewUrl).searchParams.has('embed'), false);
   assert.equal(result.openedByHost, false);
   const receipt = display({ ...saved, previewHandoff: result.previewHandoff });
-  assert.equal((await service.call('openmotion_open_preview', receipt)).previewHandoff.state, 'confirmed');
+  assert.equal((await service.call('kinevyn_open_preview', receipt)).previewHandoff.state, 'confirmed');
 }, false));
 
 test('only an explicit now request permits switching and it does not persist into the next turn', () => fixture(async store => {
   const service = api(store, async () => {}), p = await create(service), saved = await edit(service, p, 'show now', 'now');
   assert.equal(saved.previewHandoff.focusPolicy, 'switch_to_calling_chat');
   assert.equal(saved.previewHandoff.nextAction.arguments.presentation, 'now');
-  const opened = await service.call('openmotion_open_preview', saved.previewHandoff.nextAction.arguments);
+  const opened = await service.call('kinevyn_open_preview', saved.previewHandoff.nextAction.arguments);
   assert.equal(opened.previewHandoff.nextAction.codex.recovery.tool, 'navigate_to_codex_page');
   assert.equal(opened.previewHandoff.nextAction.codex.recovery.scope, 'calling_chat_only');
-  const pending = await service.call('openmotion_open_preview', { ...display(saved, 'hidden', false), presentation: 'now' });
+  const pending = await service.call('kinevyn_open_preview', { ...display(saved, 'hidden', false), presentation: 'now' });
   assert.equal(pending.previewHandoff.focusPolicy, 'switch_to_calling_chat');
   assert.equal(pending.previewHandoff.nextAction.codex.recovery.tool, 'navigate_to_codex_page');
   const next = await edit(service, saved, 'next ordinary edit');
   assert.equal(next.previewHandoff.focusPolicy, 'preserve_current_chat');
-  const restored = await service.call('openmotion_restore_version', { projectId: p.projectId, requestId: crypto.randomUUID(),
+  const restored = await service.call('kinevyn_restore_version', { projectId: p.projectId, requestId: crypto.randomUUID(),
     versionId: saved.version.versionId, expectedRevision: next.revision, expectedVersionId: next.version.versionId, presentation: 'now' });
   assert.equal(restored.previewHandoff.nextAction.arguments.presentation, 'now');
-  assert.equal((await service.call('openmotion_open_preview', { projectId: p.projectId })).previewHandoff.focusPolicy, 'preserve_current_chat');
+  assert.equal((await service.call('kinevyn_open_preview', { projectId: p.projectId })).previewHandoff.focusPolicy, 'preserve_current_chat');
 }, false));
 
 test('a queued host acknowledgment can confirm an actually visible current preview', () => fixture(async store => {
   const service = api(store, async () => {}), p = await create(service), saved = await edit(service, p, 'latest');
   const nativeTabId = crypto.randomUUID();
   const visible = { ...display(saved), display: { ...display(saved).display, hostStatus: 'queued', hostTabId: nativeTabId } };
-  const confirmed = await service.call('openmotion_open_preview', visible);
+  const confirmed = await service.call('kinevyn_open_preview', visible);
   assert.equal(confirmed.previewHandoff.state, 'confirmed');
   assert.equal(confirmed.display.hostStatus, 'queued');
   const second = await edit(service, saved, 'second');
   assert.equal(second.previewHandoff.state, 'pending');
-  const reopened = await service.call('openmotion_open_preview', second.previewHandoff.nextAction.arguments);
+  const reopened = await service.call('kinevyn_open_preview', second.previewHandoff.nextAction.arguments);
   assert.equal(reopened.previewHandoff.nextAction.codex.arguments.target.tabId, nativeTabId);
   assert.equal(reopened.previewHandoff.nextAction.codex.arguments.target.url, reopened.previewUrl);
   assert.equal(reopened.previewHandoff.state, 'pending', 'reusing a native tab must not reuse its old content confirmation');
   const hidden = { ...display(second, 'hidden'), display: { ...display(second, 'hidden').display, hostStatus: 'queued' } };
-  const pending = await service.call('openmotion_open_preview', hidden);
+  const pending = await service.call('kinevyn_open_preview', hidden);
   assert.equal(pending.previewHandoff.state, 'pending');
   assert.equal(pending.previewHandoff.openedByHost, false);
 }, false));
@@ -255,31 +255,31 @@ test('public MCP round trips expose the handoff and reject a stale host receipt'
     return response.result;
   };
   try {
-    const library = await call('openmotion_open_preview', { target: 'templates' });
+    const library = await call('kinevyn_open_preview', { target: 'templates' });
     assert.equal(library.isError, undefined);
     assert.equal(library.structuredContent.projectCreated, false);
     assert.equal((await store.get()).project, null);
-    const created = await call('openmotion_create_project', { requestId: crypto.randomUUID(), projectType: 'natural_language', title: 'RPC preview', requirements: 'Check a two-turn editing handoff' });
+    const created = await call('kinevyn_create_project', { requestId: crypto.randomUUID(), projectType: 'natural_language', title: 'RPC preview', requirements: 'Check a two-turn editing handoff' });
     assert.equal(created.isError, undefined);
     const p = created.structuredContent;
-    const settings = await call('openmotion_open_preview', { target: 'providers' });
+    const settings = await call('kinevyn_open_preview', { target: 'providers' });
     assert.equal(settings.isError, undefined, 'A bound project must not leak into provider setup');
     assert.equal(new URL(settings.structuredContent.previewUrl).searchParams.get('section'), 'providers');
     assert.equal(settings.structuredContent.projectId, undefined);
-    const boundLibrary = await call('openmotion_open_preview', { target: 'templates' });
+    const boundLibrary = await call('kinevyn_open_preview', { target: 'templates' });
     assert.equal(boundLibrary.isError, undefined, 'A project binding must not leak into the template library target');
     assert.equal(boundLibrary.structuredContent.projectId, undefined);
-    const save = async (current: any, content: string) => call('openmotion_edit_project', { projectId: p.projectId, requestId: crypto.randomUUID(),
+    const save = async (current: any, content: string) => call('kinevyn_edit_project', { projectId: p.projectId, requestId: crypto.randomUUID(),
       expectedRevision: current.revision, expectedVersionId: current.version.versionId, files: [{ path: 'note.txt', content }] });
     const first = await save(p, 'first'); assert.equal(first.isError, undefined);
     assert.equal(first.structuredContent.previewHandoff.state, 'pending');
-    const receipt = await call('openmotion_open_preview', display(first.structuredContent, 'queued', false));
+    const receipt = await call('kinevyn_open_preview', display(first.structuredContent, 'queued', false));
     assert.equal(receipt.isError, undefined); assert.equal(receipt.structuredContent.previewHandoff.state, 'pending');
     const second = await save(first.structuredContent, 'second'); assert.equal(second.isError, undefined);
     assert.equal(second.structuredContent.previewHandoff.state, 'pending');
-    const stale = await call('openmotion_open_preview', display(first.structuredContent));
+    const stale = await call('kinevyn_open_preview', display(first.structuredContent));
     assert.equal(stale.isError, true); assert.match(JSON.stringify(stale), /VERSION_CONFLICT/);
-    const unchanged = await call('openmotion_get_project', { projectId: p.projectId });
+    const unchanged = await call('kinevyn_get_project', { projectId: p.projectId });
     assert.equal(unchanged.structuredContent.currentVersionId, second.structuredContent.version.versionId);
   } finally { await running.close(); }
 }, false));
@@ -294,12 +294,12 @@ test('content changes during opening require rereading before a new preview hand
   });
   const p = await create(service); projectId = p.projectId;
   const saved = await edit(service, p, 'first');
-  await assert.rejects(service.call('openmotion_open_preview', saved.previewHandoff.nextAction.arguments), /VERSION_CONFLICT/);
-  const current = await service.call('openmotion_get_project', { projectId });
+  await assert.rejects(service.call('kinevyn_open_preview', saved.previewHandoff.nextAction.arguments), /VERSION_CONFLICT/);
+  const current = await service.call('kinevyn_get_project', { projectId });
   assert.notEqual(current.currentVersionId, saved.version.versionId);
-  const opened = await service.call('openmotion_open_preview', { projectId, expectedRevision: current.revision, expectedVersionId: current.currentVersionId });
+  const opened = await service.call('kinevyn_open_preview', { projectId, expectedRevision: current.revision, expectedVersionId: current.currentVersionId });
   assert.equal(opened.previewHandoff.versionId, current.currentVersionId);
-  await assert.rejects(service.call('openmotion_open_preview', display(saved)), /VERSION_CONFLICT/);
-  const receipt = await service.call('openmotion_open_preview', display({ ...current, previewHandoff: opened.previewHandoff }));
+  await assert.rejects(service.call('kinevyn_open_preview', display(saved)), /VERSION_CONFLICT/);
+  const receipt = await service.call('kinevyn_open_preview', display({ ...current, previewHandoff: opened.previewHandoff }));
   assert.equal(receipt.previewHandoff.state, 'confirmed');
 }, false));

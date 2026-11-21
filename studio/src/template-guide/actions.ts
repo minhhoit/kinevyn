@@ -3,7 +3,7 @@ import { formatTemplatePrompt } from '../../../shared/template-prompts';
 import { gatewayRequest } from '../motion/gatewayClient';
 
 export type GuideAction = 'load' | 'save' | 'copy' | 'open' | 'download' | 'source' | 'library';
-export const guideDraftKey = (id: string) => `openmotion.template-guide.v1:${id}`;
+export const guideDraftKey = (id: string) => `kinevyn.template-guide.v1:${id}`;
 type CreationPayload = { requestId: string; projectType: 'template'; templateId: string; title: string; requirements: string; guideDraft?: TemplateGuideDraft; namingLanguage: string };
 type CreationAttempt = { signature: string; payload: CreationPayload };
 const attempts = new Map<string, CreationAttempt>();
@@ -31,7 +31,7 @@ export async function handleGuideAction(id: string, action: GuideAction, value: 
     if (!draft) throw new Error('INVALID_GUIDE_DRAFT');
     localStorage.setItem(key, JSON.stringify(draft)); return true;
   }
-  const template = await guideTool('openmotion_get_template', { templateId: id });
+  const template = await guideTool('kinevyn_get_template', { templateId: id });
   if (action === 'source') {
     const source = new URL(template.sourceUrl);
     if (!['https:', 'http:'].includes(source.protocol)) throw new Error('INVALID_SOURCE_URL');
@@ -56,7 +56,7 @@ export async function handleGuideAction(id: string, action: GuideAction, value: 
   attempts.set(id, attempt);
   try { localStorage.setItem(key + ':create', JSON.stringify(attempt)); } catch { /* In-memory retry protection still applies. */ }
   let project;
-  try { project = await guideTool('openmotion_create_project', attempt.payload); }
+  try { project = await guideTool('kinevyn_create_project', attempt.payload); }
   catch (error) {
     // Only a server-confirmed, cleaned-up creation failure permits a fresh request.
     // Network loss and unknown receipts retain the exact original payload for replay.
@@ -66,16 +66,16 @@ export async function handleGuideAction(id: string, action: GuideAction, value: 
     }
     throw error;
   }
-  await guideTool('openmotion_open_preview', { projectId: project.projectId });
+  await guideTool('kinevyn_open_preview', { projectId: project.projectId });
   const url = new URL(project.previewUrl, location.href);
   if (url.origin !== location.origin) throw new Error('INVALID_PREVIEW_URL');
   return { url: url.href, projectId: project.projectId };
 }
 
-export type GuideRpc = { type: 'openmotion:guide-action'; templateId: string; viewId: string; requestId: string; action: GuideAction; value?: TemplateGuideDraft; locale: string };
+export type GuideRpc = { type: 'kinevyn:guide-action'; templateId: string; viewId: string; requestId: string; action: GuideAction; value?: TemplateGuideDraft; locale: string };
 export function validGuideRpc(value: unknown): value is GuideRpc {
   const input = value as GuideRpc;
-  return Boolean(input && input.type === 'openmotion:guide-action' && typeof input.requestId === 'string' && /^[\w-]{1,100}$/.test(input.requestId)
+  return Boolean(input && input.type === 'kinevyn:guide-action' && typeof input.requestId === 'string' && /^[\w-]{1,100}$/.test(input.requestId)
     && typeof input.templateId === 'string' && /^[a-z][a-z0-9-]+$/.test(input.templateId)
     && typeof input.viewId === 'string' && /^[a-f0-9-]{36}$/i.test(input.viewId)
     && ['load', 'save', 'copy', 'open', 'download', 'source', 'library'].includes(input.action) && typeof input.locale === 'string' && input.locale.length <= 16);

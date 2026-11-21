@@ -103,7 +103,7 @@ function CaptionControls() {
     try {
       await shell.waitForPendingDomEditSaves(); if (!valid()) return;
       const result = await transcriptRequest<{ document: TranscriptDocument }>({ command: 'get', projectId, transcriptId: source });
-      const detail = await gatewayRequest<{ revision: string; currentVersionId: string }>('phase1/call', 'POST', { name: 'openmotion_get_project', arguments: { projectId } });
+      const detail = await gatewayRequest<{ revision: string; currentVersionId: string }>('phase1/call', 'POST', { name: 'kinevyn_get_project', arguments: { projectId } });
       if (!valid()) return;
       await transcriptRequest({ command: 'captions', projectId, transcriptId: source, expectedTranscriptRevision: result.document.revision, compositionPath, ...placement, captionSettings: settings, expectedRevision: detail.revision, expectedVersionId: detail.currentVersionId, requestId: crypto.randomUUID() });
       if (valid()) {

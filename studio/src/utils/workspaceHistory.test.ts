@@ -27,7 +27,7 @@ it('rejects cross-origin navigation before changing history', () => {
 });
 
 it('starts a copied or legacy URL with no product history', () => {
-  history.replaceState({ openmotionHistoryIndex: 8, integration: true }, '', '/?page=settings&section=about');
+  history.replaceState({ kinevynHistoryIndex: 8, integration: true }, '', '/?page=settings&section=about');
   initializeWorkspaceHistory();
   expect(workspaceHistorySession()).toBeTruthy();
   expect(workspaceHistoryIndex()).toBe(0);

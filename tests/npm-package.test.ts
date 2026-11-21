@@ -36,10 +36,10 @@ globalThis.fetch = async (input, init) => {
  if (url.startsWith('http://127.0.0.1:')) return original(input, init);
  throw new Error('Unexpected network request: ' + url);
 };`);
-    const env = { ...process.env, MOTION_DATA_DIR: path.join(directory, 'data'), OPENMOTION_TELEMETRY: '0' };
+    const env = { ...process.env, MOTION_DATA_DIR: path.join(directory, 'data'), KINEVYN_TELEMETRY: '0' };
     delete env.MOTION_TEMPLATE_SOURCE;
     const firstId = built.catalog.templateIds[0];
-    const messages = ['openmotion_list_templates', 'openmotion_get_template'].map((name, index) => ({ jsonrpc: '2.0', id: index + 1, method: 'tools/call', params: { name, arguments: index ? { templateId: firstId } : {} } }));
+    const messages = ['kinevyn_list_templates', 'kinevyn_get_template'].map((name, index) => ({ jsonrpc: '2.0', id: index + 1, method: 'tools/call', params: { name, arguments: index ? { templateId: firstId } : {} } }));
     const replies = execFileSync(process.execPath, ['--import', hook, path.join(application, 'mcp.ts')], { cwd: directory, env, input: messages.map(value => JSON.stringify(value)).join('\n') + '\n', encoding: 'utf8', timeout: 30_000 }).trim().split('\n').map(line => JSON.parse(line));
     for (const reply of replies) assert.equal(reply.result.isError, undefined, JSON.stringify(reply));
     const index = replies[0].result.structuredContent, detail = replies[1].result.structuredContent;
@@ -167,24 +167,24 @@ test('test npm artifacts contain their application, locked manifest and no bundl
     const media = new Map<string, string>((await json('repository-media.json')).files.map((file: { path: string; url: string }) => [file.path, file.url]));
     const hero = media.get('docs/readme/brand-hero.jpg');
     const mobileHero = media.get('docs/readme/brand-hero.mobile.jpg');
-    const studioCapture = `https://raw.githubusercontent.com/nexu-io/openmotion/${release.commit}/docs/readme/live-product/editor.en.jpg`;
+    const studioCapture = `https://raw.githubusercontent.com/rivyn-labs/kinevyn/${release.commit}/docs/readme/live-product/editor.en.jpg`;
     assert(hero && mobileHero, 'Public README covers must retain registered media identities');
     assert(readme.includes('The open-source Claude Motion &amp; CapCut alternative'));
-    assert(readme.includes(`srcset="https://raw.githubusercontent.com/nexu-io/openmotion/${release.commit}/docs/readme/capcut-claude-motion-cover.webp"`));
+    assert(readme.includes(`srcset="https://raw.githubusercontent.com/rivyn-labs/kinevyn/${release.commit}/docs/readme/capcut-claude-motion-cover.webp"`));
     assert(readme.includes(hero));
-    assert(readme.includes(`src="https://raw.githubusercontent.com/nexu-io/openmotion/${release.commit}/docs/readme/openmotion-logo.svg"`));
-    assert(readme.includes(`https://github.com/nexu-io/openmotion/blob/${release.commit}/docs/motion-md.md`));
+    assert(readme.includes(`src="https://raw.githubusercontent.com/rivyn-labs/kinevyn/${release.commit}/docs/readme/kinevyn-logo.svg"`));
+    assert(readme.includes(`https://github.com/rivyn-labs/kinevyn/blob/${release.commit}/docs/motion-md.md`));
     assert(readme.includes('](#choose-agent)'));
     assert(readme.includes('href="https://open-design.ai/motion/'));
     assert(readme.includes(`srcset="${mobileHero}"`));
-    assert(readme.includes(`href="https://github.com/nexu-io/openmotion/blob/${release.commit}/LICENSE"`));
+    assert(readme.includes(`href="https://github.com/rivyn-labs/kinevyn/blob/${release.commit}/LICENSE"`));
     assert(readme.includes(`src="${studioCapture}"`));
     assert(readme.includes('href="https://open-design.ai/templates/notion-custom-agents-motion-design/"'));
     assert(!readme.includes('](docs/') && !readme.includes('](template-library/'));
     assert(!readme.startsWith('# Motion application npm package'));
     const embeddedReadme = await readFile(path.join(application, 'README.md'), 'utf8');
     assert(embeddedReadme.includes('](docs/motion-md.md)'), 'Installed documentation keeps local links to shipped guides');
-    assert(embeddedReadme.includes(`srcset="https://raw.githubusercontent.com/nexu-io/openmotion/${release.commit}/docs/readme/capcut-claude-motion-cover.webp"`));
+    assert(embeddedReadme.includes(`srcset="https://raw.githubusercontent.com/rivyn-labs/kinevyn/${release.commit}/docs/readme/capcut-claude-motion-cover.webp"`));
     assert(embeddedReadme.includes(`srcset="${mobileHero}"`));
     assert(embeddedReadme.includes(`src="${studioCapture}"`));
     await assert.rejects(readdir(path.join(application, 'docs/readme/media')), { code: 'ENOENT' });
@@ -222,10 +222,10 @@ test('test npm artifacts contain their application, locked manifest and no bundl
     const metadata = await json(path.join(installer, 'package/package.json'));
     assert.equal(metadata.name, (await json('packages/npm/package.json')).name);
     assert.equal(metadata.publishConfig.tag, 'candidate'); assert.equal(metadata.publishConfig.access, 'public');
-    assert.equal(metadata.bin.openmotion, 'scripts/npm-installer.mjs');
-    const cli = path.join(installer, 'package', metadata.bin.openmotion);
+    assert.equal(metadata.bin.kinevyn, 'scripts/npm-installer.mjs');
+    const cli = path.join(installer, 'package', metadata.bin.kinevyn);
     assert.equal((await runFile(process.execPath, [cli, '--version'])).trim(), version);
-    const installedPackage = path.join(directory, 'node_modules/@openmotion/app');
+    const installedPackage = path.join(directory, 'node_modules/@kinevyn/app');
     await mkdir(path.join(installedPackage, 'scripts'), { recursive: true });
     await cp(path.join(installer, 'package/scripts'), path.join(installedPackage, 'scripts'), { recursive: true });
     await cp(path.join(installer, 'package/package.json'), path.join(installedPackage, 'package.json'));
@@ -238,19 +238,19 @@ test('test npm artifacts contain their application, locked manifest and no bundl
     await readFile(path.join(installer, 'package/LICENSE'));
     assert.deepEqual((await readdir(path.join(application, 'skills'))).sort(), [...packagedSkills].sort());
     assert.equal(release.skills.length, packagedSkills.length);
-    assert(release.skills.every((name: string) => name.startsWith('openmotion-')));
-    assert.match(await readFile(path.join(application, 'skills/openmotion-production/agents/openai.yaml'), 'utf8'), /OpenMotion Production/);
-    assert.match(await readFile(path.join(application, 'skills/openmotion-media/agents/openai.yaml'), 'utf8'), /OpenMotion Media/);
-    for (const document of ['skills/openmotion-director/SKILL.md', 'skills/openmotion-media/SKILL.md', 'skills/openmotion-production/references/context.md', 'skills/openmotion-production/references/native.md', 'skills/openmotion-production/references/typography.md', 'skills/openmotion-production/references/fonts.md', 'skills/openmotion-production/fonts/catalog.json', 'scripts/prepare-font.ts', 'scripts/font-specimen.ts', 'skills/openmotion-production/references/verification.md', 'skills/openmotion-recreate/SKILL.md', 'phase1.ts', 'shared/phase1-tools.ts', 'shared/mcp-profiles.json']) {
+    assert(release.skills.every((name: string) => name.startsWith('kinevyn-')));
+    assert.match(await readFile(path.join(application, 'skills/kinevyn-production/agents/openai.yaml'), 'utf8'), /Kinevyn Production/);
+    assert.match(await readFile(path.join(application, 'skills/kinevyn-media/agents/openai.yaml'), 'utf8'), /Kinevyn Media/);
+    for (const document of ['skills/kinevyn-director/SKILL.md', 'skills/kinevyn-media/SKILL.md', 'skills/kinevyn-production/references/context.md', 'skills/kinevyn-production/references/native.md', 'skills/kinevyn-production/references/typography.md', 'skills/kinevyn-production/references/fonts.md', 'skills/kinevyn-production/fonts/catalog.json', 'scripts/prepare-font.ts', 'scripts/font-specimen.ts', 'skills/kinevyn-production/references/verification.md', 'skills/kinevyn-recreate/SKILL.md', 'phase1.ts', 'shared/phase1-tools.ts', 'shared/mcp-profiles.json']) {
       assert.equal(await readFile(path.join(application, document), 'utf8'), await readFile(document, 'utf8'));
     }
     assert.equal(await sha256(path.join(application, 'package-lock.json')), release.locks.npm);
     assert.equal(await sha256(path.join(application, 'scripts/runtime-lock.json')), release.locks.native);
     const entries = await runFile('tar', ['-tf', built.application]);
     assert(!/\/(node_modules|runtime)\//.test(entries));
-    assert(entries.includes('skills/openmotion-production/SKILL.md'));
-    for (const file of ['shared/provider-registry.ts', 'gateway/connections.ts', 'gateway/media-use.ts', 'gateway/opendesign.ts', 'skills/openmotion-media/references/providers/fal.md', 'skills/openmotion-media/references/providers/opendesign.md', 'skills/openmotion-media/references/providers/atlascloud.md', 'skills/openmotion-media/references/providers/wavespeed.md']) assert(entries.includes(file), 'BYOK runtime and guidance must ship: ' + file);
-    assert(!entries.includes('skills/openmotion-debug-media/'), 'Removed debugging Skill must not ship');
+    assert(entries.includes('skills/kinevyn-production/SKILL.md'));
+    for (const file of ['shared/provider-registry.ts', 'gateway/connections.ts', 'gateway/media-use.ts', 'gateway/opendesign.ts', 'skills/kinevyn-media/references/providers/fal.md', 'skills/kinevyn-media/references/providers/opendesign.md', 'skills/kinevyn-media/references/providers/atlascloud.md', 'skills/kinevyn-media/references/providers/wavespeed.md']) assert(entries.includes(file), 'BYOK runtime and guidance must ship: ' + file);
+    assert(!entries.includes('skills/kinevyn-debug-media/'), 'Removed debugging Skill must not ship');
     const entryNames = entries.trim().split('\n').map(file => file.replace(/^\.\//, ''));
     for (const file of unapproved) assert(!entryNames.includes(file), 'Unapproved file shipped: ' + file);
     // Check complete path segments, including nested support folders and tar's ./ prefix.
@@ -262,12 +262,12 @@ test('test npm artifacts contain their application, locked manifest and no bundl
     assert(!entryPaths.some(parts => parts.includes('.motion-data')), 'Workspace data must not ship');
     assert(!/\/(tests|src)\//.test(entries), 'Development sources and fixtures must not ship');
     for (const script of ['measure_frame.mjs', 'register_motion.py', 'measure_motion.py', 'observe_marks.py', 'vision-tools.mjs']) {
-      const filename = 'skills/openmotion-recreate/scripts/' + script;
+      const filename = 'skills/kinevyn-recreate/scripts/' + script;
       assert(entries.includes(filename), 'Missing recreation helper: ' + script);
       assert.equal(await readFile(path.join(application, filename), 'utf8'), await readFile(filename, 'utf8'));
     }
-    for (const file of ['rebuild.md', 'reconstruction.md', 'rendering.md', 'verify.md']) assert(entries.includes('skills/openmotion-recreate/references/' + file), 'Missing recreation reference: ' + file);
-    assert(entries.includes('skills/openmotion-recreate/assets/reconstruction.js'));
+    for (const file of ['rebuild.md', 'reconstruction.md', 'rendering.md', 'verify.md']) assert(entries.includes('skills/kinevyn-recreate/references/' + file), 'Missing recreation reference: ' + file);
+    assert(entries.includes('skills/kinevyn-recreate/assets/reconstruction.js'));
     assert(entries.includes('studio/build/index.html'));
     assert.doesNotMatch(entries, /studio\/build\/editor-assets\/three-js-.*\.webp/);
     assert.doesNotMatch(entries, /studio\/build\/.*\.(?:mp4|webm|gif)$/m);
@@ -379,7 +379,7 @@ test('manual CI passes the selected template environment to both package formats
       '#!/bin/sh',
       'printf "%s\\n" "$*" >> "$MOTION_PACKAGE_CALLS"',
       'if [ "$2" = version ]; then echo 0.6.4-test.42.1; fi',
-      'if [ "$1" = scripts/package-npm.mjs ]; then mkdir -p "$2"; printf pkg > "$2/openmotion-app-$3.tgz"; fi',
+      'if [ "$1" = scripts/package-npm.mjs ]; then mkdir -p "$2"; printf pkg > "$2/kinevyn-app-$3.tgz"; fi',
     ].join('\n');
     await writeFile(path.join(directory, 'node'), fakeNode + '\n', { mode: 0o755 });
     for (const format of ['npm', 'full']) for (const environment of ['prod', 'dev']) {

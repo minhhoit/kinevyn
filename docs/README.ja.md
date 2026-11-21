@@ -1,4 +1,4 @@
-<p align="center"><img src="readme/openmotion-logo.svg" width="420" alt="OpenMotion"></p>
+<p align="center"><img src="readme/kinevyn-logo.svg" width="420" alt="Kinevyn"></p>
 
 <p align="center"><strong>Claude Motion と CapCut に代わるオープンソースの動画スタジオ</strong></p>
 
@@ -11,23 +11,23 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/nexu-io/openmotion"><img src="readme/badges/stars.ja.svg" alt="GitHub スター · 9.5k（2026-11-09）"></a>
+  <a href="https://github.com/rivyn-labs/kinevyn"><img src="readme/badges/stars.ja.svg" alt="GitHub スター · 9.5k（2026-11-09）"></a>
   <a href="../package.json"><img src="readme/badges/node.svg" alt="Node.js 22.18+"></a>
   <a href="../LICENSE"><img src="readme/badges/license.ja.svg" alt="Apache 2.0 ライセンス"></a>
-  <a href="https://github.com/nexu-io/open-design"><img src="readme/badges/built-by-opendesign.ja.svg" alt="開発元 OpenDesign"></a>
+  <a href="https://github.com/rivyn-labs/open-design"><img src="readme/badges/built-by-opendesign.ja.svg" alt="開発元 OpenDesign"></a>
 </p>
 
 <p align="center">
-  <a href="https://open-design.ai/ja/motion/"><img src="readme/badges/website.ja.svg" alt="OpenMotion 公式サイト" /></a>
-  <a href="https://go.open-design.ai/?utm_source=github&amp;utm_medium=referral&amp;utm_campaign=openmotion&amp;utm_content=readme_ja"><img src="readme/badges/opendesign-go.svg" alt="OpenDesign Go のモデル利用プラン" /></a>
-  <a href="https://discord.com/invite/M7NnHS9gNa"><img src="readme/badges/discord.svg" alt="OpenMotion の Discord コミュニティに参加" /></a>
-  <a href="https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=b6cs46dc-acb2-48ed-941d-c45642ead841"><img src="readme/badges/feishu.svg" alt="OpenMotion の Feishu グループに参加" /></a>
+  <a href="https://open-design.ai/ja/motion/"><img src="readme/badges/website.ja.svg" alt="Kinevyn 公式サイト" /></a>
+  <a href="https://go.open-design.ai/?utm_source=github&amp;utm_medium=referral&amp;utm_campaign=kinevyn&amp;utm_content=readme_ja"><img src="readme/badges/opendesign-go.svg" alt="OpenDesign Go のモデル利用プラン" /></a>
+  <a href="https://discord.com/invite/M7NnHS9gNa"><img src="readme/badges/discord.svg" alt="Kinevyn の Discord コミュニティに参加" /></a>
+  <a href="https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=b6cs46dc-acb2-48ed-941d-c45642ead841"><img src="readme/badges/feishu.svg" alt="Kinevyn の Feishu グループに参加" /></a>
   <a href="https://x.com/OpenDesignHQ"><img src="readme/badges/x-opendesignhq.svg" alt="OpenDesign の公式 X アカウント @OpenDesignHQ" /></a>
   <a href="https://x.com/OpenDesignDevs"><img src="readme/badges/x-opendesigndevs.svg" alt="OpenDesign 開発チームの X アカウント @OpenDesignDevs" /></a>
   <a href="https://www.youtube.com/channel/UChtshixMhvtgBWzoD9R_Qfg"><img src="readme/badges/youtube.svg" alt="OpenDesign の YouTube チャンネル" /></a>
 </p>
 
-<p align="center"><a href="#quick-start">インストール</a> · <a href="#agent-wall">対応エージェント</a> · <a href="#showcase">用途と再現例</a> · <a href="#features">OpenMotion の特長</a> · <a href="#technical-guide">セットアップと技術資料</a> · <a href="#community">コミュニティ・貢献</a></p>
+<p align="center"><a href="#quick-start">インストール</a> · <a href="#agent-wall">対応エージェント</a> · <a href="#showcase">用途と再現例</a> · <a href="#features">Kinevyn の特長</a> · <a href="#technical-guide">セットアップと技術資料</a> · <a href="#community">コミュニティ・貢献</a></p>
 
 <div align="center">
 
@@ -35,13 +35,13 @@
 
 </div>
 
-# OpenMotion
+# Kinevyn
 
-OpenMotion は、**AI エージェントが動画制作の全工程を担うフルスタックの動画スタジオ**であり、**Claude Motion と CapCut に代わるオープンソースの選択肢**です。参考動画をアップロードするか SNS の動画リンクを貼り付けると、**自分のブランドキットとコピーで元の演出を再現できます**。
+Kinevyn は、**AI エージェントが動画制作の全工程を担うフルスタックの動画スタジオ**であり、**Claude Motion と CapCut に代わるオープンソースの選択肢**です。参考動画をアップロードするか SNS の動画リンクを貼り付けると、**自分のブランドキットとコピーで元の演出を再現できます**。
 
 - 🎬 **動画の分析から再現・書き出しまで。** エージェントが参考動画を分析し、カットとトランジションを HTML で組み直し、足りない素材を生成します。同じプロジェクトを Studio で開き、間合いを調整して MP4 に書き出せます。
-- 🔑 **BYOA（自分のエージェント）と BYOK（自分の API キー）。** OpenMotion は無料のオープンソースソフトウェアです。[使い慣れたローカルエージェント](#agent-wall)で動画を再現し、各工程に自分の API キーを使えます。
-- 🧩 **Motion.md** は、OpenMotion が定義した Markdown 形式です。カットの順番、尺、トランジションを記録し、ブランド動画の演出をプロジェクトと一緒に共有できます。
+- 🔑 **BYOA（自分のエージェント）と BYOK（自分の API キー）。** Kinevyn は無料のオープンソースソフトウェアです。[使い慣れたローカルエージェント](#agent-wall)で動画を再現し、各工程に自分の API キーを使えます。
+- 🧩 **Motion.md** は、Kinevyn が定義した Markdown 形式です。カットの順番、尺、トランジションを記録し、ブランド動画の演出をプロジェクトと一緒に共有できます。
 - 🎛️ **画像・動画・音楽・音声。** GPT Image 2.6 で画像を、Seedance 2.5 で追加カットを作成。Suno で音楽を付け、Eleven v4 でナレーションを生成できます。[モデルと接続方法を見る](#model-wall)
 
 <a id="快速开始"></a> <a id="quick-start"></a>
@@ -50,16 +50,16 @@ OpenMotion は、**AI エージェントが動画制作の全工程を担うフ�
 
 **ワンクリックでインストール。手動設定は不要です。** インストール後は、会話の中でモーション動画をゼロから作成したり、参考動画を再現したり、テンプレートから制作を始めたりできます。
 
-**[ChatGPT に OpenMotion をインストール →](https://chatgpt.com/plugins/plugins_6a742d13e88481919b42002864b1bb26)**
+**[ChatGPT に Kinevyn をインストール →](https://chatgpt.com/plugins/plugins_6a742d13e88481919b42002864b1bb26)**
 
 <a id="start-in-codex"></a>
 
 ### エージェントでインストール
 
-次の指示をコピーしてローカルエージェントに送り、OpenMotion をソースからセットアップします：
+次の指示をコピーしてローカルエージェントに送り、Kinevyn をソースからセットアップします：
 
 ```text
-https://github.com/nexu-io/openmotion/blob/main/docs/install.md を読み、手順に従って現在のエージェントに OpenMotion をインストールして接続してください。
+https://github.com/rivyn-labs/kinevyn/blob/main/docs/install.md を読み、手順に従って現在のエージェントに Kinevyn をインストールして接続してください。
 ```
 
 セットアップ後、エージェントがローカルのテンプレートライブラリを開き、テンプレートを提案します。選択を確認してからプロジェクトを作成します。[ソースインストールガイド](install.md)
@@ -79,8 +79,8 @@ https://releases.open-design.ai/motion を読み、手順に従って現在の�
 Git、npm、Node.js 26.11.1 が必要です：
 
 ```sh
-git -c filter.lfs.process= -c filter.lfs.smudge= -c filter.lfs.required=false clone --depth 1 --single-branch --branch main https://github.com/nexu-io/openmotion.git
-cd openmotion
+git -c filter.lfs.process= -c filter.lfs.smudge= -c filter.lfs.required=false clone --depth 1 --single-branch --branch main https://github.com/rivyn-labs/kinevyn.git
+cd kinevyn
 npm ci
 npm run build:studio
 npm start
@@ -91,7 +91,7 @@ npm start
 
 ### 既存のプロジェクトから始める
 
-**HyperFrames のプロジェクト ZIP を OpenMotion にインポート**して、既存のアニメーションとローカル素材を引き続き編集できます。プロジェクトフォルダーを ZIP に圧縮し、**すべてのプロジェクト → プロジェクトをインポート**で選択します。追加されたコピーを開き、Studio またはエージェントで編集を続けてください。インポートでは独立したコピーが作成され、対応するネイティブプロジェクト構造が必要です。
+**HyperFrames のプロジェクト ZIP を Kinevyn にインポート**して、既存のアニメーションとローカル素材を引き続き編集できます。プロジェクトフォルダーを ZIP に圧縮し、**すべてのプロジェクト → プロジェクトをインポート**で選択します。追加されたコピーを開き、Studio またはエージェントで編集を続けてください。インポートでは独立したコピーが作成され、対応するネイティブプロジェクト構造が必要です。
 
 [インポート手順・必要なファイル・互換性](project-archives.md#import-from-hyperframes)
 
@@ -101,7 +101,7 @@ npm start
 
 <p align="center"><a href="#choose-agent"><picture><source media="(max-width: 600px)" srcset="readme/agents/local-agents.mobile.png"><img src="readme/agents/local-agents.png" width="100%" alt="WorkBuddy, Codex CLI, Claude Code, OpenCode, Hermes, Antigravity, Gemini CLI, Grok Build, Kimi CLI, Cursor Agent, Qwen Code, Qoder CLI, GitHub Copilot, Pi, Kiro CLI, Kilo, Mistral Vibe, DeepSeek TUI, Reasonix, Aider, Devin, Trae CLI"></picture></a></p>
 
-<a id="showcase"></a> <a id="brand-before-after"></a> <a id="用-openmotion-可以做什么"></a>
+<a id="showcase"></a> <a id="brand-before-after"></a> <a id="用-kinevyn-可以做什么"></a>
 <a id="使用场景与复刻效果示例"></a>
 
 ## 🎞️ 用途と再現例
@@ -297,11 +297,11 @@ npm start
 </table>
 
 <a id="features"></a>
-<a id="为什么选择-openmotion"></a>
+<a id="为什么选择-kinevyn"></a>
 
-## ✨ OpenMotion の特長
+## ✨ Kinevyn の特長
 
-<a id="what-is-openmotion"></a> <a id="openmotion-是什么"></a> <a id="video-is-code"></a>
+<a id="what-is-kinevyn"></a> <a id="kinevyn-是什么"></a> <a id="video-is-code"></a>
 
 ### 1. 動画制作の全工程をエージェントと進めるスタジオ
 
@@ -309,7 +309,7 @@ npm start
 
 ![ローカルエージェント、任意のメディアモデル、制作リソースで、参考分析、シーン記述、不足素材生成、編集、MP4 出力とソース保存を行います。](readme/diagrams/creation-stack.ja.svg)
 
-**書いて、観て、直して、書き出す。** 製品を差し替える、冒頭を詰める、出演者を加える、字幕や結末を変える。エージェントがソースを編集し、結果をエディターで確認できます。ローカルの MCP クライアントはプロジェクト用ツールを使用します。シェルを使えるエージェントでは Skills と指定バージョンの CLI も利用できます。[接続設定](#agent-setup) · [ネイティブ合成ガイド](../skills/openmotion-production/references/native.md) · [HTML の作例](../template-library/product-promo/index.html)
+**書いて、観て、直して、書き出す。** 製品を差し替える、冒頭を詰める、出演者を加える、字幕や結末を変える。エージェントがソースを編集し、結果をエディターで確認できます。ローカルの MCP クライアントはプロジェクト用ツールを使用します。シェルを使えるエージェントでは Skills と指定バージョンの CLI も利用できます。[接続設定](#agent-setup) · [ネイティブ合成ガイド](../skills/kinevyn-production/references/native.md) · [HTML の作例](../template-library/product-promo/index.html)
 
 <a id="studio-in-use"></a>
 
@@ -389,7 +389,7 @@ npm start
 
 ### 3. 300 本以上の Motion.md で動画を再現
 
-OpenMotion が提案する **Motion.md** は、ショットの順序、長さ、トランジション、置き換え可能な素材を Markdown で記録する形式です。オンラインライブラリでは、参考動画とモーションガイドを同じ詳細ページで確認できます。
+Kinevyn が提案する **Motion.md** は、ショットの順序、長さ、トランジション、置き換え可能な素材を Markdown で記録する形式です。オンラインライブラリでは、参考動画とモーションガイドを同じ詳細ページで確認できます。
 
 Brand Kit セクションには、ブランド情報、語り口、確認済みの製品情報を記録します。Design セクションから独立した `DESIGN.md` を参照し、視覚ルールを再利用できます。参考動画の動きやテンポを保ちながら、自分のブランドを表現できます。
 
@@ -449,15 +449,15 @@ Brand Kit セクションには、ブランド情報、語り口、確認済み�
 
 エージェントでのインストールには[上の指示](#quick-start)を使ってください。ソースから起動する手順は次のとおりです。
 
-#### OpenMotion を起動する
+#### Kinevyn を起動する
 
 **無料のローカル制作環境から。** 自分のエージェントを接続し、同梱テンプレートや撮影素材を使ってローカルでレンダリング。新しい素材を生成するときは Model Settings に対応キーを追加します。
 
 Git、npm、**Node.js 26.11.1** を用意してください。ソースからのプレビューと書き出しには Chrome または Chromium と、FFmpeg・FFprobe も必要です。[実行環境の設定](usage.md)
 
 ```sh
-git -c filter.lfs.process= -c filter.lfs.smudge= -c filter.lfs.required=false clone --depth 1 --single-branch --branch main https://github.com/nexu-io/openmotion.git openmotion
-cd openmotion
+git -c filter.lfs.process= -c filter.lfs.smudge= -c filter.lfs.required=false clone --depth 1 --single-branch --branch main https://github.com/rivyn-labs/kinevyn.git kinevyn
+cd kinevyn
 npm ci
 npm run build:studio
 npm start
@@ -477,7 +477,7 @@ bash scripts/install-motion.command
 
 <a id="workbuddy-setup"></a>
 
-**WorkBuddy** · OpenMotion Connector をインポートするか、付属の `mcp.json` をカスタム MCP として追加します。WorkBuddy に利用可能な動画テンプレートを一覧表示させてください。[WorkBuddy の設定手順](agent-adapters.md#workbuddy)
+**WorkBuddy** · Kinevyn Connector をインポートするか、付属の `mcp.json` をカスタム MCP として追加します。WorkBuddy に利用可能な動画テンプレートを一覧表示させてください。[WorkBuddy の設定手順](agent-adapters.md#workbuddy)
 
 <a id="claude-setup"></a>
 
@@ -485,50 +485,50 @@ bash scripts/install-motion.command
 
 <a id="deepseek-setup"></a>
 
-**DeepSeek** · DeepSeek TUI ではターミナルから HTML プロジェクトを編集できます。DeepSeek Harness では Cordis を使って OpenMotion の MCP ツールに接続できます。[DeepSeek Harness の設定](agent-adapters.md#deepseek-harness)
+**DeepSeek** · DeepSeek TUI ではターミナルから HTML プロジェクトを編集できます。DeepSeek Harness では Cordis を使って Kinevyn の MCP ツールに接続できます。[DeepSeek Harness の設定](agent-adapters.md#deepseek-harness)
 
 インストーラーはローカルでビルドしたパッケージを使います。[Windows 用テストパッケージ](test-packages.md)
 
 オンラインテンプレートで試します：
 
-> OpenMotion で、このテンプレート詳細ページの動画を自分の Brand Kit と文案で再現してください。動きとテンポを生かし、確認用に編集可能なプロジェクトを Studio で開いてください。
+> Kinevyn で、このテンプレート詳細ページの動画を自分の Brand Kit と文案で再現してください。動きとテンポを生かし、確認用に編集可能なプロジェクトを Studio で開いてください。
 
 動画から始める場合は、参考と[再構築ブリーフ](#reverse-engineer-a-video)を渡してください。ホストが会話の横に Studio を開けない場合は、返されたローカルプロジェクトのリンクを使います。
 
 ##### Skills、MCP、CLI
 
-プラグインと MCP サーバーの名前は `openmotion` です。Tools、Skills、リソースはそれぞれ `openmotion_*`、`openmotion-*`、`openmotion://` を使います。旧 Tool・リソース名は互換エイリアスとして残ります。旧 Skill エントリは削除されました。`openmotion-*` を使用し、更新後にホストの Skill 一覧を再読み込みしてください。[名称とインストールの互換性](npm-installation.md#public-names-and-compatibility)
+プラグインと MCP サーバーの名前は `kinevyn` です。Tools、Skills、リソースはそれぞれ `kinevyn_*`、`kinevyn-*`、`kinevyn://` を使います。旧 Tool・リソース名は互換エイリアスとして残ります。旧 Skill エントリは削除されました。`kinevyn-*` を使用し、更新後にホストの Skill 一覧を再読み込みしてください。[名称とインストールの互換性](npm-installation.md#public-names-and-compatibility)
 
 チェックアウトから [Skills CLI](https://github.com/vercel-labs/skills) を使い、5 つの基本ワークフローを確認・インストールできます：
 
 ```sh
 npx skills add ./skills --list
-npx skills add ./skills --skill openmotion-director openmotion-production openmotion-template-to-video openmotion-recreate openmotion-video-to-template
+npx skills add ./skills --skill kinevyn-director kinevyn-production kinevyn-template-to-video kinevyn-recreate kinevyn-video-to-template
 ```
 
 これは指示書をコピーするだけで、ランタイムのインストールや MCP 登録はしません。共有文書を使える状態にしてアプリを別途接続するか、上記の統合インストーラーを使ってください。
 
 | Skill | 用途 |
 | --- | --- |
-| [openmotion-recreate](../skills/openmotion-recreate/SKILL.md) | 参考動画の再構築と結果の比較 |
-| [openmotion-template-to-video](../skills/openmotion-template-to-video/SKILL.md) | 既存の編集可能なテンプレートの改編 |
-| [openmotion-director](../skills/openmotion-director/SKILL.md) | オリジナル動画、物語、動き、音、創作レビュー |
-| [openmotion-video-to-template](../skills/openmotion-video-to-template/SKILL.md) | 持ち運べる再利用テンプレートの制作 |
-| [openmotion-production](../skills/openmotion-production/SKILL.md) | 範囲を定めた編集、プレビュー、検査、問題解決、出力 |
+| [kinevyn-recreate](../skills/kinevyn-recreate/SKILL.md) | 参考動画の再構築と結果の比較 |
+| [kinevyn-template-to-video](../skills/kinevyn-template-to-video/SKILL.md) | 既存の編集可能なテンプレートの改編 |
+| [kinevyn-director](../skills/kinevyn-director/SKILL.md) | オリジナル動画、物語、動き、音、創作レビュー |
+| [kinevyn-video-to-template](../skills/kinevyn-video-to-template/SKILL.md) | 持ち運べる再利用テンプレートの制作 |
+| [kinevyn-production](../skills/kinevyn-production/SKILL.md) | 範囲を定めた編集、プレビュー、検査、問題解決、出力 |
 
 <a id="local-agent-connection"></a>
 
-**そのほかのローカルエージェントを接続する** · 公式インストールガイドに従い、クライアントに接続します。stdio MCP 対応のクライアントには下記の設定を使えます。ターミナルを使うエージェントでは、プロジェクトのディレクトリを開き、[ローカルエンジンの CLI](../skills/openmotion-production/references/native.md) で HTML シーンをプレビュー・レンダリングできます。 npm 公開版では `openmotion setup --host <エージェント名>`（例: `opencode`）を実行します。setup がアプリと Skills をインストールし、追加すべきランチャー設定を返します。[そのほかのローカルエージェント](npm-installation.md#other-local-agents)
+**そのほかのローカルエージェントを接続する** · 公式インストールガイドに従い、クライアントに接続します。stdio MCP 対応のクライアントには下記の設定を使えます。ターミナルを使うエージェントでは、プロジェクトのディレクトリを開き、[ローカルエンジンの CLI](../skills/kinevyn-production/references/native.md) で HTML シーンをプレビュー・レンダリングできます。 npm 公開版では `kinevyn setup --host <エージェント名>`（例: `opencode`）を実行します。setup がアプリと Skills をインストールし、追加すべきランチャー設定を返します。[そのほかのローカルエージェント](npm-installation.md#other-local-agents)
 
 <a id="manual-mcp"></a>
 
 ```json
 {
   "mcpServers": {
-    "openmotion": {
+    "kinevyn": {
       "command": "/absolute/path/to/node",
-      "args": ["--experimental-strip-types", "/absolute/openmotion/mcp.ts"],
-      "env": { "MOTION_DATA_DIR": "/absolute/openmotion-data" }
+      "args": ["--experimental-strip-types", "/absolute/kinevyn/mcp.ts"],
+      "env": { "MOTION_DATA_DIR": "/absolute/kinevyn-data" }
     }
   }
 }
@@ -536,9 +536,9 @@ npx skills add ./skills --skill openmotion-director openmotion-production openmo
 
 **公開 MCP 名 18 個（素材ライブラリの互換エイリアス 1 個を含む）**で、テンプレート検索・詳細取得、プロジェクトの作成と読み取り、編集、プレビュー、素材の読み込みと BYOK 生成、再利用素材のバージョン、プロジェクト管理と ZIP 共有、出力、版の復元、キャンセルを扱います。共通の手順とエンジンガイドは MCP resources から取得できます。[ツール契約](mcp-phase1-tools.md)
 
-`openmotion_list_templates` でテンプレートを探し、`openmotion_get_template` で詳細を確認します。`openmotion_create_project` で編集用のコピーを作成できます。[テンプレート一覧](template-catalog.md)
+`kinevyn_list_templates` でテンプレートを探し、`kinevyn_get_template` で詳細を確認します。`kinevyn_create_project` で編集用のコピーを作成できます。[テンプレート一覧](template-catalog.md)
 
-アプリには `npm start` 、stdio には `npm run mcp` を使用します。シェル対応エージェントは実行環境が返す固定版エンジン CLI で検査・レンダリング可能。管理対象の編集には revision 検査を適用します。[ネイティブ制作](../skills/openmotion-production/references/native.md)
+アプリには `npm start` 、stdio には `npm run mcp` を使用します。シェル対応エージェントは実行環境が返す固定版エンジン CLI で検査・レンダリング可能。管理対象の編集には revision 検査を適用します。[ネイティブ制作](../skills/kinevyn-production/references/native.md)
 
 <a id="product-tour"></a> <a id="产品界面"></a> <a id="connect-your-agent"></a> <a id="use-from-your-agent"></a> <a id="从-agent-接入"></a> <a id="your-agent-your-studio"></a>
 
@@ -554,10 +554,10 @@ npx skills add ./skills --skill openmotion-director openmotion-production openmo
 | **文字とブランド** — 文字階層、色、構図 | 自分の書体、配色、原稿、Brandkit |
 | **音とリズム** — 発話のタイミング、音楽の合図、強調 | 自分の声、用意した音楽、音の演出 |
 
-エージェントが SNS のリンクを開けない場合は、ローカルの動画ファイルとタイムコードを渡してください。元動画だけがある場合は[参考動画の再現手順](../skills/openmotion-recreate/SKILL.md)、編集可能なソースがある場合は[テンプレートの手順](../skills/openmotion-template-to-video/SKILL.md)を使います。
+エージェントが SNS のリンクを開けない場合は、ローカルの動画ファイルとタイムコードを渡してください。元動画だけがある場合は[参考動画の再現手順](../skills/kinevyn-recreate/SKILL.md)、編集可能なソースがある場合は[テンプレートの手順](../skills/kinevyn-template-to-video/SKILL.md)を使います。
 
 ```text
-OpenMotion で添付の参考動画を自社ブランド向けに再構築してください。
+Kinevyn で添付の参考動画を自社ブランド向けに再構築してください。
 
 分析：冒頭、ショットの順序、文字、トランジション、音の合図。
 維持：選択区間の製品の見せ方とカメラのテンポ。
@@ -603,7 +603,7 @@ Studio でタイムラインを調整するときも、エージェントがカ�
 コミュニティの知識
 Motion.md + BRANDKIT.md + Skills + テンプレート + 部品
                  ↓
-BYOA：ローカルエージェント              OPENMOTION STUDIO
+BYOA：ローカルエージェント              KINEVYN STUDIO
 DeepSeek Harness / Codex / Claude Code  React 19 + TypeScript + Vite
 他のホスト、Skills、ホストの分析ツール  Tailwind CSS + Zustand
                  |                     CodeMirror + Dockview
@@ -639,7 +639,7 @@ MP4 + 編集可能なソース + 素材 + 版と出力の検証記録
 
 </details>
 
-BYOA は既存の Agent クライアントを使い、素材ワークスペースではモデルによる直接生成と素材の再利用ができます。BYOK は対応するモデルアカウントを接続します。Studio とローカルサービスが編集可能な作品を管理し、認証情報はプロジェクトファイルの外に保たれます。第 1 段階の公開 MCP は**18 個の名前：プロジェクト用 9 個、テンプレートカタログ用 2 個、Skill ライブラリ用 2 個、プロジェクトアーカイブ用 1 個、プロジェクト管理用 1 個、BYOK メディア用 1 個、同じ素材ライブラリ機能の名前 2 個**です。Studio でプロバイダーキーを設定し、`openmotion_media_use` でモデルを探してローカル Gateway 経由でメディアを生成します。`openmotion_assets_use`（`openmotion_assets` も互換）で再利用素材のアップロード・確認・生成、バージョン保持、選んだバージョンの作品への読み込みを行います。[素材ライブラリガイド](assets.md)。キーはサービス内に留まり、公開 MCP 契約に公開（パブリッシュ）機能は含まれません。
+BYOA は既存の Agent クライアントを使い、素材ワークスペースではモデルによる直接生成と素材の再利用ができます。BYOK は対応するモデルアカウントを接続します。Studio とローカルサービスが編集可能な作品を管理し、認証情報はプロジェクトファイルの外に保たれます。第 1 段階の公開 MCP は**18 個の名前：プロジェクト用 9 個、テンプレートカタログ用 2 個、Skill ライブラリ用 2 個、プロジェクトアーカイブ用 1 個、プロジェクト管理用 1 個、BYOK メディア用 1 個、同じ素材ライブラリ機能の名前 2 個**です。Studio でプロバイダーキーを設定し、`kinevyn_media_use` でモデルを探してローカル Gateway 経由でメディアを生成します。`kinevyn_assets_use`（`kinevyn_assets` も互換）で再利用素材のアップロード・確認・生成、バージョン保持、選んだバージョンの作品への読み込みを行います。[素材ライブラリガイド](assets.md)。キーはサービス内に留まり、公開 MCP 契約に公開（パブリッシュ）機能は含まれません。
 
 #### 技術スタックとソースの索引
 
@@ -666,7 +666,7 @@ BYOA は既存の Agent クライアントを使い、素材ワークスペー�
 | **エージェントと開発ツール** | ホストアダプター、Skill、リソースガイド、プロジェクト操作の改善 | [エージェントアダプター](agent-adapters.md) · [MCP 契約](mcp-phase1-tools.md) |
 | **動きとクリエイティブコード** | 実際の改編を添えた部品、ネイティブテンプレート、Motion.md パッケージ | [部品](../library/components/README.md) · [登録チェックリスト](../library/ENTRY_TEMPLATE.md) |
 | **動画とレンダリング** | 出力の信頼性、メディア処理、再現可能な検証の改善 | [エンジンの説明](hyperframes.md) · [出力検証器](../scripts/verify-export.ts) |
-| **SNS 公開** | 計画中の接続層を設計：アカウント利用、公開確認、予約、版の対応付け | [公開の方向性](product/studio-vision.md) · [提案を議論する](https://github.com/nexu-io/openmotion/issues) |
+| **SNS 公開** | 計画中の接続層を設計：アカウント利用、公開確認、予約、版の対応付け | [公開の方向性](product/studio-vision.md) · [提案を議論する](https://github.com/rivyn-labs/kinevyn/issues) |
 
 [ローカル設定](#quick-start)から始め、担当する層を選び、[CONTRIBUTING.md](../CONTRIBUTING.md) と [AGENTS.md](../AGENTS.md)に従ってください。プロジェクトと認証情報はチェックアウト外に置き、固定バージョンと上流ライセンスを維持します。
 
@@ -719,15 +719,15 @@ BYOA は既存の Agent クライアントを使い、素材ワークスペー�
 | **Brandkit** | ブランド、正確な製品情報、共有できる素材 |
 | **エージェント対応や編集機能の改善** | 焦点を絞った変更と再現可能な検証 |
 
-[リソース提出時のチェックリスト](../library/ENTRY_TEMPLATE.md) · [貢献ガイド](../CONTRIBUTING.md) · [問題を報告](https://github.com/nexu-io/openmotion/issues) · [コントリビューター](https://github.com/nexu-io/openmotion/graphs/contributors) · [メディア向け資料](media-kit.md)
+[リソース提出時のチェックリスト](../library/ENTRY_TEMPLATE.md) · [貢献ガイド](../CONTRIBUTING.md) · [問題を報告](https://github.com/rivyn-labs/kinevyn/issues) · [コントリビューター](https://github.com/rivyn-labs/kinevyn/graphs/contributors) · [メディア向け資料](media-kit.md)
 
-このリポジトリの名前は `nexu-io/html-anything` から [`nexu-io/openmotion`](https://github.com/nexu-io/openmotion) に変わりました。
+このリポジトリの名前は `rivyn-labs/html-anything` から [`rivyn-labs/kinevyn`](https://github.com/rivyn-labs/kinevyn) に変わりました。
 
-[OpenMotion 公式サイト](https://open-design.ai/ja/motion/) · [OpenDesign Go](https://go.open-design.ai/?utm_source=github&utm_medium=referral&utm_campaign=openmotion&utm_content=readme_ja) · [Discord](https://discord.com/invite/M7NnHS9gNa) · [Feishu](https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=b6cs46dc-acb2-48ed-941d-c45642ead841) · [X @OpenDesignDevs](https://x.com/OpenDesignDevs) · [X @OpenDesignHQ](https://x.com/OpenDesignHQ) · [YouTube](https://www.youtube.com/channel/UChtshixMhvtgBWzoD9R_Qfg)
+[Kinevyn 公式サイト](https://open-design.ai/ja/motion/) · [OpenDesign Go](https://go.open-design.ai/?utm_source=github&utm_medium=referral&utm_campaign=kinevyn&utm_content=readme_ja) · [Discord](https://discord.com/invite/M7NnHS9gNa) · [Feishu](https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=b6cs46dc-acb2-48ed-941d-c45642ead841) · [X @OpenDesignDevs](https://x.com/OpenDesignDevs) · [X @OpenDesignHQ](https://x.com/OpenDesignHQ) · [YouTube](https://www.youtube.com/channel/UChtshixMhvtgBWzoD9R_Qfg)
 
-[**GitHub で OpenMotion にスターを付ける**](https://github.com/nexu-io/openmotion)
+[**GitHub で Kinevyn にスターを付ける**](https://github.com/rivyn-labs/kinevyn)
 
-[![OpenMotion の更新をフォローするには GitHub でスターを](https://releases.open-design.ai/open-motion/media/sha256/eb32b6cd4736cbbf42a537af24ed1ab8745192efcd7f3f69ffd5f2d569fe1607.gif)](https://github.com/nexu-io/openmotion)
+[![Kinevyn の更新をフォローするには GitHub でスターを](https://releases.open-design.ai/open-motion/media/sha256/eb32b6cd4736cbbf42a537af24ed1ab8745192efcd7f3f69ffd5f2d569fe1607.gif)](https://github.com/rivyn-labs/kinevyn)
 
 <a id="acknowledgements"></a>
 
@@ -735,31 +735,31 @@ BYOA は既存の Agent クライアントを使い、素材ワークスペー�
 
 ブランド動画の制作者と該当箇所のタイムコードは各比較映像に添えています。[エージェントとモデルのロゴ](readme/models/README.md)
 
-OpenMotion のライセンスは [Apache-2.0](../LICENSE)です。第三者のコード、テンプレート、素材、フォントは元のライセンスとクレジットを保ちます。
+Kinevyn のライセンスは [Apache-2.0](../LICENSE)です。第三者のコード、テンプレート、素材、フォントは元のライセンスとクレジットを保ちます。
 
 | 出典 | 関係 |
 | --- | --- |
-| [OpenDesign](https://github.com/nexu-io/open-design) | OpenMotion の開発元。UI デザイン、リソース構成、ブランド方針を担当。[デザインシステム](design-system.md) と [Motion ショーケース](https://open-design.ai/ja/motion/) |
+| [OpenDesign](https://github.com/rivyn-labs/open-design) | Kinevyn の開発元。UI デザイン、リソース構成、ブランド方針を担当。[デザインシステム](design-system.md) と [Motion ショーケース](https://open-design.ai/ja/motion/) |
 | [Hyperframes](https://github.com/heygen-com/hyperframes) | HTML 動画合成、Studio、レンダリングの基盤（0.9.7 固定）。制作者の参考、外部改編デモ、部品ソース。[エンジンの説明](hyperframes.md)、[テンプレートの告知](../template-library/NOTICE.md) と[カタログの出典](template-catalog.md) |
 | [MotionGit](https://motiongit.com/) / adunext | Kinetic Tech ソースを Presenter Tech として収録。[ライセンスとクレジット](../library/templates/presenter-tech/NOTICE.md) |
 | [Hypit](https://github.com/hypit-ai/hypit) | エージェントによる話題の動画の再構築と編集可能な派生版の着想。ランタイムの導入なし |
 | [rea-video](https://github.com/JuneYaooo/rea-video) | 参考の分析と事例研究：[実写の開封](https://github.com/JuneYaooo/rea-video/blob/main/docs/cases/unboxing/report_en.md) と[キャラクター、コード、画面録画](https://github.com/JuneYaooo/rea-video/blob/main/docs/cases/dual_role/report_en.md)。[展示素材のクレジット](readme/brand-showcase/README.md)。ランタイムの導入なし |
 | [OpenAI · Codex Originals](https://openai.com/codex-originals/) | 外部のブランド動画の参考。公式キャンペーン静止画と外部視聴リンク |
-| [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) / [Super-agent プロトタイプ](https://github.com/deepseek-ai/dsh-superagent-prototype) | エージェント拡張性と継続タスクの着想。プロトタイプは現行 OpenMotion ランタイムとは別 |
+| [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) / [Super-agent プロトタイプ](https://github.com/deepseek-ai/dsh-superagent-prototype) | エージェント拡張性と継続タスクの着想。プロトタイプは現行 Kinevyn ランタイムとは別 |
 | Claude Motion / CapCut / [ChatCut](https://chatcut.io/docs/what-is-chatcut) / [OpenChatCut](https://github.com/0xsline/OpenChatCut) | エージェント制作、使いやすい AI 編集、継続的な修正の製品参考 |
 | [OpusClip](https://www.opus.pro/calendar) | 配信と[外部の予約公開](https://www.opus.pro/tools/instagram-reels-scheduler)の製品参考。内蔵コネクターなし |
 | [GSAP](https://github.com/greensock/GSAP) / [FFmpeg](https://ffmpeg.org/) | 動画とメディアの依存ライブラリ。バージョンは [package.json](../package.json) と[実行環境のロック](../scripts/runtime-lock.json) |
 
 [素材の出典](readme/ASSETS.md) · [その他の展示素材の出典](readme/brand-showcase/README.md) · [フォントのライセンス](../web/design-system/fonts/NOTICES.txt) · [Studio のライセンス](../studio/LICENSE)
 
-旧 HTML Anything アプリは [`legacy` ブランチ](https://github.com/nexu-io/openmotion/tree/legacy)に保存されています。現在のブランチと配布範囲は[リポジトリ移行ガイド](repository-migration.md) を参照してください。
+旧 HTML Anything アプリは [`legacy` ブランチ](https://github.com/rivyn-labs/kinevyn/tree/legacy)に保存されています。現在のブランチと配布範囲は[リポジトリ移行ガイド](repository-migration.md) を参照してください。
 
 ## スター数の推移
 
-<a href="https://www.star-history.com/?repos=nexu-io%2Fopenmotion&amp;type=date">
+<a href="https://www.star-history.com/?repos=rivyn-labs%2Fkinevyn&amp;type=date">
   <picture>
-    <source media="screen" srcset="https://raw.githubusercontent.com/nexu-io/openmotion/readme-charts/star-history.svg">
-    <img alt="毎日更新される OpenMotion の GitHub スター数の推移" src="readme/star-history.svg">
+    <source media="screen" srcset="https://raw.githubusercontent.com/rivyn-labs/kinevyn/readme-charts/star-history.svg">
+    <img alt="毎日更新される Kinevyn の GitHub スター数の推移" src="readme/star-history.svg">
   </picture>
 </a>
 

@@ -32,7 +32,7 @@ export async function renderInlineOnboarding({ appRoot, output, language = 'en',
   const { welcomeMarkdown, inlineDescriptionPrefixes } = await import('../mcp-ui/template-recommendations/i18n.ts');
   const directory = path.join(appRoot, 'mcp-ui/template-recommendations');
   const presentation = loadTemplatePresentation({ applicationRoot: appRoot, directory });
-  const match = presentation.content.text.match(/window\.__OPENMOTION_TEMPLATE_CARDS__=(.*?);<\/script>/s);
+  const match = presentation.content.text.match(/window\.__KINEVYN_TEMPLATE_CARDS__=(.*?);<\/script>/s);
   assert(match, 'Verified production bootstrap is missing');
   const bootstrap = JSON.parse(match[1]);
   const recommendation = showTemplateRecommendations(presentation, {
@@ -63,23 +63,23 @@ export async function renderInlineOnboarding({ appRoot, output, language = 'en',
       templateIds: recommendation.cards.map(card => card.templateId), language,
       welcomeMarkdown: welcomeMarkdown(language),
       publicationRequired: false, nativeMcpSessionVerified: false,
-      presentation: { tool: 'openmotion_show_template_recommendations', arguments: { templateIds, language, onboarding: true } },
+      presentation: { tool: 'kinevyn_show_template_recommendations', arguments: { templateIds, language, onboarding: true } },
       instructions: onboardingPresentationInstructions('native_required') };
   }
   let fragment = await readFile(path.join(directory, 'inline.fragment.html'), 'utf8');
   const json = value => JSON.stringify(value).replaceAll('<', '\\u003c');
   const parts = {
-    '__OPENMOTION_INLINE_ROOT__': 'openmotion-onboarding-' + randomUUID(),
-    '/*__OPENMOTION_INLINE_STYLE__*/': (await readFile(path.join(directory, 'build/app.css'), 'utf8')).replace(/<\/style/gi, '<\\/style'),
-    '/*__OPENMOTION_INLINE_APP__*/': (await readFile(path.join(directory, 'build/inline.js'), 'utf8')).replace(/<\/script/gi, '<\\/script'),
-    '/*__OPENMOTION_INLINE_BOOTSTRAP__*/': json(bootstrap),
-    '/*__OPENMOTION_INLINE_RECOMMENDATION__*/': json({ ...recommendation, onboarding: false }),
+    '__KINEVYN_INLINE_ROOT__': 'kinevyn-onboarding-' + randomUUID(),
+    '/*__KINEVYN_INLINE_STYLE__*/': (await readFile(path.join(directory, 'build/app.css'), 'utf8')).replace(/<\/style/gi, '<\\/style'),
+    '/*__KINEVYN_INLINE_APP__*/': (await readFile(path.join(directory, 'build/inline.js'), 'utf8')).replace(/<\/script/gi, '<\\/script'),
+    '/*__KINEVYN_INLINE_BOOTSTRAP__*/': json(bootstrap),
+    '/*__KINEVYN_INLINE_RECOMMENDATION__*/': json({ ...recommendation, onboarding: false }),
   };
   for (const [marker, value] of Object.entries(parts)) {
     assert(fragment.includes(marker), 'Inline template marker is missing: ' + marker);
     fragment = fragment.replaceAll(marker, () => value);
   }
-  assert(!fragment.includes('__OPENMOTION_INLINE_'), 'Inline template contains unresolved markers');
+  assert(!fragment.includes('__KINEVYN_INLINE_'), 'Inline template contains unresolved markers');
   const bytes = Buffer.byteLength(fragment);
   assert(bytes < 1_000_000, 'Inline onboarding exceeds the host document budget');
   await mkdir(path.dirname(output), { recursive: true });

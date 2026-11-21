@@ -15,7 +15,7 @@ export const manifestUrl = downloadManifestUrl("stable");
 
 export interface PluginDownload {
   schemaVersion: 1;
-  name: 'openmotion-dsh';
+  name: 'kinevyn-dsh';
   version: string;
   dshVersion: string;
   sourceCommit: string;
@@ -25,11 +25,11 @@ export interface PluginDownload {
 }
 
 export function validateDownload(value: PluginDownload): PluginDownload {
-  assert(value.schemaVersion === 1 && value.name === 'openmotion-dsh', 'Invalid DSH plugin download');
+  assert(value.schemaVersion === 1 && value.name === 'kinevyn-dsh', 'Invalid DSH plugin download');
   assert(/^(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-test\.[1-9]\d*(?:\.[1-9]\d*)*)?$/.test(value.version) && /^\d+\.\d+\.\d+(?:-[\w.-]+)?$/.test(value.dshVersion), 'Invalid plugin/DSH versions');
   assert(/^[a-f0-9]{40}$/.test(value.sourceCommit) && /^[a-f0-9]{64}$/.test(value.sha256), 'Invalid plugin identity');
   assert(Number.isSafeInteger(value.bytes) && value.bytes > 0 && value.bytes <= 10 * 1024 * 1024, 'Invalid plugin size');
-  assert.equal(value.tarballUrl, `${downloadOrigin}/${downloadPrefix}/snapshots/${value.sourceCommit}/${value.sha256}/openmotion-dsh.tgz`, 'Unexpected plugin download URL');
+  assert.equal(value.tarballUrl, `${downloadOrigin}/${downloadPrefix}/snapshots/${value.sourceCommit}/${value.sha256}/kinevyn-dsh.tgz`, 'Unexpected plugin download URL');
   return value;
 }
 
@@ -44,7 +44,7 @@ export async function downloadPlugin(destination: string, fetcher: typeof fetch 
   assert.equal(bytes.length, manifest.bytes, 'DSH plugin size differs');
   assert.equal(createHash('sha256').update(bytes).digest('hex'), manifest.sha256, 'DSH plugin checksum differs');
   await mkdir(destination, { recursive: true });
-  const filename = path.join(destination, `openmotion-dsh-${manifest.sourceCommit.slice(0, 12)}-${manifest.sha256.slice(0, 12)}.tgz`);
+  const filename = path.join(destination, `kinevyn-dsh-${manifest.sourceCommit.slice(0, 12)}-${manifest.sha256.slice(0, 12)}.tgz`);
   await writeFile(filename, bytes, { flag: 'wx' });
   return { ...manifest, filename };
 }

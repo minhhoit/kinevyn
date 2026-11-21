@@ -29,17 +29,17 @@ test('real stdio asset read calls retain action, success/failure and duration th
     await writeFile(path.join(store.directory, 'preview.json'), JSON.stringify({ port: address.port }));
     const reference = { assetId: asset.id, versionId: asset.currentVersionId };
     const calls = [
-      ['openmotion_assets_use', { action: 'read', ...reference }],
-      ['openmotion_assets_use', { action: 'read', ...reference, versionId: crypto.randomUUID() }],
-      ['openmotion_assets_use', { action: 'read', assetId: asset.id }],
-      ['openmotion_assets', { action: 'get', ...reference }],
-      ['openmotion_assets_use', { action: 'PRIVATE_ACTION' }],
+      ['kinevyn_assets_use', { action: 'read', ...reference }],
+      ['kinevyn_assets_use', { action: 'read', ...reference, versionId: crypto.randomUUID() }],
+      ['kinevyn_assets_use', { action: 'read', assetId: asset.id }],
+      ['kinevyn_assets', { action: 'get', ...reference }],
+      ['kinevyn_assets_use', { action: 'PRIVATE_ACTION' }],
     ];
     async function run() {
       child = spawn(process.execPath, ['--experimental-strip-types', 'mcp.ts'], { cwd: pluginRoot,
-        env: { ...process.env, MOTION_DATA_DIR: store.directory, OPENMOTION_TELEMETRY: '1', DO_NOT_TRACK: '0',
-          OPENMOTION_TRACKING_ENV: 'test', OPENMOTION_TRACKING_TEST_RUN_ID: crypto.randomUUID(),
-          OPENMOTION_POSTHOG_HOST: `http://127.0.0.1:${address.port}`, OPENMOTION_POSTHOG_KEY: 'phc_test' }, stdio: ['pipe', 'pipe', 'pipe'] });
+        env: { ...process.env, MOTION_DATA_DIR: store.directory, KINEVYN_TELEMETRY: '1', DO_NOT_TRACK: '0',
+          KINEVYN_TRACKING_ENV: 'test', KINEVYN_TRACKING_TEST_RUN_ID: crypto.randomUUID(),
+          KINEVYN_POSTHOG_HOST: `http://127.0.0.1:${address.port}`, KINEVYN_POSTHOG_KEY: 'phc_test' }, stdio: ['pipe', 'pipe', 'pipe'] });
       let output = '', error = '';
       child.stdout!.on('data', data => { output += data; }); child.stderr!.on('data', data => { error += data; });
       const completed = new Promise<void>((resolve, reject) => {
@@ -91,9 +91,9 @@ test('real stdio connections sharing an installation retain independent declared
   try {
     async function run(name: string, directory = store.directory) {
       const child = spawn(process.execPath, ['--experimental-strip-types', 'mcp.ts'], { cwd: pluginRoot,
-        env: { ...process.env, MOTION_DATA_DIR: directory, OPENMOTION_TELEMETRY: '1', DO_NOT_TRACK: '0',
-          OPENMOTION_TRACKING_ENV: 'test', OPENMOTION_TRACKING_TEST_RUN_ID: crypto.randomUUID(),
-          OPENMOTION_POSTHOG_HOST: `http://127.0.0.1:${address.port}`, OPENMOTION_POSTHOG_KEY: 'phc_test' },
+        env: { ...process.env, MOTION_DATA_DIR: directory, KINEVYN_TELEMETRY: '1', DO_NOT_TRACK: '0',
+          KINEVYN_TRACKING_ENV: 'test', KINEVYN_TRACKING_TEST_RUN_ID: crypto.randomUUID(),
+          KINEVYN_POSTHOG_HOST: `http://127.0.0.1:${address.port}`, KINEVYN_POSTHOG_KEY: 'phc_test' },
         stdio: ['pipe', 'pipe', 'pipe'] });
       let output = '', error = '';
       child.stdout.on('data', data => { output += data; }); child.stderr.on('data', data => { error += data; });
@@ -105,12 +105,12 @@ test('real stdio connections sharing an installation retain independent declared
       try {
         child.stdin.end([
           { jsonrpc: '2.0', id: 1, method: 'initialize', params: { protocolVersion: '2025-11-25', capabilities: {}, clientInfo: { name, version: '1.2.3' } } },
-          { jsonrpc: '2.0', id: 2, method: 'tools/call', params: { name: 'openmotion_get_project', arguments: { PRIVATE_KEY: true } } },
-          { jsonrpc: '2.0', id: 3, method: 'tools/call', params: { name: 'openmotion_media_use', arguments: { unrecognized: true } } },
+          { jsonrpc: '2.0', id: 2, method: 'tools/call', params: { name: 'kinevyn_get_project', arguments: { PRIVATE_KEY: true } } },
+          { jsonrpc: '2.0', id: 3, method: 'tools/call', params: { name: 'kinevyn_media_use', arguments: { unrecognized: true } } },
         ].map(message => JSON.stringify(message) + '\n').join(''));
         await completed;
         const responses = output.trim().split('\n').map(line => JSON.parse(line));
-        assert.equal(responses[0].result.serverInfo.name, 'openmotion');
+        assert.equal(responses[0].result.serverInfo.name, 'kinevyn');
         assert.equal(responses[1].result.isError, true);
         assert.equal(responses[2].result.isError, true);
       } finally { clearTimeout(timer); if (child.exitCode === null) child.kill(); }

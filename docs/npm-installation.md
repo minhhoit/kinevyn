@@ -6,11 +6,11 @@ For a download-once cold installation, build on the target machine with `node --
 
 The npm tgz contains the installer, a prebuilt Motion application archive and its pinned release manifest. One `setup` installs the application and its bundled public MCP Tools and Skills for the selected host. The exact package's embedded `payload/release-npm.json` declares the expected names in `mcp.tools` and `skills`; require every listed name in host discovery, allowing additional negotiated presentation Tools. No adjacent application archive or `--manifest` is needed. The application runs from a managed, writable directory, never from the npx cache; projects remain outside application/cache directories.
 
-After successful host registration, setup starts/reuses the headless local service and returns `onboarding.preview` with a project-free template-library URL and host presentation handoff. The Agent opens that page immediately, using `openmotion_open_preview({target:"templates"})` when loaded or the returned URL before current-chat MCP discovery. Setup itself does not launch an OS browser. Preparing or browsing the library never initializes/selects a native project; Open and edit creates a copy only after user selection. A page-start failure is reported as `onboarding.preview.status=unavailable` without rolling back a successful installation or creating a fallback project. Browser-less hosts receive the actual link. Published packages keep the behavior embedded in their own source version.
+After successful host registration, setup starts/reuses the headless local service and returns `onboarding.preview` with a project-free template-library URL and host presentation handoff. The Agent opens that page immediately, using `kinevyn_open_preview({target:"templates"})` when loaded or the returned URL before current-chat MCP discovery. Setup itself does not launch an OS browser. Preparing or browsing the library never initializes/selects a native project; Open and edit creates a copy only after user selection. A page-start failure is reported as `onboarding.preview.status=unavailable` without rolling back a successful installation or creating a fallback project. Browser-less hosts receive the actual link. Published packages keep the behavior embedded in their own source version.
 
 Codex setup shares the source/plugin preparation flow and needs no presentation flag. Every host receives the same prepared welcome, HTML and native-card arguments. Use its supported card surface; text with the same three IDs, summaries and links is reserved for unsupported or failed presentation. Default onboarding samples three distinct entries once from the four-entry pool and returns a `prepared` self-contained HTML document. It embeds only the chosen projects' complete silent previews and posters; installation does no rendering or preview download. Open the local library once, publish the verified fragment into the current chat's permitted visualization directory, then stream the welcome followed by its returned content reference. This display does not depend on native MCP reload. Native original-reference playback remains an alternative requiring internet access. An immutable private receipt preserves the selection, language, workspace and preview across supported host refresh recovery. Presentation and automatic MCP activation are independent: visible cards do not establish automatic activation. Preparation does not prove connection or visible delivery. See the [shared presentation contract](install.md#installation-success-reply).
 
-Historical example: `@openmotion/app@0.6.4-test.6` was published to npm as a test version after separate authorization; ordinary CI still does not publish packages. Its anonymous registry download, isolated macOS Codex setup, repeat setup, eleven MCP Tools and five Skills have been verified. Use the exact version for reproduction. See the [delivery record and known limitations](release-guide.md#published-test-candidate-064-test6), including the production template catalog and the registry's unexpected `latest` tag.
+Historical example: `@kinevyn/app@0.6.4-test.6` was published to npm as a test version after separate authorization; ordinary CI still does not publish packages. Its anonymous registry download, isolated macOS Codex setup, repeat setup, eleven MCP Tools and five Skills have been verified. Use the exact version for reproduction. See the [delivery record and known limitations](release-guide.md#published-test-candidate-064-test6), including the production template catalog and the registry's unexpected `latest` tag.
 
 Source `package.json` is the development baseline; the published artifact can have a different version. For example, source `0.6.3` can produce `0.6.4-test.6` without a stable `0.6.4` release. Packaging changes output identities only. In [Motion package and release](release-workflows.md#1-build), `mode=prepublish` on `main` can allocate a test version when the field is blank. It uses a short `test.N` workflow counter with an attempt suffix on reruns. To publish a retained candidate, select `mode=publish` and supply its exact version and `candidate_run_id`.
 
@@ -18,11 +18,11 @@ All application environments and versions, including test/prerelease/local packa
 
 ## Public names and compatibility
 
-Source builds after the OpenMotion naming change register the plugin/MCP server as `openmotion` and advertise the release's `openmotion_*` Tools, canonical `openmotion-*` production Skills, and `openmotion://` resources. The optional Library Skills are also prefixed with `openmotion-`. Previously published packages keep their original names until separately updated; a source change is not a release.
+Source builds after the Kinevyn naming change register the plugin/MCP server as `kinevyn` and advertise the release's `kinevyn_*` Tools, canonical `kinevyn-*` production Skills, and `kinevyn://` resources. The optional Library Skills are also prefixed with `kinevyn-`. Previously published packages keep their original names until separately updated; a source change is not a release.
 
 - Old `motion_*` Tools, legacy session Tool names and `motion://` resources call the same handlers. Aliases are accepted but omitted from MCP discovery. API protocol 1 remains compatible with old and new backend Tool lists.
-- Retired Skill names (`motion-director`, `motion-production`, `motion-recreate`, `motion-template-to-video`, `motion-video-to-template`, `reference-video` and the unprefixed Library names) are removed. Update saved invocations and paths to `openmotion-*`; old explicit invocations no longer work. Re-run setup with the same host, home and Skills directory: bundled hosts replace the owned bundle, and flat hosts remove obsolete entries owned by this host/home. Foreign/unowned folders and other installations are preserved. Registration failure restores previous Skills and install state. Separately installed Library entries use the canonical helper described in [Skill migration](skills.md); customized or unowned legacy entries need manual review, not automatic deletion. Refresh host Skill discovery after upgrading.
-- New adapter/plugin packages and generated connection commands use `openmotion`. Existing `motion` MCP entries can still launch the runtime and use aliases; refresh/reconnect to load the canonical discovery list, or install the new `openmotion` plugin through the host. Do not overwrite an unrelated registration or create a second workspace to rename a connection.
+- Retired Skill names (`motion-director`, `motion-production`, `motion-recreate`, `motion-template-to-video`, `motion-video-to-template`, `reference-video` and the unprefixed Library names) are removed. Update saved invocations and paths to `kinevyn-*`; old explicit invocations no longer work. Re-run setup with the same host, home and Skills directory: bundled hosts replace the owned bundle, and flat hosts remove obsolete entries owned by this host/home. Foreign/unowned folders and other installations are preserved. Registration failure restores previous Skills and install state. Separately installed Library entries use the canonical helper described in [Skill migration](skills.md); customized or unowned legacy entries need manual review, not automatic deletion. Refresh host Skill discovery after upgrading.
+- New adapter/plugin packages and generated connection commands use `kinevyn`. Existing `motion` MCP entries can still launch the runtime and use aliases; refresh/reconnect to load the canonical discovery list, or install the new `kinevyn` plugin through the host. Do not overwrite an unrelated registration or create a second workspace to rename a connection.
 - Project/session IDs, content revisions, request-ID deduplication, history, active exports, media/native caches, environment variable names and engine versions keep their existing contracts. New and old names use the same request identity, avoiding duplicate edits/renders during retry.
 
 
@@ -30,7 +30,7 @@ Source builds after the OpenMotion naming change register the plugin/MCP server 
 
 Users provide Node.js 22.18+ with npm and their Agent host. Builds use the Node version pinned in CI. npm installs locked production dependencies with `npm ci --omit=dev --ignore-scripts`. Setup starts FFmpeg, ffprobe and browser preparation in a detached background worker. MCP connection, source editing and ordinary preview do not wait; Studio displays readiness and retry. `prepare` remains an explicit wait/retry command. Node, native binaries, node_modules, user projects and credentials are not bundled in this npm format. It is not an offline package. Complete platform ZIPs remain a backup.
 
-The embedded application uses `scripts/distribution.ts`'s positive file list: MCP/backend, prebuilt Studio, bundled Skills and references, bundled examples, npm/native locks, licenses and approved documentation. The installed application fetches the latest OpenMotion template catalog from the OpenMotion hosted CDN `main` pointer; the website continues to use its CMS publication. The embedded manifest omits the containing tgz's hash; the external delivery manifest records that hash without a circular self-reference.
+The embedded application uses `scripts/distribution.ts`'s positive file list: MCP/backend, prebuilt Studio, bundled Skills and references, bundled examples, npm/native locks, licenses and approved documentation. The installed application fetches the latest Kinevyn template catalog from the Kinevyn hosted CDN `main` pointer; the website continues to use its CMS publication. The embedded manifest omits the containing tgz's hash; the external delivery manifest records that hash without a circular self-reference.
 
 The npm page uses the repository's product `README.md`. Packaging resolves its relative documentation and image links against the exact source commit, while the embedded application keeps the original local links. The installation manual remains in the application docs; it is not the npm landing page. Published test.6 contains the earlier installation-manual README; the correction takes effect with the next separately authorized npm version, not by editing GitHub alone.
 
@@ -43,20 +43,20 @@ npm ci --no-audit --no-fund
 npm run package:npm -- dist/npm-test 0.6.4-test.1
 ```
 
-The version is an example. Use a new empty output directory for every candidate. Files include `openmotion-app-<version>.tgz`, the application archive, `release-npm.json` and SHA256 sidecars. Only the tgz is required by a consumer; the remaining files are delivery evidence and the explicit-manifest fallback. Copy the tgz alone to another directory to verify this property.
+The version is an example. Use a new empty output directory for every candidate. Files include `kinevyn-app-<version>.tgz`, the application archive, `release-npm.json` and SHA256 sidecars. Only the tgz is required by a consumer; the remaining files are delivery evidence and the explicit-manifest fallback. Copy the tgz alone to another directory to verify this property.
 
 An isolated macOS Codex installation:
 
 ```sh
-openmotion_tgz="/absolute/path/openmotion-app-0.6.4-test.1.tgz"
-openmotion_test="$HOME/Library/Application Support/OpenMotion-test/0.6.4-test.1"
-mkdir -p "$openmotion_test/profile" "$openmotion_test/workspace"
-export CODEX_HOME="$openmotion_test/profile"
-npx --yes --package "$openmotion_tgz" -- openmotion setup --host codex \
-  --home "$openmotion_test/app" --data-dir "$openmotion_test/data" \
-  --skills-dir "$openmotion_test/workspace/.agents/skills" &&
-npx --yes --package "$openmotion_tgz" -- openmotion prepare --home "$openmotion_test/app" &&
-cd "$openmotion_test/workspace" &&
+kinevyn_tgz="/absolute/path/kinevyn-app-0.6.4-test.1.tgz"
+kinevyn_test="$HOME/Library/Application Support/Kinevyn-test/0.6.4-test.1"
+mkdir -p "$kinevyn_test/profile" "$kinevyn_test/workspace"
+export CODEX_HOME="$kinevyn_test/profile"
+npx --yes --package "$kinevyn_tgz" -- kinevyn setup --host codex \
+  --home "$kinevyn_test/app" --data-dir "$kinevyn_test/data" \
+  --skills-dir "$kinevyn_test/workspace/.agents/skills" &&
+npx --yes --package "$kinevyn_tgz" -- kinevyn prepare --home "$kinevyn_test/app" &&
+cd "$kinevyn_test/workspace" &&
 codex
 ```
 
@@ -65,19 +65,19 @@ The acceptance recipe explicitly waits with `prepare` after setup. Ordinary inst
 Equivalent Windows PowerShell commands:
 
 ```powershell
-$motionTgz = 'C:\path\openmotion-app-0.6.4-test.1.tgz'
-$motionTest = Join-Path $env:LOCALAPPDATA 'OpenMotion-test\0.6.4-test.1'
+$motionTgz = 'C:\path\kinevyn-app-0.6.4-test.1.tgz'
+$motionTest = Join-Path $env:LOCALAPPDATA 'Kinevyn-test\0.6.4-test.1'
 New-Item -ItemType Directory -Force "$motionTest\profile", "$motionTest\workspace" | Out-Null
 $env:CODEX_HOME = "$motionTest\profile"
-npx --yes --package "$motionTgz" -- openmotion setup --host codex --home "$motionTest\app" --data-dir "$motionTest\data" --skills-dir "$motionTest\workspace\.agents\skills"
+npx --yes --package "$motionTgz" -- kinevyn setup --host codex --home "$motionTest\app" --data-dir "$motionTest\data" --skills-dir "$motionTest\workspace\.agents\skills"
 if ($LASTEXITCODE -ne 0) { throw 'Motion setup failed' }
-npx --yes --package "$motionTgz" -- openmotion prepare --home "$motionTest\app"
+npx --yes --package "$motionTgz" -- kinevyn prepare --home "$motionTest\app"
 if ($LASTEXITCODE -ne 0) { throw 'Native preparation failed' }
 Set-Location "$motionTest\workspace"
 codex
 ```
 
-These are documented commands, not proof of Windows acceptance. Use a directly executable host or pass its JavaScript CLI through `--codex`. The native lock declares Mac arm64 and Windows x64/Windows 11. OpenMotion adds no macOS version gate: proceed with installation and the native executable checks, rather than treating the build/test machine's OS version as a minimum. Node.js and the pinned browser/media binaries must still run on the target machine; this is not acceptance of every macOS version. Other platforms are not implied supported by npm installation.
+These are documented commands, not proof of Windows acceptance. Use a directly executable host or pass its JavaScript CLI through `--codex`. The native lock declares Mac arm64 and Windows x64/Windows 11. Kinevyn adds no macOS version gate: proceed with installation and the native executable checks, rather than treating the build/test machine's OS version as a minimum. Node.js and the pinned browser/media binaries must still run on the target machine; this is not acceptance of every macOS version. Other platforms are not implied supported by npm installation.
 
 ## Test template data (DEV)
 
@@ -87,7 +87,7 @@ New explicitly versioned test npm packages default to **DEV**; stable packages d
 npm run package:npm -- dist/npm-dev 0.6.4-test.1 --template-env=dev
 ```
 
-Use that tgz in the installation commands above, with an **independent Codex profile, home, data and Skills directory**. Explicit test/DEV builds are publishable under the candidate channel. Unversioned builds and channel/environment mismatches remain `private:true`. Public packaging exposes DEV routing configuration, not credentials or cached catalog contents; network access/authentication remains a service prerequisite. DEV setup defaults to `openmotion-dev` instead of `openmotion`; `prepare` uses the same environment-specific default. Explicit `--home` must be identical for setup and prepare. An existing installation refuses an implicit data-directory change or a dev/prod switch: use a different home rather than altering the old projects.
+Use that tgz in the installation commands above, with an **independent Codex profile, home, data and Skills directory**. Explicit test/DEV builds are publishable under the candidate channel. Unversioned builds and channel/environment mismatches remain `private:true`. Public packaging exposes DEV routing configuration, not credentials or cached catalog contents; network access/authentication remains a service prerequisite. DEV setup defaults to `kinevyn-dev` instead of `kinevyn`; `prepare` uses the same environment-specific default. Explicit `--home` must be identical for setup and prepare. An existing installation refuses an implicit data-directory change or a dev/prod switch: use a different home rather than altering the old projects.
 
 The environment is embedded in `shared/template-config.json`; the resulting `install.json.templateEnvironment` identifies the installation. Studio and MCP read the same source. [Template configuration](template-catalog.md#environment-and-build) explains the current Resource and catalog behavior. Saving a CMS draft does not publish it. Refresh the catalog, find the template ID and record its catalog/publication version; existing projects are independent copies and do not change when a template is republished.
 
@@ -99,14 +99,14 @@ There is no automatic fallback from prod to DEV and no `switch-env` CLI. In expl
 
 | Host | Registration | Skills |
 | --- | --- | --- |
-| Codex | `codex mcp add openmotion` | Complete bundle under the selected Skills root |
-| Claude Code | `claude mcp add-json -s user openmotion` | Flat entries under `${CLAUDE_CONFIG_DIR:-~/.claude}/skills` |
+| Codex | `codex mcp add kinevyn` | Complete bundle under the selected Skills root |
+| Claude Code | `claude mcp add-json -s user kinevyn` | Flat entries under `${CLAUDE_CONFIG_DIR:-~/.claude}/skills` |
 | DeepSeek Harness | `dsh plugin --profile web add <managed bundle> --ignore-scripts` | Its dedicated bundle/provider Skill root |
-| WorkBuddy | Merge `mcpServers.openmotion` into its `mcp.json` | Flat entries under its configuration root |
+| WorkBuddy | Merge `mcpServers.kinevyn` into its `mcp.json` | Flat entries under its configuration root |
 
 Select `--host codex|claude|deepseek|workbuddy` for a registration adapter, or the current Agent's lowercase name for [any other local Agent](#other-local-agents). `--skills-dir` selects the Codex/Claude/WorkBuddy/other-Agent root; Harness uses its own provider. Executable overrides are `--codex`, `--claude`, `--dsh`; Harness also accepts `--profile`. Isolate host configuration with `CODEX_HOME`, `CLAUDE_CONFIG_DIR`, `DSH_HOME` or `WORKBUDDY_CONFIG_DIR`; `--home` controls the application installation, not the host profile.
 
-Use the same installation flow for every host: collect the platform and Node/npm facts once, select the current Agent, run its setup adapter, then verify actual host loading while video components prepare in the background. An explicit `--host` takes precedence over host context; do not choose a host merely because its CLI is installed. The CLI retains its Codex default for compatibility, so Agent-driven installs should always pass `--host`. Only ask for the missing host/profile when reliable context is unavailable. `openmotion --help`, `setup --help`, `prepare --help` and `--version` work without installing or modifying configuration.
+Use the same installation flow for every host: collect the platform and Node/npm facts once, select the current Agent, run its setup adapter, then verify actual host loading while video components prepare in the background. An explicit `--host` takes precedence over host context; do not choose a host merely because its CLI is installed. The CLI retains its Codex default for compatibility, so Agent-driven installs should always pass `--host`. Only ask for the missing host/profile when reliable context is unavailable. `kinevyn --help`, `setup --help`, `prepare --help` and `--version` work without installing or modifying configuration.
 
 For a non-Codex test, keep the isolated application/data paths from the examples above and change only the host-specific configuration:
 
@@ -119,9 +119,9 @@ For a non-Codex test, keep the isolated application/data paths from the examples
 
 Harness callers should pass the actual current profile from their host context, such as `DSH_PROFILE`, rather than assuming `web` or `desktop`. On macOS, setup already detects the standard Desktop CLI at `/Applications/DeepSeek Harness.app/Contents/Resources/runtime/cli/bin/dsh`; it need not be on PATH. Keep that host-specific lookup in the Harness adapter. Other executable locations use `--dsh`; do not unpack the host or invent a wrapper for ordinary installation.
 
-After setup, use working native tools or the direct commands below to continue in the same chat. Refresh native discovery only when needed. Confirm the Tool and Skill names declared by this exact package's embedded manifest (`mcp.tools` and `skills`), allowing additional negotiated presentation Tools, and call `openmotion_get_project` to verify the expected data directory. Do not impose another host's restart or refresh procedure, or substitute an on-disk registration for host loading evidence.
+After setup, use working native tools or the direct commands below to continue in the same chat. Refresh native discovery only when needed. Confirm the Tool and Skill names declared by this exact package's embedded manifest (`mcp.tools` and `skills`), allowing additional negotiated presentation Tools, and call `kinevyn_get_project` to verify the expected data directory. Do not impose another host's restart or refresh procedure, or substitute an on-disk registration for host loading evidence.
 
-The standalone `openmotion` Skill is owned by the official Skills CLI. Codex npm workflow bundles use `openmotion-workflows` so both installations can coexist. Setup migrates only a legacy `openmotion` bundle with this installer's matching home/host ownership marker, within the existing registration rollback transaction; a standalone Skill or foreign directory is preserved. When adding another host while the legacy Codex bundle still exists, public-entry installation is explicitly skipped with Codex migration guidance; rerun Codex setup to migrate it first. Default Codex/Claude setup installs the public entry separately using pinned `skills@1.9.0`, with the release source commit. Existing official entries are reused. Explicit Skills directories, custom host homes and hosts without this Skills CLI adapter are left unchanged. `OPENMOTION_SKIP_PUBLIC_SKILL=1` disables the optional public-entry step; official telemetry opt-outs pass through. The returned `publicSkill` status distinguishes installed, present, skipped and failed; optional failure does not undo a working runtime. Other hosts can explicitly use `npx skills add nexu-io/openmotion --skill openmotion` for their own scope.
+The standalone `kinevyn` Skill is owned by the official Skills CLI. Codex npm workflow bundles use `kinevyn-workflows` so both installations can coexist. Setup migrates only a legacy `kinevyn` bundle with this installer's matching home/host ownership marker, within the existing registration rollback transaction; a standalone Skill or foreign directory is preserved. When adding another host while the legacy Codex bundle still exists, public-entry installation is explicitly skipped with Codex migration guidance; rerun Codex setup to migrate it first. Default Codex/Claude setup installs the public entry separately using pinned `skills@1.9.0`, with the release source commit. Existing official entries are reused. Explicit Skills directories, custom host homes and hosts without this Skills CLI adapter are left unchanged. `KINEVYN_SKIP_PUBLIC_SKILL=1` disables the optional public-entry step; official telemetry opt-outs pass through. The returned `publicSkill` status distinguishes installed, present, skipped and failed; optional failure does not undo a working runtime. Other hosts can explicitly use `npx skills add rivyn-labs/kinevyn --skill kinevyn` for their own scope.
 
 The internal ownership marker remains stable across the npm package rename so earlier local installations can be upgraded in place. An installation can serve multiple hosts using the same home/data. `install.json.hosts` retains each host. Skill documentation links are rewritten for flat layouts; Codex/Harness retain bundle-relative links. Re-run setup for each installed host when upgrading Skills. Unowned same-name MCP/Skills are refused. Unrelated settings/Skills and existing projects are retained. A registration failure before the profile changes restores the prior install state and Skills. If Harness has already switched to the new owned bundle, setup retains that bundle and its state even when registration or later onboarding reports an error; rerunning setup reconciles owned profile/state differences. Checked application caches remain available for retry.
 
@@ -137,25 +137,25 @@ Any `--host` value outside the four adapters, such as `opencode`, `cursor-agent`
 
 ```json
 "agentRegistration": {
-  "serverName": "openmotion",
+  "serverName": "kinevyn",
   "transport": { "type": "stdio", "command": "/absolute/node", "args": ["/absolute/installHome/run-mcp.mjs"] },
   "skillsDirectory": "/absolute/.agents/skills"
 }
 ```
 
-The calling Agent adds this local stdio server using its own documented MCP format, preserving unrelated settings, then refreshes MCP and calls `openmotion_get_project`. Use the launcher exactly as returned: `run-mcp.mjs` reads `install.json` and configures the workspace, browser and media paths. Do not register a bare `mcp.ts`. `command` is the absolute Node executable that ran setup (`node.exe` on Windows), so no `.cmd` shim is involved. Adapter-less Agents share one Skills owner in that root, so installing a second such Agent reuses the same entries. `tools`, `call` and `diagnose` accept the same `--host` value; `diagnose` probes the launcher but cannot read that host's configuration.
+The calling Agent adds this local stdio server using its own documented MCP format, preserving unrelated settings, then refreshes MCP and calls `kinevyn_get_project`. Use the launcher exactly as returned: `run-mcp.mjs` reads `install.json` and configures the workspace, browser and media paths. Do not register a bare `mcp.ts`. `command` is the absolute Node executable that ran setup (`node.exe` on Windows), so no `.cmd` shim is involved. Adapter-less Agents share one Skills owner in that root, so installing a second such Agent reuses the same entries. `tools`, `call` and `diagnose` accept the same `--host` value; `diagnose` probes the launcher but cannot read that host's configuration.
 
 Example for OpenCode (`~/.config/opencode/opencode.json`; OpenCode also reads `~/.agents/skills`):
 
 ```json
 {
   "mcp": {
-    "openmotion": { "type": "local", "command": ["/absolute/node", "/absolute/installHome/run-mcp.mjs"], "enabled": true }
+    "kinevyn": { "type": "local", "command": ["/absolute/node", "/absolute/installHome/run-mcp.mjs"], "enabled": true }
   }
 }
 ```
 
-Run `opencode mcp list` to confirm `openmotion` is connected and `opencode debug skill` to confirm the `openmotion-*` Skills. A host that cannot add a local stdio MCP server can still use `onboarding.directAccess` from a shell-capable chat. Adapter-less setup is not a compatibility claim for every listed Agent; each host's MCP loading is verified in that host.
+Run `opencode mcp list` to confirm `kinevyn` is connected and `opencode debug skill` to confirm the `kinevyn-*` Skills. A host that cannot add a local stdio MCP server can still use `onboarding.directAccess` from a shell-capable chat. Adapter-less setup is not a compatibility claim for every listed Agent; each host's MCP loading is verified in that host.
 
 ## Continue in the current Agent chat
 
@@ -163,7 +163,7 @@ Setup returns `onboarding.directAccess` with the exact Node executable and argum
 
 ```sh
 node /absolute/appRoot/scripts/npm-installer.mjs tools --host codex --home /absolute/installHome
-node /absolute/appRoot/scripts/npm-installer.mjs call openmotion_get_project --args-file /absolute/arguments.json --host codex --home /absolute/installHome
+node /absolute/appRoot/scripts/npm-installer.mjs call kinevyn_get_project --args-file /absolute/arguments.json --host codex --home /absolute/installHome
 ```
 
 Use the actual paths from setup, preserving host/profile and CLI overrides. `tools` returns the public schemas and verified data directory. Write a JSON object to the arguments file using host file tools; do not interpolate user content into shell commands. `call` sends one request unchanged through the registered stdio MCP transport, including its cwd/environment. It validates installation ownership, enabled state, public tool contract, version and workspace before sending the requested operation. Host tool allow/deny lists apply. Server-side schema validation, stable request IDs, revision/version guards and export ownership remain unchanged. Tool failures return their evidence with a nonzero exit; the client never retries mutations. On timeout, inspect the original request/project/job state before retrying with the same request ID. Export calls queue jobs; poll the returned job rather than keeping a CLI call open.
@@ -176,7 +176,7 @@ Explicit builds accept `MAJOR.MINOR.PATCH-test.N[.N]` or `MAJOR.MINOR.PATCH`. CI
 
 Source package manifests remain `private:true`. Only an explicit test/DEV or stable/prod build produces publishable tgz metadata. Both channels require macOS and Windows candidate installs and template preparation to pass before npm upload. Test packages upload under `candidate` and stable packages under `stage`. The workflow verifies the public tarball before advancing `test` or `latest`. Local/default and channel/environment-mismatched artifacts remain private. No command here publishes or changes npm tags. See [test and stable acceptance](release-guide.md) for separate maintainer authorization and gates.
 
-After publication, the intended user entry is `npx --yes --package @openmotion/app@<exact-version> -- openmotion setup --host codex`, followed by native discovery or direct installed access in the same chat; `prepare` is optional when an explicit wait or retry is needed. `@test` and `@latest` select channels; acceptance always records the exact resolved version. Installing/running npx alone, publishing a new package or moving a tag does not update an existing managed app.
+After publication, the intended user entry is `npx --yes --package @kinevyn/app@<exact-version> -- kinevyn setup --host codex`, followed by native discovery or direct installed access in the same chat; `prepare` is optional when an explicit wait or retry is needed. `@test` and `@latest` select channels; acceptance always records the exact resolved version. Installing/running npx alone, publishing a new package or moving a tag does not update an existing managed app.
 
 Before upgrading, back up projects/configuration, run setup with the new exact tgz and the **same** home/data/Skills paths, then continue through native tools or direct access while preparation runs (or explicitly wait with prepare). Compatible phase-one connections and active exports can continue. Refresh host discovery for new Tools or Skills; reconnect a closed transport. For an incompatible protocol, finish active exports before updating only the owned connection and idle backend together. Do not terminate unrelated services. Older app directories may remain, but rollback requires a compatible old package and data; back up before an irreversible format change. There is no automatic update or arbitrary-version rollback promise.
 
@@ -189,7 +189,7 @@ Recover npm network failures (`ENOTFOUND`, `EAI_AGAIN`, connection errors or tim
 1. **Try official, then mirror.** Try `https://registry.npmjs.org` then `https://registry.npmmirror.com`, at most once per registry, counting the initial failed attempt and skipping registries already tried. An explicitly selected registry goes first; respect any user or host restriction on alternatives. Stop on authentication, permission or checksum failures rather than switching sources.
 2. **Keep settings temporary.** Set `npm_config_registry` and `npm_config_fetch_retries=0` for the attempt's process tree, covering both npx and setup's production `npm ci`. Do not change global npm configuration, project lockfiles or TLS verification. This fallback does not apply to separate browser/FFmpeg download hosts.
 3. **Keep the same artifact.** Pin the exact requested/resolved version before switching. For channel tags, use the matching immutable guide and checksum, not the mirror's potentially older tag. If the tag never resolved, use the version stated in the trusted guide. Download a mirrored tgz with lifecycle scripts disabled, verify its SHA256 against that guide before executing it, then use the local-tgz setup command with the same host/profile and isolated paths. A missing mirrored version is not permission to downgrade; a checksum mismatch stops recovery.
-4. **Both failed: diagnose, then hand off.** Compare `npm ping` in the actual installation environment and the user's terminal, using the same npm and registry; curl success alone is insufficient. Use the host's supported network-approval flow where permitted, without bypassing a denial. If Agent access remains unavailable, provide the complete setup command and selected environment/paths for the user's terminal: preserve Node/npm, working directory, host/profile, host configuration, application home, data and Skills paths. After setup, reconnect the host and verify its version and `openmotion_get_project` result.
+4. **Both failed: diagnose, then hand off.** Compare `npm ping` in the actual installation environment and the user's terminal, using the same npm and registry; curl success alone is insufficient. Use the host's supported network-approval flow where permitted, without bypassing a denial. If Agent access remains unavailable, provide the complete setup command and selected environment/paths for the user's terminal: preserve Node/npm, working directory, host/profile, host configuration, application home, data and Skills paths. After setup, reconnect the host and verify its version and `kinevyn_get_project` result.
 
 If the terminal also fails, resolve DNS/proxy/network access first and report installation as incomplete; preserve the previous installation and user data. A verified local tgz only replaces the outer download: production npm dependencies and native components still need network access. Native readiness and host loading remain separate results.
 
@@ -202,7 +202,7 @@ Test and stable packages share the same collector. Open **Privacy settings → E
 If Studio or MCP cannot connect, run the CLI from the same exact package and installation home used for setup:
 
 ```sh
-openmotion diagnostics --home /absolute/installation-home --output /absolute/support.zip
+kinevyn diagnostics --home /absolute/installation-home --output /absolute/support.zip
 ```
 
 The installed application also exposes `node /absolute/application/scripts/npm-installer.mjs diagnostics --home /absolute/installation-home --output /absolute/support.zip`. For a plugin, complete ZIP or source installation, use its actual data directory:
@@ -213,7 +213,7 @@ node /absolute/application/scripts/diagnostics.mjs --data-dir /absolute/project-
 
 `--output` is optional; the default is a uniquely named ZIP in the current directory. Existing files are never overwritten. `diagnostics` collects local files without starting MCP, Studio, native downloads, a renderer or a recovery action. It can produce a partial report even when setup has not completed. The separate `diagnose` command below actively probes MCP and is not run by ZIP collection.
 
-The archive includes version/build identity, OS/CPU/Node and registered host names when available, native preparation status, a bounded sample of export-job metadata, existing service/render logs and local failure records. `files.json` identifies collected, missing, excluded and truncated files. Missing information is not a successful host-session check. Existing host application logs are not scanned; use that host's own log viewer for failures before OpenMotion starts. The collector does not inspect arbitrary files or include projects, media, conversations, full host/provider configuration or an environment dump.
+The archive includes version/build identity, OS/CPU/Node and registered host names when available, native preparation status, a bounded sample of export-job metadata, existing service/render logs and local failure records. `files.json` identifies collected, missing, excluded and truncated files. Missing information is not a successful host-session check. Existing host application logs are not scanned; use that host's own log viewer for failures before Kinevyn starts. The collector does not inspect arbitrary files or include projects, media, conversations, full host/provider configuration or an environment dump.
 
 Local records cover installation failures after the home exists, phase-one MCP failures, export failures, displayed operation errors and browser/React crashes. They are independent of usage telemetry and work in test builds and with telemetry disabled. Studio also records page/browser identity, selected workspace and native edit/import/render HTTP requests, and diagnostic-download stages. Requests have page-local correlation IDs, fixed route categories, response status and time to response headers; no request/response bodies, headers, project IDs, file names or query values are recorded. Healthy reads under two seconds, playback/selection updates, asset traffic and cancelled reads are omitted. ZIP export records archive receipt and browser download dispatch separately; dispatch is not proof that the browser saved a file. These completion records appear in a subsequent ZIP or persisted CLI log, not in the ZIP already being downloaded.
 
@@ -231,11 +231,11 @@ Run the installed CLI with the same application home and selected host:
 node /absolute/application/scripts/npm-installer.mjs diagnose --host codex --home /absolute/installation-home
 ```
 
-The installed Skill's `scope.json` or `openmotion-install.json` supplies `runtimeRoot` (the application directory), `installHome` and `host`; do not guess them from the video project. The packaged npm CLI also exposes `openmotion diagnose` through the same exact package used for setup. Select `codex`, `claude`, `deepseek` or `workbuddy`; preserve any custom `--codex` executable or Harness `--profile`. The saved Harness profile is used by default.
+The installed Skill's `scope.json` or `kinevyn-install.json` supplies `runtimeRoot` (the application directory), `installHome` and `host`; do not guess them from the video project. The packaged npm CLI also exposes `kinevyn diagnose` through the same exact package used for setup. Select `codex`, `claude`, `deepseek` or `workbuddy`; preserve any custom `--codex` executable or Harness `--profile`. The saved Harness profile is used by default.
 
-Diagnosis reads the selected host's owned configuration and starts an independent, bounded MCP probe using its command, arguments, registered environment overrides and working directory. It otherwise inherits the diagnostic process environment, which can differ from a GUI host. It verifies initialization, the installed tool list and a `openmotion_get_project` read of the expected data directory. It never registers/replaces configuration, creates a project, restarts another process or replays an export. A probe can start or reuse this installation's backend; it does not wait for native media/browser downloads. Credential-like environment values are redacted from reported startup output.
+Diagnosis reads the selected host's owned configuration and starts an independent, bounded MCP probe using its command, arguments, registered environment overrides and working directory. It otherwise inherits the diagnostic process environment, which can differ from a GUI host. It verifies initialization, the installed tool list and a `kinevyn_get_project` read of the expected data directory. It never registers/replaces configuration, creates a project, restarts another process or replays an export. A probe can start or reuse this installation's backend; it does not wait for native media/browser downloads. Credential-like environment values are redacted from reported startup output.
 
-The JSON result includes `status`, `hostSessionVerified:false` and `nextAction`; failures also include the stage, code and message. A successful probe does not establish that the current host chat loaded those tools, and Claude/WorkBuddy/Harness configuration reads cannot observe every session-specific enablement or tool-selection setting. Inspect the host's status/output and correct the reported configuration, runtime or version problem. In an interactive Claude Code session use the server's Reconnect action in `/mcp`; in other hosts use their supported MCP refresh/reconnect control. Then call `openmotion_get_project` through the active host connection, check the directory and original project/version, and resume the task. An empty tool search alone is not a diagnosis.
+The JSON result includes `status`, `hostSessionVerified:false` and `nextAction`; failures also include the stage, code and message. A successful probe does not establish that the current host chat loaded those tools, and Claude/WorkBuddy/Harness configuration reads cannot observe every session-specific enablement or tool-selection setting. Inspect the host's status/output and correct the reported configuration, runtime or version problem. In an interactive Claude Code session use the server's Reconnect action in `/mcp`; in other hosts use their supported MCP refresh/reconnect control. Then call `kinevyn_get_project` through the active host connection, check the directory and original project/version, and resume the task. An empty tool search alone is not a diagnosis.
 
 For source/plugin installations without an npm `installHome`, use the host's actual registered launch command and logs. The source Codex bootstrap retains `scripts/check-installed-mcp.mjs`; do not point it at a guessed plugin cache or substitute a different workspace. A closed host transport must be reconnected by the host. Keep running exports and original request IDs while recovering.
 
@@ -255,7 +255,7 @@ Maintainers: see [manual candidate and test publication workflows](release-workf
 
 ## Managed recreation analysis
 
-Recreation measurement and registration use a private Python environment with the exact Python, NumPy and headless OpenCV versions and platform hashes in `scripts/runtime-lock.json`. First use of `skills/openmotion-recreate/scripts/vision-tools.mjs` prepares it in the installation cache. `openmotion prepare --home DIR` also prepares it explicitly. User-installed Python, pip and uv are unnecessary. Preparation downloads the locked archives once, installs only those local wheels without an index or dependency resolution, and publishes the environment atomically after checking imports and versions. Completed environments are reused across application versions sharing the same runtime identity.
+Recreation measurement and registration use a private Python environment with the exact Python, NumPy and headless OpenCV versions and platform hashes in `scripts/runtime-lock.json`. First use of `skills/kinevyn-recreate/scripts/vision-tools.mjs` prepares it in the installation cache. `kinevyn prepare --home DIR` also prepares it explicitly. User-installed Python, pip and uv are unnecessary. Preparation downloads the locked archives once, installs only those local wheels without an index or dependency resolution, and publishes the environment atomically after checking imports and versions. Completed environments are reused across application versions sharing the same runtime identity.
 
 Complete platform ZIPs include the Python archive and both wheels in `runtime/vision-assets` for offline preparation. Lightweight npm installations need network access on first use. The vision tools support macOS 13+ arm64 and Windows 11+ x64. Host execution and network permissions still apply. Preparation failures report an error and can be retried with the same entry's `prepare` command. Project HTML/JavaScript and exported MP4s do not acquire a Python runtime dependency.
 

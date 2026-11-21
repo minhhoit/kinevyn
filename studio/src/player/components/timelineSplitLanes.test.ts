@@ -7,7 +7,7 @@ import { isLaneFree } from "./timelineCollision";
 import { timelineElementsOverlap } from "./timelineTrackOrder";
 import { timelineSpansOverlap } from "./timelineTimeBounds";
 
-const welcome = readFileSync(new URL("../../../../template-library/openmotion-welcome/index.html", import.meta.url), "utf8");
+const welcome = readFileSync(new URL("../../../../template-library/kinevyn-welcome/index.html", import.meta.url), "utf8");
 function clipsIn(source: string): TimelineElement[] {
   const { document } = parseSourceDocument(source);
   return [...document.querySelectorAll(".clip")].map((clip) => ({

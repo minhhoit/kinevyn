@@ -70,5 +70,5 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   const port = Number(arg?.slice(7) || process.env.DESIGN_SYSTEM_PORT || 4187);
   if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('Invalid design-system port');
   const server = createDesignSystemServer();
-  server.listen(port, '127.0.0.1', () => console.log(`OpenMotion Design System: http://127.0.0.1:${port}\nSource: ${path.join(packageDirectory, 'tokens.json')}`));
+  server.listen(port, '127.0.0.1', () => console.log(`Kinevyn Design System: http://127.0.0.1:${port}\nSource: ${path.join(packageDirectory, 'tokens.json')}`));
 }

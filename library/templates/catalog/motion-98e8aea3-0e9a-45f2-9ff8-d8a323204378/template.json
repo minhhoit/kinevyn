@@ -48,7 +48,7 @@
     "industries": [],
     "creationModels": [],
     "conversionStatus": "pending",
-    "conversionNotes": "参考视频与动效说明包，尚无已验证可编辑的 OpenMotion 工程。",
+    "conversionNotes": "参考视频与动效说明包，尚无已验证可编辑的 Kinevyn 工程。",
     "verification": {
       "render": "not_run",
       "portableFiles": "not_run",
@@ -84,7 +84,7 @@
       },
       "motionDocumentUrl": "https://r.open-design.ai/files/410d934cff7b6815b222580a2001ded781cabf7406954b4118b677ddad19566c",
       "motionGuideUrl": "https://r.open-design.ai/files/f7799042bb0a2c8baa59794b457c32159439d2c6f0f02e6b0700ef8fd292febe",
-      "conversionNotes": "Referenzvideo und Paket mit Bewegungsrichtlinien; ein geprüftes, bearbeitbares OpenMotion-Projekt ist noch nicht verfügbar."
+      "conversionNotes": "Referenzvideo und Paket mit Bewegungsrichtlinien; ein geprüftes, bearbeitbares Kinevyn-Projekt ist noch nicht verfügbar."
     },
     "en": {
       "original": {
@@ -113,7 +113,7 @@
       },
       "motionDocumentUrl": "https://r.open-design.ai/files/fdd3e385da5fd3b73fb880da00bb76a5ed4c666af492b90841ebf64f4c3702cd",
       "motionGuideUrl": "https://r.open-design.ai/files/dad2d8bf533fb732f7c25e3671a60b7534a3c87c5d1d6250425c1026b3afa70c",
-      "conversionNotes": "Reference video and motion guidance package; no verified editable OpenMotion project is available yet."
+      "conversionNotes": "Reference video and motion guidance package; no verified editable Kinevyn project is available yet."
     },
     "es": {
       "original": {
@@ -142,7 +142,7 @@
       },
       "motionDocumentUrl": "https://r.open-design.ai/files/5c59058962b0785ea2b83389246a31f3755f3e2c0a2394e20a53fb218b8ed267",
       "motionGuideUrl": "https://r.open-design.ai/files/7c3fe1fa0d3f0d742d7936c69fcd1725e7e35c893f8992989c3f9cd9233c3c41",
-      "conversionNotes": "Vídeo de referencia y paquete de instrucciones de animación; aún no hay un proyecto editable de OpenMotion verificado."
+      "conversionNotes": "Vídeo de referencia y paquete de instrucciones de animación; aún no hay un proyecto editable de Kinevyn verificado."
     },
     "fr": {
       "original": {
@@ -169,7 +169,7 @@
         "templateId": "V012",
         "sourceVideoTitle": "post-240.mp4"
       },
-      "conversionNotes": "Vidéo de référence et dossier de consignes d’animation ; aucun projet OpenMotion modifiable et vérifié n’est encore disponible."
+      "conversionNotes": "Vidéo de référence et dossier de consignes d’animation ; aucun projet Kinevyn modifiable et vérifié n’est encore disponible."
     },
     "it": {
       "original": {
@@ -196,7 +196,7 @@
         "templateId": "V012",
         "sourceVideoTitle": "post-240.mp4"
       },
-      "conversionNotes": "Video di riferimento e pacchetto di indicazioni sull’animazione; non è ancora disponibile un progetto OpenMotion modificabile e verificato."
+      "conversionNotes": "Video di riferimento e pacchetto di indicazioni sull’animazione; non è ancora disponibile un progetto Kinevyn modificabile e verificato."
     },
     "ja": {
       "original": {
@@ -223,7 +223,7 @@
         "templateId": "V012",
         "sourceVideoTitle": "post-240.mp4"
       },
-      "conversionNotes": "参考動画とモーションガイドのパッケージです。検証済みの編集可能なOpenMotionプロジェクトはまだありません。"
+      "conversionNotes": "参考動画とモーションガイドのパッケージです。検証済みの編集可能なKinevynプロジェクトはまだありません。"
     },
     "ko": {
       "original": {
@@ -250,7 +250,7 @@
         "templateId": "V012",
         "sourceVideoTitle": "post-240.mp4"
       },
-      "conversionNotes": "참고 영상과 모션 가이드 패키지입니다. 검증된 편집 가능한 OpenMotion 프로젝트는 아직 없습니다."
+      "conversionNotes": "참고 영상과 모션 가이드 패키지입니다. 검증된 편집 가능한 Kinevyn 프로젝트는 아직 없습니다."
     },
     "pt-br": {
       "original": {
@@ -279,7 +279,7 @@
       },
       "motionDocumentUrl": "https://r.open-design.ai/files/5087de0f86fef7664f4d6c1b6415fb29770d275487d4e3566f9ff8406d970d66",
       "motionGuideUrl": "https://r.open-design.ai/files/c754f8de2dd2a40dccd08ac7d1d34070d1a2fd9953a47c33b37fd41ba33aec86",
-      "conversionNotes": "Vídeo de referência e pacote de orientações de animação; ainda não há um projeto editável do OpenMotion verificado."
+      "conversionNotes": "Vídeo de referência e pacote de orientações de animação; ainda não há um projeto editável do Kinevyn verificado."
     },
     "ru": {
       "original": {
@@ -306,7 +306,7 @@
         "templateId": "V012",
         "sourceVideoTitle": "post-240.mp4"
       },
-      "conversionNotes": "Референсное видео и пакет рекомендаций по анимации; проверенного редактируемого проекта OpenMotion пока нет."
+      "conversionNotes": "Референсное видео и пакет рекомендаций по анимации; проверенного редактируемого проекта Kinevyn пока нет."
     },
     "tr": {
       "original": {
@@ -333,7 +333,7 @@
         "templateId": "V012",
         "sourceVideoTitle": "post-240.mp4"
       },
-      "conversionNotes": "Referans video ve hareket tasarımı kılavuz paketi; henüz doğrulanmış, düzenlenebilir bir OpenMotion projesi yok."
+      "conversionNotes": "Referans video ve hareket tasarımı kılavuz paketi; henüz doğrulanmış, düzenlenebilir bir Kinevyn projesi yok."
     },
     "zh-CN": {}
   },

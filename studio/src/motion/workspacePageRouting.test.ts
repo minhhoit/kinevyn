@@ -39,8 +39,8 @@ it('keeps MCP setup inside settings until a standalone destination is explicitly
 
 it('round-trips the Black Friday collection and its selected Skill without leaking either into the regular library', () => {
   const origin = 'http://localhost/?page=explore';
-  const collection = new URL(workspacePageHref(origin, { templates: true, templateCollection: 'black-friday', skill: 'openmotion-sale-promo' }), origin);
-  expect(readWorkspacePage(collection.search)).toMatchObject({ explore: true, templates: true, templateCollection: 'black-friday', skill: 'openmotion-sale-promo' });
+  const collection = new URL(workspacePageHref(origin, { templates: true, templateCollection: 'black-friday', skill: 'kinevyn-sale-promo' }), origin);
+  expect(readWorkspacePage(collection.search)).toMatchObject({ explore: true, templates: true, templateCollection: 'black-friday', skill: 'kinevyn-sale-promo' });
   expect(readWorkspacePage('?templates=1&collection=black-friday&skill=unknown').skill).toBeNull();
   expect(readWorkspacePage('?templates=1&view=creators&collection=black-friday').templateCollection).toBeNull();
   expect(workspacePageHref(collection.href, { templates: false })).toBe('/?page=explore');
@@ -48,7 +48,7 @@ it('round-trips the Black Friday collection and its selected Skill without leaki
 });
 
 it('opens retired API links in the usual workspace and drops their tool on navigation', () => {
-  const link = 'http://localhost/?page=api&tool=openmotion_media_use';
+  const link = 'http://localhost/?page=api&tool=kinevyn_media_use';
   expect(readWorkspacePage(new URL(link).search).explore).toBe(true);
   const project = new URL(link + '&project=film#project/film');
   expect(readWorkspacePage(project.search, project.hash)).toEqual(readWorkspacePage('?project=film', project.hash));

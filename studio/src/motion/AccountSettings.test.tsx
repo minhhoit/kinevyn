@@ -51,11 +51,11 @@ it('says it is connecting until the link exists, then syncing with nothing left 
 });
 
 it('explains a missing sign-in component, offers Retry and a copyable command that installs it where the service looks', async () => {
-  const command = "npm install --prefix '/opt/openmotion/data/account/runtime' --ignore-scripts @powerformer/vela-cli@0.1.10";
+  const command = "npm install --prefix '/opt/kinevyn/data/account/runtime' --ignore-scripts @powerformer/vela-cli@0.1.10";
   const writeText = vi.fn(async () => {}); Object.defineProperty(navigator, 'clipboard', { value: { writeText }, configurable: true });
   const page = await open({ state: 'signed-out', errorCode: 'connector_unavailable', connectorInstall: { command },
-    error: "OpenMotion couldn't find npm to set up the OpenDesign sign-in component. Run this command in a terminal, then select Retry:" }, 'zh-CN');
-  expect(page.querySelector('[role=alert]')?.textContent).toBe('OpenMotion 找不到 npm，无法安装 OpenDesign 登录组件。请在终端运行下面的命令，然后点「重试」：');
+    error: "Kinevyn couldn't find npm to set up the OpenDesign sign-in component. Run this command in a terminal, then select Retry:" }, 'zh-CN');
+  expect(page.querySelector('[role=alert]')?.textContent).toBe('Kinevyn 找不到 npm，无法安装 OpenDesign 登录组件。请在终端运行下面的命令，然后点「重试」：');
   expect(page.querySelector('.om-account-summary .om-code-block')?.textContent).toBe(command);
   expect(actions(page)).toEqual(['重试', '复制口令']);
   await act(async () => button(page, '复制口令')!.click());
@@ -178,7 +178,7 @@ it.each(['account', 'subscription'] as const)('shows the same sign-in benefits o
   expect(page.querySelector('.om-plan-guide .om-badge')?.textContent).toBe('Plus 及以上');
   expect(page.querySelector('.om-plan-guide .om-button')?.textContent).toBe('使用 OpenDesign 登录');
   expect([...page.querySelectorAll('.om-account-capabilities li')].map(item => item.textContent)).toEqual(['图片', '视频', '配音', '音乐']);
-  expect(page.querySelector('.om-plan-guide p')?.textContent).toBe('登录后升级到 Plus，即可在 OpenMotion 里直接生成图片、视频、配音和音乐，不用配置 API 密钥。');
+  expect(page.querySelector('.om-plan-guide p')?.textContent).toBe('登录后升级到 Plus，即可在 Kinevyn 里直接生成图片、视频、配音和音乐，不用配置 API 密钥。');
   expect(page.querySelectorAll('.om-account-metrics .om-card')).toHaveLength(section === 'subscription' ? 2 : 0);
   expect(page.querySelector('[data-guide="upgrade"]')).toBeNull();
 });

@@ -132,7 +132,7 @@ test('editor dimensions are closed buckets and a bounded template id, never raw 
 });
 
 test('tool dimensions use only the published actions, defaults and schema field names', () => {
-  assert.deepEqual([...assetActions], phase1Tools.find(tool => tool.name === 'openmotion_assets_use')!.inputSchema.properties.action.enum);
+  assert.deepEqual([...assetActions], phase1Tools.find(tool => tool.name === 'kinevyn_assets_use')!.inputSchema.properties.action.enum);
   for (const tool of phase1Tools) {
     const schema = tool.inputSchema as { properties: { action?: { enum: string[] } } };
     for (const action of schema.properties.action?.enum ?? []) {
@@ -140,14 +140,14 @@ test('tool dimensions use only the published actions, defaults and schema field 
     }
     for (const action of ['PRIVATE_ACTION', 42, ['read']]) assert.equal(toolInputFields(tool.name, { action }).action, undefined);
   }
-  assert.deepEqual(toolInputFields('openmotion_export_request', {}), { action: 'request' });
-  assert.deepEqual(toolInputFields('openmotion_open_preview', {}), { action: 'open', target: 'project' });
-  assert.deepEqual(toolInputFields('openmotion_open_preview', { action: 'begin', target: 'PRIVATE' }), { action: 'begin' });
-  assert.equal(toolInputFields('openmotion_assets', { action: 'read' }).action, undefined);
-  assert.equal(toolInputFields('openmotion_media_use', { action: 'read' }).action, undefined);
+  assert.deepEqual(toolInputFields('kinevyn_export_request', {}), { action: 'request' });
+  assert.deepEqual(toolInputFields('kinevyn_open_preview', {}), { action: 'open', target: 'project' });
+  assert.deepEqual(toolInputFields('kinevyn_open_preview', { action: 'begin', target: 'PRIVATE' }), { action: 'begin' });
+  assert.equal(toolInputFields('kinevyn_assets', { action: 'read' }).action, undefined);
+  assert.equal(toolInputFields('kinevyn_media_use', { action: 'read' }).action, undefined);
   for (const event of ['mcp_tool_started', 'mcp_tool_finished', 'webmcp_tool_started', 'webmcp_tool_finished']) {
     const web = event.startsWith('webmcp');
-    const fields = { tool_name: web ? 'openmotion_assets_use' : 'motion_assets', call_id: crypto.randomUUID(),
+    const fields = { tool_name: web ? 'kinevyn_assets_use' : 'motion_assets', call_id: crypto.randomUUID(),
       ...(web ? { transport: 'webmcp' } : { accepted: true }),
       ...(event.endsWith('finished') ? { outcome: 'success', duration_ms: 12 } : {}) };
     assert(validProperties(omEvents, event, fields), 'Existing events without action remain valid');
@@ -155,7 +155,7 @@ test('tool dimensions use only the published actions, defaults and schema field 
     for (const action of ['PRIVATE_ACTION', 42, ['read']]) assert(!validProperties(omEvents, event, { ...fields, action }));
     assert(!validProperties(omEvents, event, { ...fields, action: 'read', data: 'PRIVATE_BASE64' }));
   }
-  const edit = phase1Tools.find(tool => tool.name === 'openmotion_edit_project')!.inputSchema;
+  const edit = phase1Tools.find(tool => tool.name === 'kinevyn_edit_project')!.inputSchema;
   const args = { projectId: 'project', requestId: 'request', expectedRevision: 'a'.repeat(64), expectedVersionId: 'v1' };
   for (const [files, field, rule] of [
     [[{ content: 'PRIVATE_SOURCE' }], 'files[].path', 'missing'],
@@ -164,7 +164,7 @@ test('tool dimensions use only the published actions, defaults and schema field 
     assert.throws(() => validateInput(edit, { ...args, files }), error => {
       const normalized = toolFailureFields(error);
       assert.deepEqual(normalized, { error_code: 'INVALID_ARGUMENT', invalid_field: field, validation_rule: rule });
-      const result = { call_id: crypto.randomUUID(), tool_name: 'openmotion_edit_project', transport: 'webmcp', outcome: 'failure', duration_ms: 1 };
+      const result = { call_id: crypto.randomUUID(), tool_name: 'kinevyn_edit_project', transport: 'webmcp', outcome: 'failure', duration_ms: 1 };
       assert(validProperties(studioEvents, 'webmcp_tool_finished', { ...result, ...normalized }));
       assert(!validProperties(studioEvents, 'webmcp_tool_finished', { ...result, ...normalized, invalid_field: 'PRIVATE_KEY' }));
       assert(!validProperties(studioEvents, 'webmcp_tool_finished', { ...result, ...normalized, error_code: 'PRIVATE_ERROR' }));
@@ -174,7 +174,7 @@ test('tool dimensions use only the published actions, defaults and schema field 
 });
 
 test('nested tool inputs identify missing fields and invalid operation or command names', () => {
-  const schema = phase1Tools.find(tool => tool.name === 'openmotion_assets_use')!.inputSchema;
+  const schema = phase1Tools.find(tool => tool.name === 'kinevyn_assets_use')!.inputSchema;
   for (const [args, field, rule] of [
     [{}, 'action', 'missing'],
     [{ unknown: true }, 'action', 'missing'],
@@ -193,8 +193,8 @@ test('nested tool inputs identify missing fields and invalid operation or comman
 });
 
 test('review comment tracking keeps closed action and error fields without review content', () => {
-  const schema = phase1Tools.find(tool => tool.name === 'openmotion_manage_project')!.inputSchema;
-  assert.deepEqual(toolInputFields('openmotion_manage_project', { action: 'comments', text: 'PRIVATE_COMMENT' }), { action: 'comments' });
+  const schema = phase1Tools.find(tool => tool.name === 'kinevyn_manage_project')!.inputSchema;
+  assert.deepEqual(toolInputFields('kinevyn_manage_project', { action: 'comments', text: 'PRIVATE_COMMENT' }), { action: 'comments' });
   for (const [args, field, rule] of [
     [{ operation: 'PRIVATE_OPERATION' }, 'operation', 'invalid_enum'],
     [{ expectedCommentRevision: 0 }, 'expectedCommentRevision', 'out_of_range'],
@@ -211,7 +211,7 @@ test('review comment tracking keeps closed action and error fields without revie
   for (const code of ['COMMENT_TARGET_NOT_FOUND', 'COMMENT_NOT_FOUND', 'COMMENT_CONFLICT', 'COMMENT_LIMIT']) {
     const normalized = toolFailureFields(new Error(`${code}: PRIVATE_COMMENT`));
     assert.deepEqual(normalized, { error_code: code });
-    assert(validProperties(omEvents, 'mcp_tool_finished', { tool_name: legacyToolName('openmotion_manage_project'), accepted: true, call_id: crypto.randomUUID(), action: 'comments', outcome: 'failure', duration_ms: 1, ...normalized }));
+    assert(validProperties(omEvents, 'mcp_tool_finished', { tool_name: legacyToolName('kinevyn_manage_project'), accepted: true, call_id: crypto.randomUUID(), action: 'comments', outcome: 'failure', duration_ms: 1, ...normalized }));
   }
 });
 
@@ -360,7 +360,7 @@ test('domain events follow real commits, skip replay and retain safe failure wit
   const events: PendingEvent[] = [], tracking = core(async batch => { events.push(...batch); return 'accepted'; });
   const service = new Phase1Service(store, pluginRoot, { tracking, origin: () => 'http://127.0.0.1:4173',
     nativeUrl: () => undefined, openProject: async () => {}, mutation: async task => task(), cancel: async () => {} });
-  await service.call('openmotion_open_preview', { target: 'templates' });
+  await service.call('kinevyn_open_preview', { target: 'templates' });
   const args = { requestId: crypto.randomUUID(), projectType: 'natural_language', title: 'PRIVATE_TITLE', requirements: 'PRIVATE_PROMPT' };
   const created = await service.call('motion_create_project', args);
   assert.equal((await service.call('motion_create_project', args)).replayed, true);
@@ -374,11 +374,11 @@ test('domain events follow real commits, skip replay and retain safe failure wit
   ]);
   assert.equal(events[2].properties.error_code, 'VERSION_CONFLICT');
   assert.equal(events[0].properties.creation_route, 'natural_language');
-  const { inlineWork } = await service.call('openmotion_open_preview', {
+  const { inlineWork } = await service.call('kinevyn_open_preview', {
     projectId: created.projectId, action: 'begin', mode: 'modify', requestId: crypto.randomUUID(),
   });
   await service.workRounds.failed(created.projectId, inlineWork.id, 'PRIVATE_FAILURE');
-  await assert.rejects(service.call('openmotion_edit_project', {
+  await assert.rejects(service.call('kinevyn_edit_project', {
     ...edit, workId: inlineWork.id, requestId: crypto.randomUUID(),
   }), /WORK_CLOSED/);
   await tracking.flush();
@@ -398,14 +398,14 @@ test('DO_NOT_TRACK creates no identity and sends nothing', () => fixture(async s
 }, false));
 
 test('default configuration reports without opt-in; saved opt-out covers runtimes, restart and re-enable', t => fixture(async store => {
-  const keys = ['OPENMOTION_TELEMETRY', 'DO_NOT_TRACK', 'OPENMOTION_POSTHOG_HOST', 'OPENMOTION_POSTHOG_KEY', 'OPENMOTION_TRACKING_ENV', 'OPENMOTION_TRACKING_TEST_RUN_ID'];
+  const keys = ['KINEVYN_TELEMETRY', 'DO_NOT_TRACK', 'KINEVYN_POSTHOG_HOST', 'KINEVYN_POSTHOG_KEY', 'KINEVYN_TRACKING_ENV', 'KINEVYN_TRACKING_TEST_RUN_ID'];
   const before = Object.fromEntries(keys.map(key => [key, process.env[key]]));
   const bodies: any[] = [];
   t.mock.method(globalThis, 'fetch', async (_url: any, init: RequestInit) => { bodies.push(JSON.parse(String(init.body))); return Response.json({ status: 'Ok' }); });
   const runtimes: Awaited<ReturnType<typeof createAppTracking>>[] = [];
   try {
     for (const key of keys) delete process.env[key];
-    process.env.OPENMOTION_TRACKING_ENV = 'test'; process.env.OPENMOTION_TRACKING_TEST_RUN_ID = crypto.randomUUID();
+    process.env.KINEVYN_TRACKING_ENV = 'test'; process.env.KINEVYN_TRACKING_TEST_RUN_ID = crypto.randomUUID();
     const mcp = await createAppTracking(store.directory, 'mcp'), worker = await createAppTracking(store.directory, 'worker'); runtimes.push(mcp, worker);
     assert.equal(mcp.enabled(), true); assert.equal(worker.enabled(), true);
     mcp.ingest(packet()); assert.equal(await mcp.flush(), 'accepted'); assert.equal(bodies.length, 1);
@@ -434,8 +434,8 @@ test('default configuration reports without opt-in; saved opt-out covers runtime
     assert.equal((await set(true)).status, 200);
     assert.equal(new Set(bodies.flatMap(body => body.batch.map((event: any) => event.properties.installation_id))).size, 1);
     assert.equal(restarted.enabled(), true);
-    process.env.OPENMOTION_TELEMETRY = '0'; assert.equal(restarted.ingest(packet()), 'disabled');
-    assert.equal((await set(true)).status, 403); delete process.env.OPENMOTION_TELEMETRY;
+    process.env.KINEVYN_TELEMETRY = '0'; assert.equal(restarted.ingest(packet()), 'disabled');
+    assert.equal((await set(true)).status, 403); delete process.env.KINEVYN_TELEMETRY;
     await writeFile(path.join(store.directory, 'tracking/preferences.json'), 'corrupted');
     assert.equal(restarted.ingest(packet()), 'disabled');
   } finally {
@@ -464,7 +464,7 @@ test('repeated MCP cancels leave one terminal export result and one ledger outco
     const job = await store.requestExport(current.revision);
     const args = { projectId: store.projectId, jobId: job.id };
     const [first, second] = await Promise.all([crypto.randomUUID(), crypto.randomUUID()].map(requestId =>
-      service.call('openmotion_export_cancel', { ...args, requestId })));
+      service.call('kinevyn_export_cancel', { ...args, requestId })));
     assert.equal(first.job.state, 'cancelled');
     assert.deepEqual(second.job, first.job);
     await tracking.flush();
@@ -605,7 +605,7 @@ test('provider setup handoff tracks MCP entries exclusively without counting Web
     const webmcp = await http('/motion-api/phase1/call', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ name: 'openmotion_open_preview', arguments: { target: 'providers', entry: 'agent_media_upgrade_go' } }),
+      body: JSON.stringify({ name: 'kinevyn_open_preview', arguments: { target: 'providers', entry: 'agent_media_upgrade_go' } }),
     });
     assert.equal(webmcp.status, 200);
     const webmcpUrl = new URL((await webmcp.json()).previewUrl);
@@ -613,13 +613,13 @@ test('provider setup handoff tracks MCP entries exclusively without counting Web
     assert.equal(webmcpUrl.searchParams.get('provider'), 'account');
 
     await rpc({ jsonrpc: '2.0', id: 'init', method: 'initialize', params: { clientInfo: { name: 'codex-mcp-client', version: '1.2.3' } } }, store);
-    await rpc({ jsonrpc: '2.0', id: 'p1', method: 'tools/call', params: { name: 'openmotion_open_preview', arguments: { target: 'providers' } } }, store);
-    await rpc({ jsonrpc: '2.0', id: 'p2', method: 'tools/call', params: { name: 'openmotion_open_preview', arguments: { target: 'providers', entry: 'agent_media_upgrade_free', presentation: 'now', embedded: false } } }, store);
-    const badProvider: any = await rpc({ jsonrpc: '2.0', id: 'p2b', method: 'tools/call', params: { name: 'openmotion_open_preview', arguments: { target: 'providers', projectId: 'project', entry: 'agent_media_upgrade_free' } } }, store);
+    await rpc({ jsonrpc: '2.0', id: 'p1', method: 'tools/call', params: { name: 'kinevyn_open_preview', arguments: { target: 'providers' } } }, store);
+    await rpc({ jsonrpc: '2.0', id: 'p2', method: 'tools/call', params: { name: 'kinevyn_open_preview', arguments: { target: 'providers', entry: 'agent_media_upgrade_free', presentation: 'now', embedded: false } } }, store);
+    const badProvider: any = await rpc({ jsonrpc: '2.0', id: 'p2b', method: 'tools/call', params: { name: 'kinevyn_open_preview', arguments: { target: 'providers', projectId: 'project', entry: 'agent_media_upgrade_free' } } }, store);
     assert.equal(badProvider.result.isError, true);
-    const badTemplate: any = await rpc({ jsonrpc: '2.0', id: 'p3', method: 'tools/call', params: { name: 'openmotion_open_preview', arguments: { target: 'templates', entry: 'agent_media_signed_out' } } }, store);
+    const badTemplate: any = await rpc({ jsonrpc: '2.0', id: 'p3', method: 'tools/call', params: { name: 'kinevyn_open_preview', arguments: { target: 'templates', entry: 'agent_media_signed_out' } } }, store);
     assert.equal(badTemplate.result.isError, true);
-    const badProject: any = await rpc({ jsonrpc: '2.0', id: 'p4', method: 'tools/call', params: { name: 'openmotion_open_preview', arguments: { target: 'project', action: 'begin', entry: 'agent_media_signed_out' } } }, store);
+    const badProject: any = await rpc({ jsonrpc: '2.0', id: 'p4', method: 'tools/call', params: { name: 'kinevyn_open_preview', arguments: { target: 'project', action: 'begin', entry: 'agent_media_signed_out' } } }, store);
     assert.equal(badProject.result.isError, true);
 
     await tracking.flush();
@@ -671,11 +671,11 @@ test('MCP export failures keep action and service validation details on the orig
   try {
     const requestId = crypto.randomUUID();
     for (const [id, name, args] of [
-      [1, 'openmotion_export_request', { requestId }],
-      [2, 'openmotion_export_request', { action: 'record_review', projectId: 'project', requestId }],
-      [3, 'openmotion_export_request', { action: 'record_review', projectId: 'project', requestId }],
-      [4, 'openmotion_show_video', { PRIVATE_KEY: 1 }],
-      [5, 'openmotion_show_template_recommendations', { PRIVATE_KEY: 1 }],
+      [1, 'kinevyn_export_request', { requestId }],
+      [2, 'kinevyn_export_request', { action: 'record_review', projectId: 'project', requestId }],
+      [3, 'kinevyn_export_request', { action: 'record_review', projectId: 'project', requestId }],
+      [4, 'kinevyn_show_video', { PRIVATE_KEY: 1 }],
+      [5, 'kinevyn_show_template_recommendations', { PRIVATE_KEY: 1 }],
     ] as const) {
       const reply: any = await rpc({ jsonrpc: '2.0', id, method: 'tools/call', params: { name, arguments: args } }, store);
       assert.equal(reply.result.isError, true);

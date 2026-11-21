@@ -1,0 +1,3 @@
+interface:
+  display_name: "Kinevyn Video to Template"
+  short_description: "Rebuild a reference video into a reusable template in Kinevyn"

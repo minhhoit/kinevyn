@@ -11,5 +11,5 @@ const icons = Object.fromEntries(['arrow-left-line', 'arrow-right-line', 'refres
 }));
 await mkdir(new URL('studio/build/guide-assets/', root), { recursive: true });
 await build({ entryPoints: [fileURLToPath(new URL('studio/src/template-guide/page.ts', root))], outfile: fileURLToPath(new URL('studio/build/guide-assets/viewer.js', root)),
-  bundle: true, format: 'iife', platform: 'browser', target: 'es2022', minify: true, define: { __OPENMOTION_GUIDE_ICONS__: JSON.stringify(icons) } });
+  bundle: true, format: 'iife', platform: 'browser', target: 'es2022', minify: true, define: { __KINEVYN_GUIDE_ICONS__: JSON.stringify(icons) } });
 await copyFile(new URL('studio/src/template-guide/page.css', root), new URL('studio/build/guide-assets/viewer.css', root));

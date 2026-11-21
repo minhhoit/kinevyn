@@ -13,7 +13,7 @@ import { gatewayFor } from '../gateway/service.ts';
 
 const output = process.argv[2]; assert(output && path.isAbsolute(output), 'Pass an absolute evidence directory'); await mkdir(output, { recursive: true });
 await configureNativeEnvironment(pluginRoot);
-const lock = path.join(tmpdir(), 'openmotion-transcript-browser.lock'); await mkdir(lock);
+const lock = path.join(tmpdir(), 'kinevyn-transcript-browser.lock'); await mkdir(lock);
 const data = await mkdtemp(path.join(tmpdir(), 'motion-transcript-browser-'));
 const basicOnly = process.argv.includes('--basic-only');
 const uiOnly = process.argv.includes('--ui-only') || basicOnly;
@@ -195,7 +195,7 @@ try {
   // Imports and timeline placement use the native project upload/edit paths.
   await click(`${panel} button`, 'Add captions to video');
   await page.waitForFunction(() => [...document.querySelectorAll('[role=status]')].some(node => node.textContent.includes('Editable captions added'))).catch(async () => {
-    assert.match(await readFile(path.join(store.projectDirectory, 'index.html'), 'utf8'), /openmotion-transcript:/);
+    assert.match(await readFile(path.join(store.projectDirectory, 'index.html'), 'utf8'), /kinevyn-transcript:/);
   });
   // Styles preserve native edits and visibility changes are shared with export.
   await page.waitForFunction(() => document.querySelector('section[aria-label="Captions"]')?.getBoundingClientRect().width > 150);
@@ -318,24 +318,24 @@ try {
 
   // Public MCP-equivalent calls exercise language/version handoff and actual rendering.
   const call = async (name, args) => { const response = await fetch(`${origin}/motion-api/phase1/call`, { method: 'POST', headers: { 'Content-Type': 'application/json', Origin: new URL(origin).origin }, body: JSON.stringify({ name, arguments: args }) }); const body = await response.json(); assert(response.ok, body.error); return body; };
-  const list = await call('openmotion_assets_use', { action: 'transcript', transcript: { command: 'list', projectId: store.projectId } });
-  const original = (await call('openmotion_assets_use', { action: 'transcript', transcript: { command: 'get', projectId: store.projectId, transcriptId: list.documents.find(doc => doc.source.path.endsWith('speech.wav')).id } })).document;
+  const list = await call('kinevyn_assets_use', { action: 'transcript', transcript: { command: 'list', projectId: store.projectId } });
+  const original = (await call('kinevyn_assets_use', { action: 'transcript', transcript: { command: 'get', projectId: store.projectId, transcriptId: list.documents.find(doc => doc.source.path.endsWith('speech.wav')).id } })).document;
   for (const [language, width, height, text] of (uiOnly ? [] : [['en', 320, 180, 'Reviewed speech.'], ['fr', 180, 320, 'Texte relu.']])) {
-    const detail = await call('openmotion_get_project', { projectId: store.projectId });
-    const copy = await call('openmotion_manage_project', { action: 'duplicate', projectId: store.projectId, expectedRevision: detail.revision, requestId: `copy-${language}`, title: `Fixture ${language}` });
+    const detail = await call('kinevyn_get_project', { projectId: store.projectId });
+    const copy = await call('kinevyn_manage_project', { action: 'duplicate', projectId: store.projectId, expectedRevision: detail.revision, requestId: `copy-${language}`, title: `Fixture ${language}` });
     const pid = copy.projectId ?? copy.project?.id; assert(pid, JSON.stringify(copy));
-    let current = await call('openmotion_get_project', { projectId: pid });
+    let current = await call('kinevyn_get_project', { projectId: pid });
     const html = `<!doctype html><html><head><script src="assets/gsap.min.js"></script></head><body style="margin:0"><div id="main" data-composition-id="main" data-width="${width}" data-height="${height}" data-duration="1" style="position:relative;width:${width}px;height:${height}px;overflow:hidden;background:#164577"><audio class="clip" id="voice" src="${original.source.path}" data-start="0" data-duration="1" data-track-index="0"></audio></div><script>window.__timelines={main:gsap.timeline({paused:true}).to({}, {duration:1})};</script></body></html>`;
-    await call('openmotion_edit_project', { projectId: pid, requestId: `edit-${language}`, expectedRevision: current.revision, expectedVersionId: current.currentVersionId, files: [{ path: 'index.html', content: html }] });
-    const translated = (await call('openmotion_assets_use', { action: 'transcript', transcript: { command: 'import', projectId: pid, sourcePath: original.source.path, language, requestId: `language-${language}`, segments: original.segments.map(s => ({ id: s.id, text, start: s.start, end: s.end, ...(language === 'fr' ? { words: [{ text: 'Texte', start: 0.1, end: 0.4 }, { text: 'relu.', start: 0.4, end: 0.8 }] } : {}) })) } })).document;
-    current = await call('openmotion_get_project', { projectId: pid });
-    await call('openmotion_assets_use', { action: 'transcript', transcript: { command: 'captions', projectId: pid, transcriptId: translated.id, expectedTranscriptRevision: 1, requestId: `caption-${language}`, captionSettings: { preset: 'bar', pacing: language === 'fr' ? 'word' : 'sentence' }, compositionPath: 'index.html', timelineStart: 0, sourceStart: 0, sourceEnd: 1, playbackRate: 1, expectedRevision: current.revision, expectedVersionId: current.currentVersionId } });
-    const subtitles = await call('openmotion_assets_use', { action: 'transcript', transcript: { command: 'export', projectId: pid, transcriptId: translated.id, format: 'srt', sourceStart: 0, sourceEnd: 1, timelineStart: 0, playbackRate: 1 } });
+    await call('kinevyn_edit_project', { projectId: pid, requestId: `edit-${language}`, expectedRevision: current.revision, expectedVersionId: current.currentVersionId, files: [{ path: 'index.html', content: html }] });
+    const translated = (await call('kinevyn_assets_use', { action: 'transcript', transcript: { command: 'import', projectId: pid, sourcePath: original.source.path, language, requestId: `language-${language}`, segments: original.segments.map(s => ({ id: s.id, text, start: s.start, end: s.end, ...(language === 'fr' ? { words: [{ text: 'Texte', start: 0.1, end: 0.4 }, { text: 'relu.', start: 0.4, end: 0.8 }] } : {}) })) } })).document;
+    current = await call('kinevyn_get_project', { projectId: pid });
+    await call('kinevyn_assets_use', { action: 'transcript', transcript: { command: 'captions', projectId: pid, transcriptId: translated.id, expectedTranscriptRevision: 1, requestId: `caption-${language}`, captionSettings: { preset: 'bar', pacing: language === 'fr' ? 'word' : 'sentence' }, compositionPath: 'index.html', timelineStart: 0, sourceStart: 0, sourceEnd: 1, playbackRate: 1, expectedRevision: current.revision, expectedVersionId: current.currentVersionId } });
+    const subtitles = await call('kinevyn_assets_use', { action: 'transcript', transcript: { command: 'export', projectId: pid, transcriptId: translated.id, format: 'srt', sourceStart: 0, sourceEnd: 1, timelineStart: 0, playbackRate: 1 } });
     assert.match(subtitles.content, /00:00:00,100 --> 00:00:00,800/); await writeFile(path.join(output, `${language}.srt`), subtitles.content);
-    current = await call('openmotion_get_project', { projectId: pid });
-    const submitted = await call('openmotion_export_request', { projectId: pid, versionId: current.currentVersionId, expectedRevision: current.revision, requestId: `export-${language}`, audio: 'required' });
+    current = await call('kinevyn_get_project', { projectId: pid });
+    const submitted = await call('kinevyn_export_request', { projectId: pid, versionId: current.currentVersionId, expectedRevision: current.revision, requestId: `export-${language}`, audio: 'required' });
     let final;
-    for (let i = 0; i < 240; i++) { final = await call('openmotion_get_project', { projectId: pid, exportJobId: submitted.job.id }); const job = final.exportJob ?? final.job; if (['completed', 'failed', 'cancelled'].includes(job?.status ?? job?.state)) break; await new Promise(resolve => setTimeout(resolve, 250)); }
+    for (let i = 0; i < 240; i++) { final = await call('kinevyn_get_project', { projectId: pid, exportJobId: submitted.job.id }); const job = final.exportJob ?? final.job; if (['completed', 'failed', 'cancelled'].includes(job?.status ?? job?.state)) break; await new Promise(resolve => setTimeout(resolve, 250)); }
     const job = final.exportJob ?? final.job;
     assert.equal(job?.state, 'completed', JSON.stringify(job)); assert.equal(job.verification?.status, 'passed', JSON.stringify(job.verification));
     const bytes = Buffer.from(await (await fetch(job.downloadUrl)).arrayBuffer());

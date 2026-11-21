@@ -6,8 +6,8 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
-import { packageProject } from '../skills/openmotion-template-to-video/scripts/delivery.mjs';
-import { playbackServer, byteRange } from '../skills/openmotion-template-to-video/scripts/playback.mjs';
+import { packageProject } from '../skills/kinevyn-template-to-video/scripts/delivery.mjs';
+import { playbackServer, byteRange } from '../skills/kinevyn-template-to-video/scripts/playback.mjs';
 import { WorkspaceStore } from '../workspace.ts';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
@@ -20,7 +20,7 @@ async function setSource(detail, project, name, data) {
   if (index === -1) detail.project.files.push(entry); else detail.project.files[index] = entry;
 }
 async function fixture() {
-  const directory = await mkdtemp(path.join(tmpdir(), 'openmotion-template-delivery-'));
+  const directory = await mkdtemp(path.join(tmpdir(), 'kinevyn-template-delivery-'));
   const project = path.join(directory, 'project'); await mkdir(project);
   const contents = { 'index.html': '<html><script src="vendor/gsap-3.14.2/dist/gsap.min.js"></script><main data-composition-src="compositions/scene.html"></main></html>',
     'compositions/scene.html': '<template><p>Original</p></template>', 'vendor/gsap-3.14.2/dist/gsap.min.js': 'window.gsap={};',
@@ -135,7 +135,7 @@ test('thin exported helper resolves scope metadata instead of assuming a reposit
   const f = await fixture();
   try {
     const thin = path.join(f.directory, 'thin/scripts'); await mkdir(thin, { recursive: true });
-    await writeFile(path.join(thin, 'delivery.mjs'), await readFile(path.join(root, 'skills/openmotion-template-to-video/scripts/delivery.mjs')));
+    await writeFile(path.join(thin, 'delivery.mjs'), await readFile(path.join(root, 'skills/kinevyn-template-to-video/scripts/delivery.mjs')));
     await writeFile(path.join(f.directory, 'thin/scope.json'), JSON.stringify({ runtimeRoot: root }));
     const detail = path.join(f.directory, 'detail.json'); await writeFile(detail, JSON.stringify(f.detail));
     const child = spawnSync(process.execPath, [path.join(thin, 'delivery.mjs'), 'package', '--project-json', detail, '--output', path.join(f.directory, 'thin-output')], { encoding: 'utf8' });
@@ -151,7 +151,7 @@ test('Range parsing preserves middle, suffix and open-ended byte requests and re
 });
 
 test('playback server supports real GET/HEAD/206/416 and rejects cross-origin reports and arbitrary files', async () => {
-  const directory = await mkdtemp(path.join(tmpdir(), 'openmotion-playback-'));
+  const directory = await mkdtemp(path.join(tmpdir(), 'kinevyn-playback-'));
   const video = path.join(directory, 'final.mp4'), report = path.join(directory, 'report.json');
   await writeFile(video, '0123456789');
   const server = await playbackServer(video, report);

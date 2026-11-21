@@ -57,7 +57,7 @@ export async function exportAdapters(runtimePath: string, dataPath: string, outp
   await access(command, constants.X_OK);
   const bootstrap = path.join(runtime, 'bootstrap.mjs');
   const args = ['--experimental-strip-types', ...(await exists(bootstrap) ? ['--import', bootstrap] : []), entry];
-  const info: IntegrationInfo = { name: 'OpenMotion', version: pkg.version, previewUrl: '', dataDirectory: data,
+  const info: IntegrationInfo = { name: 'Kinevyn', version: pkg.version, previewUrl: '', dataDirectory: data,
     transport: { type: 'stdio', command, args, cwd: runtime, env: { MOTION_DATA_DIR: data } }, tools: [] };
   const documents: { name: string; data: Buffer }[] = [];
   async function readDocuments(directory: string) {
@@ -87,43 +87,43 @@ export async function exportAdapters(runtimePath: string, dataPath: string, outp
         : host === 'claude' ? 'Install from this local marketplace with Claude Code. The runtime remains external.'
         : host === 'workbuddy' ? 'Local MCP + Skill Connector. WorkBuddy installation and model/render acceptance must be tested on the target desktop version. Use mcp.json for manual custom MCP setup.'
         : 'Merge the insert operation into the active Harness profile or load cordis.patch.yml with --patch. Do not replace existing profile settings.';
-      text('README.md', `# OpenMotion · ${host}\n\n${notes}\n\nRuntime: ${runtime}\nWorkspace: ${data}\nVersion: ${pkg.version}\n\nStart with [AGENTS.md](AGENTS.md), [the workflow](skills/openmotion-production/SKILL.md) and [adapter instructions](docs/agent-adapters.md). Service scripts live under scope.json runtimeRoot, not this plugin cache.\n\nGenerated on this machine. Regenerate after moving the runtime or installing on another machine. Keep user data when uninstalling an adapter.\n`);
+      text('README.md', `# Kinevyn · ${host}\n\n${notes}\n\nRuntime: ${runtime}\nWorkspace: ${data}\nVersion: ${pkg.version}\n\nStart with [AGENTS.md](AGENTS.md), [the workflow](skills/kinevyn-production/SKILL.md) and [adapter instructions](docs/agent-adapters.md). Service scripts live under scope.json runtimeRoot, not this plugin cache.\n\nGenerated on this machine. Regenerate after moving the runtime or installing on another machine. Keep user data when uninstalling an adapter.\n`);
       text('scope.json', { host, version: pkg.version, mcpProfile, machineLocal: true, runtimeIncluded: false, runtimeRoot: runtime, dataDirectory: data, clientSettingsModified: false });
       if (host === 'deepseek') text('cordis.patch.yml', integrationConfig(info, 'deepseek').text);
       else if (host === 'workbuddy') {
         // https://open.workbuddy.cn/en/docs/connector (MCP + Skill, cwd since 4.22.15).
-        text('connector-meta.json', { name: 'OpenMotion', name_en: 'OpenMotion', source: 'openmotion', type: 'mcp', version: pkg.version,
+        text('connector-meta.json', { name: 'Kinevyn', name_en: 'Kinevyn', source: 'kinevyn', type: 'mcp', version: pkg.version,
           description: '用共用的本机创作运行时制作和修改视频，保留可继续编辑的工程与成片。',
           description_zh: '用共用的本机创作运行时制作和修改视频，保留可继续编辑的工程与成片。',
-          description_en: 'Create and edit videos using the shared local OpenMotion runtime.',
+          description_en: 'Create and edit videos using the shared local Kinevyn runtime.',
           examples_zh: ['查看可用的视频模板和制作流程', '修改当前视频工程并导出成片'],
           examples_en: ['List video templates and the production workflow', 'Edit the current video project and export it'], minWorkbuddyVersion: '4.22.15' });
-        text('mcp.json', { mcpServers: { openmotion: info.transport } });
+        text('mcp.json', { mcpServers: { kinevyn: info.transport } });
         text('icon.svg', `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#282828" stroke="none">${filmIcon}</svg>\n`);
       }
       else {
-        const manifest = { name: 'openmotion', version: pkg.version,
-          description: manifestDescription ?? 'OpenMotion with the shared local MCP runtime.',
+        const manifest = { name: 'kinevyn', version: pkg.version,
+          description: manifestDescription ?? 'Kinevyn with the shared local MCP runtime.',
           author: { name: 'OpenDesign' }, skills: './skills/', mcpServers: './.mcp.json' };
         text(`.${host}-plugin/plugin.json`, host === 'codex' ? { ...manifest, requires_local_executor: true,
-          interface: { ...runtimeInterface, displayName: 'OpenMotion', shortDescription: manifestShortDescription ?? 'OpenMotion production with the shared local runtime.' } } : manifest);
-        text('.mcp.json', host === 'codex' ? { mcpServers: { openmotion: info.transport } } : integrationConfig(info, 'mcp').text);
+          interface: { ...runtimeInterface, displayName: 'Kinevyn', shortDescription: manifestShortDescription ?? 'Kinevyn production with the shared local runtime.' } } : manifest);
+        text('.mcp.json', host === 'codex' ? { mcpServers: { kinevyn: info.transport } } : integrationConfig(info, 'mcp').text);
       }
-      const directory = path.join(output, host, 'openmotion');
+      const directory = path.join(output, host, 'kinevyn');
       for (const file of files) {
         const destination = path.join(directory, file.name);
         await mkdir(path.dirname(destination), { recursive: true }); await writeFile(destination, file.data);
       }
-      await writeFile(path.join(output, `openmotion-${host}-${pkg.version}-local.zip`), zip(files.map(file => ({ ...file, name: 'openmotion/' + file.name }))));
+      await writeFile(path.join(output, `kinevyn-${host}-${pkg.version}-local.zip`), zip(files.map(file => ({ ...file, name: 'kinevyn/' + file.name }))));
       if (host === 'codex' || host === 'claude') {
         const marketplace = path.join(output, host, host === 'codex' ? '.agents/plugins' : '.claude-plugin');
         await mkdir(marketplace, { recursive: true });
-        await writeFile(path.join(marketplace, 'marketplace.json'), JSON.stringify({ name: 'openmotion-local', owner: { name: 'OpenDesign' }, plugins: [host === 'codex'
-          ? { name: 'openmotion', source: { source: 'local', path: './openmotion' }, policy: { installation: 'AVAILABLE', authentication: 'ON_INSTALL' }, category: 'Productivity' }
-          : { name: 'openmotion', source: './openmotion' }] }, null, 2) + '\n');
+        await writeFile(path.join(marketplace, 'marketplace.json'), JSON.stringify({ name: 'kinevyn-local', owner: { name: 'OpenDesign' }, plugins: [host === 'codex'
+          ? { name: 'kinevyn', source: { source: 'local', path: './kinevyn' }, policy: { installation: 'AVAILABLE', authentication: 'ON_INSTALL' }, category: 'Productivity' }
+          : { name: 'kinevyn', source: './kinevyn' }] }, null, 2) + '\n');
         await writeFile(path.join(output, host, 'mcp.json'), integrationConfig(info, 'mcp').text);
       }
-      if (host === 'workbuddy') await writeFile(path.join(output, host, 'mcp.json'), JSON.stringify({ mcpServers: { openmotion: info.transport } }, null, 2) + '\n');
+      if (host === 'workbuddy') await writeFile(path.join(output, host, 'mcp.json'), JSON.stringify({ mcpServers: { kinevyn: info.transport } }, null, 2) + '\n');
     }
     await writeFile(path.join(output, 'launch-spec.json'), JSON.stringify(info.transport, null, 2) + '\n');
     return { output, version: pkg.version, hosts, runtimeIncluded: false, clientSettingsModified: false };

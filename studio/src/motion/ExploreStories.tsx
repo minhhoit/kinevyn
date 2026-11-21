@@ -40,7 +40,7 @@ export function ExploreHighlights({ onChooseStudio, onOpenBlackFriday }: Pick<St
     <HorizontalRail label="Explore highlights" className="om-highlights" viewportClassName="om-stories-rail">
       <StoryCard title={seedanceStory.title} poster={paintedFilm} label={t('Cinema Studio') + ' · ' + t('Video')} description={seedanceStory.description} onClick={() => jump('seedance')} />
       <StoryCard title="Black Friday collection" poster={sale} label={t('Template library')} description="Browse Black Friday video references and Skills for your sale." onClick={event => onOpenBlackFriday(event.currentTarget)} />
-      <StoryCard title="Claude Fable 5.2" poster={blueprint} label="Claude Code · OpenMotion MCP" description="From a keyframe to an anime opening" onClick={() => jump('claude')} />
+      <StoryCard title="Claude Fable 5.2" poster={blueprint} label="Claude Code · Kinevyn MCP" description="From a keyframe to an anime opening" onClick={() => jump('claude')} />
       <StoryCard title={gptImageStory.title} poster={printCover} label={t('Design Studio') + ' · ' + t('Image')} description={gptImageStory.description} onClick={() => jump('gpt-image')} />
       <StoryCard title="Shorts Studio" poster={shorts} label={t('Short-form video')} description="Cut a recording into vertical shorts or assemble several clips into one reel." onClick={() => onChooseStudio(findTechniqueStudio('shorts')!)} />
     </HorizontalRail>
@@ -73,7 +73,7 @@ export function ClaudeStories({ onClaude }: Pick<StoryActions, 'onClaude'>) {
   const film = mcpCapabilities.find(capability => capability.id === 'create')!;
   return <section className="om-card om-claude-stories" aria-labelledby="explore-claude">
     <div className="om-claude-intro">
-      <span className="om-feed-card-label"><ProviderAvatar name="Claude" provider={{ id: 'claude-code', custom: false }} />OpenMotion MCP</span>
+      <span className="om-feed-card-label"><ProviderAvatar name="Claude" provider={{ id: 'claude-code', custom: false }} />Kinevyn MCP</span>
       <div className="om-discovery-heading"><h2 id="explore-claude" tabIndex={-1}>Claude Fable 5.2</h2></div>
       <p className="om-muted">{t('Choose Fable in Claude Code to plan shots, work with your media models and build an editable film through MCP.')}</p>
       <Button type="button" variant="primary" className="om-button" data-primary onClick={() => onClaude()}>{t('Connect Claude Code')}<RemixIcon name="plug-line" size={16} /></Button>

@@ -56,8 +56,8 @@ test('guide-draft handoff is discoverable and translated with its actual recover
   }
   const shared = readFileSync(new URL('../shared/integration.ts', import.meta.url), 'utf8');
   assert.match(shared, /\$\{templateGuideContinuationInstruction\}/);
-  const templateSkill = readFileSync(new URL('../skills/openmotion-template-to-video/SKILL.md', import.meta.url), 'utf8');
-  const reference = readFileSync(new URL('../skills/openmotion-production/references/templates.md', import.meta.url), 'utf8');
+  const templateSkill = readFileSync(new URL('../skills/kinevyn-template-to-video/SKILL.md', import.meta.url), 'utf8');
+  const reference = readFileSync(new URL('../skills/kinevyn-production/references/templates.md', import.meta.url), 'utf8');
   assert.match(templateSkill, /guideDraft.*narrow exception/);
   assert.match(reference, /guideDraft.*projectType|projectType.*guideDraft/s);
   assert.match(reference, /applied=false.*unknown outcomes/s);
@@ -71,20 +71,20 @@ test('reference-image and audio guidance is translated in every interface langua
   const refAnswer = mcpFaq.find(([question]) => question === 'Can I generate from a reference image?')![1];
   assert.match(refAnswer, /OpenDesign Cloud and account video models with first-frame support can animate one image/);
   assert.match(refAnswer, /2 MiB/);
-  const mediaTool = phase1Tools.find(tool => tool.name === 'openmotion_media_use')!;
+  const mediaTool = phase1Tools.find(tool => tool.name === 'kinevyn_media_use')!;
   assert.match(mediaTool.description, /2 MiB for OpenDesign account\/Cloud.*20 MB/);
   assert.match((mediaTool.inputSchema.properties as Record<string, { description: string }>).referenceAsset.description, /2 MiB for OpenDesign account\/Cloud.*20 MB/);
 });
 
 test('connection guidance exposes the maintained media workflow without asking for credentials', () => {
-  const info: IntegrationInfo = { name: 'OpenMotion', version: '1.0.0', dataDirectory: '/fixture/data', previewUrl: 'http://127.0.0.1:4567', tools: phase1Tools,
+  const info: IntegrationInfo = { name: 'Kinevyn', version: '1.0.0', dataDirectory: '/fixture/data', previewUrl: 'http://127.0.0.1:4567', tools: phase1Tools,
     transport: { type: 'stdio', command: 'node', args: ['/fixture/mcp.ts'], cwd: '/fixture', env: { MOTION_DATA_DIR: '/fixture/data' } } };
   const guide = agentGuide(info, 'codex');
   assert.ok(guide.includes(reviewCommentsPrompt({ dataDirectory: info.dataDirectory, previewUrl: info.previewUrl })));
-  for (const operation of ['openmotion_media_use', 'inspect', 'reference', 'models', 'schema', 'generate', 'status', 'cancel', 'requestId', 'jobId']) assert.ok(guide.includes(operation), operation);
+  for (const operation of ['kinevyn_media_use', 'inspect', 'reference', 'models', 'schema', 'generate', 'status', 'cancel', 'requestId', 'jobId']) assert.ok(guide.includes(operation), operation);
   assert.doesNotMatch(guide, /不公开生成/);
   assert.match(guide, /Keep credentials in Settings/);
-  assert.match(guide, /openmotion_assets_use generate/);
+  assert.match(guide, /kinevyn_assets_use generate/);
 });
 
 test('media example preserves setup and task continuation across supported languages', async () => {
@@ -93,7 +93,7 @@ test('media example preserves setup and task continuation across supported langu
   assert.match(media.prompt, /inspect/);
   assert.match(media.prompt, /Plus or above/);
   assert.match(media.prompt, /settingsHandoff from inspect.*page handoff/);
-  assert.match(media.prompt, /not-included.*openmotion_open_preview with target=providers and entry=agent_media_upgrade_go for Go or entry=agent_media_upgrade_free for Free/);
+  assert.match(media.prompt, /not-included.*kinevyn_open_preview with target=providers and entry=agent_media_upgrade_go for Go or entry=agent_media_upgrade_free for Free/);
   assert.match(media.prompt, /Continue model discovery.*included or signed-in unknown.*another usable provider/);
   assert.match(media.prompt, /entry=agent_media_signed_out.*Sign in with OpenDesign directly/);
   assert.match(media.prompt, /Upgrade to Plus directly on the opened OpenDesign page/);
@@ -107,13 +107,13 @@ test('media example preserves setup and task continuation across supported langu
   assert.match(media.prompt, /original request/);
   const chinesePrompt = translations['zh-CN'][media.prompt];
   assert.match(chinesePrompt, /agent_media_upgrade_go.*agent_media_upgrade_free.*升级到 Plus.*agent_media_signed_out.*使用 OpenDesign 登录.*agent_media_key_rejected.*agent_media_handbook/);
-  const skill = readFileSync(new URL('../skills/openmotion-media/SKILL.md', import.meta.url), 'utf8');
+  const skill = readFileSync(new URL('../skills/kinevyn-media/SKILL.md', import.meta.url), 'utf8');
   const setupLink = skill.match(/\[Discovery and setup\]\(([^)]+)\)/);
   assert.ok(setupLink, 'Media entry must expose provider setup');
-  const setup = readFileSync(new URL(setupLink[1], new URL('../skills/openmotion-media/SKILL.md', import.meta.url)), 'utf8');
+  const setup = readFileSync(new URL(setupLink[1], new URL('../skills/kinevyn-media/SKILL.md', import.meta.url)), 'utf8');
   assert.match(setup, /target: "providers"/);
   assert.match(setup, /## Media handbook handoff/);
-  assert.match(setup, /settingsHandoff.*openmotion_open_preview.*target: "providers".*page handoff/);
+  assert.match(setup, /settingsHandoff.*kinevyn_open_preview.*target: "providers".*page handoff/);
   assert.match(setup, /signed-in account.*available: true.*unknown/);
   assert.match(setup, /not-included.*agent_media_upgrade_go.*agent_media_upgrade_free.*Upgrade to Plus.*directly/);
   assert.match(setup, /MCP handbook media-generation example/);
@@ -147,11 +147,11 @@ test('final-video selection and recovery are localized throughout the handbook',
 
 test('canvas and caption controls expose atomic operations and an actionable handbook example', () => {
   const capability = mcpCapabilities.find(item => item.id === 'canvas-captions')!;
-  assert.match(capability.prompt, /openmotion_edit_project.*canvas=/);
+  assert.match(capability.prompt, /kinevyn_edit_project.*canvas=/);
   assert.match(capability.prompt, /caption_toggle/);
   assert.match(capability.prompt, /stable requestId/);
   assert.match(capability.description, /Locked tracks.*Conflicts.*without automatic subject detection/);
-  const schema = phase1Tools.find(tool => tool.name === 'openmotion_edit_project')!.inputSchema;
+  const schema = phase1Tools.find(tool => tool.name === 'kinevyn_edit_project')!.inputSchema;
   assert.ok(schema.properties.canvas); assert.ok(!schema.required.includes('files'));
   const translations = JSON.parse(readFileSync(new URL('../studio/src/i18n/canvas-ui.json', import.meta.url), 'utf8'));
   for (const [language, values] of Object.entries(translations) as [string, Record<string, string>][]) {
@@ -161,7 +161,7 @@ test('canvas and caption controls expose atomic operations and an actionable han
 
 test('fullscreen guidance distinguishes browser presentation from an Agent project operation', () => {
   const capability = mcpCapabilities.find(item => item.id === 'fullscreen')!;
-  assert.deepEqual(capability.tools, ['openmotion_open_preview']);
+  assert.deepEqual(capability.tools, ['kinevyn_open_preview']);
   assert.match(capability.description, /Embedded hosts may block/); assert.match(capability.prompt, /do not render or edit/);
   const translations = JSON.parse(readFileSync(new URL('../studio/src/i18n/fullscreen-ui.json', import.meta.url), 'utf8'));
   for (const [language, values] of Object.entries(translations) as [string, Record<string, string>][]) {
@@ -172,7 +172,7 @@ test('fullscreen guidance distinguishes browser presentation from an Agent proje
 
 test('timeline hover inspection remains a localized, non-mutating preview scenario', () => {
   const capability = mcpCapabilities.find(item => item.id === 'timeline-hover')!;
-  assert.deepEqual(capability.tools, ['openmotion_open_preview']);
+  assert.deepEqual(capability.tools, ['kinevyn_open_preview']);
   assert.match(capability.description, /Pause playback.*Click the ruler.*if loading fails/);
   assert.match(capability.prompt, /Preserve the source and selection; do not export or generate media/);
   const translations = JSON.parse(readFileSync(new URL('../studio/src/i18n/timeline-hover-ui.json', import.meta.url), 'utf8'));

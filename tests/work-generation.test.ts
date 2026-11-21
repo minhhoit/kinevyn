@@ -29,17 +29,17 @@ function setup(store: any) {
   return { service, tracking, events };
 }
 async function begin(service: Phase1Service) {
-  const project = await service.call('openmotion_create_project', { requestId: crypto.randomUUID(),
+  const project = await service.call('kinevyn_create_project', { requestId: crypto.randomUUID(),
     projectType: 'natural_language', title: 'Telemetry fixture', requirements: 'A silent video' });
   const args = { action: 'begin', projectId: project.projectId, requestId: crypto.randomUUID(), mode: 'create' };
-  const { inlineWork: work } = await service.call('openmotion_open_preview', args);
+  const { inlineWork: work } = await service.call('kinevyn_open_preview', args);
   return { project, work, args };
 }
 async function complete(service: Phase1Service, projectId: string, workId: string) {
-  const current = await service.call('openmotion_get_project', { projectId });
+  const current = await service.call('kinevyn_get_project', { projectId });
   const args = { action: 'complete_generation', projectId, workId, requestId: crypto.randomUUID(),
     expectedRevision: current.revision, expectedVersionId: current.currentVersionId };
-  return { result: await service.call('openmotion_open_preview', args), args };
+  return { result: await service.call('kinevyn_open_preview', args), args };
 }
 const fixtureEvents: any[] = [];
 const recordFixture = (events: any[]) => {
@@ -51,11 +51,11 @@ const stages = (events: any[]) => events.filter(e => e.event === 'work_generatio
 test('a video artifact completes independently of save, preview and export; replay reports one occurrence', () => fixture(async store => {
   const { service, tracking, events } = setup(store);
   const { project, work, args: beginArgs } = await begin(service);
-  await service.call('openmotion_open_preview', beginArgs);
+  await service.call('kinevyn_open_preview', beginArgs);
   // External Agents can author native files directly. No edit/save tool is called.
   await writeFile(path.join(store.projectDirectoryFor(project.projectId), 'index.html'), film);
   const { result, args } = await complete(service, project.projectId, work.id);
-  await service.call('openmotion_open_preview', args);
+  await service.call('kinevyn_open_preview', args);
   await complete(service, project.projectId, work.id);
   await tracking.flush();
   assert.ok(result.generation.completedAt);
@@ -70,11 +70,11 @@ test('blank projects and metadata saves cannot count as generated video; a corre
   const { service, tracking, events } = setup(store);
   const { project, work } = await begin(service);
   await assert.rejects(complete(service, project.projectId, work.id), /GENERATION_CONTENT_UNCHANGED/);
-  const edited = await service.call('openmotion_edit_project', { projectId: project.projectId, workId: work.id,
+  const edited = await service.call('kinevyn_edit_project', { projectId: project.projectId, workId: work.id,
     requestId: crypto.randomUUID(), expectedRevision: project.revision, expectedVersionId: project.currentVersionId,
     files: [], requirements: 'Changed brief only' });
   await assert.rejects(complete(service, project.projectId, work.id), /GENERATION_CONTENT_UNCHANGED/);
-  await service.call('openmotion_edit_project', { projectId: project.projectId, workId: work.id,
+  await service.call('kinevyn_edit_project', { projectId: project.projectId, workId: work.id,
     requestId: crypto.randomUUID(), expectedRevision: edited.revision, expectedVersionId: edited.version.versionId,
     files: [{ path: 'index.html', content: film }] });
   await tracking.flush();
@@ -105,7 +105,7 @@ test('Studio content edits and background export keep the originating work after
   assert.equal(stages(events).length, 2);
   const insertFromAssets = { surface: 'assets', edit_kind: 'add_asset' };
   await Promise.all([edit(insertFromAssets), edit(insertFromAssets)]);
-  await service.call('openmotion_open_preview', { action: 'begin', mode: 'modify',
+  await service.call('kinevyn_open_preview', { action: 'begin', mode: 'modify',
     projectId: project.projectId, requestId: crypto.randomUUID() });
   assert.equal(await rounds.latestGenerated(project.projectId), undefined, 'A pending new generation cannot borrow the previous completion');
   const output = path.join(store.projectDirectoryFor(project.projectId), 'renders', 'unused.mp4');
@@ -131,8 +131,8 @@ test('Studio content edits and background export keep the originating work after
     assert.equal(result.at(-1).properties.export_route, 'studio');
     assert.ok(result.every(e => validProperties(omEvents, e.event, e.properties)));
     recordFixture(result);
-    if (process.env.OPENMOTION_FUNNEL_FIXTURE)
-      await writeFile(process.env.OPENMOTION_FUNNEL_FIXTURE, JSON.stringify(fixtureEvents, null, 2));
+    if (process.env.KINEVYN_FUNNEL_FIXTURE)
+      await writeFile(process.env.KINEVYN_FUNNEL_FIXTURE, JSON.stringify(fixtureEvents, null, 2));
   } finally { attempts.close(); tracking.close(); }
 }, false));
 
@@ -141,8 +141,8 @@ test('MCP rendering reports export completion on the same generated work', { tim
   const { project, work } = await begin(service);
   await writeFile(path.join(store.projectDirectoryFor(project.projectId), 'index.html'), film);
   await complete(service, project.projectId, work.id);
-  const current = await service.call('openmotion_get_project', { projectId: project.projectId });
-  const requested = await service.call('openmotion_export_request', {
+  const current = await service.call('kinevyn_get_project', { projectId: project.projectId });
+  const requested = await service.call('kinevyn_export_request', {
     projectId: project.projectId, workId: work.id, requestId: crypto.randomUUID(),
     versionId: current.currentVersionId, expectedRevision: current.revision, audio: 'silent',
   });

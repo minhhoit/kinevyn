@@ -1,4 +1,4 @@
-# OpenMotion tracking
+# Kinevyn tracking
 
 Catalog guide pages emit `template_guide_interaction` through the existing Studio transport and privacy preference. `template_id` always identifies the page being used, with a fresh `view_id`; actions are `shown`, `edit`, `chapter`, `reference`, `reset`, `copy`, `open_editor`, `download`, `document` and `source`. Document toggles include `expanded`; source links record intent. Download results distinguish `browser_save_requested` from `fetch_failed`, and never confirm disk persistence. Editor entry reports intent separately from its result. `shown` requires at least half of the preview visible for one continuous foreground second. Edits report only `title` or `accent`, never their values. Copy and editor actions report success, failure or manual fallback separately. The embedding parent pins the template identity and validates the closed event fields. This measures interaction and handoff, not user acceptance, export or reference-recreation completion. Local tests do not establish production collection.
 
@@ -16,7 +16,7 @@ stable releases, test/prerelease packages and local builds, into the existing
 OpenDesign project (420348). Application version and environment remain event
 properties; they do not disable collection. DEV packages retain their separate
 installation/data directories and template routing.
-OM events carry `product=openmotion`; OM reports must filter by that property,
+OM events carry `product=kinevyn`; OM reports must filter by that property,
 and shared-project reports must distinguish OM from other products. The project's
 public, write-only token and ingestion host are distributed in
 `shared/tracking-config.json`; it contains no read/admin credentials and is never
@@ -31,22 +31,22 @@ enqueue/flush also checks the saved preference. Corrupt preference files fail cl
 Re-enabling resumes collection of new events in MCP and Studio
 without restarting. Events discarded while disabled are not buffered or replayed.
 
-`OPENMOTION_TELEMETRY=0` (also `false`/`off`) or `DO_NOT_TRACK=1` forces all collection
+`KINEVYN_TELEMETRY=0` (also `false`/`off`) or `DO_NOT_TRACK=1` forces all collection
 off and locks the Studio switch. Restart services after changing launch environment
 variables. Browser Do Not Track suppresses browser collection. The environment
 override takes priority over the saved preference.
 
-For another collector, supply both `OPENMOTION_POSTHOG_HOST` and
-`OPENMOTION_POSTHOG_KEY`. Partial or invalid configuration fails closed. Custom
-collectors default to zero-IP mode; `OPENMOTION_GEOIP=1` requires that collector to
+For another collector, supply both `KINEVYN_POSTHOG_HOST` and
+`KINEVYN_POSTHOG_KEY`. Partial or invalid configuration fails closed. Custom
+collectors default to zero-IP mode; `KINEVYN_GEOIP=1` requires that collector to
 discard IP after enrichment. Never supply a personal `phx_` API key.
 
 Keep the OM-only receiver transformation active while geo-enabled clients report
 to this shared project. Before removing it, stop OM collection or switch those
 clients to zero-IP mode. Do not revoke the shared OpenDesign token as an OM rollback.
 
-Use `OPENMOTION_TRACKING_ENV=test` and a UUID in
-`OPENMOTION_TRACKING_TEST_RUN_ID` for isolated ingestion checks; filter these records
+Use `KINEVYN_TRACKING_ENV=test` and a UUID in
+`KINEVYN_TRACKING_TEST_RUN_ID` for isolated ingestion checks; filter these records
 out of product dashboards. Normal environments are `production` and `development`.
 Node/Vitest tests suppress collection unless explicitly given a test run ID; CI
 also forces collection off. No test should silently report into production funnels.
@@ -85,7 +85,7 @@ installation-local, atomic and does not contain prompts, source content or
 credentials.
 
 Host run boundaries use the existing work-round ID returned by
-`openmotion_open_preview(action=begin)`. The MCP boundary emits
+`kinevyn_open_preview(action=begin)`. The MCP boundary emits
 `host_run_started` and `host_state_changed`; a host-reported visible preview with
 verified content emits `host_preview_observed` and `host_run_delivered`. A verified
 technical export can also close the same run with `host_run_delivered`. A failed or
@@ -97,7 +97,7 @@ claim a run boundary when the host did not provide a work-round ID.
 `work_generation_stage` records `started`, `generated`, `edited` and `exported` with the same `work_id`, `project_id` and installation identity. The native work round owns the occurrence times. A deterministic event ID per work/stage deduplicates retry delivery, and work mutations use a cross-process lock.
 
 - `started` is emitted when a generation work round begins, before authoring. Export-only playback sets `generation:false`.
-- `generated` is emitted by `openmotion_open_preview(action=complete_generation)` immediately after the Agent produces the requested native video artifact. This action reads the current artifact, checks its version, authored content change, duration and native lint, and records completion independently of saving, preview or export. Direct filesystem authoring follows the same path.
+- `generated` is emitted by `kinevyn_open_preview(action=complete_generation)` immediately after the Agent produces the requested native video artifact. This action reads the current artifact, checks its version, authored content change, duration and native lint, and records completion independently of saving, preview or export. Direct filesystem authoring follows the same path.
 - `edited` is the first successful manual content edit or history step in Studio after generation. It is associated using the event's project and occurrence time. Project/asset renames, failed changes, Agent writes and asset-manager-only operations are excluded. The built-in project emits its fixed `project` identity alongside managed project UUIDs.
 - `exported` is the first successful export of that work. MCP uses the job's frozen work identity. Studio binds the most recent generated round of the same project when accepting a render and observes the persisted native completion in the backend, including when the tab closes. An unfinished newer generation prevents borrowing an earlier completion.
 
@@ -118,7 +118,7 @@ correctness incidents and recovery evidence use `incident_confirmed` and
 ## Identity, properties and privacy
 
 `account_sign_in_result` reports each finished OpenDesign connector attempt with
-`source_product=openmotion`, `source_detail=openmotion_editor_login`, and an
+`source_product=kinevyn`, `source_detail=kinevyn_editor_login`, and an
 `entry_id` / `entry_occurred_at` pair created when the editor starts sign-in.
 Attempts replaced within that sign-in retain the entry pair while their
 `attempt_id` changes. A new explicit sign-in creates a new entry pair. Success
@@ -135,23 +135,23 @@ or `start_failed` (the installed connector did not run). npm output stays local.
 These fields describe the local OM result; AMR handoff attribution is separate.
 
 The account and subscription settings' **Manage subscription** action, and the Free / Go
-plan card's **Upgrade to Plus** action, carry `od_origin=openmotion`,
-`od_entry_source=openmotion_manage_subscription`, and a fresh `od_entry_id` / UTC
+plan card's **Upgrade to Plus** action, carry `od_origin=kinevyn`,
+`od_entry_source=kinevyn_manage_subscription`, and a fresh `od_entry_id` / UTC
 `od_entry_at` for each click. The local service builds that page address and opens it in the
 system browser through a one-time account intent (`/login?intentId=…`) when it can. The two actions share that registered entry
 source; their `ui_click` elements (`manage_subscription` and `view_plans`) tell them apart.
 A dedicated upgrade source needs AMR to register it first. The page address
 retains `billing=plan` and contains no account, installation or credential data.
-AMR must accept the OpenMotion origin and entry source in its attribution
+AMR must accept the Kinevyn origin and entry source in its attribution
 validation before these parameters can reach its subscription/payment events.
 
 The Black Friday banner above the application header and the header **Pricing** entry link to the
-website Pricing page (`open-design.ai/[zh/]pricing/`) with `od_origin=openmotion`,
-`od_entry_source=openmotion_manage_subscription` (the OpenMotion source AMR already accepts; an unregistered
+website Pricing page (`open-design.ai/[zh/]pricing/`) with `od_origin=kinevyn`,
+`od_entry_source=kinevyn_manage_subscription` (the Kinevyn source AMR already accepts; an unregistered
 source would drop the whole attribution), a fresh `od_entry_id` / UTC `od_entry_at` per
-click, and `utm_source=openmotion`, `utm_medium=banner|header`, `utm_campaign=black_friday_2026`. The
+click, and `utm_source=kinevyn`, `utm_medium=banner|header`, `utm_campaign=black_friday_2026`. The
 Pricing page keeps an inbound `od_entry_id` / `od_entry_source` as the first touch through checkout.
-OpenMotion reports `surface_view` (`area=campaign_banner`, `element=banner`) once per page load while the
+Kinevyn reports `surface_view` (`area=campaign_banner`, `element=banner`) once per page load while the
 banner is shown, and `ui_click` for `claim_offer` and `close_banner` (`area=campaign_banner`) and
 `open_pricing` (`area=header`), each with `campaign_id=black_friday_2026`. The two link clicks also send
 `entry_id`, equal to that click's `od_entry_id`, so a click joins the Pricing visit and payment. `utm_medium`
@@ -169,7 +169,7 @@ Device-level analytics uses an OS-provided stable identifier: IOPlatformUUID on 
 the 64-bit MachineGuid registry value on Windows, and machine-id on Linux. A bounded,
 lazy read runs only when enabled tracking sends a batch. The identifier is never
 persisted, logged or transmitted: HMAC-SHA256 uses it as the key with the fixed
-OpenMotion-specific `openmotion:device:v1` namespace and platform. Only the resulting
+Kinevyn-specific `kinevyn:device:v1` namespace and platform. Only the resulting
 `omd_` hash is sent as `device_id`, with `device_id_source=platform`. It is independent
 of project, data directory, app version and host. MCP, Studio and worker events on
 one OS device share this device hash. PostHog `distinct_id` continues to use the
@@ -193,7 +193,7 @@ device-level analyses; those need explicit aggregation by `device_id`. For examp
 SELECT uniqExact(properties.device_id) AS active_devices
 FROM events
 WHERE timestamp >= now() - INTERVAL 2 DAY
-  AND properties.product = 'openmotion'
+  AND properties.product = 'kinevyn'
   AND properties.device_id_source = 'platform'
 ```
 
@@ -210,7 +210,7 @@ a new installation.
 Common fields include schema/product/app version, environment, entrypoint/runtime,
 platform/architecture, OS/version, runtime locale, device IANA timezone and UTC offset
 (east of UTC is positive). After OpenDesign's existing GeoIP transformation, the
-[OM-only transformation](./posthog-geoip.hog) matches `product=openmotion`, derives
+[OM-only transformation](./posthog-geoip.hog) matches `product=kinevyn`, derives
 country/first-level region/geographic timezone and removes raw IP, precise GeoIP
 and person-location updates before storage. The transformation has both an event
 filter and a source-code guard; non-OM events pass through unchanged. Existing
@@ -247,7 +247,7 @@ host-application version. DSH currently declares its MCP adapter version.
 
 The stdio runtime captures `initialize.params.clientInfo` per connection and also
 recognizes standard per-request `io.modelcontextprotocol/clientInfo` metadata.
-An absent declaration can fall back to `OPENMOTION_HOST_AGENT`, `CODEX_THREAD_ID`
+An absent declaration can fall back to `KINEVYN_HOST_AGENT`, `CODEX_THREAD_ID`
 or `CLAUDECODE=1` in that MCP process, labeled `launch_environment`. Environment
 values and thread IDs themselves are never reported. Client metadata is
 self-declared analytics context, not authenticated identity or an entitlement.
@@ -262,7 +262,7 @@ cannot replace an existing association. A manually opened, expired, evicted or
 restarted page context reports `unknown`. No global last-used-host attribution is
 used. These tokens are metadata references, not authorization credentials.
 
-Provider-settings handoffs (`openmotion_open_preview` with `target=providers`)
+Provider-settings handoffs (`kinevyn_open_preview` with `target=providers`)
 emit the MCP-only `provider_setup_opened` event on successful stdio MCP calls
 and append the validated `entry_from` parameter (`agent_providers` by default, or
 `agent_media_signed_out`, `agent_media_upgrade_free`, `agent_media_upgrade_go`,
@@ -370,7 +370,7 @@ backend/data directory. Deterministic coverage lives in
   `validation_rule`, with array indices collapsed and unknown keys bucketed.
   Both stdio asset names still use `tool_name=motion_assets`; WebMCP uses the
   original public name. Older events may omit these dimensions.
-  To measure `read`, filter `product=openmotion`, exclude `env=test`, select the
+  To measure `read`, filter `product=kinevyn`, exclude `env=test`, select the
   appropriate `*_tool_finished` event and `action=read`: count distinct `call_id`
   for observed calls, divide successful calls (`outcome=success`) by all observed
   calls for success rate, and aggregate `duration_ms` (e.g. median/p95) for latency.
@@ -464,7 +464,7 @@ backend/data directory. Deterministic coverage lives in
   [studio-events.ts](studio-events.ts) and included in the same derived browser
   admission registry: startup/preview/render/performance, editor interaction,
   feedback/desktop, save/error/transaction, SDK, WebMCP status and audio FX.
-  Existing `trackEvent` and `trackStudioEvent` callers use the OpenMotion transport.
+  Existing `trackEvent` and `trackStudioEvent` callers use the Kinevyn transport.
   Their [adapter](studio-properties.ts) removes private fields before queueing;
   upstream tokens, transports and automatic experiment enrollment remain disabled.
   Feature visibility and SDK gates do not change: hidden feedback, desktop and
@@ -483,7 +483,7 @@ backend/data directory. Deterministic coverage lives in
   `delivery_status=browser_save_requested`; it does not confirm a saved file.
   Only fixed actions, outcomes, statuses and aggregate counts are allowed: no
   project/task identity, file names, paths, content or full error messages.
-- The editor's template library reports with the names of the shared OpenMotion
+- The editor's template library reports with the names of the shared Kinevyn
   tracking sheet, so its funnel lines up with the website's: `surface_view` for
   the library, a gallery card, a template's detail and the instruction to copy;
   `ui_click` areas `template_card`, `template_detail`, `template_instruction` and
@@ -635,6 +635,6 @@ and manual fallback is not success. No event claims that an external Agent recei
 the copied instruction, created a film, or exported it. Exact copy-to-Agent-to-work
 provenance is not added by this change; do not infer adoption or output rates from
 copying. No titles, material names, instructions, color values, URLs or raw errors
-are admitted. Existing consent, browser admission and product=openmotion filtering
+are admitted. Existing consent, browser admission and product=kinevyn filtering
 remain in force. UI tests use fake senders; live readback requires env=test and an
 isolated test-run UUID.

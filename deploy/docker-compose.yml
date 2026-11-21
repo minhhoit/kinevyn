@@ -1,9 +1,9 @@
-name: openmotion
+name: kinevyn
 
 services:
-  openmotion:
-    container_name: openmotion
-    image: ${OPENMOTION_IMAGE:-openmotion:local}
+  kinevyn:
+    container_name: kinevyn
+    image: ${KINEVYN_IMAGE:-kinevyn:local}
     build:
       context: ..
       dockerfile: deploy/Dockerfile
@@ -11,21 +11,21 @@ services:
     environment:
       # The same port is used inside and outside the container, so the URLs the
       # server and MCP return open unchanged in the host browser.
-      PORT: ${OPENMOTION_PORT:-4173}
+      PORT: ${KINEVYN_PORT:-4173}
       # Used by Studio's host-side MCP commands to enter this exact container.
-      MOTION_CONTAINER_NAME: openmotion
+      MOTION_CONTAINER_NAME: kinevyn
       DO_NOT_TRACK: ${DO_NOT_TRACK:-}
     ports:
       # Loopback only. This is what keeps other machines out: the Studio has no
       # sign-in, so do not publish the port on another interface.
-      - "127.0.0.1:${OPENMOTION_PORT:-4173}:${OPENMOTION_PORT:-4173}"
+      - "127.0.0.1:${KINEVYN_PORT:-4173}:${KINEVYN_PORT:-4173}"
     volumes:
-      - openmotion_data:/data
+      - kinevyn_data:/data
     security_opt:
       - no-new-privileges:true
-    mem_limit: ${OPENMOTION_MEM_LIMIT:-4g}
+    mem_limit: ${KINEVYN_MEM_LIMIT:-4g}
     pids_limit: 1024
     shm_size: 1g
 
 volumes:
-  openmotion_data:
+  kinevyn_data:

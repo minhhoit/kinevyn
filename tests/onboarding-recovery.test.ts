@@ -18,7 +18,7 @@ function receipt() {
     onboardingComplete: false, hostSessionVerified: false, onboardingStatus: 'refresh_requested',
     inlinePresentation: { status: 'native_required', resourceVersion: presentation.resourceVersion,
       resourceUri: presentation.uri, templateIds, language: 'zh' },
-    hostHandoff: { threadId, presentation: { tool: 'openmotion_show_template_recommendations',
+    hostHandoff: { threadId, presentation: { tool: 'kinevyn_show_template_recommendations',
       arguments: { templateIds, language: 'zh', onboarding: true } } },
     preview: { status: 'ready', previewUrl: 'http://127.0.0.1:4173/?templates=1&embed=1', projectCreated: false } };
 }
@@ -29,8 +29,8 @@ function connectedHost(directory = dataDirectory, withPresentation = true) {
     if (method === 'thread/loaded/list') return { data: [threadId] };
     if (method === 'mcpServerStatus/list') {
       assert.equal(params.threadId, threadId);
-      return { data: [{ name: 'openmotion', serverInfo: { version: '0.0.1' },
-        tools: { openmotion_get_project: {}, ...(withPresentation ? { openmotion_show_template_recommendations: presentation.tool } : {}) } }] };
+      return { data: [{ name: 'kinevyn', serverInfo: { version: '0.0.1' },
+        tools: { kinevyn_get_project: {}, ...(withPresentation ? { kinevyn_show_template_recommendations: presentation.tool } : {}) } }] };
     }
     if (method === 'mcpServer/tool/call') {
       assert.equal(params.threadId, threadId);
@@ -52,7 +52,7 @@ test('refresh recovery uses the exact installation selections and workspace with
   const host = connectedHost();
   const result = await resumeInstallationOnboarding(JSON.parse(original), { appRoot, threadId, request: host.request });
   assert.equal(result.welcomeMarkdown, [
-    '🎉 OpenMotion 安装好啦，右侧就是模板库！',
+    '🎉 Kinevyn 安装好啦，右侧就是模板库！',
     '我是你的开源视频创作搭档，我有丰富的高水准视频模板，也支持从参考视频或一个灵感出发，和你一起创作精彩的视频。',
     '模板库支持搜索，也可以随意浏览，找到喜欢的点击「复刻模板」就能开始你的创作！',
   ].join('\n\n'));

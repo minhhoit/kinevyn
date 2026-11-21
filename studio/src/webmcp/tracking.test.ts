@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { phase1Tools } from '../../../shared/phase1-tools';
-import { buildOpenMotionWebMcpTools } from '../../../shared/webmcp-tools';
+import { buildKinevynWebMcpTools } from '../../../shared/webmcp-tools';
 import { webMcpToolNames, studioEvents } from '../../../tracking/events';
 import { validProperties } from '../../../tracking/core';
 import { buildStudioTools } from './useStudioAgentTools';
@@ -16,7 +16,7 @@ beforeEach(() => { track.mockReset().mockResolvedValue('queued'); });
 afterEach(async () => { await vi.dynamicImportSettled(); vi.restoreAllMocks(); });
 
 function descriptor(execute: ModelContextTool['execute']): ModelContextTool {
-  return { name: 'openmotion_get_project', description: 'Read a project', execute };
+  return { name: 'kinevyn_get_project', description: 'Read a project', execute };
 }
 function reported(event: string) {
   return track.mock.calls.filter(([name]) => name === event).map(([, properties]) => properties);
@@ -34,7 +34,7 @@ describe('WebMCP registration and invocation tracking', () => {
           : Response.json({ assetId: crypto.randomUUID(), versionId: crypto.randomUUID(), modality: 'image', version: {}, previews: [],
             content: [{ type: 'image', mimeType: 'image/png', data: 'PRIVATE_BASE64' }] });
       });
-      const original = buildOpenMotionWebMcpTools(request).find(tool => tool.name === 'openmotion_assets_use')!;
+      const original = buildKinevynWebMcpTools(request).find(tool => tool.name === 'kinevyn_assets_use')!;
       const tool = withWebMcpTracking(original);
       const controller = new AbortController();
       if (mode === 'cancelled') controller.abort();
@@ -44,7 +44,7 @@ describe('WebMCP registration and invocation tracking', () => {
       const [start] = reported('webmcp_tool_started'), [finish] = reported('webmcp_tool_finished');
       expect(reported('webmcp_tool_started')).toHaveLength(1);
       expect(reported('webmcp_tool_finished')).toHaveLength(1);
-      expect(start).toMatchObject({ tool_name: 'openmotion_assets_use', action: 'read' });
+      expect(start).toMatchObject({ tool_name: 'kinevyn_assets_use', action: 'read' });
       expect(finish).toMatchObject({ ...start, outcome: mode === 'success' ? 'success' : mode === 'cancelled' ? 'cancelled' : 'failure',
         duration_ms: ['invalid_arguments', 'cancelled'].includes(mode) ? 0 : 42 });
       expect(request).toHaveBeenCalledTimes(['invalid_arguments', 'cancelled'].includes(mode) ? 0 : 1);
@@ -58,11 +58,11 @@ describe('WebMCP registration and invocation tracking', () => {
 
   it('keeps action from the start and omits unknown actions and actions on other tools', async () => {
     const input = { action: 'get' };
-    const tool = withWebMcpTracking({ name: 'openmotion_assets', description: 'Compatibility tool', execute: async () => {
+    const tool = withWebMcpTracking({ name: 'kinevyn_assets', description: 'Compatibility tool', execute: async () => {
       input.action = 'read'; return { ok: true };
     } });
     await tool.execute(input);
-    for (const [name, action] of [['openmotion_assets_use', 'PRIVATE_ACTION'], ['openmotion_get_project', 'read']])
+    for (const [name, action] of [['kinevyn_assets_use', 'PRIVATE_ACTION'], ['kinevyn_get_project', 'read']])
       await withWebMcpTracking({ name, description: 'Tool', execute: async () => ({ ok: true }) }).execute({ action });
     await vi.dynamicImportSettled();
     expect(reported('webmcp_tool_started')[0].action).toBe('get');
@@ -72,7 +72,7 @@ describe('WebMCP registration and invocation tracking', () => {
   });
 
   it('covers exactly the 27 public descriptors through the real registrar, preserving schema, signals and replies', async () => {
-    const original = [...buildOpenMotionWebMcpTools(vi.fn()), ...buildStudioTools({ current: {} as never })];
+    const original = [...buildKinevynWebMcpTools(vi.fn()), ...buildStudioTools({ current: {} as never })];
     expect([...webMcpToolNames].sort()).toEqual(original.map(tool => tool.name).sort());
     expect(webMcpToolNames).toHaveLength(27);
     expect(original.slice(0, phase1Tools.length).map(tool => tool.inputSchema)).toEqual(phase1Tools.map(tool => tool.inputSchema));
@@ -116,7 +116,7 @@ describe('WebMCP registration and invocation tracking', () => {
       ...descriptor(async () => ({ isError: true, error: {
         code: 'INVALID_ARGUMENT', invalid_field: 'versionId', validation_rule: 'missing', message: 'PRIVATE',
       } })),
-      name: 'openmotion_export_request',
+      name: 'kinevyn_export_request',
     });
     await tool.execute({});
     await vi.dynamicImportSettled();
@@ -184,12 +184,12 @@ describe('WebMCP registration and invocation tracking', () => {
     const reply = { ok: true };
     const registered: ModelContextTool[] = [];
     expect(await registerStudioTools({ registerTool: async tool => { registered.push(tool); } },
-      [descriptor(async () => reply)], new AbortController().signal)).toEqual({ registered: ['openmotion_get_project'], failed: [] });
+      [descriptor(async () => reply)], new AbortController().signal)).toEqual({ registered: ['kinevyn_get_project'], failed: [] });
     expect(await registered[0].execute({})).toBe(reply);
   });
 
   it('records success, duplicate/schema refusal, browser refusal and cleanup cancellation at the real registration boundary', async () => {
-    const tools = ['openmotion_get_project', 'openmotion_studio_seek', 'openmotion_studio_frame', 'openmotion_studio_inspect', 'openmotion_studio_look']
+    const tools = ['kinevyn_get_project', 'kinevyn_studio_seek', 'kinevyn_studio_frame', 'kinevyn_studio_inspect', 'kinevyn_studio_look']
       .map(name => ({ ...descriptor(async () => ({ ok: true })), name }));
     const registerTool = vi.fn().mockResolvedValueOnce(undefined)
       .mockRejectedValueOnce(new DOMException('PRIVATE_POLICY', 'NotAllowedError'))
@@ -197,7 +197,7 @@ describe('WebMCP registration and invocation tracking', () => {
     const report = await registerStudioTools({ registerTool },
       [tools[0], tools[0], { ...tools[1], description: '' }, tools[2], tools[3], tools[4]], new AbortController().signal);
     await vi.dynamicImportSettled();
-    expect(report.registered).toEqual(['openmotion_get_project']);
+    expect(report.registered).toEqual(['kinevyn_get_project']);
     expect(report.failed).toHaveLength(3);
     expect(registerTool).toHaveBeenCalledTimes(3);
     expect(reported('webmcp_registration_result').map(row => row.outcome)).toEqual(['success', 'failure', 'failure', 'failure', 'cancelled']);

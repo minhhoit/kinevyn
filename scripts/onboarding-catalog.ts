@@ -18,7 +18,7 @@ export async function onboardingCatalog(appRoot: string, _dataDirectory?: string
       templateId: item.templateId, name: item.title, summary: item.description, durationSeconds: item.durationSeconds,
       ...(source.kind === 'reference' ? { previewUrl: source.videoUrl, posterUrl: source.posterUrl } : {}),
       kind: 'reference' as const, eligibility: 'requires_recreation' as const,
-      requirements: 'Read this exact ID with openmotion_get_template and check hasHtmlProject before choosing template reuse or recreation. Presentation provenance does not determine editable source.',
+      requirements: 'Read this exact ID with kinevyn_get_template and check hasHtmlProject before choosing template reuse or recreation. Presentation provenance does not determine editable source.',
     };
   });
   return { source: 'approved-onboarding', environment: templateConfig().environment,

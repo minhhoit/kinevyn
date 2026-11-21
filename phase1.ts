@@ -55,7 +55,7 @@ function previewHandoff(origin: string, target: { projectId: string; sessionId: 
   const confirmed = display?.visibility === 'visible' && display.contentVerified === true;
   const background = presentation === 'background';
   const now = presentation === 'now';
-  const onReturn = { tool: 'openmotion_open_preview', arguments: { projectId: target.projectId } };
+  const onReturn = { tool: 'kinevyn_open_preview', arguments: { projectId: target.projectId } };
   const deferred = !now && display?.visibility === 'queued';
   const recovery = now ? { when: 'hidden_after_queued_ack', tool: 'navigate_to_codex_page', scope: 'calling_chat_only',
     threadIdFrom: 'open_in_codex.response.threadId', then: 'present_same_tab_and_recheck_visibility' } :
@@ -71,12 +71,12 @@ function previewHandoff(origin: string, target: { projectId: string; sessionId: 
         visibilitySync: { capability: 'visibility', method: 'set', value: true,
           when: 'after_binding_native_tab', scope: 'calling_chat_only', navigation: false },
         observation: { visibility: 'get', settleTimeoutMs: 6000, content: 'latest_live_preview', recheckVisibilityAfterContent: true },
-        recovery } } : { kind: 'motion', tool: 'openmotion_open_preview', arguments: {
+        recovery } } : { kind: 'motion', tool: 'kinevyn_open_preview', arguments: {
       projectId: target.projectId, expectedRevision: target.revision, expectedVersionId: target.versionId, presentation } },
     instructions: background ? 'Keep this edit in the background as explicitly requested by the user.' :
       (now ? 'The user explicitly requested immediate display for this turn; current-chat recovery may navigate to the calling chat. ' :
         'Preserve the current chat. Wait for return only when the host confirms the calling chat is inactive; queued acknowledgment or hidden panel alone does not establish inactivity. On return, prepare the latest project version rather than replaying an old version-bound action. ') +
-      'For first delivery and continued edits, bind the native project tab and request Codex IAB visibility for the calling chat without navigation. Observe settled visibility and changed live content/time, recheck visibility, then record_display for the currently observed revision/version. Use visibility=queued only for confirmed inactive-chat deferral; otherwise record hidden or unavailable and report the display failure. Hidden-tab playback, markDeliverable and completed MP4 export do not complete editor delivery. Follow openmotion://workflow/production/native#continuing-edits.' };
+      'For first delivery and continued edits, bind the native project tab and request Codex IAB visibility for the calling chat without navigation. Observe settled visibility and changed live content/time, recheck visibility, then record_display for the currently observed revision/version. Use visibility=queued only for confirmed inactive-chat deferral; otherwise record hidden or unavailable and report the display failure. Hidden-tab playback, markDeliverable and completed MP4 export do not complete editor delivery. Follow kinevyn://workflow/production/native#continuing-edits.' };
 }
 function cursor(value: any) { return Buffer.from(JSON.stringify(value)).toString('base64url'); }
 function parseCursor(value: string | undefined, kind: string, scope: string) {
@@ -159,7 +159,7 @@ export class Phase1Service {
           revision: result.revision, versionId: result.version.versionId }, args.presentation);
         if (args.workId && args.presentation !== 'now' && args.presentation !== 'background') {
           result.previewHandoff = { ...result.previewHandoff, state: 'deferred', hostActionRequired: false, nextAction: null,
-            instructions: 'Production is still in progress. Keep the editor closed until the final authored video is complete and ready for preview. Then prepare and present the latest version with openmotion_open_preview; after MP4 export verification, use the host-native video preview first (Codex: one final-reply embed). Only if native preview is unavailable, use the discovered openmotion_show_video instead; never present the same export through both routes.' };
+            instructions: 'Production is still in progress. Keep the editor closed until the final authored video is complete and ready for preview. Then prepare and present the latest version with kinevyn_open_preview; after MP4 export verification, use the host-native video preview first (Codex: one final-reply embed). Only if native preview is unavailable, use the discovered kinevyn_show_video instead; never present the same export through both routes.' };
         }
       }
       return result;
@@ -550,7 +550,7 @@ export class Phase1Service {
       const session = args.sessionId ? catalog.sessions!.find(item => item.id === args.sessionId) : null;
       if (args.sessionId && !session) throw new Error('SESSION_NOT_FOUND');
       const projectId = args.projectId ?? session?.artifacts.find(item => item.id === session.activeArtifactId)?.projectId ?? session?.artifacts.at(-1)?.projectId;
-      if (!projectId) throw new Error('PROJECT_NOT_BOUND: 请传入 projectId 或已绑定的 OpenMotion sessionId');
+      if (!projectId) throw new Error('PROJECT_NOT_BOUND: 请传入 projectId 或已绑定的 Kinevyn sessionId');
       const scoped = this.store.forProject(projectId);
       if (session && !session.artifacts.some(artifact => artifact.projectId === projectId)) throw new Error('PROJECT_SESSION_MISMATCH');
       const before = await this.detail(projectId);

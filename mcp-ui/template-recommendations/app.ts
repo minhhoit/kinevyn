@@ -4,7 +4,7 @@ import { isLanguage, resolveLanguage, translations } from './i18n.ts';
 import { createInlineFeedback } from '../../packages/design-system/inline-feedback.ts';
 import type { CreateArgs, HostContext, Recommendation, RecommendationCard, TemplateAsset, TemplateCardsBootstrap, TemplateCardsHost, Language, TemplateId } from './types.ts';
 
-declare global { interface Window { __OPENMOTION_TEMPLATE_CARDS__?: TemplateCardsBootstrap } }
+declare global { interface Window { __KINEVYN_TEMPLATE_CARDS__?: TemplateCardsBootstrap } }
 
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 type CopyKey = keyof typeof translations.en.ui;

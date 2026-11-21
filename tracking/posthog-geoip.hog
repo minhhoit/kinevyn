@@ -1,5 +1,5 @@
-// OpenMotion only: enrich coarse location, then remove IP and precise GeoIP.
-if (event.properties?.product != 'openmotion') {
+// Kinevyn only: enrich coarse location, then remove IP and precise GeoIP.
+if (event.properties?.product != 'kinevyn') {
     return event
 }
 let props := {}

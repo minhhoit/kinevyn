@@ -16,7 +16,7 @@ def package_files(path):
     with tarfile.open(path, "r:gz") as installer:
         applications = [
             entry for entry in installer if entry.isfile() and
-            re.fullmatch(r"package/payload/openmotion-application-[\w.-]+\.tar\.gz", entry.name)
+            re.fullmatch(r"package/payload/kinevyn-application-[\w.-]+\.tar\.gz", entry.name)
         ]
         if len(applications) != 1:
             raise ValueError("Expected one default npm application archive")

@@ -3,14 +3,14 @@ const sessionTools = new Set(['get_session', 'append_message', 'create_session',
 
 export function publicToolName(name) {
   if (typeof name !== 'string') return name;
-  if (name.startsWith('motion_')) return 'openmotion_' + name.slice(7);
-  if (name.startsWith('design_') && sessionTools.has(name.slice(7))) return 'openmotion_' + name.slice(7);
+  if (name.startsWith('motion_')) return 'kinevyn_' + name.slice(7);
+  if (name.startsWith('design_') && sessionTools.has(name.slice(7))) return 'kinevyn_' + name.slice(7);
   return name;
 }
 
 export function legacyToolName(name) {
-  if (name === 'openmotion_assets_use' || name === 'motion_assets_use') return 'motion_assets';
-  if (typeof name !== 'string' || !name.startsWith('openmotion_')) return name;
+  if (name === 'kinevyn_assets_use' || name === 'motion_assets_use') return 'motion_assets';
+  if (typeof name !== 'string' || !name.startsWith('kinevyn_')) return name;
   const suffix = name.slice(11);
   return (sessionTools.has(suffix) ? 'design_' : 'motion_') + suffix;
 }
@@ -22,6 +22,6 @@ export function publicToolResult(result) {
   const handoff = value => Array.isArray(value) ? value.map(handoff) : value && typeof value === 'object'
     ? Object.fromEntries(Object.entries(value).map(([key, child]) => [key,
       key === 'tool' ? publicToolName(child) : key === 'instructions' && typeof child === 'string'
-        ? child.replace(/\bmotion:\/\//g, 'openmotion://') : handoff(child)])) : value;
+        ? child.replace(/\bmotion:\/\//g, 'kinevyn://') : handoff(child)])) : value;
   return { ...result, previewHandoff: handoff(result.previewHandoff) };
 }

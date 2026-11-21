@@ -41,13 +41,13 @@ try {
   };
   const open = async () => {
     await page.goto(url, { waitUntil: 'domcontentloaded' });
-    await page.waitForFunction(() => window.__sourceProbe?.has('openmotion_studio_look'), { timeout: 90_000 });
-    await wait(async () => (await call('openmotion_studio_seek', { time: 1 })).ok);
+    await page.waitForFunction(() => window.__sourceProbe?.has('kinevyn_studio_look'), { timeout: 90_000 });
+    await wait(async () => (await call('kinevyn_studio_seek', { time: 1 })).ok);
   };
   const handle = async label => {
     let found;
     await wait(async () => {
-      found = (await call('openmotion_studio_look', { limit: 100 })).elements?.find(element => element.label === label)?.handle;
+      found = (await call('kinevyn_studio_look', { limit: 100 })).elements?.find(element => element.label === label)?.handle;
       return found;
     });
     return found;
@@ -59,10 +59,10 @@ try {
   });
   await open();
   const target = await handle('Target');
-  assert.equal((await call('openmotion_studio_inspect', { handle: target })).can.editStyles, true);
-  const current = await call('openmotion_get_project', { projectId: store.projectId, file: { path: 'index.html' } });
+  assert.equal((await call('kinevyn_studio_inspect', { handle: target })).can.editStyles, true);
+  const current = await call('kinevyn_get_project', { projectId: store.projectId, file: { path: 'index.html' } });
   const before = current.file.content;
-  results.save = await call('openmotion_edit_project', {
+  results.save = await call('kinevyn_edit_project', {
     projectId: store.projectId, requestId: 'source-probe-color', expectedRevision: current.revision,
     expectedVersionId: current.version.versionId,
     files: [{ path: 'index.html', content: current.file.content.replace('background:#2463eb', 'background:#e11d48') }],
@@ -73,8 +73,8 @@ try {
   await open();
   await wait(async () => await color() === 'rgb(225, 29, 72)');
   results.refreshAfterSave = true;
-  const latest = await call('openmotion_get_project', { projectId: store.projectId });
-  results.restore = await call('openmotion_restore_version', {
+  const latest = await call('kinevyn_get_project', { projectId: store.projectId });
+  results.restore = await call('kinevyn_restore_version', {
     projectId: store.projectId, requestId: 'source-probe-restore', versionId: current.version.versionId,
     expectedRevision: latest.revision, expectedVersionId: latest.version.versionId,
   });
@@ -92,10 +92,10 @@ try {
     ['Dynamic', 'dynamic', 'not found in the current source', '未能在源文件中定位到它'],
   ]) {
     const current = await handle(label);
-    const inspected = await call('openmotion_studio_inspect', { handle: current });
+    const inspected = await call('kinevyn_studio_inspect', { handle: current });
     assert.equal(inspected.can.editStyles, false);
     assert.ok(inspected.can.reasonIfDisabled.includes(reason), JSON.stringify(inspected));
-    assert.equal((await call('openmotion_studio_select', { handle: current })).ok, true);
+    assert.equal((await call('kinevyn_studio_select', { handle: current })).ok, true);
     await page.waitForSelector('[data-dom-edit-selection-box="true"]');
     await page.click('[data-dom-edit-selection-box="true"]');
     await page.waitForFunction(text => document.body.innerText.includes(text), {}, text);

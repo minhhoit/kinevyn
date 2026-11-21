@@ -91,7 +91,7 @@ test('catalogue materialization verifies source, deduplicates, packages and retr
   assert(result.entries.has('index.html'));
   assert(!result.entries.has('preview.mp4'));
   assert.match(result.manifest.license, /Apache-2.0/);
-  assert.equal(result.manifest.extensions['openmotion.brand-kit'].catalogId, entry.id);
+  assert.equal(result.manifest.extensions['kinevyn.brand-kit'].catalogId, entry.id);
   assert.match(brandKitInstruction(ready), /source\/tokens.css/);
   await library.retry(kit.id, { name: 'Local edit' });
   await library.idle();

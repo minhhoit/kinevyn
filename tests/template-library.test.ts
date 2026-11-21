@@ -12,7 +12,7 @@ import { checkTemplateLibrary, git, scope } from '../scripts/check-template-libr
 import { catalogRoot, cmsUrl, digest, exportCatalog, importCatalog, refreshManifest, safePath, unzip, validateRecord } from '../scripts/template-library.ts';
 
 function fixture(t: { after: (fn: () => void) => void }, imageSize = 5) {
-  const root = mkdtempSync(path.join(tmpdir(), 'openmotion-templates-'));
+  const root = mkdtempSync(path.join(tmpdir(), 'kinevyn-templates-'));
   t.after(() => rmSync(root, { recursive: true, force: true }));
   const catalog = path.join(root, scope); const id = 'motion-demo'; const directory = path.join(catalog, id);
   mkdirSync(path.join(directory, 'source/assets'), { recursive: true });

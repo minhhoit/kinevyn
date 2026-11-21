@@ -19,7 +19,7 @@ test('template posters resolve against Studio while retaining hosted asset URLs'
 
 test('DSH launch configuration isolates state and quotes machine-specific values', () => {
   const root = path.resolve('checkout with spaces');
-  const config = integrationConfig(root, { OPENMOTION_DSH_HOME: path.resolve('host state'), OPENMOTION_DSH_PORT: '3088', MOTION_DATA_DIR: path.resolve('existing data') });
+  const config = integrationConfig(root, { KINEVYN_DSH_HOME: path.resolve('host state'), KINEVYN_DSH_PORT: '3088', MOTION_DATA_DIR: path.resolve('existing data') });
   assert.equal(config.port, 3088);
   assert.equal(config.data, path.resolve('existing data'));
   assert.equal(config.dshHome, path.join(config.home, 'dsh'));
@@ -31,7 +31,7 @@ test('DSH launch configuration isolates state and quotes machine-specific values
   assert.equal(scalar('node'), executable);
   assert.equal(scalar('templateSource'), 'hosted');
   assert.ok(!patch.includes('providers:'));
-  for (const port of ['0', '65536', 'abc', '1.5']) assert.throws(() => integrationConfig(root, { OPENMOTION_DSH_PORT: port }));
+  for (const port of ['0', '65536', 'abc', '1.5']) assert.throws(() => integrationConfig(root, { KINEVYN_DSH_PORT: port }));
 });
 
 test('DSH rejects remote, credential-bearing and non-origin Studio addresses', () => {
@@ -40,7 +40,7 @@ test('DSH rejects remote, credential-bearing and non-origin Studio addresses', (
 });
 
 test('packaged DSH host shares MCP data and bounds its read-only proxy', async () => {
-  const temporary = await realpath(await mkdtemp(path.join(tmpdir(), 'openmotion-dsh-test-')));
+  const temporary = await realpath(await mkdtemp(path.join(tmpdir(), 'kinevyn-dsh-test-')));
   const data = path.join(temporary, 'data');
   const manifest = await readFile(new URL('../package.json', import.meta.url), 'utf8');
   const version = JSON.parse(manifest).version;
@@ -61,7 +61,7 @@ test('packaged DSH host shares MCP data and bounds its read-only proxy', async (
   const origin = `http://127.0.0.1:${(upstream.address() as { port: number }).port}`;
   const routes = new Map<string, (req: unknown, res: unknown) => Promise<void>>();
   const host = createServer((req, res) => {
-    const route = routes.get(req.url!.split('?')[0]) || routes.get(req.url!.startsWith('/openmotion-dsh/design-system/') ? '/openmotion-dsh/design-system' : '/openmotion-dsh/data');
+    const route = routes.get(req.url!.split('?')[0]) || routes.get(req.url!.startsWith('/kinevyn-dsh/design-system/') ? '/kinevyn-dsh/design-system' : '/kinevyn-dsh/data');
     if (route) void route(req, res); else { res.writeHead(404); res.end(); }
   });
   try {
@@ -101,7 +101,7 @@ test('packaged DSH host shares MCP data and bounds its read-only proxy', async (
       inject: (keys: string[], register: (context: any) => unknown) => { assert.deepEqual(keys, ["skills", "actionCards"]); optionalCards.push(register); },
       effect: (register: () => unknown) => register(),
       webServer: { register: (route: { path: string; handler: (req: unknown, res: unknown) => Promise<void> }) => { routes.set(route.path, route.handler); return () => routes.delete(route.path); } },
-      tools: { definitions: () => [{ name: 'mcp__openmotion__openmotion_get_project' }, { name: 'unrelated' }] },
+      tools: { definitions: () => [{ name: 'mcp__kinevyn__kinevyn_get_project' }, { name: 'unrelated' }] },
     };
     const plugin = await import(pathToFileURL(module).href);
     await plugin.apply(ctx, { root: temporary, dataDirectory: data, templateSource: 'hosted' });
@@ -111,7 +111,7 @@ test('packaged DSH host shares MCP data and bounds its read-only proxy', async (
       skills: { registerProvider: () => () => {} },
       actionCards: { register: (kind: unknown) => { kinds.push(kind); return () => {}; } },
     });
-    assert.equal(kinds[0].action, 'openmotion_template_recommendation', 'Services loaded after startup still enable cards');
+    assert.equal(kinds[0].action, 'kinevyn_template_recommendation', 'Services loaded after startup still enable cards');
     assert.equal(ctx.bridge.env.MOTION_DATA_DIR, data);
     assert.equal(ctx.bridge.env.MOTION_TEMPLATE_SOURCE, 'hosted');
     assert.equal(ctx.bridge.cwd, temporary);
@@ -119,10 +119,10 @@ test('packaged DSH host shares MCP data and bounds its read-only proxy', async (
     assert.deepEqual(ctx.bridge.args, ['--experimental-strip-types', path.join(temporary, 'mcp.ts')]);
     assert.equal(ctx.bridge.failOnStartupError, true);
     await new Promise<void>(resolve => host.listen(0, '127.0.0.1', resolve));
-    const base = `http://127.0.0.1:${(host.address() as { port: number }).port}/openmotion-dsh`;
+    const base = `http://127.0.0.1:${(host.address() as { port: number }).port}/kinevyn-dsh`;
     const status = await (await fetch(base + '/status')).json();
     assert.equal(status.studioUrl, origin.replace('127.0.0.1', 'localhost'));
-    assert.deepEqual(status.tools, ['mcp__openmotion__openmotion_get_project']);
+    assert.deepEqual(status.tools, ['mcp__kinevyn__kinevyn_get_project']);
     assert.ok((await (await fetch(base + '/style.css')).text()).includes('.omd-studio-seat'));
     assert.deepEqual(await (await fetch(base + '/data/motion-api/projects')).json(), { projects });
     assert.equal((await fetch(base + '/data/api/template-catalog?limit=6')).status, 200);
@@ -160,10 +160,10 @@ test('DSH installation selects only an explicit profile and preserves unrelated 
   const inherited = await workspacePatch(before, root, data, process.execPath, ['@deepseek-ai/dsh-action-cards', '@deepseek-ai/dsh-client-ui-action-cards']);
   assert(!inherited.includes('id: action-cards'), 'Reuse inherited native card capabilities without duplicate services');
   assert.equal(await workspacePatch(patch, root, data, process.execPath), patch, 'Repeated installation is idempotent');
-  await assert.rejects(workspacePatch(patch, path.resolve('another checkout'), data, process.execPath), /another OpenMotion/);
-  await assert.rejects(workspacePatch('- insert:\n    - id: mcp-openmotion\n      name: bridge\n', root, data, process.execPath), /existing mcp-openmotion/);
+  await assert.rejects(workspacePatch(patch, path.resolve('another checkout'), data, process.execPath), /another Kinevyn/);
+  await assert.rejects(workspacePatch('- insert:\n    - id: mcp-kinevyn\n      name: bridge\n', root, data, process.execPath), /existing mcp-kinevyn/);
   await assert.rejects(workspacePatch('invalid: [', root, data, process.execPath), /Invalid existing/);
-  const status = { applicationRoot: root, dataDirectory: data, tools: ['mcp__openmotion__openmotion_get_project', 'mcp__openmotion__openmotion_list_templates'] };
+  const status = { applicationRoot: root, dataDirectory: data, tools: ['mcp__kinevyn__kinevyn_get_project', 'mcp__kinevyn__kinevyn_list_templates'] };
   assert(installationActive(status, root, data));
   assert(!installationActive(status, root, path.resolve('another workspace')));
   assert(!installationActive({ ...status, tools: [] }, root, data));

@@ -93,7 +93,7 @@ function ComponentIndex() {
   return <>
     <header className="page-heading">
       <h1>Components</h1>
-      <p>Explore the shared UI controls used in OpenMotion Studio. Open a component to try it, compare its states and copy an example.</p>
+      <p>Explore the shared UI controls used in Kinevyn Studio. Open a component to try it, compare its states and copy an example.</p>
     </header>
     <section className="doc-section" id="all-components">
       <h2>All components</h2>

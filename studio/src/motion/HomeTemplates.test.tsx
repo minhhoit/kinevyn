@@ -7,7 +7,7 @@ import { HomeTemplates } from './HomeTemplates';
 import type { IntegrationInfo } from '../../../shared/integration';
 
 const integration: IntegrationInfo = {
-  name: 'OpenMotion', version: 'test', previewUrl: 'http://localhost:4173', dataDirectory: '/test',
+  name: 'Kinevyn', version: 'test', previewUrl: 'http://localhost:4173', dataDirectory: '/test',
   transport: { type: 'stdio', command: 'node', args: [], cwd: '/test', env: { MOTION_TEMPLATE_ENV: 'dev' } }, tools: [],
 };
 
@@ -43,7 +43,7 @@ it('only editable templates open a new engineering project; references copy thei
   await act(async () => button('一键复制').click());
   expect(clipboard).toHaveBeenCalledOnce();
   expect(clipboard.mock.calls[0][0]).toBe([
-    '使用说明：请使用 OpenMotion 插件。如未安装，请按 `https://github.com/nexu-io/openmotion` 安装并接入后继续。',
+    '使用说明：请使用 Kinevyn 插件。如未安装，请按 `https://github.com/rivyn-labs/kinevyn` 安装并接入后继续。',
     '指定模板：Reference（hf-moment-M953）',
     '创作要求：基于模板，结合我的要求和附件创作，默认保留主要动效与风格，并交付 HTML 和 MP4。',
     '我的要求：\n',

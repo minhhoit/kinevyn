@@ -22,7 +22,7 @@ od:
   mode: video
   surface: video
   scenario: operations
-  upstream: "https://github.com/nexu-io/html-anything"
+  upstream: "https://github.com/rivyn-labs/html-anything"
   preview:
     type: html
     entry: index.html

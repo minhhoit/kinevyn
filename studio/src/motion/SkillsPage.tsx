@@ -43,7 +43,7 @@ function githubRepositoryOf(source?: string): string | null {
   } catch { return null; }
 }
 
-/** Open-source motion techniques the user can hand to an Agent through OpenMotion MCP. */
+/** Open-source motion techniques the user can hand to an Agent through Kinevyn MCP. */
 export function SkillsPage({ skillId, onSkillChange, routeCategory, onCategoryChange, studio, onExplore, onClose, onCreate, briefs, previewsEnabled = true, hasProject = false, detailOnly = false }: { routeCategory?: SkillCategory | null; onCategoryChange?: (value: SkillCategory | null) => void; detailOnly?: boolean; studio?: TechniqueStudio; previewsEnabled?: boolean; briefs?: Map<string, SkillParameters>; onCreate?: (destination: StudioDestination, draft?: AssetDraft) => void; onExplore?: () => void; onClose?: () => void; skillId: string | null; onSkillChange: (id: string | null) => void; hasProject?: boolean }) {
   const { t, locale } = useI18n(), toast = useToast(), displayName = displayNameOf(t);
   const chrome = useOptionalWorkspaceChrome();
@@ -85,7 +85,7 @@ export function SkillsPage({ skillId, onSkillChange, routeCategory, onCategoryCh
   const matching = (group: SkillCategory | null, text: string) => {
     const needle = text.trim().toLocaleLowerCase();
     return catalog.filter(skill => (!group || skill.category === group)
-      && (!needle || [skill.name, skill.title, displayName(skill), t(skill.useWhen), skill.tagline, t(skill.tagline), t(skill.output), skill.repository ?? 'OpenMotion'].some(value => value.toLocaleLowerCase().includes(needle))));
+      && (!needle || [skill.name, skill.title, displayName(skill), t(skill.useWhen), skill.tagline, t(skill.tagline), t(skill.output), skill.repository ?? 'Kinevyn'].some(value => value.toLocaleLowerCase().includes(needle))));
   };
   const visible = useMemo(() => matching(category, query), [query, category, t, catalog]);
   const featured = studio ? catalog[0] : undefined;
@@ -184,7 +184,7 @@ export function SkillsPage({ skillId, onSkillChange, routeCategory, onCategoryCh
               <IconButton type="button" variant="ghost" className="om-button om-icon-button" onClick={onClose} aria-label={t('Close')} icon={<MotionIcon name="close" size={16} />} />
             </Tooltip>}
           </div>
-          <p>{t('Pick a skill, fill in the brief and copy the instruction. Your Agent builds an editable project in OpenMotion.')}</p>
+          <p>{t('Pick a skill, fill in the brief and copy the instruction. Your Agent builds an editable project in Kinevyn.')}</p>
         </section>}
         <div className="om-gallery-sticky-header">
           <div className="om-gallery-toolbar om-skills-toolbar">
@@ -224,7 +224,7 @@ export function SkillsPage({ skillId, onSkillChange, routeCategory, onCategoryCh
       </section>
       <div className="om-skill-provenance">
       {selected.repository ? <a className="om-skill-source" href={selected.repository} target="_blank" rel="noopener noreferrer" onClick={() => tracking.reportSkillDetailClick(selected, 'view_source', detailView.current)}><GitHubMark width={14} height={14} /><span>{selected.repository.replace(/^https?:\/\/github\.com\//, '')}</span><span className="om-skill-license">{selected.license === 'See repository' ? t('See repository') : selected.license}</span><MotionIcon name="arrow-up-right" size={14} /></a>
-        : <p className="om-skill-source"><RemixIcon name="flashlight-line" size={16} /><span>{t('OpenMotion skill')}</span></p>}
+        : <p className="om-skill-source"><RemixIcon name="flashlight-line" size={16} /><span>{t('Kinevyn skill')}</span></p>}
       {selected.cover?.source && !sharedCoverRepository && <p className="om-skill-credit"><span>{t('Cover source')}</span>{/^https?:\/\//.test(selected.cover.source)
         ? <a href={selected.cover.source} target="_blank" rel="noopener noreferrer">{selected.cover.source.replace(/^https?:\/\//, '')}</a>
         : selected.cover.source}</p>}

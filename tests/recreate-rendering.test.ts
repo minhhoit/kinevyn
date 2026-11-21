@@ -11,7 +11,7 @@ test('recreation helpers preserve source pixels, sprite detail and seekable stat
   t.after(() => browser.close());
   const page = await browser.newPage();
   await page.setContent('<!doctype html><html><body></body></html>');
-  await page.addScriptTag({ content: await readFile(new URL('../skills/openmotion-recreate/assets/reconstruction.js', import.meta.url), 'utf8') });
+  await page.addScriptTag({ content: await readFile(new URL('../skills/kinevyn-recreate/assets/reconstruction.js', import.meta.url), 'utf8') });
 
   await t.test('complete glyph texture moves through its mask with exact scale and crop offsets', async () => {
     const result = await page.evaluate(() => {
@@ -24,7 +24,7 @@ test('recreation helpers preserve source pixels, sprite detail and seekable stat
       const coverage = mask.getContext('2d')!; coverage.fillStyle = 'white'; coverage.fillRect(4, 0, 56, 32);
       const output = document.createElement('canvas'); output.width = 80; output.height = 48;
       const context = output.getContext('2d')!;
-      const layer = (window as any).OpenMotionReconstruction.createTextureLayer({ image: atlas, box: [8, 5, 64, 32], offset: [0, -3], motion: [[0, 0, 0], [1, 0, -32]], mask });
+      const layer = (window as any).KinevynReconstruction.createTextureLayer({ image: atlas, box: [8, 5, 64, 32], offset: [0, -3], motion: [[0, 0, 0], [1, 0, -32]], mask });
       layer.draw(context, 0.5);
       const actual = Array.from(context.getImageData(0, 0, 80, 48).data);
       const expected = document.createElement('canvas'); expected.width = 80; expected.height = 48;
@@ -46,7 +46,7 @@ test('recreation helpers preserve source pixels, sprite detail and seekable stat
       const output = document.createElement('canvas'); output.width = 32; output.height = 32;
       const context = output.getContext('2d')!; context.fillStyle = 'blue'; context.fillRect(0, 0, 32, 32);
       context.globalCompositeOperation = 'multiply';
-      const layer = (window as any).OpenMotionReconstruction.createTextureLayer({ image, box: [0, 0, 32, 32], velocity: [0, 3], wrapY: true, edgeFade: [8, 8, 8, 8], composite: 'source-over' });
+      const layer = (window as any).KinevynReconstruction.createTextureLayer({ image, box: [0, 0, 32, 32], velocity: [0, 3], wrapY: true, edgeFade: [8, 8, 8, 8], composite: 'source-over' });
       layer.draw(context, 2);
       const pixel = (x: number, y: number) => Array.from(context.getImageData(x, y, 1, 1).data);
       return { edge: pixel(0, 16), centre: pixel(16, 16), corner: pixel(0, 0), blend: context.globalCompositeOperation };
@@ -65,7 +65,7 @@ test('recreation helpers preserve source pixels, sprite detail and seekable stat
       const shape = sprite.getContext('2d')!;
       shape.fillStyle = 'black'; shape.fillRect(0, 0, 9, 5);
       shape.fillStyle = '#555'; shape.fillRect(1, 2, 7, 1); shape.fillStyle = 'white'; shape.fillRect(4, 1, 1, 3);
-      const renderer = (window as any).OpenMotionReconstruction;
+      const renderer = (window as any).KinevynReconstruction;
       const options = { image, sprite, box: [0, 0, 64, 64], pitch: 4, density: 1, threshold: 0, release: [0, 0], lifetime: [1, 1], speed: [12, 12], acceleration: 0, size: [9, 9], fadeIn: 0, fadeOut: 0, sizeGrowth: 0, composite: 'source-over', trail: 0.3, seed: 11 };
       const field = renderer.createParticleField(options);
       const output = document.createElement('canvas'); output.width = 64; output.height = 64;
@@ -91,7 +91,7 @@ test('recreation helpers preserve source pixels, sprite detail and seekable stat
       const source = image.getContext('2d')!; source.fillStyle = 'black'; source.fillRect(0, 0, 16, 16);
       const sprite = document.createElement('canvas'); sprite.width = 7; sprite.height = 7;
       const ink = sprite.getContext('2d')!; ink.fillStyle = 'white'; ink.fillRect(0, 0, 7, 7); ink.fillStyle = 'black'; ink.fillRect(3, 1, 1, 5);
-      const field = (window as any).OpenMotionReconstruction.createParticleField({ image, sprite, box: [0, 0, 16, 16], pitch: 8, density: 1, threshold: 0, spriteMatte: 'white', composite: 'source-over', release: [0, 0], lifetime: [1, 1], speed: [0, 0], acceleration: 0, size: [7, 7], dissolve: false });
+      const field = (window as any).KinevynReconstruction.createParticleField({ image, sprite, box: [0, 0, 16, 16], pitch: 8, density: 1, threshold: 0, spriteMatte: 'white', composite: 'source-over', release: [0, 0], lifetime: [1, 1], speed: [0, 0], acceleration: 0, size: [7, 7], dissolve: false });
       const output = document.createElement('canvas'); output.width = 16; output.height = 16;
       const context = output.getContext('2d')!; field.draw(context, 0.3);
       const pixels = Array.from(context.getImageData(0, 0, 16, 16).data);
@@ -110,7 +110,7 @@ test('recreation helpers preserve source pixels, sprite detail and seekable stat
         pixels.fillStyle = colour; pixels.fillRect(2, 1, 4, 2);
         const output = document.createElement('canvas'); output.width = output.height = 16;
         const context = output.getContext('2d')!; context.fillStyle = matte; context.fillRect(0, 0, 16, 16);
-        const field = (window as any).OpenMotionReconstruction.createParticleField({ image: source, sprite, box: [0, 0, 16, 16], pitch: 16, density: 1, release: [0, 0], lifetime: [1, 1], speed: [0, 0], acceleration: 0, size: [8, 8], sizeGrowth: 0, fadeIn: 0, fadeOut: 0, samples: 1, composite: 'source-over', spriteMatte: matte, dissolve: false });
+        const field = (window as any).KinevynReconstruction.createParticleField({ image: source, sprite, box: [0, 0, 16, 16], pitch: 16, density: 1, release: [0, 0], lifetime: [1, 1], speed: [0, 0], acceleration: 0, size: [8, 8], sizeGrowth: 0, fadeIn: 0, fadeOut: 0, samples: 1, composite: 'source-over', spriteMatte: matte, dissolve: false });
         field.draw(context, .5);
         return Array.from(context.getImageData(6, 7, 1, 1).data);
       };
@@ -132,7 +132,7 @@ test('recreation helpers preserve source pixels, sprite detail and seekable stat
         const context = output.getContext('2d')!;
         if (background) { context.fillStyle = 'white'; context.fillRect(0, 0, 24, 24); }
         context.globalAlpha = opacity;
-        const field = (window as any).OpenMotionReconstruction.createParticleField({ image: source, sprite, box: [4, 4, 16, 16], pitch: 16, density: 1, threshold: 0, release: [0, 0], lifetime: [1, 1], speed: [0, 0], acceleration: 0, size: [8, 8], sizeGrowth: 0, fadeIn: 0, fadeOut: 0, samples, composite: 'source-over', spriteMatte: 'alpha', dissolve: false });
+        const field = (window as any).KinevynReconstruction.createParticleField({ image: source, sprite, box: [4, 4, 16, 16], pitch: 16, density: 1, threshold: 0, release: [0, 0], lifetime: [1, 1], speed: [0, 0], acceleration: 0, size: [8, 8], sizeGrowth: 0, fadeIn: 0, fadeOut: 0, samples, composite: 'source-over', spriteMatte: 'alpha', dissolve: false });
         field.draw(context, .5);
         return { pixels: Array.from(context.getImageData(0, 0, 24, 24).data), centre: Array.from(context.getImageData(12, 12, 1, 1).data), alpha: context.globalAlpha, composite: context.globalCompositeOperation };
       };
@@ -152,7 +152,7 @@ test('recreation helpers preserve source pixels, sprite detail and seekable stat
       const energy = (size: number, preserveEnergy: boolean) => {
         const output = document.createElement('canvas'); output.width = output.height = 64;
         const context = output.getContext('2d')!; context.fillStyle = 'black'; context.fillRect(0, 0, 64, 64);
-        const field = (window as any).OpenMotionReconstruction.createParticleField({ image: source, sprite, box: [16, 16, 16, 16], pitch: 16, density: 1, release: [0, 0], lifetime: [1, 1], speed: [0, 0], acceleration: 0, size: [size, size], sizeGrowth: 0, fadeIn: 0, fadeOut: 0, samples: 1, dissolve: false, preserveEnergy });
+        const field = (window as any).KinevynReconstruction.createParticleField({ image: source, sprite, box: [16, 16, 16, 16], pitch: 16, density: 1, release: [0, 0], lifetime: [1, 1], speed: [0, 0], acceleration: 0, size: [size, size], sizeGrowth: 0, fadeIn: 0, fadeOut: 0, samples: 1, dissolve: false, preserveEnergy });
         field.draw(context, .5);
         const pixels = context.getImageData(0, 0, 64, 64).data;
         let total = 0;

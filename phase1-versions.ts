@@ -30,7 +30,7 @@ type VersionFile = SourceFile & { retained?: boolean; missing?: boolean };
 export type ContentVersion = { versionId: string; versionNumber: number; nativePoint: string; createdAt: number;
   source: string; summary: string; revision: string; files: VersionFile[]; requestId?: string; restoredFromVersionId?: string };
 type VersionIndex = { versions: ContentVersion[]; ignored: string[] };
-const actor = { kind: 'agent', name: 'OpenMotion Agent' };
+const actor = { kind: 'agent', name: 'Kinevyn Agent' };
 
 function remoteHistory(base: string, timeoutMs: number): NativeHistory {
   const url = new URL(base);
@@ -166,7 +166,7 @@ export class ProjectVersions {
     requestId: string, changes: { path: string; content?: string | Buffer; source?: string; remove?: boolean }[],
     options: { label: string; restoredFromVersionId?: string }) {
     const current = await this.current(history);
-    if (current.revision !== expectedRevision || expectedVersionId && current.versionId !== expectedVersionId) throw new Error(`VERSION_CONFLICT: 工程已更新。当前 revision=${current.revision}，versionId=${current.versionId}。请调用 openmotion_get_project 读取最新内容后，用这两个值重试。`);
+    if (current.revision !== expectedRevision || expectedVersionId && current.versionId !== expectedVersionId) throw new Error(`VERSION_CONFLICT: 工程已更新。当前 revision=${current.revision}，versionId=${current.versionId}。请调用 kinevyn_get_project 读取最新内容后，用这两个值重试。`);
     const paths = changes.map(change => projectPath(change.path));
     if (paths.some((name, i) => paths.some((other, j) => i !== j && (name === other || name.startsWith(other + '/'))))) throw new Error('CONFLICTING_FILE_PATHS');
     const window = await history.beginWindow(actor, options.label, { exclusive: true, idleMs: 600_000 });

@@ -60,7 +60,7 @@ env:
 
 jobs:
   candidate:
-    if: ${{ github.repository == 'nexu-io/openmotion' && !inputs.archive_only && !inputs.candidate_run_id }}
+    if: ${{ github.repository == 'rivyn-labs/kinevyn' && !inputs.archive_only && !inputs.candidate_run_id }}
     uses: ./.github/workflows/motion-candidate.yml
     with:
       channel: ${{ inputs.channel || 'test' }}
@@ -69,7 +69,7 @@ jobs:
 
   verify:
     needs: candidate
-    if: ${{ always() && !cancelled() && github.repository == 'nexu-io/openmotion' && (needs.candidate.result == 'success' || needs.candidate.result == 'skipped' && (inputs.archive_only || inputs.candidate_run_id)) }}
+    if: ${{ always() && !cancelled() && github.repository == 'rivyn-labs/kinevyn' && (needs.candidate.result == 'success' || needs.candidate.result == 'skipped' && (inputs.archive_only || inputs.candidate_run_id)) }}
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     env:

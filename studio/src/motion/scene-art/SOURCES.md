@@ -2,8 +2,8 @@
 
 Sound Studio pairs the welcome project's soundtrack with Robert Cavlovic's [photograph of grand piano strings and hammers](https://unsplash.com/photos/close-up-of-piano-strings-and-hammers-in-black-and-white-T1LoaYvgq5Y), used under the [Unsplash License](https://unsplash.com/license). The local `ambient-piano.webp` is resized and displayed in landscape and square crops.
 
-Other scene posters and motion samples use the existing [OpenMotion skill artwork](../skillCatalog.ts).
+Other scene posters and motion samples use the existing [Kinevyn skill artwork](../skillCatalog.ts).
 
 Explore uses two illustrations from *Pepper&Carrot* by David Revoy as art references for anime prompts. [Pepper](https://www.peppercarrot.com/en/viewer/artworks-src__2021-10-10_Pepper_by-David-Revoy.html) and [Komona sunset](https://www.peppercarrot.com/en/wallpapers/index.html) are licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The local WebP copies are resized and the cards crop them to fit.
 
-The Audio navigation menu's Voice changer preview uses two original studio portraits (`voice-source-avatar.webp` and `voice-target-avatar.webp`) generated specifically for OpenMotion.
+The Audio navigation menu's Voice changer preview uses two original studio portraits (`voice-source-avatar.webp` and `voice-target-avatar.webp`) generated specifically for Kinevyn.

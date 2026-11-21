@@ -31,12 +31,12 @@ it('lists every curated skill with its upstream repository', () => {
   expect(container.querySelectorAll('.om-skill-gallery-card')).toHaveLength(motionSkills.length);
   expect(motionSkills).toHaveLength(130);
   expect(motionSkills[0].id).toBe('motionmaxxing');
-  expect(motionSkills[1].id).toBe('openmotion-growth-teardown');
-  expect(motionSkills[2].id).toBe('openmotion-design-styles');
-  expect(motionSkills.slice(3, 6).map(skill => skill.id)).toEqual(['openmotion-sale-promo', 'openmotion-sale-countdown', 'openmotion-sale-carousel']);
+  expect(motionSkills[1].id).toBe('kinevyn-growth-teardown');
+  expect(motionSkills[2].id).toBe('kinevyn-design-styles');
+  expect(motionSkills.slice(3, 6).map(skill => skill.id)).toEqual(['kinevyn-sale-promo', 'kinevyn-sale-countdown', 'kinevyn-sale-carousel']);
   for (const skill of motionSkills) if (skill.repository) expect(skill.repository).toMatch(/^https:\/\/github\.com\/[\w.-]+\/[\w.-]+(\/tree\/main\/[\w.-]+)?$/);
-  // Skills without an upstream repository are OpenMotion Library Skills (library/skills/<id>).
-  for (const skill of motionSkills) if (!skill.repository) expect(skill.id).toMatch(/^openmotion-[a-z0-9-]+$/);
+  // Skills without an upstream repository are Kinevyn Library Skills (library/skills/<id>).
+  for (const skill of motionSkills) if (!skill.repository) expect(skill.id).toMatch(/^kinevyn-[a-z0-9-]+$/);
   expect(motionSkills.filter(skill => !skill.repository)).toHaveLength(97);
   // The upstream Skills keep their place right after the first two; presenter-style cards are spread out, never side by side.
   expect(motionSkills.slice(2, 26).every(skill => skill.repository)).toBe(true);
@@ -44,17 +44,17 @@ it('lists every curated skill with its upstream repository', () => {
   expect(new Set(motionSkills.map(skill => skill.id)).size).toBe(motionSkills.length);
 });
 
-it('presents the growth teardown as an OpenMotion skill', async () => {
+it('presents the growth teardown as an Kinevyn skill', async () => {
   const write = vi.fn().mockResolvedValue(undefined);
   Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText: write } });
   act(() => root.render(<Host />));
   act(() => button('Growth reverse-engineering').click());
-  expect(container.querySelector('.om-skill-source')!.textContent).toContain('OpenMotion skill');
+  expect(container.querySelector('.om-skill-source')!.textContent).toContain('Kinevyn skill');
   expect(container.querySelector('.om-skill-source a, a.om-skill-source')).toBeNull();
   await act(async () => button('Copy for Agent').click());
   const text = write.mock.calls[0][0] as string;
-  expect(text).toContain('Make a video with the OpenMotion "Growth Teardown" skill.');
-  expect(text).toContain('Source: OpenMotion skill');
+  expect(text).toContain('Make a video with the Kinevyn "Growth Teardown" skill.');
+  expect(text).toContain('Source: Kinevyn skill');
   expect(text).toContain('growth-teardown Skill');
 });
 
@@ -91,17 +91,17 @@ it('fills the brief and copies an MCP instruction for the Agent', async () => {
   const text = write.mock.calls[0][0] as string;
   expect(text).toContain('https://github.com/juliangarnier/anime');
   expect(text).toContain('Duration: 30s; aspect ratio: 9:16');
-  expect(text).toContain('openmotion_get_project');
-  expect(text).toContain('openmotion_create_project');
-  expect(text).toContain('openmotion_edit_project');
-  expect(text).not.toMatch(/openmotion_(create_session|write_files|create_artifact)/);
+  expect(text).toContain('kinevyn_get_project');
+  expect(text).toContain('kinevyn_create_project');
+  expect(text).toContain('kinevyn_edit_project');
+  expect(text).not.toMatch(/kinevyn_(create_session|write_files|create_artifact)/);
 });
 
-it('routes generated media through OpenMotion only for media skills', () => {
+it('routes generated media through Kinevyn only for media skills', () => {
   const library = skillPrompt(motionSkills.find(skill => skill.id === 'anime-js')!, { subject: '', duration: 15, aspect: '9:16', style: '' }, 'en', 'https://example.test/install.md');
-  expect(library).not.toContain('openmotion_media_use');
+  expect(library).not.toContain('kinevyn_media_use');
   const photo = skillPrompt(motionSkills.find(skill => skill.id === 'higgsfield-product-photoshoot')!, { subject: '', duration: 10, aspect: '1:1', style: '' }, 'en', 'https://example.test/install.md');
-  expect(photo).toContain('openmotion_media_use');
+  expect(photo).toContain('kinevyn_media_use');
   expect(photo).toContain('https://github.com/higgsfield-ai/skills/tree/main/higgsfield-product-photoshoot');
 });
 
@@ -109,34 +109,34 @@ it('reads library skills through MCP and runs a generator skill through its own 
   const brief = (id: string, locale = 'en', duration = 10, aspect: '16:9' | '9:16' | '1:1' = '1:1') =>
     skillPrompt(motionSkills.find(skill => skill.id === id)!, { subject: 'x', duration, aspect, style: '' }, locale, 'https://example.test/install.md');
   for (const locale of ['en', 'zh-CN', 'ja', 'ko', 'ru', 'de', 'fr', 'es', 'pt-BR', 'it', 'tr']) {
-    const growth = brief('openmotion-growth-teardown', locale);
-    expect(growth).toContain('openmotion_get_skill');
-    expect(growth).toContain('openmotion-growth-teardown');
+    const growth = brief('kinevyn-growth-teardown', locale);
+    expect(growth).toContain('kinevyn_get_skill');
+    expect(growth).toContain('kinevyn-growth-teardown');
     expect(growth).not.toContain('install-library-skill');
     expect(growth).toContain('1:1');
-    const recipe = brief('openmotion-whiteboard-doodle', locale);
-    expect(recipe).toContain('openmotion_get_skill');
-    expect(recipe).toContain('openmotion-whiteboard-doodle');
+    const recipe = brief('kinevyn-whiteboard-doodle', locale);
+    expect(recipe).toContain('kinevyn_get_skill');
+    expect(recipe).toContain('kinevyn-whiteboard-doodle');
     expect(recipe).toContain('HTML/CSS/JS');
   }
-  expect(brief('openmotion-growth-teardown')).toContain("Make the film with the skill's own generator");
-  expect(brief('openmotion-growth-teardown')).toContain('cannot make the chosen duration or aspect ratio');
-  expect(brief('openmotion-whiteboard-doodle')).not.toContain("own generator");
+  expect(brief('kinevyn-growth-teardown')).toContain("Make the film with the skill's own generator");
+  expect(brief('kinevyn-growth-teardown')).toContain('cannot make the chosen duration or aspect ratio');
+  expect(brief('kinevyn-whiteboard-doodle')).not.toContain("own generator");
   const borrowed = brief('anime-js');
   expect(borrowed).toContain('Author a native HTML/CSS/JS composition');
-  expect(borrowed).not.toContain('openmotion_get_skill');
+  expect(borrowed).not.toContain('kinevyn_get_skill');
 });
 
 it('routes the shortcut command through MCP for library skills and the generator for generator skills', () => {
   const short = (id: string, locale: string) => skillShortcut(motionSkills.find(skill => skill.id === id)!, { subject: 'x', duration: 10, aspect: '9:16', style: '' }, locale, 'https://example.test/install.md');
   for (const locale of ['en', 'zh-CN', 'ja', 'ko', 'ru', 'de', 'fr', 'es', 'pt-BR', 'it', 'tr']) {
-    expect(short('openmotion-growth-teardown', locale)).toContain('openmotion_get_skill');
-    expect(short('openmotion-growth-teardown', locale)).toContain('openmotion-growth-teardown');
-    expect(short('openmotion-whiteboard-doodle', locale)).toContain('openmotion-whiteboard-doodle');
-    expect(short('anime-js', locale)).not.toContain('openmotion_get_skill');
+    expect(short('kinevyn-growth-teardown', locale)).toContain('kinevyn_get_skill');
+    expect(short('kinevyn-growth-teardown', locale)).toContain('kinevyn-growth-teardown');
+    expect(short('kinevyn-whiteboard-doodle', locale)).toContain('kinevyn-whiteboard-doodle');
+    expect(short('anime-js', locale)).not.toContain('kinevyn_get_skill');
   }
-  expect(short('openmotion-growth-teardown', 'en')).toContain('own generator');
-  expect(short('openmotion-whiteboard-doodle', 'en')).not.toContain('own generator');
+  expect(short('kinevyn-growth-teardown', 'en')).toContain('own generator');
+  expect(short('kinevyn-whiteboard-doodle', 'en')).not.toContain('own generator');
 });
 
 it('starts a fresh brief when the selected skill changes from outside, such as history navigation', () => {
@@ -152,7 +152,7 @@ it('localizes the instruction and keeps the user brief', () => {
   const text = skillPrompt(motionSkills[0], { subject: '新品发布', duration: 10, aspect: '1:1', style: '' }, 'zh-CN', 'https://example.test/install.md');
   expect(text).toContain('内容：新品发布');
   expect(text).toContain('交付：');
-  expect(text.split('\n')[0]).toBe('使用说明：请使用 OpenMotion 插件。如未安装，请按 https://example.test/install.md 安装并接入后继续。');
+  expect(text.split('\n')[0]).toBe('使用说明：请使用 Kinevyn 插件。如未安装，请按 https://example.test/install.md 安装并接入后继续。');
   expect(text).not.toContain('风格');
 });
 
@@ -224,8 +224,8 @@ it('localizes every Skills string and instruction in all supported languages', a
   const { languages } = await import('../i18n/messages');
   const placeholders = (text: string) => [...text.matchAll(/\{\w+\}/g)].map(match => match[0]).sort();
   const sources = Object.keys(skillsUi['zh-CN']);
-  // Skills authored in this repository show the "OpenMotion skill" source label instead of an upstream repository.
-  if (motionSkills.some(skill => !skill.repository)) expect(sources).toContain('OpenMotion skill');
+  // Skills authored in this repository show the "Kinevyn skill" source label instead of an upstream repository.
+  if (motionSkills.some(skill => !skill.repository)) expect(sources).toContain('Kinevyn skill');
   for (const { locale } of languages.filter(language => language.locale !== 'en')) {
     const ui = (skillsUi as Record<string, Record<string, string>>)[locale];
     const instructions = (prompts as Record<string, Record<string, string>>)[locale];
@@ -233,7 +233,7 @@ it('localizes every Skills string and instruction in all supported languages', a
     for (const source of sources) expect(placeholders(ui[source]), `${locale}: ${source}`).toEqual(placeholders(source));
     for (const [key, english] of Object.entries(prompts.en)) expect(placeholders(instructions[key]), `${locale}: ${key}`).toEqual(placeholders(english));
   }
-  expect(skillPrompt(motionSkills[0], { subject: 'x', duration: 10, aspect: '16:9', style: '' }, 'ja', 'https://example.test/install.md')).toContain('openmotion_create_project');
+  expect(skillPrompt(motionSkills[0], { subject: 'x', duration: 10, aspect: '16:9', style: '' }, 'ja', 'https://example.test/install.md')).toContain('kinevyn_create_project');
 });
 
 it('drops a stale failed-copy text once the brief changes', async () => {
@@ -269,7 +269,7 @@ it('opens the contribution guide section for submitting a skill, like the templa
   const section = guide.slice(guide.indexOf('### Submit a skill with your Agent'));
   expect(skillSubmissionUrl.endsWith('#submit-a-skill-with-your-agent')).toBe(true);
   expect(section).toContain('library/skills/<name>/SKILL.md');
-  expect(section).toContain('nexu-io/openmotion');
+  expect(section).toContain('rivyn-labs/kinevyn');
   expect(section).toContain('draft pull request');
 });
 
@@ -297,12 +297,12 @@ it('ships static WebP posters and waits to fetch archived video until playback s
 });
 
 it('merges same-repository cover credits while retaining external sources and attribution', () => {
-  for (const id of ['openmotion-design-styles', 'motionmaxxing']) {
+  for (const id of ['kinevyn-design-styles', 'motionmaxxing']) {
     act(() => root.render(<SkillsPage skillId={id} onSkillChange={() => {}} />));
     expect(container.querySelector('a.om-skill-source')!.getAttribute('href')).toBe(motionSkills.find(skill => skill.id === id)!.repository);
     expect(container.querySelector('.om-skill-credit')).toBeNull();
   }
-  for (const id of ['lume', 'three-js', 'openmotion-growth-teardown']) {
+  for (const id of ['lume', 'three-js', 'kinevyn-growth-teardown']) {
     act(() => root.render(<SkillsPage skillId={id} onSkillChange={() => {}} />));
     expect(container.querySelector('.om-skill-credit')!.textContent).toContain(motionSkills.find(skill => skill.id === id)!.cover!.source!.replace(/^https?:\/\//, ''));
   }
@@ -315,7 +315,7 @@ it('carries the exact reference version into both 3D Agent handoffs', () => {
     const instruction = build(skill, brief, 'en', 'https://example.com/install');
     expect(instruction).toContain('Orbit a vase');
     const call = instruction.split('\n').at(-1)!;
-    expect(call).toBe('openmotion_assets_use {"action":"read","assetId":"asset-a","versionId":"version-b"}');
+    expect(call).toBe('kinevyn_assets_use {"action":"read","assetId":"asset-a","versionId":"version-b"}');
   }
 });
 
@@ -339,5 +339,5 @@ it.each(['image', 'video', 'audio'] as const)('carries the brief and respects a 
   expect(draft.shotPreferences).toEqual({ aspect: '9:16', duration: brief.duration });
   expect(draft.prompt).toContain('A ceramic vase');
   expect(draft.prompt).toContain('Warm sidelight');
-  expect(draft.prompt).not.toContain('openmotion_assets_use');
+  expect(draft.prompt).not.toContain('kinevyn_assets_use');
 });

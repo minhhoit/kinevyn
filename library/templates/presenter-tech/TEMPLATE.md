@@ -19,4 +19,4 @@ Review framing, actual words, captions and the order of evidence. Use `adapter.p
 
 ## Delivery
 
-Deliver the video, its input document, the prepared editable instance and the unchanged template package or its recorded identity. Record any untested conditions. This package uses its included rendering engine; importing its source directly into OpenMotion's native Studio timeline is not a verified route.
+Deliver the video, its input document, the prepared editable instance and the unchanged template package or its recorded identity. Record any untested conditions. This package uses its included rendering engine; importing its source directly into Kinevyn's native Studio timeline is not a verified route.

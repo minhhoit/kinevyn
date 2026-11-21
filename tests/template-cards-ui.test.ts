@@ -155,7 +155,7 @@ test('onboarding welcome stays above the cards without duplicate descriptions or
     assert.ok(welcome, 'Welcome must be part of the persistent native component');
     assert.equal(f.root.firstElementChild, welcome);
     assert.equal(welcome.nextElementSibling?.className, 'omtc-list');
-    assert.match(welcome.textContent!, /OpenMotion 安装好啦，右侧就是模板库/);
+    assert.match(welcome.textContent!, /Kinevyn 安装好啦，右侧就是模板库/);
     assert.deepEqual([...welcome.querySelectorAll('p')].map(p => p.textContent), [
       '我是你的开源视频创作搭档，我有丰富的高水准视频模板，也支持从参考视频或一个灵感出发，和你一起创作精彩的视频。',
       '模板库支持搜索，也可以随意浏览，找到喜欢的点击「复刻模板」就能开始你的创作！',
@@ -253,8 +253,8 @@ test('SDK drafts capture the exact template, never submit, suppress double click
     button.click(); button.click();
     assert.equal(f.messages.length, 1);
     assert.deepEqual(f.messages[0]._meta, { 'openai/message': { target: 'active', send: false } });
-    assert.equal(f.messages[0].content[0].text, 'Instructions: Use the OpenMotion plugin. If it is not installed, follow https://github.com/nexu-io/openmotion to install and connect it, then continue.\nSelected template: Decision Tree (decision-tree)\nCreative brief: Adapt the template using my requirements and attachments. Preserve its main motion and style by default, and deliver HTML and MP4.\nMy requirements:\n');
-    assert.equal(f.messages[0].content[0].text.includes('OPENMOTION_TEMPLATE_SELECTION'), false);
+    assert.equal(f.messages[0].content[0].text, 'Instructions: Use the Kinevyn plugin. If it is not installed, follow https://github.com/rivyn-labs/kinevyn to install and connect it, then continue.\nSelected template: Decision Tree (decision-tree)\nCreative brief: Adapt the template using my requirements and attachments. Preserve its main motion and style by default, and deliver HTML and MP4.\nMy requirements:\n');
+    assert.equal(f.messages[0].content[0].text.includes('KINEVYN_TEMPLATE_SELECTION'), false);
     f.ui.update(result([0, 1, 2], '33333333-3333-4333-8333-333333333333'));
     finish({}); await flush();
     assert.equal(f.root.textContent!.includes('Added to the composer.'), false);

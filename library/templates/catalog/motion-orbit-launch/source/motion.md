@@ -30,7 +30,7 @@ All entrances use an ease-out cubic curve. Do not use bounce, elastic overshoot 
 
 Edit the text nodes with IDs `headline-one`, `headline-two` and `support`, and change `--accent`. Keep the headline to two lines. For a portrait composition, stack the orbit above the headline and preserve timing; do not crop the landscape canvas and lose the copy.
 
-The example is a guidance implementation, not an editable-project manifest. For an OpenMotion project, author a new native composition from these rules, follow the installed engine guide and the project's revision contract, and keep user projects outside this source checkout.
+The example is a guidance implementation, not an editable-project manifest. For an Kinevyn project, author a new native composition from these rules, follow the installed engine guide and the project's revision contract, and keep user projects outside this source checkout.
 
 ## Review
 

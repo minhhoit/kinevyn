@@ -44,15 +44,15 @@ test('curated catalog has 40 usable families, stable resources and resolvable ed
 test('index is lightweight, per-family resources include preparation, and reads have no workspace effects', async () => {
   const directory = await mkdtemp(path.join(tmpdir(), 'motion-font-read-'));
   try {
-    assert.ok(workflowResources().some(resource => resource.uri === 'openmotion://fonts/index'));
-    const index = await fontCatalogResource('openmotion://fonts/index');
+    assert.ok(workflowResources().some(resource => resource.uri === 'kinevyn://fonts/index'));
+    const index = await fontCatalogResource('kinevyn://fonts/index');
     assert.equal(index.total, 40); assert.ok(!('files' in index.fonts![0]));
     const result = await readWorkflowResource('motion://fonts/orbitron', directory);
     const detail = JSON.parse(result.text);
     assert.equal(detail.family, 'Orbitron'); assert.equal(detail.files.length, 1);
     assert.ok(detail.prepare.command.includes('orbitron'));
-    await assert.rejects(fontCatalogResource('openmotion://fonts/../../secret'), /INVALID_FONT_RESOURCE/);
-    await assert.rejects(fontCatalogResource('openmotion://fonts/not-a-font'), /UNKNOWN_FONT_ID/);
+    await assert.rejects(fontCatalogResource('kinevyn://fonts/../../secret'), /INVALID_FONT_RESOURCE/);
+    await assert.rejects(fontCatalogResource('kinevyn://fonts/not-a-font'), /UNKNOWN_FONT_ID/);
     assert.deepEqual(await readdir(directory), []);
   } finally { await rm(directory, { recursive: true, force: true }); }
 });

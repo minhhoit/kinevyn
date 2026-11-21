@@ -63,7 +63,7 @@ export function SignInGuide({ action }: { action: ReactNode }) {
   const { t } = useI18n();
   return <section className="om-card om-plan-guide" data-guide="sign-in">
     <div className="om-plan-guide-head"><h2 className="om-title">{t('Sign in to start multimodal generation')}</h2><span className="om-badge">{t('Plus and above')}</span></div>
-    <p className="om-muted" data-quiet>{t('Sign in, then upgrade to Plus to generate images, video, voiceovers and music right in OpenMotion. No API keys to set up.')}</p>
+    <p className="om-muted" data-quiet>{t('Sign in, then upgrade to Plus to generate images, video, voiceovers and music right in Kinevyn. No API keys to set up.')}</p>
     <GuideCapabilities />
     <div className="om-settings-actions">{action}<GuideOffer callout /></div>
   </section>;

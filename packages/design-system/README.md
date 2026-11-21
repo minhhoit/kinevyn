@@ -1,6 +1,6 @@
-# OpenMotion Design System
+# Kinevyn Design System
 
-This package is the maintained source for OpenMotion's interface appearance and brand resources. A shared theme decision flows from this package into the editor, startup screen, workspace, connection UI, template browser and component catalog.
+This package is the maintained source for Kinevyn's interface appearance and brand resources. A shared theme decision flows from this package into the editor, startup screen, workspace, connection UI, template browser and component catalog.
 
 It is a private source package in the standalone root application. The visual workbench runs independently with Node built-ins and needs no installation or Studio build. Application installation and builds remain at the repository root; no workspace dependency, separate lockfile or package publication is required.
 

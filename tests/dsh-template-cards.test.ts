@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { registerOpenMotionTemplateCards } from "../integrations/dsh/plugin/src/templateRecommendationCards.ts";
+import { registerKinevynTemplateCards } from "../integrations/dsh/plugin/src/templateRecommendationCards.ts";
 
 function fixture() {
   const registered: any[] = [], providers: any[] = [], decisions: any[] = [], follows: any[] = [];
@@ -9,7 +9,7 @@ function fixture() {
     skills: { registerProvider: (provider: unknown) => { providers.push(provider); return () => {}; } },
     actionCards: { register: (kind: unknown) => { registered.push(kind); return () => {}; }, record: (_agent: unknown, decision: unknown) => decisions.push(decision) },
   };
-  registerOpenMotionTemplateCards(ctx);
+  registerKinevynTemplateCards(ctx);
   const agent = { followup: (message: unknown) => follows.push(message) };
   return { ctx, kind: registered[0], provider: providers[0](), decisions, follows, agent };
 }
@@ -18,7 +18,7 @@ const templates = ["one", "two", "three"].map(id => ({ id, title: id, previewUrl
 test("DSH onboarding requires three distinct cards and preserves request language and library visibility", async () => {
   const { kind, provider } = fixture();
   assert.equal((await provider.list()).length, 1);
-  const definition = await provider.get({ name: "openmotion-template-recommendations" });
+  const definition = await provider.get({ name: "kinevyn-template-recommendations" });
   assert.match(definition.content, /installation onboarding/);
   assert.match(definition.content, /exactly the three prepared IDs\/order/);
   assert.match(definition.content, /details.onboarding=true/);
@@ -52,5 +52,5 @@ test("card preview and selection keep exact IDs and never request automatic proj
 });
 
 test("a host without optional card services retains its existing MCP flow", () => {
-  assert.doesNotThrow(() => registerOpenMotionTemplateCards({ effect: () => {}, skills: undefined, actionCards: undefined }));
+  assert.doesNotThrow(() => registerKinevynTemplateCards({ effect: () => {}, skills: undefined, actionCards: undefined }));
 });

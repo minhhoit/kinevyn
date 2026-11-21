@@ -698,7 +698,7 @@ export function DesignProjectEditor({
               <Popover.Positioner side="bottom" align="end" sideOffset={8} className="z-150">
                 <Popover.Popup className="om-design-popover" style={{ width: 340 }}>
                   <strong>{t('Hand off to Codex or Claude Code (MCP)')}</strong>
-                  <span className="om-design-muted">{t('OpenMotion does not run a built-in agent. Copy this MCP instruction into your connected Agent to edit this project.')}</span>
+                  <span className="om-design-muted">{t('Kinevyn does not run a built-in agent. Copy this MCP instruction into your connected Agent to edit this project.')}</span>
                   <textarea
                     className="om-design-textarea"
                     placeholder={t('Optional change request for your Agent…')}

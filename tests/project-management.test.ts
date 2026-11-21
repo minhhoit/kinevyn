@@ -55,19 +55,19 @@ for (const [action, next] of [['trash', 'restore'], ['restore', 'trash']] as con
 test('HTTP and MCP rename the explicit project with conflict protection and stable retry receipts', () => fixture(async store => {
   const id = (await importProjects(store, 'import', bundle(), pluginRoot)).projects[0].projectId;
   const service = api(store), http = transport(store, { runtimeRoot: pluginRoot });
-  const info = await service.call('openmotion_manage_project', { action: 'info', projectId: id });
+  const info = await service.call('kinevyn_manage_project', { action: 'info', projectId: id });
   assert.equal(info.path, store.projectDirectoryFor(id));
   const input = { action: 'rename', projectId: id, title: 'Renamed film', expectedTitle: info.title, requestId: 'rename' };
   const response = await http('/motion-api/phase1/call', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name: 'openmotion_manage_project', arguments: input }) });
+    body: JSON.stringify({ name: 'kinevyn_manage_project', arguments: input }) });
   assert.equal(response.status, 200, await response.clone().text());
   assert.equal((await response.json()).title, 'Renamed film');
   await store.renameProject(id, 'Later name');
-  const replay = await service.call('openmotion_manage_project', input);
+  const replay = await service.call('kinevyn_manage_project', input);
   assert.equal(replay.title, 'Later name', 'A stale retry never reverts a later rename');
-  await assert.rejects(service.call('openmotion_manage_project', { ...input, title: 'Different' }), /REQUEST_ID_CONFLICT/);
-  await assert.rejects(service.call('openmotion_manage_project', { ...input, requestId: 'stale' }), /PROJECT_NAME_CONFLICT/);
-  await assert.rejects(service.call('openmotion_manage_project', { ...input, requestId: 'empty', title: ' ' }), /1.*100/);
+  await assert.rejects(service.call('kinevyn_manage_project', { ...input, title: 'Different' }), /REQUEST_ID_CONFLICT/);
+  await assert.rejects(service.call('kinevyn_manage_project', { ...input, requestId: 'stale' }), /PROJECT_NAME_CONFLICT/);
+  await assert.rejects(service.call('kinevyn_manage_project', { ...input, requestId: 'empty', title: ' ' }), /1.*100/);
   assert.equal(store.projectCatalog().projects.find(p => p.id === id)!.titleKey, null);
   assert.equal(store.projectCatalog().activeId, 'project');
 }, false));
@@ -81,7 +81,7 @@ test('duplicate snapshots editable source and assets independently and deduplica
   await reviewComments(store, { action: 'comments', operation: 'create', projectId: source.projectId,
     requestId: 'review-original', expectedRevision: before.revision, text: 'Review the original only', anchor: { scope: 'project', compositionPath: 'index.html' } });
   const input = { action: 'duplicate', projectId: source.projectId, title: 'Independent copy', requestId: 'duplicate', expectedRevision: before.revision };
-  const [copy, replay] = await Promise.all([service.call('openmotion_manage_project', input), service.call('openmotion_manage_project', input)]);
+  const [copy, replay] = await Promise.all([service.call('kinevyn_manage_project', input), service.call('kinevyn_manage_project', input)]);
   assert.equal(copy.projectId, replay.projectId); assert.notEqual(copy.projectId, source.projectId); assert.notEqual(copy.sessionId, source.sessionId);
   assert.equal(copy.sourceRevision, before.revision);
   assert.deepEqual((await reviewComments(store, { action: 'comments', operation: 'list', projectId: copy.projectId })).comments, []);
@@ -93,11 +93,11 @@ test('duplicate snapshots editable source and assets independently and deduplica
   await writeFile(path.join(directory, 'assets/local.txt'), 'Edited copy');
   assert.equal(await readFile(path.join(original, 'assets/local.txt'), 'utf8'), 'Original asset');
   await writeFile(path.join(original, 'assets/local.txt'), 'Edited original');
-  assert.equal((await service.call('openmotion_manage_project', input)).projectId, copy.projectId);
+  assert.equal((await service.call('kinevyn_manage_project', input)).projectId, copy.projectId);
   assert.equal(store.projectCatalog().projects.length, 3);
   assert.equal(store.projectCatalog().activeId, 'project');
-  await assert.rejects(service.call('openmotion_manage_project', { ...input, requestId: 'stale' }), /revision/);
-  await assert.rejects(service.call('openmotion_manage_project', { ...input, title: 'Other name' }), /REQUEST_ID_CONFLICT/);
+  await assert.rejects(service.call('kinevyn_manage_project', { ...input, requestId: 'stale' }), /revision/);
+  await assert.rejects(service.call('kinevyn_manage_project', { ...input, title: 'Other name' }), /REQUEST_ID_CONFLICT/);
 }, false));
 
 test('location and reveal are confined to existing managed projects with explicit launcher errors', () => fixture(async store => {
@@ -156,8 +156,8 @@ test('trash, restore and permanent delete keep active fallback and stable receip
   assert.equal(trashed.trashed, true);
   assert.equal(trashed.activeProjectId, 'project');
   assert.ok(store.projectCatalog().projects.find(project => project.id === id)?.trashedAt);
-  assert.deepEqual((await apiClient.call('openmotion_get_project', { trashed: true })).projects.map((p: any) => p.id), [id]);
-  assert.ok(!(await apiClient.call('openmotion_get_project', {})).projects.some((p: any) => p.id === id));
+  assert.deepEqual((await apiClient.call('kinevyn_get_project', { trashed: true })).projects.map((p: any) => p.id), [id]);
+  assert.ok(!(await apiClient.call('kinevyn_get_project', {})).projects.some((p: any) => p.id === id));
   assert.equal((await manageProject(store, { action: 'info', projectId: id })).path, directory);
   assert.throws(() => store.forProject(id), /PROJECT_TRASHED/);
   await assert.rejects(reviewComments(store, { action: 'comments', operation: 'list', projectId: id }), /PROJECT_TRASHED/);
@@ -177,7 +177,7 @@ test('trash, restore and permanent delete keep active fallback and stable receip
   await assert.rejects(access(path.join(store.directory, 'sessions', imported.projects[0].sessionId + '.json')));
   assert.equal((await store.session(separateSession.id)).title, 'Unrelated conversation');
   assert.equal((await importProjects(store, 'lifecycle-import', bundle())).projects[0].projectId, id);
-  assert.deepEqual((await apiClient.call('openmotion_get_project', { trashed: true })).projects, []);
+  assert.deepEqual((await apiClient.call('kinevyn_get_project', { trashed: true })).projects, []);
   assert.equal(store.projectCatalog().projects.some(project => project.id === id), false);
   assert.equal(store.projectCatalog().sessions!.some(session => session.artifacts.some(artifact => artifact.projectId === id)), false);
   const replay = await manageProject(store, { action: 'delete', projectId: id, requestId: 'delete-project' });

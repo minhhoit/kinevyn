@@ -1,5 +1,5 @@
 /**
- * Public MCP tool schemas for OpenMotion Design Studio.
+ * Public MCP tool schemas for Kinevyn Design Studio.
  * Pure, browser-safe schema definitions imported by shared/phase1-tools.ts and WebMCP.
  * Server-side execution lives in design-projects.ts (dispatchDesignTool).
  */
@@ -51,9 +51,9 @@ const anchorSchema = obj({
 
 export const designTools = [
   {
-    name: 'openmotion_design_catalog',
-    title: 'OpenMotion · Design Catalog',
-    description: 'Read-only discovery for Design Studio HTML scenarios (prototype, deck, document, web-clone, live-artifact, webgl), starter templates, design systems (DESIGN.md + tokens.css), design Skills and craft rules. Read openmotion://workflow/design/start and the chosen scenario guide before authoring a new design project.',
+    name: 'kinevyn_design_catalog',
+    title: 'Kinevyn · Design Catalog',
+    description: 'Read-only discovery for Design Studio HTML scenarios (prototype, deck, document, web-clone, live-artifact, webgl), starter templates, design systems (DESIGN.md + tokens.css), design Skills and craft rules. Read kinevyn://workflow/design/start and the chosen scenario guide before authoring a new design project.',
     inputSchema: obj({
       action: { enum: ['list_scenarios', 'list_templates', 'get_template', 'list_skills', 'get_skill', 'list_design_systems', 'get_design_system', 'get_craft'] },
       id: { type: 'string', minLength: 1, maxLength: 128, description: 'Template, skill, design-system or craft document id.' },
@@ -67,9 +67,9 @@ export const designTools = [
     annotations: read,
   },
   {
-    name: 'openmotion_design_project',
-    title: 'OpenMotion · Design Project',
-    description: 'Create, inspect, organize, preview, open in a local app, export (zip, open-design round-trip zip, standalone html, pdf, png, pptx) and import (Open Design / Claude Design / OpenMotion ZIP or folder) HTML Design Studio projects. Call action=open after editing so the user gets the live previewUrl and Studio editorUrl. Export with outputPath writes the artifact to disk; delete requires the project to be in Trash first.',
+    name: 'kinevyn_design_project',
+    title: 'Kinevyn · Design Project',
+    description: 'Create, inspect, organize, preview, open in a local app, export (zip, open-design round-trip zip, standalone html, pdf, png, pptx) and import (Open Design / Claude Design / Kinevyn ZIP or folder) HTML Design Studio projects. Call action=open after editing so the user gets the live previewUrl and Studio editorUrl. Export with outputPath writes the artifact to disk; delete requires the project to be in Trash first.',
     inputSchema: obj({
       action: { enum: ['create', 'list', 'get', 'rename', 'duplicate', 'trash', 'restore', 'delete', 'open', 'open_in', 'export', 'import'] },
       projectId: uuid,
@@ -90,9 +90,9 @@ export const designTools = [
     annotations: destructive,
   },
   {
-    name: 'openmotion_design_edit',
-    title: 'OpenMotion · Design Edit',
-    description: 'Read and edit files in an HTML Design Studio project with revision protection and version history. Always read the project first (openmotion_design_project action=get) to obtain current expectedRevision. Every action=write atomically persists files and creates a new immutable vN version snapshot. action=restore_version restores an older snapshot as a NEW version without erasing history.',
+    name: 'kinevyn_design_edit',
+    title: 'Kinevyn · Design Edit',
+    description: 'Read and edit files in an HTML Design Studio project with revision protection and version history. Always read the project first (kinevyn_design_project action=get) to obtain current expectedRevision. Every action=write atomically persists files and creates a new immutable vN version snapshot. action=restore_version restores an older snapshot as a NEW version without erasing history.',
     inputSchema: obj({
       action: { enum: ['read_file', 'write', 'list_versions', 'restore_version'] },
       projectId: uuid,
@@ -115,9 +115,9 @@ export const designTools = [
     annotations: write,
   },
   {
-    name: 'openmotion_design_comments',
-    title: 'OpenMotion · Design Comments',
-    description: 'List, create, resolve/update and delete element or region review annotations on an HTML Design Studio project. When revising from user annotations, call action=list for full anchors, read and edit only the marked elements via openmotion_design_edit, then mark each addressed comment status=resolved using its commentRevision.',
+    name: 'kinevyn_design_comments',
+    title: 'Kinevyn · Design Comments',
+    description: 'List, create, resolve/update and delete element or region review annotations on an HTML Design Studio project. When revising from user annotations, call action=list for full anchors, read and edit only the marked elements via kinevyn_design_edit, then mark each addressed comment status=resolved using its commentRevision.',
     inputSchema: obj({
       action: { enum: ['list', 'create', 'update', 'delete'] },
       projectId: uuid,

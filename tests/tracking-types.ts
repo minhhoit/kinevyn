@@ -17,9 +17,9 @@ function studioContract() {
   finishIo({ outcome: 'success', delivery_status: 'saved' });
   // @ts-expect-error Each result retains its attempt correlation.
   void trackMotion('studio_io_result', { action: 'recheck_file', outcome: 'unknown' });
-  void trackMotion('webmcp_tool_finished', { tool_name: 'openmotion_assets_use', transport: 'webmcp', call_id: '', action: 'read', outcome: 'success', duration_ms: 10 });
+  void trackMotion('webmcp_tool_finished', { tool_name: 'kinevyn_assets_use', transport: 'webmcp', call_id: '', action: 'read', outcome: 'success', duration_ms: 10 });
   // @ts-expect-error Tool actions are closed categories, never arbitrary input.
-  void trackMotion('webmcp_tool_started', { tool_name: 'openmotion_assets_use', transport: 'webmcp', call_id: '', action: 'PRIVATE_ACTION' });
+  void trackMotion('webmcp_tool_started', { tool_name: 'kinevyn_assets_use', transport: 'webmcp', call_id: '', action: 'PRIVATE_ACTION' });
   void trackMotion('ui_click', { page_name: 'home', area: 'workspace', element: 'new_creation' });
   void trackMotion('playback', { action: 'speed_change', rate: 1.25 });
   void trackMotion('audio_fx_param_committed', { effect: 'compressor', param: 'threshold', value: -18.5, surface: 'details' });

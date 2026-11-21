@@ -36,7 +36,7 @@ const textExtensions = new Set(['.html', '.css', '.js', '.mjs', '.json', '.svg',
 const studioManifests = ['.hyperframes/studio-manual-edits.json', '.hyperframes/studio-motion.json'];
 export type SourceFile = { path: string; size: number; hash: string };
 export type FileEdit = { path: string; content: string };
-export type SavedProject = { id: string; title: string; titleKey?: 'OpenMotion Sample Video' | null; templateId?: string; createdAt?: number; openedAt?: number; trashedAt?: number };
+export type SavedProject = { id: string; title: string; titleKey?: 'Kinevyn Sample Video' | null; templateId?: string; createdAt?: number; openedAt?: number; trashedAt?: number };
 export type ProjectCatalog = { activeId: string; projects: SavedProject[]; sessions?: CreativeSession[]; activeSessionId?: string };
 export type ProjectMutationResult = { projectId: string; title: string; trashed?: boolean; deleted?: boolean; activeProjectId: string; replayed?: boolean };
 type ProjectTrashIntent = { action: 'trash' | 'restore'; projectId: string; requestId: string };
@@ -108,7 +108,7 @@ export class WorkspaceStore {
     let catalog: ProjectCatalog;
     try { catalog = JSON.parse(readFileSync(path.join(this.directory, 'projects.json'), 'utf8')); }
     catch (error) {
-      if ((error as NodeJS.ErrnoException).code === 'ENOENT') catalog = { activeId: 'project', projects: [{ id: 'project', title: 'OpenMotion 示例短片', titleKey: 'OpenMotion Sample Video' }] };
+      if ((error as NodeJS.ErrnoException).code === 'ENOENT') catalog = { activeId: 'project', projects: [{ id: 'project', title: 'Kinevyn 示例短片', titleKey: 'Kinevyn Sample Video' }] };
       else throw error;
     }
     if (!Array.isArray(catalog.projects) || !catalog.projects.some(item => item.id === catalog.activeId)) throw new Error('工程目录记录损坏');
@@ -127,9 +127,9 @@ export class WorkspaceStore {
     // Older workspaces did not distinguish the built-in label from a saved name.
     // An explicit rename records null so even a matching title remains user-owned.
     const initial = catalog.projects.find(item => item.id === 'project');
-    if (initial && initial.titleKey === undefined && ['初始工程', 'OpenMotion 示例短片'].includes(initial.title)) {
-      initial.title = 'OpenMotion 示例短片';
-      initial.titleKey = 'OpenMotion Sample Video';
+    if (initial && initial.titleKey === undefined && ['初始工程', 'Kinevyn 示例短片'].includes(initial.title)) {
+      initial.title = 'Kinevyn 示例短片';
+      initial.titleKey = 'Kinevyn Sample Video';
     }
     // Legacy conversations keep their IDs and files; all new sessions own artifact IDs.
     catalog.sessions ??= catalog.projects.map(project => ({ ...project, mode: 'motion', artifacts: [{ id: project.id, kind: 'motion-project', projectId: project.id, title: project.title, templateId: project.templateId }] }));

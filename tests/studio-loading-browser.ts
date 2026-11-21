@@ -9,7 +9,7 @@ import puppeteer, { type Page } from "puppeteer-core";
 import { fixture } from "./fixtures.ts";
 import { startServer } from "../server.ts";
 
-const output = process.env.OPENMOTION_BROWSER_EVIDENCE || path.join(tmpdir(), "openmotion-studio-loading-evidence");
+const output = process.env.KINEVYN_BROWSER_EVIDENCE || path.join(tmpdir(), "kinevyn-studio-loading-evidence");
 assert(path.isAbsolute(output));
 
 test("nested composition parsing and optional asset metadata in the real Studio", { timeout: 180_000 }, async () => {

@@ -106,7 +106,7 @@ test('legacy files retain credentials, models and defaults across shared HTTP, M
     assert.equal(update.status, 200); assert.doesNotMatch(await update.text(), /replacement-fal-key/);
     assert.equal(await gateway.connections.credential('fal'), 'replacement-fal-key');
     assert.equal((await gateway.status()).providers.find(provider => provider.id === 'fal')!.verification, 'unverified');
-    await callTool('openmotion_configure_provider', { provider: 'openai', apiKey: 'replacement-openai-key' }, store);
+    await callTool('kinevyn_configure_provider', { provider: 'openai', apiKey: 'replacement-openai-key' }, store);
     assert.equal(await gateway.connections.credential('openai'), 'replacement-openai-key');
     const cleared = await request('/motion-api/models/providers/fal', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ apiKey: null }) });
     assert.equal(cleared.status, 200);
@@ -282,12 +282,12 @@ test('account music, default-voice speech and one-image editing run the matching
 
   await writeFile(path.join(store.projectDirectoryFor(store.projectId), 'cup.png'), png);
   const editInputProject = { action: 'generate', provider: 'account', model: 'fixture-image', projectId: store.projectId, modality: 'image', prompt: 'make it blue', referenceAsset: 'cup.png', requestId: 'account-project-edit' };
-  await assert.rejects(api.call('openmotion_media_use', { ...editInputProject, model: 'fixture-image-basic' }), /does not support reference image editing/);
-  await assert.rejects(api.call('openmotion_media_use', { ...editInputProject, referenceAsset: '../cup.png' }));
-  const { job: edit } = await api.call('openmotion_media_use', editInputProject);
+  await assert.rejects(api.call('kinevyn_media_use', { ...editInputProject, model: 'fixture-image-basic' }), /does not support reference image editing/);
+  await assert.rejects(api.call('kinevyn_media_use', { ...editInputProject, referenceAsset: '../cup.png' }));
+  const { job: edit } = await api.call('kinevyn_media_use', editInputProject);
   await writeFile(path.join(store.projectDirectoryFor(store.projectId), 'cup.png'), 'changed after queueing');
   assert.deepEqual(await readFile(path.join(gateway.root, 'work', edit.id, 'reference.png')), png);
-  assert.equal((await api.call('openmotion_media_use', editInputProject)).job.id, edit.id);
+  assert.equal((await api.call('kinevyn_media_use', editInputProject)).job.id, edit.id);
   const edited = await finish(store, edit.id);
   assert.equal(edited.state, 'completed', edited.error); assert.equal(edited.reference?.path, 'cup.png');
   const call = (await submissions()).at(-1)!;
@@ -300,10 +300,10 @@ test('account music, default-voice speech and one-image editing run the matching
   const cup = await new AssetLibrary(store).importFile(source, { requestId: 'account-cup', name: 'Cup' });
   const reference = { assetId: cup.id, versionId: cup.currentVersionId };
   const editInput = { action: 'generate', requestId: 'account-library-edit', model: 'account:fixture-image', modality: 'image', mode: 'text-to-image', prompt: 'make it blue', assetId: cup.id, parentVersionId: cup.currentVersionId, references: [reference] };
-  const queued = await api.call('openmotion_assets_use', editInput);
-  assert.equal((await api.call('openmotion_assets', editInput)).job.id, queued.job.id, 'Compatibility replay must not submit another account edit');
+  const queued = await api.call('kinevyn_assets_use', editInput);
+  assert.equal((await api.call('kinevyn_assets', editInput)).job.id, queued.job.id, 'Compatibility replay must not submit another account edit');
   await finish(store, queued.job.id);
-  const status = await api.call('openmotion_assets_use', { action: 'status', jobId: queued.job.id });
+  const status = await api.call('kinevyn_assets_use', { action: 'status', jobId: queued.job.id });
   assert.equal(status.job.state, 'completed', status.job.error);
   const versions = (await new AssetLibrary(store).get(cup.id)).versions;
   assert.equal(versions.length, 2); assert.deepEqual(versions[1].references, [reference]);
@@ -400,8 +400,8 @@ test('source installations use the connector locked with their dependencies inst
   const packaged = createRequire(import.meta.url)('@powerformer/vela-cli').resolveVelaCliBin() as string | null;
   if (!packaged) return t.skip('The connector has no binary for this platform');
   await fixture(async store => {
-    const explicit = process.env.OPENMOTION_ACCOUNT_CLI; delete process.env.OPENMOTION_ACCOUNT_CLI;
-    t.after(() => { if (explicit !== undefined) process.env.OPENMOTION_ACCOUNT_CLI = explicit; });
+    const explicit = process.env.KINEVYN_ACCOUNT_CLI; delete process.env.KINEVYN_ACCOUNT_CLI;
+    t.after(() => { if (explicit !== undefined) process.env.KINEVYN_ACCOUNT_CLI = explicit; });
     const account = new OpenDesignAccount(store.directory); t.after(() => account.close());
     // Preparation may install; it must pick the checkout's binary before `vela` on PATH or the private installation.
     assert.equal(await account['prepare'](), packaged);
@@ -505,7 +505,7 @@ test('sign-in failures are classified by the stage reached and logged without ac
   assert.deepEqual(created.attempt?.stages, ['attempt_started:started', 'device_auth_create_result:failed:network_error']); assert.equal(created.attempt?.exitCode, 1);
   const missing = await attempt('', { binary: path.join(store.directory, 'missing-connector'), authorize: false });
   assert.equal(missing.errorCode, 'connector_unavailable');
-  assert.equal(missing.error, "The OpenDesign sign-in component set by OPENMOTION_ACCOUNT_CLI couldn't start. Check or clear that path, then select Retry.");
+  assert.equal(missing.error, "The OpenDesign sign-in component set by KINEVYN_ACCOUNT_CLI couldn't start. Check or clear that path, then select Retry.");
   // An explicit connector path is used as is, so the private-directory command would not help it.
   assert.equal(missing.connectorInstall, undefined);
   const denied = await attempt('login-denied');
@@ -597,8 +597,8 @@ test('completed sign-in delivers its source through the shared sender and respec
   const batch = batches[0].batch;
   assert.equal(batch.length, 1); assert.equal(batch[0].event, 'account_sign_in_result');
   const fields = batch[0].properties;
-  assert.equal(fields.outcome, 'success'); assert.equal(fields.product, 'openmotion');
-  assert.equal(fields.source_product, 'openmotion'); assert.equal(fields.source_detail, 'openmotion_editor_login');
+  assert.equal(fields.outcome, 'success'); assert.equal(fields.product, 'kinevyn');
+  assert.equal(fields.source_product, 'kinevyn'); assert.equal(fields.source_detail, 'kinevyn_editor_login');
   assert.equal(fields.amr_user_id, 'fixture-user-id');
   assert.equal(fields.installation_id, installationId); assert.equal(fields.distinct_id, installationId); assert.equal(fields.utm_source, 'creator');
   assert.notEqual(fields.entry_id, fields.attempt_id);
@@ -636,7 +636,7 @@ test('finished sign-in reports the confirmed account only on success, without cr
   const [success, cancelled, failure] = records;
   const { attempt_id: _id, entry_id, entry_occurred_at, duration_ms, prepare_ms, link_ms, approved_ms, ...fixed } = success;
   assert.deepEqual(fixed, { outcome: 'success', connector_version: '0.1.10', resumed: false, last_stage: 'credential_persist_result', last_result: 'success',
-    source_product: 'openmotion', source_detail: 'openmotion_editor_login', amr_user_id: 'fixture-user-id',
+    source_product: 'kinevyn', source_detail: 'kinevyn_editor_login', amr_user_id: 'fixture-user-id',
     browser_opened: true, receipt: 'accepted', exit_code: 0 });
   assert.match(entry_id!, /^[0-9a-f-]{36}$/); assert.notEqual(entry_id, success.attempt_id);
   assert.equal(new Date(entry_occurred_at!).toISOString(), entry_occurred_at);
@@ -755,15 +755,15 @@ test('the subscription page opens in the system browser through a one-time accou
   const target = new URL(targets[0], 'https://open-design.ai'), params = target.searchParams;
   assert.equal(target.pathname, '/dashboard');
   assert.deepEqual([...params.keys()].sort(), ['billing', 'od_entry_at', 'od_entry_id', 'od_entry_source', 'od_origin']);
-  assert.equal(params.get('billing'), 'plan'); assert.equal(params.get('od_origin'), 'openmotion');
-  assert.equal(params.get('od_entry_source'), 'openmotion_manage_subscription');
+  assert.equal(params.get('billing'), 'plan'); assert.equal(params.get('od_origin'), 'kinevyn');
+  assert.equal(params.get('od_entry_source'), 'kinevyn_manage_subscription');
   assert.match(params.get('od_entry_id')!, /^[0-9a-f-]{36}$/); assert.equal(new Date(params.get('od_entry_at')!).toISOString(), params.get('od_entry_at'));
   // Each open carries a fresh entry; a refused or malformed intent still opens the plain page.
   for (const refusal of [() => Response.json({ error: 'unauthorized' }, { status: 401 }), () => Response.json({ intentId: '../evil' }), () => { throw new TypeError('offline'); }]) {
     response = refusal;
     const result = await account.openSubscription(launch);
     assert.equal(new URL(result.url).origin + new URL(result.url).pathname, 'https://open-design.ai/cloud/dashboard');
-    assert.equal(new URL(result.url).searchParams.get('od_origin'), 'openmotion'); assert.equal(result.opened, true);
+    assert.equal(new URL(result.url).searchParams.get('od_origin'), 'kinevyn'); assert.equal(result.opened, true);
   }
   assert.equal(new Set(targets.map(value => new URL(value, 'https://x.test').searchParams.get('od_entry_id'))).size, targets.length);
   // A launcher failure hands the link back to Studio.
@@ -978,7 +978,7 @@ test('media setup discovery rechecks saved and removed keys without executing a 
   gateway.options.fetcher = async () => { throw new Error('Setup must not call a paid model'); };
   const inspect = () => mediaUse(store, { action: 'inspect' });
   const before = await inspect();
-  assert.deepEqual(before.settingsHandoff, { tool: 'openmotion_open_preview', arguments: { target: 'providers', entry: 'agent_media_signed_out' } });
+  assert.deepEqual(before.settingsHandoff, { tool: 'kinevyn_open_preview', arguments: { target: 'providers', entry: 'agent_media_signed_out' } });
   assert.match(before.settings, /Model providers > OpenDesign to sign in or upgrade to Plus/);
   assert.equal(before.providers.some(provider => provider.available), false);
   await gateway.configureProvider('atlascloud', { apiKey: 'synthetic-onboarding-key' });
@@ -1092,7 +1092,7 @@ test('account image recovery through MCP keeps the original task and snapshot wi
     } });
   t.after(() => gateway.close()); await signIn(account); await account.models(true);
   const api = new Phase1Service(store, pluginRoot, { origin: () => 'http://localhost:4173', nativeUrl: () => undefined, openProject: async () => {}, mutation: async task => task(), cancel: async () => {} });
-  const queued = await api.call('openmotion_assets_use', { action: 'generate', model: 'account:fixture-image', modality: 'image', prompt: 'original prompt', requestId: 'original-download' });
+  const queued = await api.call('kinevyn_assets_use', { action: 'generate', model: 'account:fixture-image', modality: 'image', prompt: 'original prompt', requestId: 'original-download' });
   const failed = await finish(store, queued.job.id);
   assert.equal(failed.state, 'failed'); assert.equal(failed.download?.receivedBytes, 32); assert.equal(downloads, 3);
   assert.doesNotMatch(JSON.stringify(failed), /private signed|media.example/);
@@ -1106,7 +1106,7 @@ test('account image recovery through MCP keeps the original task and snapshot wi
   assert.equal((await stat(path.join(gateway.root, 'work', failed.id, 'image.partial'))).size, 32);
   assert.equal((await stat(unfinishedOutput)).size, 16);
   interrupted = false;
-  const resumed = await api.call('openmotion_assets_use', { action: 'resume', jobId: failed.id, requestId: 'resume-original' });
+  const resumed = await api.call('kinevyn_assets_use', { action: 'resume', jobId: failed.id, requestId: 'resume-original' });
   assert.equal(resumed.job.id, failed.id);
   const duplicate = await gateway.resume(failed.id, 'resume-original'); assert.equal(duplicate.id, failed.id);
   const completed = await finish(store, failed.id);
@@ -1135,7 +1135,7 @@ async function interruptedAccountImage(t: any, store: any) {
   t.after(() => gateway.close()); await signIn(account); await account.models(true);
   const api = new Phase1Service(store, pluginRoot, { origin: () => 'http://localhost:4173', nativeUrl: () => undefined,
     openProject: async () => {}, mutation: async task => task(), cancel: async () => {} });
-  const queued = await api.call('openmotion_assets_use', { action: 'generate', model: 'account:fixture-image', modality: 'image', prompt: 'original prompt', requestId: 'interrupted-image' });
+  const queued = await api.call('kinevyn_assets_use', { action: 'generate', model: 'account:fixture-image', modality: 'image', prompt: 'original prompt', requestId: 'interrupted-image' });
   const failed = await finish(store, queued.job.id);
   assert.equal(failed.state, 'failed'); assert.equal(failed.download?.receivedBytes, 32);
   return { gateway, account, api, failed, downloads: () => downloads, directory: path.join(gateway.root, 'work', failed.id) };
@@ -1155,7 +1155,7 @@ test('account image recovery replaces an output left before manifest commit usin
   assert.deepEqual(JSON.parse(await readFile(path.join(directory, 'image-download.json'), 'utf8')), checkpoint);
   await assert.rejects(access(path.join(directory, 'outputs.json')));
   const before = downloads();
-  await api.call('openmotion_assets_use', { action: 'resume', jobId: failed.id, requestId: 'resume-complete-download' });
+  await api.call('kinevyn_assets_use', { action: 'resume', jobId: failed.id, requestId: 'resume-complete-download' });
   const completed = await finish(store, failed.id);
   assert.equal(completed.state, 'completed', completed.error); assert.equal(completed.remoteId, failed.remoteId);
   assert.equal(downloads(), before, 'the verified complete download needs no new transfer');
@@ -1169,12 +1169,12 @@ test('cancelling a queued account image recovery removes partial files despite a
   const { gateway, account, api, failed, downloads, directory } = await interruptedAccountImage(t, store);
   assert(failed.startedAt); assert.equal(failed.workerPid, process.pid);
   await access(path.join(directory, 'image.partial')); await access(path.join(directory, 'image-download.json'));
-  await api.call('openmotion_assets_use', { action: 'resume', jobId: failed.id, requestId: 'resume-then-cancel' });
+  await api.call('kinevyn_assets_use', { action: 'resume', jobId: failed.id, requestId: 'resume-then-cancel' });
   assert.equal((await gateway.getJob(failed.id)).state, 'queued');
   const before = downloads();
-  await api.call('openmotion_assets_use', { action: 'cancel', jobId: failed.id });
+  await api.call('kinevyn_assets_use', { action: 'cancel', jobId: failed.id });
   await assert.rejects(access(directory));
-  await api.call('openmotion_assets_use', { action: 'cancel', jobId: failed.id });
+  await api.call('kinevyn_assets_use', { action: 'cancel', jobId: failed.id });
   await gateway.tick();
   const restarted = new ModelGateway(store); t.after(() => restarted.close());
   assert.equal((await restarted.cancel(failed.id)).state, 'cancelled'); await restarted.tick();
@@ -1218,7 +1218,7 @@ test('account video first-frame uses --first-frame and OpenDesign providers reje
   const source = path.join(store.directory, 'first-frame.png'); await writeFile(source, png);
   const frame = await new AssetLibrary(store).importFile(source, { requestId: 'account-first-frame', name: 'First Frame' });
   const reference = { assetId: frame.id, versionId: frame.currentVersionId };
-  const queued = await api.call('openmotion_assets_use', {
+  const queued = await api.call('kinevyn_assets_use', {
     action: 'generate', requestId: 'account-video-i2v', model: 'account:fixture-i2v', modality: 'video', prompt: 'slow camera push', references: [reference],
   });
   const completed = await finish(store, queued.job.id);
@@ -1238,11 +1238,11 @@ test('account video first-frame uses --first-frame and OpenDesign providers reje
   const oversized = await new AssetLibrary(store).importFile(oversizedPath, { requestId: 'oversized-ref', name: 'Oversized' });
   const oversizedRef = { assetId: oversized.id, versionId: oversized.currentVersionId };
   await assert.rejects(
-    api.call('openmotion_assets_use', { action: 'generate', requestId: 'account-too-large', model: 'account:fixture-image', modality: 'image', prompt: 'edit', references: [oversizedRef] }),
+    api.call('kinevyn_assets_use', { action: 'generate', requestId: 'account-too-large', model: 'account:fixture-image', modality: 'image', prompt: 'edit', references: [oversizedRef] }),
     /2 MiB OpenDesign upload limit/,
   );
   await assert.rejects(
-    api.call('openmotion_assets_use', { action: 'generate', requestId: 'account-i2v-too-large', model: 'account:fixture-i2v', modality: 'video', prompt: 'animate', references: [oversizedRef] }),
+    api.call('kinevyn_assets_use', { action: 'generate', requestId: 'account-i2v-too-large', model: 'account:fixture-i2v', modality: 'video', prompt: 'animate', references: [oversizedRef] }),
     /2 MiB OpenDesign upload limit/,
   );
   assert.equal((JSON.parse(await readFile(path.join(account.home, 'submissions.json'), 'utf8')) as string[][]).length, 1);

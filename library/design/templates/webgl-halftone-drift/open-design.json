@@ -26,9 +26,9 @@
   "license": "MIT",
   "author": {
     "name": "OpenDesign",
-    "url": "https://github.com/nexu-io"
+    "url": "https://github.com/rivyn-labs"
   },
-  "homepage": "https://github.com/nexu-io/open-design/tree/main/plugins/_official/examples/webgl-halftone-drift",
+  "homepage": "https://github.com/rivyn-labs/open-design/tree/main/plugins/_official/examples/webgl-halftone-drift",
   "tags": [
     "example",
     "first-party",

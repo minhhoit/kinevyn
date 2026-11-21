@@ -6,7 +6,7 @@ export function renderFilenameStem(title: string | undefined): string {
     if (Buffer.byteLength(stem + char, 'utf8') > 200) break;
     stem += char;
   }
-  stem = stem.replace(/[. ]+$/u, '') || 'OpenMotion';
+  stem = stem.replace(/[. ]+$/u, '') || 'Kinevyn';
   if (/^(?:con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i.test(stem)) stem = '_' + stem;
   return stem;
 }

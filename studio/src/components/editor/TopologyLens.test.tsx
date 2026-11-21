@@ -78,7 +78,7 @@ function finish(
           changed,
           evidence:
             stage === "dispatched"
-              ? { kind: "dispatch", followUp: "openmotion_studio_inspect" }
+              ? { kind: "dispatch", followUp: "kinevyn_studio_inspect" }
               : { kind: "content-version", sourceFile: "index.html", version: "v1" },
         };
   act(() => studioEditLifecycle.finish(callId, result));

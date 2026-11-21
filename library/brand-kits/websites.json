@@ -1,5 +1,5 @@
 {
-  "source": "https://github.com/nexu-io/open-design/blob/59e4f2ae85de7e7318a5e6bdcf3a34584c4b7582/apps/web/src/components/design-system-metadata.ts",
+  "source": "https://github.com/rivyn-labs/open-design/blob/59e4f2ae85de7e7318a5e6bdcf3a34584c4b7582/apps/web/src/components/design-system-metadata.ts",
   "license": "Apache-2.0; see OPENDESIGN-LICENSE.txt",
   "additionalSources": {
     "cloudflare-kumo": "sources/cloudflare-kumo/DESIGN.md",

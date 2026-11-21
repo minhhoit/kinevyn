@@ -58,7 +58,7 @@ try {
     }, css) as BrandSample;
     sample.name = manifest.name; sample.title = manifest.name;
     sample.style = validateBrandStyle(sample.style);
-    const sourceUrl = `https://github.com/nexu-io/open-design/tree/${revision}/design-systems/${id}`;
+    const sourceUrl = `https://github.com/rivyn-labs/open-design/tree/${revision}/design-systems/${id}`;
     const bytes = sample.style.background.slice(1).match(/../g)!.map(x => parseInt(x, 16));
     const rgb = sample.style.primary.slice(1).match(/../g)!.map(x => parseInt(x, 16) / 255);
     const max = Math.max(...rgb), min = Math.min(...rgb), delta = max - min;
@@ -78,6 +78,6 @@ try {
 await mkdir(path.join(output, 'assets'), { recursive: true });
 await copyFile(path.join(root, 'node_modules/gsap/dist/gsap.min.js'), path.join(output, 'assets/gsap.min.js'));
 await copyFile(path.join(source, 'LICENSE'), path.join(output, 'OPENDESIGN-LICENSE.txt'));
-const catalog: BrandCatalog = { schemaVersion: 1, repository: 'https://github.com/nexu-io/open-design', revision, entries };
+const catalog: BrandCatalog = { schemaVersion: 1, repository: 'https://github.com/rivyn-labs/open-design', revision, entries };
 await writeFile(path.join(output, 'catalog.json'), JSON.stringify(catalog) + '\n');
 console.log(`Imported ${entries.length} design systems at ${revision}`);

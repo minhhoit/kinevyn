@@ -1,15 +1,15 @@
 {
-  "name": "@openmotion/app",
-  "repository": { "type": "git", "url": "git+https://github.com/nexu-io/openmotion.git" },
+  "name": "@kinevyn/app",
+  "repository": { "type": "git", "url": "git+https://github.com/rivyn-labs/kinevyn.git" },
   "version": "0.6.3-local.1",
   "private": true,
-  "description": "OpenMotion application, MCP and Skills installer for local Agent hosts",
+  "description": "Kinevyn application, MCP and Skills installer for local Agent hosts",
   "type": "module",
   "engines": {
     "node": ">=22.18.0"
   },
   "bin": {
-    "openmotion": "scripts/npm-installer.mjs"
+    "kinevyn": "scripts/npm-installer.mjs"
   },
   "files": [
     "scripts/",

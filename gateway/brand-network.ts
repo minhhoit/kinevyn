@@ -85,7 +85,7 @@ export async function resolveBrandAddresses(hostname: string, signal: AbortSigna
     throw new Error('Website points to a private network');
   return addresses;
 }
-const defaultUserAgent = "Mozilla/5.0 OpenMotion-BrandKit/1.0";
+const defaultUserAgent = "Mozilla/5.0 Kinevyn-BrandKit/1.0";
 const browserUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36";
 
 function fetchWithAgent(

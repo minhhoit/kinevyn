@@ -11,13 +11,13 @@ export const toolNames = ['motion_assets', 'motion_media_use', 'motion_list_temp
 const outcome = ['success', 'failure', 'partial', 'cancelled', 'unknown'] as const;
 export const mcpToolNames = [...toolNames, 'motion_show_video', 'motion_show_template_recommendations'] as const;
 const tool = { tool_name: mcpToolNames, ...toolDimensions, call_id: 'uuid', operation_id: 'uuid', accepted: 'boolean' } as const;
-export const webMcpToolNames = ['openmotion_assets_use', 'openmotion_assets', 'openmotion_media_use', 'openmotion_list_templates', 'openmotion_get_template', 'openmotion_list_skills', 'openmotion_get_skill',
-  'openmotion_create_project', 'openmotion_open_preview', 'openmotion_import_assets', 'openmotion_get_project',
-  'openmotion_edit_project', 'openmotion_export_request', 'openmotion_list_versions', 'openmotion_restore_version',
-  'openmotion_export_cancel', 'openmotion_project_archive', 'openmotion_manage_project',
-  'openmotion_design_catalog', 'openmotion_design_project', 'openmotion_design_edit', 'openmotion_design_comments',
-  'openmotion_studio_look', 'openmotion_studio_select', 'openmotion_studio_seek',
-  'openmotion_studio_frame', 'openmotion_studio_inspect'] as const;
+export const webMcpToolNames = ['kinevyn_assets_use', 'kinevyn_assets', 'kinevyn_media_use', 'kinevyn_list_templates', 'kinevyn_get_template', 'kinevyn_list_skills', 'kinevyn_get_skill',
+  'kinevyn_create_project', 'kinevyn_open_preview', 'kinevyn_import_assets', 'kinevyn_get_project',
+  'kinevyn_edit_project', 'kinevyn_export_request', 'kinevyn_list_versions', 'kinevyn_restore_version',
+  'kinevyn_export_cancel', 'kinevyn_project_archive', 'kinevyn_manage_project',
+  'kinevyn_design_catalog', 'kinevyn_design_project', 'kinevyn_design_edit', 'kinevyn_design_comments',
+  'kinevyn_studio_look', 'kinevyn_studio_select', 'kinevyn_studio_seek',
+  'kinevyn_studio_frame', 'kinevyn_studio_inspect'] as const;
 const webMcp = { tool_name: webMcpToolNames, transport: ['webmcp'] } as const;
 const generation = { modality: ['image', 'video', 'audio'] } as const;
 // Studio project ids are UUIDs except the built-in local project, whose id is the literal `project`.
@@ -31,7 +31,7 @@ const videoDuration = { video_duration_bucket: ['lt_15s', '15_60s', '1_3min', '3
 const business = { outcome, project_id: 'uuid', operation_id: 'uuid', replayed: 'boolean', ...toolFailureDimensions } as const;
 // A template is identified by its catalogue id only; titles, authors and URLs are never fields.
 const template = { template_id: 'slug' } as const;
-// Template library browsing. Names follow the shared OpenMotion tracking sheet so website and editor funnels line up.
+// Template library browsing. Names follow the shared Kinevyn tracking sheet so website and editor funnels line up.
 const hosts = ['codex', 'claude', 'deepseek', 'chatgpt', 'mcp'] as const;
 const sortOrder = ['recommended', 'name', 'reverse', 'duration'] as const;
 // Where a card or detail came from: the gallery, the related strip, random discovery or previous/next in the detail.
@@ -117,7 +117,7 @@ export const omEvents = {
   // sign-in continues with a new attempt. Times are milliseconds since the click. Stage values come from the connector
   // protocol; only confirmed account IDs are allowed, never links, authorization codes or credentials.
   account_sign_in_result: { producers: ['mcp'], fields: { attempt_id: 'uuid', outcome: ['success', 'failure', 'cancelled', 'replaced'],
-    source_product: ['openmotion'], source_detail: ['openmotion_editor_login'], entry_id: 'uuid', entry_occurred_at: 'timestamp', amr_user_id: 'code',
+    source_product: ['kinevyn'], source_detail: ['kinevyn_editor_login'], entry_id: 'uuid', entry_occurred_at: 'timestamp', amr_user_id: 'code',
     error_code: ['connector_unavailable', 'setup_failed', 'authorization_expired', 'credentials_rejected'],
     connector_problem: ['npm_missing', 'install_failed', 'start_failed'], connector_version: 'code', resumed: 'boolean',
     last_stage: accountStages, last_result: ['started', 'success', 'failed'], error_kind: accountErrorKinds, browser_opened: 'boolean',

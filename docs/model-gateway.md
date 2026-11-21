@@ -18,7 +18,7 @@ Updated: 2026-11-15.
 
 The application rail and bottom account menu open the settings center. **Model providers** includes dedicated media adapters, the provider preset directory, custom connections and account models. Users can save/remove masked keys, enable providers, sync/search/filter models, add exact model IDs and select defaults. Environment keys remain separately identified. **Account** connects an OpenDesign identity, retrieves subscription/balance and synchronizes enabled models alongside BYOK. The existing OpenDesign Cloud origin/key configuration remains a separate connection. See [provider settings](provider-settings.md) for protocol coverage, private storage and account limitations.
 
-The public `openmotion_media_use` Tool has inspect, reference, models, generate, status, cancel, retry_save and resume actions. The media Skill's [job procedure](../skills/openmotion-media/references/jobs.md#provider-references) links to the provider references, including account and compatible API guides, available through action=reference and media workflow resources (older production provider URIs return the same bodies). Generate requires explicit projectId and stable requestId. Optional referenceAsset forwards one project-relative image to the existing capability-checked image-edit pipeline, including immutable snapshotting and project ownership checks. Dedicated media adapters can accept provider-native model IDs directly. Compatible/account generation uses registered or remotely discovered media models. The service reads credentials, constructs supported provider requests, persists the task, downloads and validates output, saves an immutable version in the local workspace asset library, and keeps an independent copy under the initiating project's assets/generated. Status returns libraryAssets (assetId/versionId) alongside the existing assets project paths. Saving failures retain complete local outputs and set savePending; action=retry_save with the original projectId/jobId and a stable requestId retries local saving only, without credentials, a provider request or another charge. Incomplete/interrupted provider generation is never resubmitted automatically. Poll the original job instead of submitting again. A completed task does not place media on the timeline; re-read current revision/version before editing project source.
+The public `kinevyn_media_use` Tool has inspect, reference, models, generate, status, cancel, retry_save and resume actions. The media Skill's [job procedure](../skills/kinevyn-media/references/jobs.md#provider-references) links to the provider references, including account and compatible API guides, available through action=reference and media workflow resources (older production provider URIs return the same bodies). Generate requires explicit projectId and stable requestId. Optional referenceAsset forwards one project-relative image to the existing capability-checked image-edit pipeline, including immutable snapshotting and project ownership checks. Dedicated media adapters can accept provider-native model IDs directly. Compatible/account generation uses registered or remotely discovered media models. The service reads credentials, constructs supported provider requests, persists the task, downloads and validates output, saves an immutable version in the local workspace asset library, and keeps an independent copy under the initiating project's assets/generated. Status returns libraryAssets (assetId/versionId) alongside the existing assets project paths. Saving failures retain complete local outputs and set savePending; action=retry_save with the original projectId/jobId and a stable requestId retries local saving only, without credentials, a provider request or another charge. Incomplete/interrupted provider generation is never resubmitted automatically. Poll the original job instead of submitting again. A completed task does not place media on the timeline; re-read current revision/version before editing project source.
 
 fal, Atlas Cloud and WaveSpeedAI support image/video/audio model endpoints with model-specific parameters. Atlas Cloud reuses its prediction adapter; WaveSpeed submits to /api/v3/{model} and polls /api/v3/predictions/{id}/result. WaveSpeed discovery uses the saved key, while Atlas/fal catalogues are public. Environment alternatives are ATLASCLOUD_API_KEY and WAVESPEED_API_KEY. For speech, mode=text-to-speech maps the prompt to text. Cloud supports text-to-image, multi-reference image edits, text-to-video, first-frame image-to-video, speech (with returned timestamps) and music. Discovery preserves audio_speech/audio_music as separate modes; speech requires parameters.voice except for `elevenlabs-v3` and `byteplus-tts-2`, which default to their first checked voice (see generation-options.md), while music sends provider-native parameters and the prompt to /audio/music without a voice requirement. Cloud uploads queued reference snapshots itself; other dedicated adapters do not upload local references. Parameters can include references already hosted according to the provider contract; local paths are not uploaded automatically.
 
@@ -36,7 +36,7 @@ Existing local Codex configuration, generation UI and legacy Gateway APIs remain
 | verification verified / rejected | 云供应商生成请求返回过媒体结果，或收到 401/403；更换 Key 重置状态。验证通过不保证后续下载/入库或未来请求成功 |
 | job completed | 文件已下载、类型校验并保存；不是仅收到远端任务 ID |
 
-本地检测包括 Codex、Claude Code、Gemini CLI。当前只有 Codex 注册了本地媒体适配器，其他 Agent 的安装结果不会被当成生图能力。Codex 要求 CLI 支持 `--ephemeral`，`codex login status` 显示已登录，`codex features list` 的 `image_generation` 开启。使用用户已有 CLI 配置和登录，以独立临时工作目录运行 `codex exec`；不读取或复制 OAuth token，不调用私有后端接口。Success requires one newly created, regular raster file in the isolated job directory and the existing media-signature validation. The adapter reads bounded JSON completion/error events and relevant image-service diagnostics; it does not persist the raw CLI transcript. Reference files, stale outputs, symlinks and arbitrary paths in model replies are excluded. The CLI inherits the user's active Codex provider, endpoint and authentication configuration. A CLI login check does not establish image-service authorization. A proxy response of `personal engine key required` is reported separately from general authorization failures: verify that Codex `model_provider` selects the intended configured provider and that its endpoint and authentication match. Merely defining a provider does not select it, and signing in again does not supply a proxy key. OpenMotion does not edit Codex configuration or copy credentials. Other authorization failures direct users to inspect the active provider and account session without asserting that the login expired. No automatic retry or provider switch occurs.
+本地检测包括 Codex、Claude Code、Gemini CLI。当前只有 Codex 注册了本地媒体适配器，其他 Agent 的安装结果不会被当成生图能力。Codex 要求 CLI 支持 `--ephemeral`，`codex login status` 显示已登录，`codex features list` 的 `image_generation` 开启。使用用户已有 CLI 配置和登录，以独立临时工作目录运行 `codex exec`；不读取或复制 OAuth token，不调用私有后端接口。Success requires one newly created, regular raster file in the isolated job directory and the existing media-signature validation. The adapter reads bounded JSON completion/error events and relevant image-service diagnostics; it does not persist the raw CLI transcript. Reference files, stale outputs, symlinks and arbitrary paths in model replies are excluded. The CLI inherits the user's active Codex provider, endpoint and authentication configuration. A CLI login check does not establish image-service authorization. A proxy response of `personal engine key required` is reported separately from general authorization failures: verify that Codex `model_provider` selects the intended configured provider and that its endpoint and authentication match. Merely defining a provider does not select it, and signing in again does not supply a proxy key. Kinevyn does not edit Codex configuration or copy credentials. Other authorization failures direct users to inspect the active provider and account session without asserting that the login expired. No automatic retry or provider switch occurs.
 
 请求中的明确模型优先，其次是该模态的默认路由，最后才自动选择可用的文本生成模型（图片优先本地 Codex）。已配置的路由不可用时明确失败，不自动换成另一个付费供应商。
 
@@ -85,29 +85,29 @@ Register dedicated providers in `shared/provider-registry.ts` and compatible pre
 
 所有 HTTP 写请求沿用本机 Host / 同源校验。
 
-Studio 与 MCP 复用 `ModelGateway` 业务层及工作区文件，但不要求处于同一进程。`openmotion_generate_asset` 先确保工作区服务启动；HTTP 提交要求原生 Studio 服务就绪。持久化任务由 `server.ts` 的 worker 领取执行，关闭生成面板不会取消任务，本地服务停止则影响执行。
+Studio 与 MCP 复用 `ModelGateway` 业务层及工作区文件，但不要求处于同一进程。`kinevyn_generate_asset` 先确保工作区服务启动；HTTP 提交要求原生 Studio 服务就绪。持久化任务由 `server.ts` 的 worker 领取执行，关闭生成面板不会取消任务，本地服务停止则影响执行。
 
 | HTTP | MCP |
 | --- | --- |
-| `GET /motion-api/models/capabilities` | `openmotion_get_capabilities` |
-| `GET /motion-api/models` | `openmotion_list_models` |
-| `PUT /motion-api/models/providers/:provider` | `openmotion_configure_provider` |
-| `PUT /motion-api/models/routes/:modality` | `openmotion_set_model_route` |
-| `POST /motion-api/models/custom` | `openmotion_register_model` |
-| `POST /motion-api/generations` | `openmotion_generate_asset` |
-| `GET /motion-api/generations/:id` | `openmotion_get_generation` |
-| `GET /motion-api/generations?projectId=…` | `openmotion_list_generations` |
-| `POST /motion-api/generations/:id/cancel` | `openmotion_cancel_generation` |
+| `GET /motion-api/models/capabilities` | `kinevyn_get_capabilities` |
+| `GET /motion-api/models` | `kinevyn_list_models` |
+| `PUT /motion-api/models/providers/:provider` | `kinevyn_configure_provider` |
+| `PUT /motion-api/models/routes/:modality` | `kinevyn_set_model_route` |
+| `POST /motion-api/models/custom` | `kinevyn_register_model` |
+| `POST /motion-api/generations` | `kinevyn_generate_asset` |
+| `GET /motion-api/generations/:id` | `kinevyn_get_generation` |
+| `GET /motion-api/generations?projectId=…` | `kinevyn_list_generations` |
+| `POST /motion-api/generations/:id/cancel` | `kinevyn_cancel_generation` |
 
 典型 Agent 流程：
 
-1. `openmotion_get_capabilities` 检查状态；`openmotion_list_models` 取得模型键及生成模式。
-2. 发起 `openmotion_generate_asset({modality:"image", prompt:"…", model:"codex:image-generation", idempotencyKey:"scene-1-image-v1"})`。
-3. 轮询 `openmotion_get_generation({jobId})`。只使用 `completed` 且 `assets[].available !== false` 的素材。不要将任务 ID 当作文件。
+1. `kinevyn_get_capabilities` 检查状态；`kinevyn_list_models` 取得模型键及生成模式。
+2. 发起 `kinevyn_generate_asset({modality:"image", prompt:"…", model:"codex:image-generation", idempotencyKey:"scene-1-image-v1"})`。
+3. 轮询 `kinevyn_get_generation({jobId})`。只使用 `completed` 且 `assets[].available !== false` 的素材。不要将任务 ID 当作文件。
 4. 核对 job 的 `projectId`，读取该工程的新 revision，再将 `assets[].path` 写入 HTML 的原生 image/video/audio 元素。
 5. 使用现有 lint、预览、导出和验证工具完成影片。
 
-参考图修改使用同一 `openmotion_generate_asset`，增加 `referenceAsset:"assets/original.png"` 并选择 `supportsImageReference:true` 的图片模型。输入只接受发起工程内的 PNG/JPEG/WebP 文件：OpenDesign 账号/Cloud 通道限制不超过 2 MiB，其他本地适配器保持 20 MB 上限。提交时创建不可变副本并记录路径、SHA-256、字节数；原文件在排队后变动不会改变该任务输入。任务仍只生成新文件，MCP 调用方另行决定是否写入合成。
+参考图修改使用同一 `kinevyn_generate_asset`，增加 `referenceAsset:"assets/original.png"` 并选择 `supportsImageReference:true` 的图片模型。输入只接受发起工程内的 PNG/JPEG/WebP 文件：OpenDesign 账号/Cloud 通道限制不超过 2 MiB，其他本地适配器保持 20 MB 上限。提交时创建不可变副本并记录路径、SHA-256、字节数；原文件在排队后变动不会改变该任务输入。任务仍只生成新文件，MCP 调用方另行决定是否写入合成。
 
 ## 数据、并发与限制
 
@@ -127,7 +127,7 @@ Configuration, catalogues, jobs and staging files live under `MOTION_DATA_DIR/mo
 
 服务端测试见 `tests/gateway.test.ts`；Studio 流程测试见 `studio/src/motion/MediaGateway.test.tsx`。真实账户调用与导出应在隔离工程中独立验收。云接口的协议测试使用受控响应；未配置云 Key 时不能将这些测试称为付费生图/生视频/语音的真实验证。
 
-实现参考：本地 Codex Canvas 的能力目录与 Agent 检测分层，以及 [Codex Slides agents](https://github.com/nexu-io/codex-slides/blob/master/src/lib/agents.ts) / [image adapter](https://github.com/nexu-io/codex-slides/blob/master/src/lib/codex-image.ts) 的能力入口；本项目选用本机 CLI，不复制其中的 OAuth 私有接口方案。UI 参考用户提供的 Hyperframes Studio 截图，并复用仓库内 Hyperframes 0.9.7 的原生素材/时间轴逻辑。
+实现参考：本地 Codex Canvas 的能力目录与 Agent 检测分层，以及 [Codex Slides agents](https://github.com/rivyn-labs/codex-slides/blob/master/src/lib/agents.ts) / [image adapter](https://github.com/rivyn-labs/codex-slides/blob/master/src/lib/codex-image.ts) 的能力入口；本项目选用本机 CLI，不复制其中的 OAuth 私有接口方案。UI 参考用户提供的 Hyperframes Studio 截图，并复用仓库内 Hyperframes 0.9.7 的原生素材/时间轴逻辑。
 
 供应商协议依据：[Atlas predictions](https://www.atlascloud.ai/docs/en/predictions)、[fal Queue API](https://fal.ai/docs/documentation/model-apis/inference/queue)、[fal 模型目录](https://fal.ai/docs/platform-apis/v1/models)，核查日期 2026-11-04。
 

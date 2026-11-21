@@ -16,11 +16,11 @@ const valid = { GITHUB_REPOSITORY: repository, GITHUB_EVENT_NAME: 'workflow_disp
   GITHUB_WORKFLOW_REF: `${repository}/${publicationWorkflow}@refs/heads/main`, MOTION_VERSION: '0.6.4-test.99', MOTION_RELEASE_ACTION: 'publish-test', MOTION_EXPECTED_SHA256: 'a'.repeat(64) };
 const origin = { id: 123, run_attempt: 1, event: 'workflow_dispatch', head_branch: 'main', head_repository: { full_name: repository }, status: 'completed', conclusion: 'success', path: candidateWorkflow, head_sha: 'b'.repeat(40) };
 const artifact = { id: 456, name: 'motion-candidate-0.6.4-test.99', workflow_run: { id: 123 }, expired: false, size_in_bytes: 100, digest: 'sha256:' + 'a'.repeat(64) };
-test('renamed OpenMotion accepts manual releases from main and rejects retired identities', () => {
-  const entry = { ...valid, GITHUB_REPOSITORY: 'nexu-io/openmotion', GITHUB_REF: 'refs/heads/main',
-    GITHUB_WORKFLOW_REF: `nexu-io/openmotion/${publicationWorkflow}@refs/heads/main` };
+test('renamed Kinevyn accepts manual releases from main and rejects retired identities', () => {
+  const entry = { ...valid, GITHUB_REPOSITORY: 'rivyn-labs/kinevyn', GITHUB_REF: 'refs/heads/main',
+    GITHUB_WORKFLOW_REF: `rivyn-labs/kinevyn/${publicationWorkflow}@refs/heads/main` };
   assert.equal(releaseInputs(entry).action, 'publish-test');
-  assert.throws(() => releaseInputs({ ...entry, GITHUB_REPOSITORY: 'nexu-io/html-anything' }));
+  assert.throws(() => releaseInputs({ ...entry, GITHUB_REPOSITORY: 'rivyn-labs/html-anything' }));
   assert.throws(() => releaseInputs({ ...entry, GITHUB_REF: 'refs/heads/feature/motion' }));
 });
 
@@ -59,7 +59,7 @@ test('candidate CLI numbers the frozen Motion source, not the legacy control che
   await writeFile(path.join(directory, 'package.json'), JSON.stringify({ version: '0.1.0' }));
   const output = path.join(directory, 'output'), script = fileURLToPath(new URL('../.github/scripts/motion-release.mjs', import.meta.url));
   const mockRegistry = path.join(directory, 'registry.mjs');
-  await writeFile(mockRegistry, "globalThis.fetch = async url => { if (url !== 'https://registry.npmjs.org/@openmotion%2fapp') throw Error('Unexpected network access'); return Response.json({'dist-tags': {test: '0.6.4-test.6'}}); };\n");
+  await writeFile(mockRegistry, "globalThis.fetch = async url => { if (url !== 'https://registry.npmjs.org/@kinevyn%2fapp') throw Error('Unexpected network access'); return Response.json({'dist-tags': {test: '0.6.4-test.6'}}); };\n");
   for (const [source, version, run, attempt, expected] of [
     ['', '', '2', '1', '0.6.4-test.7'],
     [commit, '', '2', '2', '0.6.4-test.7.2'],
@@ -185,8 +185,8 @@ test('the sealed candidate detects tgz, guide, identity and provenance tampering
   assert(instructions.includes('npx --yes --package "./' + candidate.tgz + '"'));
   const [installation, acceptance] = instructions.split('\n## Video preparation and requested acceptance\n');
   assert.deepEqual([...installation.matchAll(/^\s*npx[^\n]+/gm)].map(match => match[0].trim()),
-    [`npx --yes --package "./${candidate.tgz}" -- openmotion setup --host HOST`], 'Default installation must not block on prepare');
-  assert(acceptance?.includes(`npx --yes --package "./${candidate.tgz}" -- openmotion prepare`), 'Requested video acceptance retains the exact local prepare command');
+    [`npx --yes --package "./${candidate.tgz}" -- kinevyn setup --host HOST`], 'Default installation must not block on prepare');
+  assert(acceptance?.includes(`npx --yes --package "./${candidate.tgz}" -- kinevyn prepare`), 'Requested video acceptance retains the exact local prepare command');
   assert(instructions.includes('Repeat the same explicit `--home` used for setup'));
   assert(!instructions.includes('{{'));
   assert(!checklist.includes('<!-- CANDIDATE_IDENTITY -->'));
@@ -205,7 +205,7 @@ test('the sealed candidate detects tgz, guide, identity and provenance tampering
 });
 
 for (const [branch, receiptRepository] of [
-  ['main', repository], ['feature/motion', repository], ['feature/motion', 'nexu-io/html-anything'],
+  ['main', repository], ['feature/motion', repository], ['feature/motion', 'rivyn-labs/html-anything'],
 ]) test(`artifact download binds ${branch} / ${receiptRepository} provenance and does not forward credentials to signed URLs`, async t => {
   const f = await candidateFixture(t), zip = path.join(f.work, 'candidate.zip');
   // Simulate a frozen producer receipt; new candidate builds are main-only.
@@ -236,8 +236,8 @@ for (const [branch, receiptRepository] of [
 });
 
 test('repository rename accepts historical receipts but rejects old live callers and foreign receipts', async t => {
-  assert.equal(repository, 'nexu-io/openmotion');
-  const oldRepository = 'nexu-io/html-anything';
+  assert.equal(repository, 'rivyn-labs/kinevyn');
+  const oldRepository = 'rivyn-labs/html-anything';
   assert.throws(() => releaseInputs({ ...valid, GITHUB_REPOSITORY: oldRepository,
     GITHUB_WORKFLOW_REF: `${oldRepository}/${publicationWorkflow}@refs/heads/feature/motion` }), /Wrong repository/);
   assert.throws(() => validateRun({ ...origin, head_repository: { full_name: oldRepository } }, artifact, '0.6.4-test.99'));
@@ -286,7 +286,7 @@ test('a stale candidate or authorization from another run cannot publish or move
 test('test promotion does not wait for native reports and still protects the channel', async t => {
   const f = await candidateFixture(t); let writes = 0, tag = '0.6.4-test.1';
   const options = { env: f.env, fetcher: () => registry(f.candidate, true, tag)(), run: async (command, args) => {
-    assert.equal(command, 'npm'); assert.deepEqual(args.slice(0, 4), ['dist-tag', 'add', '@openmotion/app@' + f.candidate.version, 'test']);
+    assert.equal(command, 'npm'); assert.deepEqual(args.slice(0, 4), ['dist-tag', 'add', '@kinevyn/app@' + f.candidate.version, 'test']);
     writes++; tag = f.candidate.version;
   } };
   await rm(path.join(f.directory, 'registry-win32-x64.json'));
@@ -494,7 +494,7 @@ sudo() {
 });
 
 function storage(candidate) {
-  const objects = new Map([['open-motion/dev/install.md', Buffer.from('# Install OpenMotion 0.6.4-test.1\n')]]), writes = [], reads = [];
+  const objects = new Map([['open-motion/dev/install.md', Buffer.from('# Install Kinevyn 0.6.4-test.1\n')]]), writes = [], reads = [];
   let failKey;
   const run = async (command, args) => {
     assert.equal(command, 'aws'); const op = args[args.indexOf('s3api') + 1], key = args[args.indexOf('--key') + 1];
@@ -512,10 +512,10 @@ test('interrupted archive resumes identical snapshots, verifies the exact public
   const f = await candidateFixture(t), store = storage(f.candidate), prefix = `open-motion/dev/${f.candidate.version}`;
   store.fail(prefix + '/install-record.json');
   await assert.rejects(archiveRelease(f.directory, f.inputs, config, store), /interruption/);
-  assert.equal(store.objects.get('open-motion/dev/install.md').toString(), '# Install OpenMotion 0.6.4-test.1\n');
+  assert.equal(store.objects.get('open-motion/dev/install.md').toString(), '# Install Kinevyn 0.6.4-test.1\n');
   store.fail(null); await archiveRelease(f.directory, f.inputs, config, store);
   assert.equal(store.writes.at(-1), 'open-motion/dev/install.md');
-  assert.equal(await readFile(path.join(f.directory, 'previous-install.md'), 'utf8'), '# Install OpenMotion 0.6.4-test.1\n');
+  assert.equal(await readFile(path.join(f.directory, 'previous-install.md'), 'utf8'), '# Install Kinevyn 0.6.4-test.1\n');
   const before = store.writes.length; await archiveRelease(f.directory, f.inputs, config, store); assert.equal(store.writes.length, before);
   store.objects.set(prefix + '/release-npm.json', Buffer.from('different snapshot'));
   await assert.rejects(archiveRelease(f.directory, f.inputs, config, store), /Immutable snapshot/);
@@ -601,7 +601,7 @@ test('manual npm release roots are enabled only for the official repository', as
   for (const [file, job] of [['motion-candidate.yml', 'candidate'], ['motion-publish-test.yml', 'verify'], ['motion-publication-recovery.yml', 'select-ref']]) {
     const workflow = await readFile(new URL('../.github/workflows/' + file, import.meta.url), 'utf8');
     const block = workflow.split('  ' + job + ':')[1]?.split(/\n  [a-z][a-z-]*:/)[0];
-    assert.match(block || '', /github.repository == 'nexu-io\/openmotion'/, file);
+    assert.match(block || '', /github.repository == 'rivyn-labs\/kinevyn'/, file);
     const triggers = workflow.split('\npermissions:')[0];
     assert.match(triggers, file === 'motion-candidate.yml' ? /workflow_call:/ : /workflow_dispatch:/, file);
     assert.doesNotMatch(triggers, /(?:^|\n)  (?:push|pull_request|schedule):/, file);

@@ -1,6 +1,6 @@
-# OpenMotion Design Studio
+# Kinevyn Design Studio
 
-Design Studio lets you create, preview, annotate, version, import and export HTML design deliverables while delegating all AI generation and code iteration to your external coding Agent (Codex, Claude Code or any MCP client) over OpenMotion's local MCP server. OpenMotion runs no internal design agent.
+Design Studio lets you create, preview, annotate, version, import and export HTML design deliverables while delegating all AI generation and code iteration to your external coding Agent (Codex, Claude Code or any MCP client) over Kinevyn's local MCP server. Kinevyn runs no internal design agent.
 
 ## Scenarios
 
@@ -38,24 +38,24 @@ Every write verifies `expectedRevision` (SHA-256 of sorted project files) and ap
 
 Four public MCP tools back Design Studio (using the same `DesignProjects` domain service as the `/motion-api/design/*` HTTP adapter):
 
-1. `openmotion_design_catalog` (read-only): list/read scenarios, starter templates (`library/design/templates`), design systems (`library/design/systems`), design Skills (`library/design/skills`) and craft rules (`library/design/craft`).
-2. `openmotion_design_project`: `create`, `list`, `get`, `rename`, `duplicate`, `trash`, `restore`, `delete` (trashed only), `open` (returns `previewUrl` and `editorUrl`), `open_in`, `export` and `import`.
-3. `openmotion_design_edit`: `read_file` (paged), `write` (atomic multi-file + deletes with `expectedRevision` → new `vN`), `list_versions`, `restore_version`.
-4. `openmotion_design_comments`: `list`, `create`, `update` (`open` → `resolved` with `expectedCommentRevision`), `delete`.
+1. `kinevyn_design_catalog` (read-only): list/read scenarios, starter templates (`library/design/templates`), design systems (`library/design/systems`), design Skills (`library/design/skills`) and craft rules (`library/design/craft`).
+2. `kinevyn_design_project`: `create`, `list`, `get`, `rename`, `duplicate`, `trash`, `restore`, `delete` (trashed only), `open` (returns `previewUrl` and `editorUrl`), `open_in`, `export` and `import`.
+3. `kinevyn_design_edit`: `read_file` (paged), `write` (atomic multi-file + deletes with `expectedRevision` → new `vN`), `list_versions`, `restore_version`.
+4. `kinevyn_design_comments`: `list`, `create`, `update` (`open` → `resolved` with `expectedCommentRevision`), `delete`.
 
-Workflow guide URI: `openmotion://workflow/design/start` (references: `scenarios`, `iterate`, `export`, `systems`).
+Workflow guide URI: `kinevyn://workflow/design/start` (references: `scenarios`, `iterate`, `export`, `systems`).
 
-**Annotation iteration loop:** open a project in the HTML editor → pick an element, drag a region or draw pen marks → click **Copy to Agent** → paste the `<attached-preview-comments>` brief into Codex or Claude Code. The Agent reads open comments, writes scoped HTML edits via `openmotion_design_edit`, resolves addressed comments and calls `openmotion_design_project(action="open")`. The editor polls `/motion-api/design/projects/:id/state` and refreshes automatically when the revision changes.
+**Annotation iteration loop:** open a project in the HTML editor → pick an element, drag a region or draw pen marks → click **Copy to Agent** → paste the `<attached-preview-comments>` brief into Codex or Claude Code. The Agent reads open comments, writes scoped HTML edits via `kinevyn_design_edit`, resolves addressed comments and calls `kinevyn_design_project(action="open")`. The editor polls `/motion-api/design/projects/:id/state` and refreshes automatically when the revision changes.
 
 ## Import, export & local editors
 
 - **Export formats:** `zip` (visible project tree), `open-design` (Open Design compatible ZIP with `DESIGN-MANIFEST.json`, `DESIGN-HANDOFF.md` and `.open-design/project.json`), `html` (standalone single file with local CSS/JS/images inlined), `pdf` and `png` (rendered via headless Chrome / `puppeteer-core`), and `pptx` (deck slides captured at 1920×1080 with speaker notes via `pptxgenjs`).
-- **Import:** accepts Open Design export ZIPs, Claude Design ZIPs, OpenMotion design ZIPs, or local project folders (reading `.open-design/project.json` and `DESIGN-MANIFEST.json` when present).
+- **Import:** accepts Open Design export ZIPs, Claude Design ZIPs, Kinevyn design ZIPs, or local project folders (reading `.open-design/project.json` and `DESIGN-MANIFEST.json` when present).
 - **Open in:** detects Cursor, VS Code, Windsurf, Zed, Antigravity, WebStorm, Xcode, Finder/Explorer/File Manager, Terminal and Warp and opens the project folder directly.
 
 ## Current limits
 
-- OpenMotion does not embed a chat/coding agent inside Design Studio; creation and AI iteration happen in your connected MCP Agent.
+- Kinevyn does not embed a chat/coding agent inside Design Studio; creation and AI iteration happen in your connected MCP Agent.
 - Visual exports (`pdf`, `png`, `pptx`) require a local Chrome/Chromium executable (`browserExecutable()`).
 - PPTX export renders each slide as a high-resolution image with attached speaker notes (editable shape conversion via `dom-to-pptx` is not bundled).
 - Cloud public sharing and Vercel/Cloudflare deployment are not part of this local service.

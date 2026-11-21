@@ -31,11 +31,11 @@ async function readMarketplaceState(codex) {
           const config = message.result?.config;
           assert(config?.marketplaces && typeof config.marketplaces === 'object' && !Array.isArray(config.marketplaces)
             && config.plugins && typeof config.plugins === 'object' && !Array.isArray(config.plugins));
-          resolve({ marketplace: config.marketplaces['openmotion-local'],
-            pluginIds: Object.keys(config.plugins).filter(id => id.endsWith('@openmotion-local')) });
+          resolve({ marketplace: config.marketplaces['kinevyn-local'],
+            pluginIds: Object.keys(config.plugins).filter(id => id.endsWith('@kinevyn-local')) });
         } catch (error) { reject(error); }
       });
-      send(1, 'initialize', { clientInfo: { name: 'openmotion_marketplace_preflight', version: '1' }, capabilities: { experimentalApi: true } });
+      send(1, 'initialize', { clientInfo: { name: 'kinevyn_marketplace_preflight', version: '1' }, capabilities: { experimentalApi: true } });
     });
   } finally { clearTimeout(timer); lines.close(); child.stdin.end(); child.kill(); }
 }
@@ -46,7 +46,7 @@ function staleSourcePlan(codex) {
   const source = state.marketplace;
   assert(source?.source_type === 'local' && typeof source.source === 'string' && path.isAbsolute(source.source));
   assert(Array.isArray(state.pluginIds));
-  assert(!state.pluginIds.length, 'OPENMOTION_SOURCE_IN_USE: cached or disabled plugins still use this marketplace; no configuration was changed.');
+  assert(!state.pluginIds.length, 'KINEVYN_SOURCE_IN_USE: cached or disabled plugins still use this marketplace; no configuration was changed.');
   assert(!existingDirectory(source.source), 'The configured source still exists');
   return { action: 'replace_uninstalled_source', previous: source.source };
 }
@@ -67,26 +67,26 @@ export function sourceMarketplacePlan(root, inventory) {
   assert(Array.isArray(inventory.installed) && Array.isArray(inventory.available), 'Invalid Codex plugin inventory');
   const entries = [...inventory.installed, ...inventory.available];
   if (!entries.length) return { action: 'add' };
-  assert(entries.every(item => item.pluginId === 'openmotion@openmotion-local'), 'Refusing to replace a marketplace containing unrelated plugins');
+  assert(entries.every(item => item.pluginId === 'kinevyn@kinevyn-local'), 'Refusing to replace a marketplace containing unrelated plugins');
   const sources = [...new Set(entries.map(item => item.marketplaceSource?.source))];
   assert(sources.length === 1 && entries.every(item => item.marketplaceSource?.sourceType === 'local' && typeof item.marketplaceSource.source === 'string' && item.marketplaceSource.source),
-    'Refusing a non-local or ambiguous OpenMotion source');
+    'Refusing a non-local or ambiguous Kinevyn source');
   const previous = existingDirectory(sources[0]);
   if (previous && previous === realpathSync(root)) return { action: 'reuse' };
-  assert(!inventory.installed.length, 'OPENMOTION_SOURCE_IN_USE: another source is installed. Reuse that installation or explicitly select its upgrade; no configuration was changed.');
+  assert(!inventory.installed.length, 'KINEVYN_SOURCE_IN_USE: another source is installed. Reuse that installation or explicitly select its upgrade; no configuration was changed.');
   // Rebind a vanished source only when the host positively reported no install.
   if (!previous) return { action: 'replace_uninstalled_source', previous: sources[0] };
   const catalog = JSON.parse(readFileSync(path.join(previous, '.agents/plugins/marketplace.json'), 'utf8'));
   const manifest = JSON.parse(readFileSync(path.join(previous, '.codex-plugin/plugin.json'), 'utf8'));
-  assert(catalog.name === 'openmotion-local' && catalog.plugins?.length === 1
-    && catalog.plugins[0].name === 'openmotion' && catalog.plugins[0].source?.source === 'local'
-    && catalog.plugins[0].source.path === './' && manifest.name === 'openmotion', 'Refusing to replace an unrecognized OpenMotion marketplace');
+  assert(catalog.name === 'kinevyn-local' && catalog.plugins?.length === 1
+    && catalog.plugins[0].name === 'kinevyn' && catalog.plugins[0].source?.source === 'local'
+    && catalog.plugins[0].source.path === './' && manifest.name === 'kinevyn', 'Refusing to replace an unrecognized Kinevyn marketplace');
   return { action: 'replace_uninstalled_source', previous };
 }
 
 export function registerSourceMarketplace(root, { checkOnly = false, codex = 'codex' } = {}) {
   const run = args => execFileSync(codex, args, { encoding: 'utf8', timeout: 30_000, stdio: ['ignore', 'pipe', 'pipe'] });
-  const inventoryArgs = ['plugin', 'list', '--marketplace', 'openmotion-local', '--available', '--json'];
+  const inventoryArgs = ['plugin', 'list', '--marketplace', 'kinevyn-local', '--available', '--json'];
   const retry = 'Retry `codex ' + inventoryArgs.join(' ') + '`. No host configuration was changed.';
   let output, inventory;
   try { output = run(inventoryArgs); }
@@ -94,11 +94,11 @@ export function registerSourceMarketplace(root, { checkOnly = false, codex = 'co
     let recovered;
     try { recovered = staleSourcePlan(codex); }
     catch (error) {
-      if (error.message.includes('OPENMOTION_SOURCE_IN_USE')) throw error;
-      throw new Error('OPENMOTION_INVENTORY_UNAVAILABLE: Codex could not read the plugin inventory or verify an unused missing local source. Restore any moved/deleted configured marketplace source, or check CLI compatibility and permissions. ' + retry);
+      if (error.message.includes('KINEVYN_SOURCE_IN_USE')) throw error;
+      throw new Error('KINEVYN_INVENTORY_UNAVAILABLE: Codex could not read the plugin inventory or verify an unused missing local source. Restore any moved/deleted configured marketplace source, or check CLI compatibility and permissions. ' + retry);
     }
     if (checkOnly) return recovered;
-    run(['plugin', 'marketplace', 'remove', 'openmotion-local']);
+    run(['plugin', 'marketplace', 'remove', 'kinevyn-local']);
     run(['plugin', 'marketplace', 'add', root]);
     return recovered;
   }
@@ -106,16 +106,16 @@ export function registerSourceMarketplace(root, { checkOnly = false, codex = 'co
     inventory = JSON.parse(output);
     assert(inventory && Array.isArray(inventory.installed) && Array.isArray(inventory.available));
   } catch {
-    throw new Error('OPENMOTION_INVENTORY_INVALID: Codex must return JSON with installed and available arrays. Use a compatible Codex CLI. ' + retry);
+    throw new Error('KINEVYN_INVENTORY_INVALID: Codex must return JSON with installed and available arrays. Use a compatible Codex CLI. ' + retry);
   }
   const plan = sourceMarketplacePlan(root, inventory);
   if (checkOnly || plan.action === 'reuse') return plan;
-  if (plan.previous) run(['plugin', 'marketplace', 'remove', 'openmotion-local']);
+  if (plan.previous) run(['plugin', 'marketplace', 'remove', 'kinevyn-local']);
   try { run(['plugin', 'marketplace', 'add', root]); }
   catch (error) {
     if (plan.previous && existingDirectory(plan.previous)) {
       try { run(['plugin', 'marketplace', 'add', plan.previous]); }
-      catch { throw new Error('Marketplace registration and rollback failed; restore the previous OpenMotion source: ' + plan.previous); }
+      catch { throw new Error('Marketplace registration and rollback failed; restore the previous Kinevyn source: ' + plan.previous); }
     }
     throw error;
   }

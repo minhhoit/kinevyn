@@ -22,7 +22,7 @@ test('the served sandboxed catalogue showcases run GSAP and honor player command
       res.end(`<!doctype html><script>
         addEventListener('message', event => {
           if (event.source === document.getElementById('detail')?.contentWindow
-            && event.data?.type === 'openmotion:brand-preview-ready') document.body.dataset.readyOrigin = event.origin;
+            && event.data?.type === 'kinevyn:brand-preview-ready') document.body.dataset.readyOrigin = event.origin;
         });
         </script>
         <iframe id="hover" sandbox="allow-scripts" src="/motion-api/brand-kits/catalog/agentic/showcase"></iframe>
@@ -46,7 +46,7 @@ test('the served sandboxed catalogue showcases run GSAP and honor player command
   await hover.waitForFunction(() => (window as any).__timelines?.main?.time() > .1, { timeout: 5000 });
   assert.equal(await detail.evaluate(() => (window as any).__timelines.main.paused()), true);
   const setPlaying = (playing: boolean) => page.$eval('#detail', (iframe: HTMLIFrameElement, playing) =>
-    iframe.contentWindow!.postMessage({ type: 'openmotion:brand-playback', playing }, '*'), playing);
+    iframe.contentWindow!.postMessage({ type: 'kinevyn:brand-playback', playing }, '*'), playing);
   await setPlaying(true);
   await detail.waitForFunction(() => (window as any).__timelines?.main?.time() > .1, { timeout: 5000 });
   await setPlaying(false);

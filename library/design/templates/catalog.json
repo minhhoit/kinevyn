@@ -191,7 +191,7 @@
         "github-analytics"
       ],
       "entry": "example.html",
-      "examplePrompt": "Build a GitHub dashboard for nexu-io/open-design — stars, forks, contributors, issues, PRs, recent activity, and top contributors.",
+      "examplePrompt": "Build a GitHub dashboard for rivyn-labs/open-design — stars, forks, contributors, issues, PRs, recent activity, and top contributors.",
       "license": "MIT",
       "source": "open-design/design-templates/github-dashboard"
     },

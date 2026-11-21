@@ -40,7 +40,7 @@ it('lists projects and waits for pending saves before exporting all through the 
   await act(async () => saved());
   const [url, init] = vi.mocked(motionApi).mock.calls[0];
   expect(url).toBe('/phase1/call');
-  expect(JSON.parse(init!.body as string)).toMatchObject({ name: 'openmotion_project_archive', arguments: { action: 'export', all: true, requestId: expect.any(String) } });
+  expect(JSON.parse(init!.body as string)).toMatchObject({ name: 'kinevyn_project_archive', arguments: { action: 'export', all: true, requestId: expect.any(String) } });
   expect(document.querySelector('.motion-feedback-layer')?.textContent).toContain('Project ZIP ready');
   expect(document.querySelector('.om-project-manager [role=status]')).toBeNull();
   expect(open).not.toHaveBeenCalled();
@@ -110,7 +110,7 @@ it('duplicates the chosen project from All projects after saves and keeps retry 
   expect(motionApi).not.toHaveBeenCalled();
   await act(async () => saved());
   const first = JSON.parse(vi.mocked(motionApi).mock.calls[0][1]!.body as string);
-  expect(first).toMatchObject({ name: 'openmotion_manage_project', arguments: { action: 'duplicate', projectId: 'another', title: 'Second film (copy)' } });
+  expect(first).toMatchObject({ name: 'kinevyn_manage_project', arguments: { action: 'duplicate', projectId: 'another', title: 'Second film (copy)' } });
   expect(document.querySelector('.motion-feedback-layer')?.textContent).toContain('Project validation is temporarily unavailable.');
   await act(async () => button('Retry').click());
   expect(JSON.parse(vi.mocked(motionApi).mock.calls[1][1]!.body as string)).toEqual(first);
@@ -125,7 +125,7 @@ it('renames with the saved title as a conflict guard and uses floating confirmat
   await act(async () => menuItem('Rename project').click());
   expect(document.querySelector('[role=dialog]')?.textContent).toContain('Project name');
   await act(async () => document.querySelector('form')!.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })));
-  expect(JSON.parse(vi.mocked(motionApi).mock.calls[1][1]!.body as string)).toMatchObject({ name: 'openmotion_manage_project', arguments: { action: 'rename', projectId: 'project', title: 'Saved title', expectedTitle: 'Saved title' } });
+  expect(JSON.parse(vi.mocked(motionApi).mock.calls[1][1]!.body as string)).toMatchObject({ name: 'kinevyn_manage_project', arguments: { action: 'rename', projectId: 'project', title: 'Saved title', expectedTitle: 'Saved title' } });
   expect(refresh).toHaveBeenCalledOnce();
   expect(document.querySelector('.motion-feedback-layer')?.textContent).toContain('Project renamed');
 });
@@ -147,7 +147,7 @@ it('moves a project to Trash through the same management action', async () => {
   await act(async () => document.querySelector<HTMLButtonElement>('[aria-label="Actions for First film"]')!.click());
   await act(async () => menuItem('Move to trash').click());
   expect(JSON.parse(vi.mocked(motionApi).mock.calls[0][1]!.body as string)).toMatchObject({
-    name: 'openmotion_manage_project', arguments: { action: 'trash', projectId: 'project', requestId: expect.any(String) },
+    name: 'kinevyn_manage_project', arguments: { action: 'trash', projectId: 'project', requestId: expect.any(String) },
   });
   expect(refresh).toHaveBeenCalledOnce();
   expect(followActiveProject).toHaveBeenCalledWith('another');

@@ -36,13 +36,13 @@ export async function registryRead(url, consume, { fetcher = fetch, timeout = 15
 export async function verifyRegistryDownload(directory, { destination, ...options } = {}) {
   await rm(path.join(directory, 'registry-package.json'), { force: true });
   const c = JSON.parse(await readFile(path.join(directory, 'candidate.json')));
-  assert.equal(c.packageName, '@openmotion/app');
+  assert.equal(c.packageName, '@kinevyn/app');
   checkReleaseVersion(c.version);
-  assert.equal(c.tgz, `openmotion-app-${c.version}.tgz`);
+  assert.equal(c.tgz, `kinevyn-app-${c.version}.tgz`);
   assert.match(c.tgzSHA256, /^[a-f0-9]{64}$/);
   const temporary = destination || await mkdtemp(path.join(os.tmpdir(), 'om-download-'));
   try {
-    const metadata = await registryRead(`https://registry.npmjs.org/@openmotion%2fapp/${c.version}`, r => r.json(), options);
+    const metadata = await registryRead(`https://registry.npmjs.org/@kinevyn%2fapp/${c.version}`, r => r.json(), options);
     assert.equal(metadata.name, c.packageName); assert.equal(metadata.version, c.version);
     assert.equal(metadata.dist.integrity, c.integrity, 'Published npm version has different bytes');
     const url = new URL(metadata.dist.tarball);

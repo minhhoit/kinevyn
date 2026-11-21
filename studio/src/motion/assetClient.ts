@@ -3,7 +3,7 @@ import type { LibraryAsset } from '../../../shared/asset-library';
 import { MAX_ASSET_BYTES } from '../../../shared/asset-limits';
 import { AssetUploadError, uploadResponseError } from './assetUploadError';
 export async function assetRequest<T>(args: Record<string, unknown>): Promise<T> {
-  return gatewayRequest<T>('phase1/call', 'POST', { name: 'openmotion_assets_use', arguments: args });
+  return gatewayRequest<T>('phase1/call', 'POST', { name: 'kinevyn_assets_use', arguments: args });
 }
 export async function uploadLibraryAsset(file: File, { assetId, parentVersionId, modality }: { assetId?: string; parentVersionId?: string; modality?: 'video' } = {}) {
   if (file.size > MAX_ASSET_BYTES) throw new AssetUploadError('rejected', 'size');

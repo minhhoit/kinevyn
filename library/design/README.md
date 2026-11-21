@@ -1,6 +1,6 @@
-# OpenMotion Design Library
+# Kinevyn Design Library
 
-Starter HTML templates, design systems, design Skills, craft rules and scenario guides used by Design Studio and exposed to external Agents via `openmotion_design_catalog`.
+Starter HTML templates, design systems, design Skills, craft rules and scenario guides used by Design Studio and exposed to external Agents via `kinevyn_design_catalog`.
 
 ## Inventory
 

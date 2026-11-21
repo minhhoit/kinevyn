@@ -1,6 +1,6 @@
 # Transcripts, recordings and platform versions
 
-The **Transcript** panel handles speech recognition, subtitle import, reading and correction. Segment and paragraph views link speech to playback; Edit text reveals correction controls. **Captions** is a separate panel for choosing a native caption track, style, position, size and visibility. Both remain available as left-side tabs. The timeline toolbar provides icon-only microphone, Transcript and **CC** controls with hover/focus descriptions and accessible names. Recording and caption visibility remain visible button states. Each timeline row identifies its kind and number: V for video/visuals, A for audio, T for text and C for captions. Human controls and external Agents compose the same `openmotion_assets_use` transcript operations.
+The **Transcript** panel handles speech recognition, subtitle import, reading and correction. Segment and paragraph views link speech to playback; Edit text reveals correction controls. **Captions** is a separate panel for choosing a native caption track, style, position, size and visibility. Both remain available as left-side tabs. The timeline toolbar provides icon-only microphone, Transcript and **CC** controls with hover/focus descriptions and accessible names. Recording and caption visibility remain visible button states. Each timeline row identifies its kind and number: V for video/visuals, A for audio, T for text and C for captions. Human controls and external Agents compose the same `kinevyn_assets_use` transcript operations.
 
 ## User stories and observable completion
 
@@ -18,11 +18,11 @@ The **Transcript** panel handles speech recognition, subtitle import, reading an
 In **Settings → Model providers**, configure an OpenAI-compatible provider with its documented public HTTPS base URL and key. Sync models or add the exact model ID manually. Under **More settings**, choose **Transcription**, then select a response supported by the provider. Set a default in **Default Agent & models**, or open Recognition settings in Transcript.
 
 - **Timed segments and words** uses `verbose_json` and requests both segment and word timestamps. Groq's documented `whisper-large-v3` and `whisper-large-v3-turbo` support this contract.
-- **Plain transcript** uses `json`. For example, the currently documented OpenAI `gpt-transcribe` response provides text; OpenMotion does not manufacture subtitle timing from it. Review/copy/TXT remain available, and users can enter timings explicitly.
+- **Plain transcript** uses `json`. For example, the currently documented OpenAI `gpt-transcribe` response provides text; Kinevyn does not manufacture subtitle timing from it. Review/copy/TXT remain available, and users can enter timings explicitly.
 - **Speakers and timed segments** uses `diarized_json` and automatic provider chunking. Select it only for a model that documents this response. Speaker identity is supplied by the provider; identity across independently processed chunks is not reconciled automatically.
 - Advanced JSON defaults accept `response_format`, `timestamp_granularities`, `temperature`, `chunking_strategy`, `keywords` and `languages`. Endpoint support is model-specific. Per-request parameters override saved defaults through MCP. Context/vocabulary `prompt` is a per-request MCP parameter; it cannot be stored in model defaults.
 
-Credentials remain in the existing settings service. Compatibility is a request contract, not proof of account entitlement, accuracy, quota or successful billing. See the maintained [compatible provider reference](../skills/openmotion-media/references/providers/compatible.md).
+Credentials remain in the existing settings service. Compatibility is a request contract, not proof of account entitlement, accuracy, quota or successful billing. See the maintained [compatible provider reference](../skills/kinevyn-media/references/providers/compatible.md).
 
 ## Review and caption placement
 
@@ -53,7 +53,7 @@ This is a product-guided Agent workflow built from the existing editor and publi
 
 ## Public operations and storage
 
-Use `openmotion_assets_use` with `action: "transcript"` and nested `transcript` arguments. The tool inventory remains eighteen registered names.
+Use `kinevyn_assets_use` with `action: "transcript"` and nested `transcript` arguments. The tool inventory remains eighteen registered names.
 
 | Command | Inputs and result |
 | --- | --- |
@@ -81,7 +81,7 @@ The interface provides English and Simplified Chinese, with English fallback for
 
 ## Research references
 
-The capability study reviewed [OpenChatCut](https://github.com/0xsline/OpenChatCut/tree/f96502a18e65a09c19324b10feb671bb505056bd) and [OpenReel](https://github.com/Augani/openreel-video/tree/367d7e90b61b5181f9861b852bb8b9d7a7d2954a). This feature is an original implementation using OpenMotion's service, model configuration and native project boundaries; no upstream source was copied. Their licenses remain independent.
+The capability study reviewed [OpenChatCut](https://github.com/0xsline/OpenChatCut/tree/f96502a18e65a09c19324b10feb671bb505056bd) and [OpenReel](https://github.com/Augani/openreel-video/tree/367d7e90b61b5181f9861b852bb8b9d7a7d2954a). This feature is an original implementation using Kinevyn's service, model configuration and native project boundaries; no upstream source was copied. Their licenses remain independent.
 
 The research distinguishes speech text from a visual script/storyboard:
 
@@ -91,7 +91,7 @@ The research distinguishes speech text from a visual script/storyboard:
 | OpenReel at the revision linked above | Browser Whisper worker and automatic caption creation | Searchable subtitle/transcription editing; useful interaction references for correction and caption adoption |
 | [OpenCut](https://github.com/opencut-app/opencut) / [OpenCut Classic](https://github.com/opencut-app/opencut-classic) | The current main repository is a rewrite; the maintained README directs users to Classic. The reviewed Classic implementation uses browser Whisper Small for timed captions | Caption generation should not be treated as evidence of a full word-level transcript workspace or automatic visual script extraction |
 
-These are source-code findings, not live paid-model acceptance tests. OpenMotion implements its own bounded provider pipeline and document model instead of importing another editor's persistence or editing engine.
+These are source-code findings, not live paid-model acceptance tests. Kinevyn implements its own bounded provider pipeline and document model instead of importing another editor's persistence or editing engine.
 
 ## Direct captions and basic editing
 
@@ -99,7 +99,7 @@ Captions opens **Auto captions**, **Add captions**, and **Style**. Auto captions
 
 Add captions accepts pasted lines with an explicit duration per cue at the playhead, then selects the created track and opens Style. The timeline T icon opens this same manual entry; there is no separate Text tab. Existing managed text tracks remain available in Style and the CC menu. Manual captions produce editable native clips without a model or source media; select them to change text/font/position, drag their edges to trim, or use Split at the playhead. Import SRT/VTT works directly in Captions without a source-media prerequisite, offset at the current playhead. The timeline toolbar has icon-only Manual captions (T), Music, Record, Transcript and CC entries with accessible labels/tooltips. Music imports local audio and adds it at the playhead through the existing native media path.
 
-`openmotion_assets_use` with `action=transcript`, `command=caption_add` exposes the same manual/import operation to Agents. Supply `projectId`, `compositionPath`, `expectedRevision`, `expectedVersionId`, a stable `requestId`, and either timed `segments` or `subtitles` (SRT/VTT). `textKind=text` creates titles; `textKind=caption` (default) creates a managed caption layer; `timelineStart` offsets cue times. The response returns the new `trackId`, which can be passed as `transcriptId` to `caption_update`; `caption_tracks` discovers both kinds without converting their timeline roles. Text is escaped, invalid timing is refused, repeated requests replay, and stale versions do not overwrite edits. Existing public asset import and native edit operations cover music, trimming, splitting and positioning.
+`kinevyn_assets_use` with `action=transcript`, `command=caption_add` exposes the same manual/import operation to Agents. Supply `projectId`, `compositionPath`, `expectedRevision`, `expectedVersionId`, a stable `requestId`, and either timed `segments` or `subtitles` (SRT/VTT). `textKind=text` creates titles; `textKind=caption` (default) creates a managed caption layer; `timelineStart` offsets cue times. The response returns the new `trackId`, which can be passed as `transcriptId` to `caption_update`; `caption_tracks` discovers both kinds without converting their timeline roles. Text is escaped, invalid timing is refused, repeated requests replay, and stale versions do not overwrite edits. Existing public asset import and native edit operations cover music, trimming, splitting and positioning.
 
 Default caption previews reuse the Inter stylesheet and bounded font-file downloads across text edits. Authored text subsets and large custom/CJK font families retain their existing subset behavior; failed downloads are retried on a later preview rather than retained as successful cache entries. This removes repeated default-font downloads without changing authored timing or fonts.
 
@@ -109,12 +109,12 @@ Timeline clip moves use OpenReel's 40-pixel clip-edge snap radius. Music beats s
 
 **Export → Captions** downloads SRT or VTT directly. It waits for pending Studio saves and reads visible managed caption cues from the selected composition, including manual captions, corrected text, splits and trims. Multiple visible caption tracks are combined by default; the track selector can isolate a language or a legacy text track. Hidden cues are excluded. Contiguous word-highlight fragments with identical text are coalesced when adjacent. No media, model or transcription request is needed.
 
-The shared public operation is `openmotion_assets_use({action: "transcript", transcript: {command: "caption_export", projectId, compositionPath: "index.html", format: "srt"}})`. Optional `transcriptId` selects a managed track. It returns `content`, `mimeType`, `extension`, `cueCount` and the requested project/composition identity. `caption_tracks` discovers available identities. Missing tracks, empty visible captions and invalid timing report recoverable errors. Independent nested scenes must be exported from their own composition; this operation does not guess placement across scene references. SRT/VTT contain text and timing; authored appearance remains in video output and the editable project.
+The shared public operation is `kinevyn_assets_use({action: "transcript", transcript: {command: "caption_export", projectId, compositionPath: "index.html", format: "srt"}})`. Optional `transcriptId` selects a managed track. It returns `content`, `mimeType`, `extension`, `cueCount` and the requested project/composition identity. `caption_tracks` discovers available identities. Missing tracks, empty visible captions and invalid timing report recoverable errors. Independent nested scenes must be exported from their own composition; this operation does not guess placement across scene references. SRT/VTT contain text and timing; authored appearance remains in video output and the editable project.
 
 Transcript **export** still downloads the reviewed source document; **caption_export** is the saved timeline result. The UI and public MCP call the same implementation. Editing remains version guarded; exporting subtitles is read only.
 
 ## Canvas and caption visibility
 
-The timeline toolbar offers 16:9, 9:16, 1:1, 4:3 and 3:4 canvas presets. Letterbox preserves the complete authored frame; Crop fills the canvas with a centered crop. Both preserve proportions, clip timing and audio. The shared `openmotion_edit_project` operation accepts `canvas: { compositionPath, ratio, fit }` (`fit` is `contain` or `cover`), with `expectedRevision`, `expectedVersionId` and a stable `requestId`. Preview and export read the same saved source. This is geometric framing, not subject detection or automatic editorial relayout. New presets use the documented HD canvas sizes.
+The timeline toolbar offers 16:9, 9:16, 1:1, 4:3 and 3:4 canvas presets. Letterbox preserves the complete authored frame; Crop fills the canvas with a centered crop. Both preserve proportions, clip timing and audio. The shared `kinevyn_edit_project` operation accepts `canvas: { compositionPath, ratio, fit }` (`fit` is `contain` or `cover`), with `expectedRevision`, `expectedVersionId` and a stable `requestId`. Preview and export read the same saved source. This is geometric framing, not subject detection or automatic editorial relayout. New presets use the documented HD canvas sizes.
 
-CC displays On or Off at all times after loading. Its menu sets visibility for all caption tracks, leaving ordinary text tracks unchanged. The first On creates an empty native caption lane without invented text or recognition. Adding, importing or generating captions fills that lane; Off preserves its source, timing and history. External Agents use `openmotion_assets_use` with `action=transcript`, `command=caption_toggle`, `visible`, `projectId`, `compositionPath`, both project revision guards and a stable `requestId`. `caption_tracks` reports the empty lane with `cueCount: 0`. Locked tracks reject visibility changes. On conflicts, reload and reconcile; retry an interrupted response with the same request identity. Empty tracks do not contribute subtitle cues or rendered pixels.
+CC displays On or Off at all times after loading. Its menu sets visibility for all caption tracks, leaving ordinary text tracks unchanged. The first On creates an empty native caption lane without invented text or recognition. Adding, importing or generating captions fills that lane; Off preserves its source, timing and history. External Agents use `kinevyn_assets_use` with `action=transcript`, `command=caption_toggle`, `visible`, `projectId`, `compositionPath`, both project revision guards and a stable `requestId`. `caption_tracks` reports the empty lane with `cueCount: 0`. Locked tracks reject visibility changes. On conflicts, reload and reconcile; retry an interrupted response with the same request identity. Empty tracks do not contribute subtitle cues or rendered pixels.

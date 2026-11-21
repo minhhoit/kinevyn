@@ -1,6 +1,6 @@
 {
   "mcpServers": {
-    "openmotion": {
+    "kinevyn": {
       "type": "stdio",
       "command": "node",
       "args": [

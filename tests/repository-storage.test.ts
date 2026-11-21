@@ -13,7 +13,7 @@ function git(root: string, args: string[]) {
   assert.equal(result.status, 0, result.stderr); return result.stdout.trim();
 }
 function fixture(t: { after: (fn: () => void) => void }) {
-  const root = mkdtempSync(path.join(tmpdir(), 'openmotion-storage-'));
+  const root = mkdtempSync(path.join(tmpdir(), 'kinevyn-storage-'));
   t.after(() => rmSync(root, { recursive: true, force: true }));
   git(root, ['-c', 'init.templateDir=', 'init', '-b', 'main']);
   git(root, ['config', 'user.name', 'Storage test']); git(root, ['config', 'user.email', 'test@example.invalid']);

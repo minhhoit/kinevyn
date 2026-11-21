@@ -20,7 +20,7 @@ const copy = {
 export const socialImage = Object.freeze({
   url: 'https://releases.open-design.ai/open-motion/media/sha256/730e1d6235820d39ba8adde42810d1165377992136a3b20290ad5d504abb527b.jpg',
   width: 1586, height: 992, type: 'image/jpeg',
-  alt: 'OpenMotion video recreation: a reference beside its remake, with the editable Studio timeline below.',
+  alt: 'Kinevyn video recreation: a reference beside its remake, with the editable Studio timeline below.',
 });
 
 export function pageMetadata(locale = 'zh-CN') {

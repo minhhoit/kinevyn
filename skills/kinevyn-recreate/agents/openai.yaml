@@ -1,0 +1,3 @@
+interface:
+  display_name: "Kinevyn Recreate"
+  short_description: "Recreate a reference video as an editable project in Kinevyn"

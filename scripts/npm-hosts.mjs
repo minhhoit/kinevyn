@@ -14,8 +14,8 @@ export const isGenericHostName = host => genericHostPattern.test(host) && !proto
 // Generic hosts share one flat Skills root, so their Skills have one owner rather than one per Agent name.
 const genericSkillOwner = 'agents';
 // Keep ownership stable so earlier local installations remain upgradable.
-const owner = '@openmotion/installer';
-const bundleName = 'dsh-plugin-openmotion-local';
+const owner = '@kinevyn/installer';
+const bundleName = 'dsh-plugin-kinevyn-local';
 const equalTransport = (actual, expected) => actual?.command === expected.command && JSON.stringify(actual.args) === JSON.stringify(expected.args);
 
 export async function resolveHostCommand(command, platform = process.platform) {
@@ -72,7 +72,7 @@ export async function hostPlan(options, home, launcher, previous, bundleId) {
     const skillsDirectory = await canonical(options.skillsDirectory || saved?.skillsDirectory || path.join(os.homedir(), '.agents/skills'));
     const metadata = { skillsDirectory, layout: 'flat', registration: 'agent' };
     return { host, skillOwner: genericSkillOwner, ...metadata, metadata, connection: { transport }, register: async () => {},
-      agentRegistration: { serverName: 'openmotion', transport, skillsDirectory } };
+      agentRegistration: { serverName: 'kinevyn', transport, skillsDirectory } };
   }
   const defaultSkills = host === 'claude' ? path.join(process.env.CLAUDE_CONFIG_DIR || path.join(os.homedir(), '.claude'), 'skills')
     : host === 'workbuddy' ? path.join(process.env.WORKBUDDY_CONFIG_DIR || path.join(os.homedir(), '.workbuddy'), 'skills')
@@ -83,10 +83,10 @@ export async function hostPlan(options, home, launcher, previous, bundleId) {
     const codex = options.codex || 'codex';
     const cli = args => runHostCli(codex, args);
     let current;
-    try { current = JSON.parse(await cli(['mcp', 'get', 'openmotion', '--json'])); }
-    catch (error) { if (!/No MCP server named ['"]openmotion['"] found/.test(error.message)) throw error; }
-    assert(!current || (saved && equalTransport(current.transport, transport)), 'Existing openmotion MCP configuration is not owned by this installation');
-    return { host, ...metadata, metadata, connection: current, register: async () => { if (!current) await cli(['mcp', 'add', 'openmotion', '--', process.execPath, launcher]); } };
+    try { current = JSON.parse(await cli(['mcp', 'get', 'kinevyn', '--json'])); }
+    catch (error) { if (!/No MCP server named ['"]kinevyn['"] found/.test(error.message)) throw error; }
+    assert(!current || (saved && equalTransport(current.transport, transport)), 'Existing kinevyn MCP configuration is not owned by this installation');
+    return { host, ...metadata, metadata, connection: current, register: async () => { if (!current) await cli(['mcp', 'add', 'kinevyn', '--', process.execPath, launcher]); } };
   }
   if (host === 'claude') {
     const claude = options.claude || 'claude';
@@ -95,11 +95,11 @@ export async function hostPlan(options, home, launcher, previous, bundleId) {
     const settings = await readJSON(configFile);
     assert(settings === null || (typeof settings === 'object' && !Array.isArray(settings)), 'Invalid Claude configuration');
     assert(settings?.mcpServers === undefined || (settings.mcpServers && typeof settings.mcpServers === 'object' && !Array.isArray(settings.mcpServers)), 'Invalid Claude mcpServers');
-    const current = settings?.mcpServers?.openmotion;
-    assert(!current || (saved?.configFile === configFile && equalTransport(current, transport)), 'Existing Claude openmotion MCP is not owned by this installation');
+    const current = settings?.mcpServers?.kinevyn;
+    assert(!current || (saved?.configFile === configFile && equalTransport(current, transport)), 'Existing Claude kinevyn MCP is not owned by this installation');
     metadata.configFile = configFile;
     return { host, ...metadata, metadata, connection: current && { transport: current }, register: async () => {
-      if (!current) await runHostCli(claude, ['mcp', 'add-json', '-s', 'user', 'openmotion', JSON.stringify(transport)]);
+      if (!current) await runHostCli(claude, ['mcp', 'add-json', '-s', 'user', 'kinevyn', JSON.stringify(transport)]);
     } };
   }
   if (host === 'workbuddy') {
@@ -107,15 +107,15 @@ export async function hostPlan(options, home, launcher, previous, bundleId) {
     const check = config => {
       assert(config === null || (typeof config === 'object' && !Array.isArray(config)), 'Invalid WorkBuddy configuration');
       assert(config?.mcpServers === undefined || (config.mcpServers && typeof config.mcpServers === 'object' && !Array.isArray(config.mcpServers)), 'Invalid WorkBuddy mcpServers');
-      const current = config?.mcpServers?.openmotion;
-      assert(!current || (saved?.configFile === configFile && equalTransport(current, transport)), 'Existing WorkBuddy openmotion MCP is not owned by this installation');
+      const current = config?.mcpServers?.kinevyn;
+      assert(!current || (saved?.configFile === configFile && equalTransport(current, transport)), 'Existing WorkBuddy kinevyn MCP is not owned by this installation');
     };
     const configured = await readJSON(configFile);
     check(configured); metadata.configFile = configFile;
-    return { host, ...metadata, metadata, connection: configured?.mcpServers?.openmotion && { transport: configured.mcpServers.openmotion }, register: async () => {
-      await withLock(configFile + '.openmotion.lock', async () => {
+    return { host, ...metadata, metadata, connection: configured?.mcpServers?.kinevyn && { transport: configured.mcpServers.kinevyn }, register: async () => {
+      await withLock(configFile + '.kinevyn.lock', async () => {
         const config = await readJSON(configFile) || {}; check(config);
-        await writeJSON(configFile, { ...config, mcpServers: { ...config.mcpServers, openmotion: transport } });
+        await writeJSON(configFile, { ...config, mcpServers: { ...config.mcpServers, kinevyn: transport } });
       });
     } };
   }
@@ -133,7 +133,7 @@ export async function hostPlan(options, home, launcher, previous, bundleId) {
   const dependency = current?.dependencies?.[bundleName];
   const dependencyPath = dependency && /^(file|link):/.test(dependency) ? await canonical(path.resolve(path.dirname(configFile), dependency.replace(/^(file|link):/, ''))) : null;
   const ownedDependency = dependencyPath && await ownedHarnessBundle(dependencyPath, home, configFile);
-  assert(!dependency || (saved?.configFile === configFile && dependencyPath === previousBundle) || ownedDependency, 'Existing Harness OpenMotion bundle is not owned by this installation');
+  assert(!dependency || (saved?.configFile === configFile && dependencyPath === previousBundle) || ownedDependency, 'Existing Harness Kinevyn bundle is not owned by this installation');
   const activeBundle = dependencyPath || previousBundle;
   assert(!saved || saved.configFile === configFile, 'This Harness install already targets another profile; use a separate installation for that profile');
   let dsh = options.dsh || 'dsh';
@@ -155,27 +155,27 @@ export async function hostPlan(options, home, launcher, previous, bundleId) {
       if (!dependency) return null;
       const patch = await readJSON(path.join(activeBundle, 'cordis.patch.yml'));
       assert(patch === null || Array.isArray(patch), 'Invalid managed Harness MCP bundle. Run setup for the same host, home and profile to repair it.');
-      const configured = patch?.flatMap(item => item.insert || []).find(item => item.id === 'mcp-openmotion')?.config;
+      const configured = patch?.flatMap(item => item.insert || []).find(item => item.id === 'mcp-kinevyn')?.config;
       return configured && { transport: { ...configured, type: configured.transport } };
     }, register: async () => {
     await runHostCli(dsh, ['plugin', '--profile', profile, 'add', bundleDirectory, '--ignore-scripts'], { env: { ...process.env, DSH_HOME: dshHome } });
   }, writeBundle: async (stage, appRoot, version) => {
     await writeJSON(path.join(stage, 'package.json'), { name: bundleName, version, private: true, type: 'module', files: ['cordis.patch.yml'], dsh: { bundle: { patch: './cordis.patch.yml' } } });
-    const entries = [{ id: 'mcp-openmotion', name: '@deepseek-ai/dsh-mcp-client', config: { serverName: 'openmotion', transport: 'stdio', command: transport.command, args: transport.args, cwd: home, failOnStartupError: true, toolCallTimeoutMs: 180000 } },
-      { id: 'openmotion-skills', name: '@deepseek-ai/dsh-skill-filesystem', config: { providerName: 'openmotion', includeDefaultRoots: false, customSkillDirs: [path.join(bundleDirectory, 'skills')] } }];
+    const entries = [{ id: 'mcp-kinevyn', name: '@deepseek-ai/dsh-mcp-client', config: { serverName: 'kinevyn', transport: 'stdio', command: transport.command, args: transport.args, cwd: home, failOnStartupError: true, toolCallTimeoutMs: 180000 } },
+      { id: 'kinevyn-skills', name: '@deepseek-ai/dsh-skill-filesystem', config: { providerName: 'kinevyn', includeDefaultRoots: false, customSkillDirs: [path.join(bundleDirectory, 'skills')] } }];
     await writeJSON(path.join(stage, 'cordis.patch.yml'), [{ insert: entries }]);
   } };
 }
 
 export async function skillTargets(plan, appRoot) {
-  if (plan.layout === 'bundle') return [path.join(plan.skillsDirectory, 'openmotion-workflows')];
+  if (plan.layout === 'bundle') return [path.join(plan.skillsDirectory, 'kinevyn-workflows')];
   if (plan.layout === 'deepseek') return [plan.metadata.bundleDirectory];
   return (await readdir(path.join(appRoot, 'skills'), { withFileTypes: true })).filter(entry => entry.isDirectory() && !entry.name.startsWith('.')).map(entry => path.join(plan.skillsDirectory, entry.name));
 }
 
 export async function obsoleteSkills(plan, home, targets) {
   if (plan.layout === 'bundle') {
-    const legacy = path.join(plan.skillsDirectory, 'openmotion');
+    const legacy = path.join(plan.skillsDirectory, 'kinevyn');
     const scope = await readJSON(path.join(legacy, 'scope.json'));
     return scope?.managedBy === owner && scope.installHome === home && (!scope.host || scope.host === plan.host) ? [legacy] : [];
   }
@@ -186,7 +186,7 @@ export async function obsoleteSkills(plan, home, targets) {
     const target = path.join(plan.skillsDirectory, entry.name);
     if (!entry.isDirectory() || entry.name.startsWith('.') || targets.includes(target)) continue;
     let scope;
-    try { scope = await readJSON(path.join(target, 'openmotion-install.json')); }
+    try { scope = await readJSON(path.join(target, 'kinevyn-install.json')); }
     catch (error) { if (error instanceof SyntaxError) continue; throw error; }
     if (scope?.managedBy === owner && scope.installHome === home && scope.host === (plan.skillOwner || plan.host)) obsolete.push(target);
   }
@@ -194,9 +194,9 @@ export async function obsoleteSkills(plan, home, targets) {
 }
 
 export async function checkSkillOwner(target, home, host, layout) {
-  const scope = await readJSON(path.join(target, layout === 'flat' ? 'openmotion-install.json' : 'scope.json'));
+  const scope = await readJSON(path.join(target, layout === 'flat' ? 'kinevyn-install.json' : 'scope.json'));
   const existing = await readdir(target).catch(error => { if (error.code !== 'ENOENT') throw error; return null; });
-  assert(!existing || (scope?.managedBy === owner && scope.installHome === home && (!scope.host || scope.host === host)), 'Existing openmotion Skills are not owned by this installation: ' + target);
+  assert(!existing || (scope?.managedBy === owner && scope.installHome === home && (!scope.host || scope.host === host)), 'Existing kinevyn Skills are not owned by this installation: ' + target);
   return existing !== null;
 }
 
@@ -210,7 +210,7 @@ export async function copyHostSkills(stage, target, appRoot, plan, home, version
   }
   const source = path.join(appRoot, 'skills', path.basename(target));
   await cp(source, stage, { recursive: true });
-  await writeJSON(path.join(stage, 'openmotion-install.json'), scope);
+  await writeJSON(path.join(stage, 'kinevyn-install.json'), scope);
   async function rewrite(directory, original) {
     for (const entry of await readdir(directory, { withFileTypes: true })) {
       const filename = path.join(directory, entry.name), originalFile = path.join(original, entry.name);

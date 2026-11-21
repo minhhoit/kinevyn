@@ -270,13 +270,13 @@ it('localizes the complete lint success dialog and updates it when the language 
   expect(dialog.textContent).not.toContain('HyperFrame');
 });
 
-it('uses OpenMotion in copied project-check instructions', async () => {
+it('uses Kinevyn in copied project-check instructions', async () => {
   const writeText = vi.spyOn(navigator.clipboard, 'writeText').mockResolvedValue();
   act(() => root.render(<I18nProvider initialLocale="en">
     <LintModal findings={[{ severity: 'error', message: 'Missing composition' }]} projectId="demo" onClose={vi.fn()} />
   </I18nProvider>));
   await act(async () => { [...host.querySelectorAll('button')].find(button => button.textContent === 'Copy to Agent')!.click(); });
-  expect(writeText).toHaveBeenCalledWith('Fix these OpenMotion project check issues for project "demo":\n\n[error] Missing composition');
+  expect(writeText).toHaveBeenCalledWith('Fix these Kinevyn project check issues for project "demo":\n\n[error] Missing composition');
 });
 
 it('preserves custom console-error titles and original diagnostics in the shared lint dialog', () => {

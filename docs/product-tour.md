@@ -1,6 +1,6 @@
 # 从线上模板到可编辑视频
 
-OpenMotion 的模板库把视频参考、Motion.md 和复刻指令放在同一个入口。挑选参考后，将自己的 Brand Kit、文案与素材一起交给 Agent，在 Studio 中检查和调整结果。
+Kinevyn 的模板库把视频参考、Motion.md 和复刻指令放在同一个入口。挑选参考后，将自己的 Brand Kit、文案与素材一起交给 Agent，在 Studio 中检查和调整结果。
 
 ## 1. 选择模板
 
@@ -24,4 +24,4 @@ OpenMotion 的模板库把视频参考、Motion.md 和复刻指令放在同一�
 
 Agent 创建工程后，打开返回的 Studio 链接。检查镜头、字幕和声音，在时间轴中调整，再导出成片。参考视频与 Motion.md 提供创作指导；只有带可编辑源码的模板才可以直接创建源码副本。
 
-[安装指南](https://github.com/nexu-io/openmotion/blob/main/docs/install.md) · [Agent 接入](agent-adapters.md)
+[安装指南](https://github.com/rivyn-labs/kinevyn/blob/main/docs/install.md) · [Agent 接入](agent-adapters.md)

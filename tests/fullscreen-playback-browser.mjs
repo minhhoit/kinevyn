@@ -10,7 +10,7 @@ import { configureNativeEnvironment } from '../scripts/npm-runtime.mjs';
 
 const out = process.argv[2]; assert(out && path.isAbsolute(out)); await mkdir(out, { recursive: true });
 await configureNativeEnvironment(pluginRoot);
-const data = await mkdtemp(path.join(tmpdir(), 'openmotion-fullscreen-')), client = new Client(data);
+const data = await mkdtemp(path.join(tmpdir(), 'kinevyn-fullscreen-')), client = new Client(data);
 const results = [], errors = [];
 let browser, page;
 const check = name => { results.push(name); console.log('PASS', name); };
@@ -33,13 +33,13 @@ const seek = async time => {
 const clock = () => page.$eval('input[aria-label="Seek preview"]', input => input.valueAsNumber);
 try {
   await client.initialize();
-  const { projectId } = await client.call('openmotion_create_project', { projectType: 'natural_language', title: 'Fullscreen playback verification', requirements: 'Local deterministic playback fixture.', requestId: 'create' });
-  const current = await client.call('openmotion_get_project', { projectId });
-  await client.call('openmotion_edit_project', { projectId, requestId: 'fixture', expectedRevision: current.revision, expectedVersionId: current.currentVersionId, files: [
+  const { projectId } = await client.call('kinevyn_create_project', { projectType: 'natural_language', title: 'Fullscreen playback verification', requirements: 'Local deterministic playback fixture.', requestId: 'create' });
+  const current = await client.call('kinevyn_get_project', { projectId });
+  await client.call('kinevyn_edit_project', { projectId, requestId: 'fixture', expectedRevision: current.revision, expectedVersionId: current.currentVersionId, files: [
     { path: 'assets/gsap.min.js', content: await readFile(path.join(pluginRoot, 'node_modules/gsap/dist/gsap.min.js'), 'utf8') },
     { path: 'index.html', content: '<!doctype html><html><head><script src="assets/gsap.min.js"></script><style>body{margin:0}#main{position:relative;width:1280px;height:720px;background:#153746;color:white;font:56px sans-serif}h1{position:absolute;left:100px;top:190px;margin:0}#dot{position:absolute;top:400px;left:100px;width:80px;height:80px;background:#c5eddf;border-radius:50%}</style></head><body><div id="main" data-composition-id="main" data-start="0" data-duration="20" data-width="1280" data-height="720"><h1 id="title" data-start="0" data-duration="20" data-track-index="0">Fullscreen playback</h1><div id="dot" data-start="0" data-duration="20" data-track-index="1"></div></div><script>window.__timelines={main:gsap.timeline({paused:true}).to("#dot",{x:700,duration:20,ease:"none"})};</script></body></html>' },
   ] });
-  const preview = await client.call('openmotion_open_preview', { projectId });
+  const preview = await client.call('kinevyn_open_preview', { projectId });
   browser = await puppeteer.launch({ executablePath: process.env.HYPERFRAMES_BROWSER_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: true, args: ['--autoplay-policy=no-user-gesture-required'] });
   page = await browser.newPage(); page.on('pageerror', error => errors.push(error.message));
   await page.evaluateOnNewDocument(() => localStorage.setItem('motion.studio.locale', 'en'));
@@ -48,7 +48,7 @@ try {
   await click('[data-clip]');
   await click('[data-testid=preview-zoom-menu]'); await click('[role=menuitemradio]', '200%');
   await page.waitForFunction(() => document.querySelector('[data-testid=preview-zoom-stage]')?.style.transform.includes('scale(2)'));
-  const before = await client.call('openmotion_get_project', { projectId });
+  const before = await client.call('kinevyn_get_project', { projectId });
   const selected = await page.$$eval('[data-clip][aria-pressed=true]', nodes => nodes.map(el => el.getAttribute('data-el-id')));
   let frame;
   for (const candidate of page.frames()) if (await candidate.evaluate(() => Boolean(document.querySelector('#dot'))).catch(() => false)) frame = candidate;
@@ -130,7 +130,7 @@ try {
   await page.waitForFunction(() => document.body.textContent.includes('Fullscreen is unavailable in this window.'));
   await page.screenshot({ path: path.join(out, 'fullscreen-unavailable-toast.png') });
   assert.equal(await page.evaluate(() => Boolean(document.fullscreenElement)), false);
-  const after = await client.call('openmotion_get_project', { projectId }); assert.equal(after.revision, before.revision);
+  const after = await client.call('kinevyn_get_project', { projectId }); assert.equal(after.revision, before.revision);
   check('Rejected permission shows a Toast; playback never edits project source');
   assert.deepEqual(errors, []);
   await writeFile(path.join(out, 'result.json'), JSON.stringify({ results, errors }, null, 2));

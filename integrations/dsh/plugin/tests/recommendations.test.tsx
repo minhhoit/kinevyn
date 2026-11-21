@@ -75,9 +75,9 @@ it("opens the template library beside the current chat and waits for its load be
   });
   const container = document.createElement('div'); document.body.append(container); root = createRoot(container);
   await act(async () => root!.render(React.createElement(Body!, { proposal: { details }, act: vi.fn() })));
-  expect(openTab).toHaveBeenCalledExactlyOnceWith('openmotion-studio', { params: { page: 'templates' } });
+  expect(openTab).toHaveBeenCalledExactlyOnceWith('kinevyn-studio', { params: { page: 'templates' } });
   expect(document.body.textContent).not.toContain('右侧就是模板库');
-  await act(async () => { window.dispatchEvent(new Event('openmotion:library-ready')); });
+  await act(async () => { window.dispatchEvent(new Event('kinevyn:library-ready')); });
   expect(document.body.textContent).toContain('右侧就是模板库');
   expect(openTab).toHaveBeenCalledTimes(1);
   await act(async () => (document.querySelector('.omd-recommendation-cover') as HTMLButtonElement).click());
@@ -106,7 +106,7 @@ it("restores the library after refresh when DSH does not persist tab navigation 
   const container = document.createElement('div'); document.body.append(container); root = createRoot(container);
   await act(async () => root!.render(<StudioWorkspace sessionId="welcome-session" useTabInfo={() => ({ tab: { visible: true, navigation: {} } })} />));
   const frame = document.querySelector('iframe');
-  expect(frame?.title).toBe('OpenMotion Templates');
+  expect(frame?.title).toBe('Kinevyn Templates');
   expect(frame?.src).toContain('templates=1');
   expect(frame?.src).not.toContain('#project/');
   localStorage.removeItem('omd-session-page:welcome-session');

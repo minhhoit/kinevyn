@@ -1,4 +1,4 @@
-**English** · [简体中文](motion-md.zh-CN.md) · [OpenMotion](../README.md)
+**English** · [简体中文](motion-md.zh-CN.md) · [Kinevyn](../README.md)
 
 # Motion.md
 
@@ -8,7 +8,7 @@ A great reference carries more than a color palette: a hook, a sequence of revea
 
 **Motion.md assembles the complete creative context.** Its Design section can reference an independent `DESIGN.md` for visual identity and tokens; its Brand Kit section records product facts, voice and approved assets alongside story, motion, sound and review rules. Reuse the referenced design values instead of maintaining a second palette. Existing `BRANDKIT.md` files remain useful linked material.
 
-[Six reference/remix comparisons](motion-design-examples.md) · [Runnable Skill package](../library/skills/openmotion-design-remix/SKILL.md) · [Ink & Water system](../library/design-systems/ink-water/MOTION_DESIGN.md) · [Brandkit](../library/brandkits/openmotion/BRANDKIT.md)
+[Six reference/remix comparisons](motion-design-examples.md) · [Runnable Skill package](../library/skills/kinevyn-design-remix/SKILL.md) · [Ink & Water system](../library/design-systems/ink-water/MOTION_DESIGN.md) · [Brandkit](../library/brandkits/kinevyn/BRANDKIT.md)
 
 **Status:** The v0.1 creative-document proposal remains readable. The new [Motion Package v0.2 draft](motion-package-spec.md) adds a manifest, DESIGN.md references, optional SKILL.md, declared dependencies and a hashed file inventory. The [local toolkit and complete sample](../packages/motion-package/README.md) check and assemble portable folders. Agents still read creative documents as explicit context; there is no automatic Motion.md importer, animation parser, registry or cross-engine execution guarantee. The existing Remix Skill's source-copy helper remains specific to its six compositions.
 
@@ -59,14 +59,14 @@ hook · shots · camera · rhythm · sound             copy · product · logo �
 
 For the v0.2 portable profile, `motion-package.json` declares these entries and the exact shipped inventory. It is separate from an npm `package.json`, a rendering timeline and the optional Skill frontmatter.
 
-The existing `openmotion-video-to-template` workflow still uses **`TEMPLATE.md` as its single handoff document**. Link a Motion Design description when useful; do not require every existing template to adopt a second manifest. A portable folder, an Agent Skill and a `.motion` archive are related ideas with distinct contracts.
+The existing `kinevyn-video-to-template` workflow still uses **`TEMPLATE.md` as its single handoff document**. Link a Motion Design description when useful; do not require every existing template to adopt a second manifest. A portable folder, an Agent Skill and a `.motion` archive are related ideas with distinct contracts.
 
 ## 3. A concrete package you can inspect
 
-The [Motion Design Remix Skill](../library/skills/openmotion-design-remix/SKILL.md) contains six profiles from registry resources already represented in OpenMotion's catalog:
+The [Motion Design Remix Skill](../library/skills/kinevyn-design-remix/SKILL.md) contains six profiles from registry resources already represented in Kinevyn's catalog:
 
 ```text
-openmotion-design-remix/
+kinevyn-design-remix/
 ├── SKILL.md                         agent entry: select → adapt → compare
 ├── references/<profile>/
 │   └── MOTION_DESIGN.md              creative rules for this motion language
@@ -81,7 +81,7 @@ openmotion-design-remix/
 └── LICENSE
 ```
 
-This is an **example package layout**, not a new mandatory OpenMotion runtime format. Its six profiles do not become six new core Skills or six automatically registered Studio templates. The original three built-in templates keep their current IDs and behavior.
+This is an **example package layout**, not a new mandatory Kinevyn runtime format. Its six profiles do not become six new core Skills or six automatically registered Studio templates. The original three built-in templates keep their current IDs and behavior.
 
 From this Skill folder:
 
@@ -120,7 +120,7 @@ Light card → expanding portal → dimensional phrase → white exit.
 Keep the camera path, reveal timing, deterministic seed and easing.
 
 ## Replace
-Title: OPENMOTION (maximum 18 characters in this profile).
+Title: KINEVYN (maximum 18 characters in this profile).
 Dimensional phrase: TELL YOUR STORY.
 Subtitle: YOUR STORY. IN MOTION.
 
@@ -138,7 +138,7 @@ Check the whole phrase, camera continuity and text collisions.
 Save source/preset hashes and actual output; record remaining gaps.
 ```
 
-[Read the complete portal profile](../library/skills/openmotion-design-remix/references/wireframe-portal-title/MOTION_DESIGN.md). For a story-level brief rather than a small motion component, see the existing [product-launch Motion.md](examples/product-launch.MOTION.md).
+[Read the complete portal profile](../library/skills/kinevyn-design-remix/references/wireframe-portal-title/MOTION_DESIGN.md). For a story-level brief rather than a small motion component, see the existing [product-launch Motion.md](examples/product-launch.MOTION.md).
 
 ## 5. From reference video to a community asset
 
@@ -154,13 +154,13 @@ Discover a reference
   → fork, improve and review the next version
 ```
 
-In OpenMotion today, `openmotion-recreate` handles reconstruction of a reference work; `openmotion-template-to-video` handles existing editable templates; `openmotion-video-to-template` produces a reusable template when that is the requested deliverable. A library Skill can carry a specific style and its adaptation method. These instructions are read by the user's Agent; there is no additional background Agent orchestrator.
+In Kinevyn today, `kinevyn-recreate` handles reconstruction of a reference work; `kinevyn-template-to-video` handles existing editable templates; `kinevyn-video-to-template` produces a reusable template when that is the requested deliverable. A library Skill can carry a specific style and its adaptation method. These instructions are read by the user's Agent; there is no additional background Agent orchestrator.
 
 A publishable example should show **what stayed, what changed and what actually rendered**. Prefer a shared-clock side-by-side comparison; list any crop, excerpt or speed change. Keep generated user projects and credentials outside the source package. A Git branch can carry a revised preset or implementation, and a PR can review both the diff and the resulting preview. Community review and manual knowledge reuse work with ordinary files today; automatic marketplace ingestion, learning from engagement and RAG retrieval remain product directions.
 
 ## Presenter-led editing: one story, two clocks
 
-Motion Design also describes the relationship between a person, their words and the supporting visuals. The [Presenter Story Skill](../library/skills/openmotion-presenter-story/SKILL.md) includes three design recipes and [attributed upstream comparisons](motion-design-examples.md#presenter-motion). Those media illustrate the patterns; they are not validation of the new recipes.
+Motion Design also describes the relationship between a person, their words and the supporting visuals. The [Presenter Story Skill](../library/skills/kinevyn-presenter-story/SKILL.md) includes three design recipes and [attributed upstream comparisons](motion-design-examples.md#presenter-motion). Those media illustrate the patterns; they are not validation of the new recipes.
 
 ```text
 Your camera take + screen recording + actual speech timing
@@ -192,7 +192,7 @@ Replace the recording and supporting evidence along with the topic. Preserve the
 
 ## 6. MotionGit, Hypit and rea-video: what we learn
 
-| Reference | Useful idea | OpenMotion application |
+| Reference | Useful idea | Kinevyn application |
 | --- | --- | --- |
 | [MotionGit format](https://motiongit.com/spec) / [motion-spec](https://github.com/motiontemplates/motion-spec) | Separate template content, runtime and distribution; declare materials, parameters, dependencies and licenses. | Keep Motion.md, executable source, content inputs and evidence distinct. No `.motion` import/export compatibility is claimed. |
 | [MotionGit template collection](https://github.com/motiontemplates/all) | Put a complete demo beside material requirements and usable source/package entry points. | Link each comparison to its real Skill, Motion.md and replacement preset. |

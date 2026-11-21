@@ -44,7 +44,7 @@ export async function publishGuide(directory, config, { run = runFile, fetcher =
     };
     const verifyPublic = async (key, bytes = expected) => {
       const url = new URL('/' + key, plan.publicOrigin);
-      const response = await fetcher(url, { redirect: 'error', signal: AbortSignal.timeout(20_000), headers: { 'cache-control': 'no-cache', 'user-agent': 'OpenMotion-install-publisher' } });
+      const response = await fetcher(url, { redirect: 'error', signal: AbortSignal.timeout(20_000), headers: { 'cache-control': 'no-cache', 'user-agent': 'Kinevyn-install-publisher' } });
       assert(response.ok, `Public installation guide returned HTTP ${response.status}`);
       assert(Buffer.from(await response.arrayBuffer()).equals(bytes), 'Public installation guide bytes differ');
     };
@@ -66,7 +66,7 @@ export async function publishGuide(directory, config, { run = runFile, fetcher =
     if (previous) {
       assert(previous.etag, 'Existing guide requires an ETag for conditional promotion');
       await writeFile(path.join(directory, 'previous-install.md'), previous.bytes);
-      const version = previous.bytes.toString('utf8').match(/^# Install OpenMotion (\S+)\s*$/m)?.[1];
+      const version = previous.bytes.toString('utf8').match(/^# Install Kinevyn (\S+)\s*$/m)?.[1];
       assert(version, 'Existing default guide has no recognizable version; inspect it before promotion');
       if (comparePublicationVersions(version, record.version) > 0) {
         const publication = { ...record, ...plan, phase: 'superseded', promoted: false, currentVersion: version };

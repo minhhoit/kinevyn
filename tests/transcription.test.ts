@@ -103,26 +103,26 @@ test('failures, queued cancellation, source changes and provider changes do not 
 
 test('public MCP imports, corrects and exports transcripts; applies captions atomically with native version history', () => fixture(async store => {
   const service = api(store), projectId = store.projectId, sourcePath = await source(store);
-  const call = (transcript: any) => service.call('openmotion_assets_use', { action: 'transcript', transcript });
-  const schema = phase1Tools.find(tool => tool.name === 'openmotion_assets_use')!.inputSchema;
+  const call = (transcript: any) => service.call('kinevyn_assets_use', { action: 'transcript', transcript });
+  const schema = phase1Tools.find(tool => tool.name === 'kinevyn_assets_use')!.inputSchema;
   assert.throws(() => validateInput(schema, { action: 'transcript', transcript: { command: 'captions', projectId } }), /required/);
   const { document: doc } = await call({ command: 'import', projectId, sourcePath, requestId: 'import', subtitles: '1\n00:00:00,100 --> 00:00:01,500\nHello world.\n' });
   const update = { command: 'update', projectId, transcriptId: doc.id, requestId: 'correct', expectedTranscriptRevision: 1, segments: [{ ...doc.segments[0], text: '<script>Edited</script>' }] };
   const corrected = (await call(update)).document; assert.equal(corrected.revision, 2); assert.equal((await call(update)).document.revision, 2); assert.equal(corrected.original[0].text, 'Hello world.');
   await assert.rejects(call({ ...update, requestId: 'conflict' }), /TRANSCRIPT_CONFLICT/);
   const exported = await call({ command: 'export', projectId, transcriptId: doc.id, format: 'vtt' }); assert.match(exported.content, /WEBVTT/);
-  let detail = await service.call('openmotion_get_project', { projectId });
+  let detail = await service.call('kinevyn_get_project', { projectId });
   const command = { command: 'captions', projectId, transcriptId: doc.id, expectedTranscriptRevision: 2, compositionPath: 'index.html', timelineStart: 1, sourceStart: 0, sourceEnd: 3, playbackRate: 1, expectedRevision: detail.revision, expectedVersionId: detail.currentVersionId, requestId: 'captions' };
   const applied = await call(command); assert.equal(applied.captionCount, 1); assert.equal((await call(command)).replayed, true);
   const html = await readFile(path.join(store.projectDirectory, 'index.html'), 'utf8'); assert.match(html, /&lt;script&gt;Edited&lt;\/script&gt;/); assert.match(html, /data-start="1.1"/);
   await assert.rejects(call({ ...command, requestId: 'outdated' }), /VERSION_CONFLICT/);
-  detail = await service.call('openmotion_get_project', { projectId });
+  detail = await service.call('kinevyn_get_project', { projectId });
   await call({ ...command, requestId: 'replace', expectedRevision: detail.revision, expectedVersionId: detail.currentVersionId });
-  assert.equal((await readFile(path.join(store.projectDirectory, 'index.html'), 'utf8')).split(`openmotion-transcript:${doc.id}:start`).length, 2);
-  const restored = await service.call('openmotion_restore_version', { projectId, requestId: 'restore', versionId: command.expectedVersionId, expectedRevision: (await service.call('openmotion_get_project', { projectId })).revision, expectedVersionId: (await service.call('openmotion_get_project', { projectId })).currentVersionId });
-  assert.ok(restored.version); assert.doesNotMatch(await readFile(path.join(store.projectDirectory, 'index.html'), 'utf8'), /openmotion-transcript:/);
+  assert.equal((await readFile(path.join(store.projectDirectory, 'index.html'), 'utf8')).split(`kinevyn-transcript:${doc.id}:start`).length, 2);
+  const restored = await service.call('kinevyn_restore_version', { projectId, requestId: 'restore', versionId: command.expectedVersionId, expectedRevision: (await service.call('kinevyn_get_project', { projectId })).revision, expectedVersionId: (await service.call('kinevyn_get_project', { projectId })).currentVersionId });
+  assert.ok(restored.version); assert.doesNotMatch(await readFile(path.join(store.projectDirectory, 'index.html'), 'utf8'), /kinevyn-transcript:/);
   await writeFile(path.join(store.projectDirectory, sourcePath), 'changed');
-  detail = await service.call('openmotion_get_project', { projectId });
+  detail = await service.call('kinevyn_get_project', { projectId });
   await assert.rejects(call({ ...command, requestId: 'stale-source', expectedRevision: detail.revision, expectedVersionId: detail.currentVersionId }), /SOURCE_CHANGED/);
   await closeTranscripts(store);
 }));
@@ -230,29 +230,29 @@ test('word highlight cues still meet after a playback rate moves them off whole 
 
 test('public caption track controls share revision guards, request replay and reversible native history', () => fixture(async store => {
   const service = api(store), projectId = store.projectId, sourcePath = await source(store);
-  const call = (transcript: any) => service.call('openmotion_assets_use', { action: 'transcript', transcript });
+  const call = (transcript: any) => service.call('kinevyn_assets_use', { action: 'transcript', transcript });
   const { document: doc } = await call({ command: 'import', projectId, sourcePath, requestId: 'caption-doc', segments: document().segments });
-  let current = await service.call('openmotion_get_project', { projectId });
+  let current = await service.call('kinevyn_get_project', { projectId });
   await call({ command: 'captions', projectId, transcriptId: doc.id, expectedTranscriptRevision: doc.revision, compositionPath: 'index.html', timelineStart: 0, sourceStart: 0, sourceEnd: 3, playbackRate: 1, expectedRevision: current.revision, expectedVersionId: current.currentVersionId, requestId: 'styled-caption', captionSettings: { preset: 'outline', pacing: 'word' } });
   let list = await call({ command: 'caption_tracks', projectId, compositionPath: 'index.html' }); assert.equal(list.tracks[0].settings.preset, 'outline'); assert.equal(list.tracks[0].cueCount, 2);
-  current = await service.call('openmotion_get_project', { projectId });
+  current = await service.call('kinevyn_get_project', { projectId });
   const input = { command: 'caption_update', projectId, compositionPath: 'index.html', transcriptId: doc.id, expectedRevision: current.revision, expectedVersionId: current.currentVersionId, requestId: 'hide-caption', captionSettings: { visible: false } };
   await call(input); assert.equal((await call(input)).replayed, true);
   await assert.rejects(call({ ...input, requestId: 'stale-visibility', captionSettings: { visible: true } }), /VERSION_CONFLICT/);
   list = await call({ command: 'caption_tracks', projectId, compositionPath: 'index.html' }); assert.equal(list.tracks[0].settings.visible, false);
-  current = await service.call('openmotion_get_project', { projectId });
+  current = await service.call('kinevyn_get_project', { projectId });
   await call({ ...input, requestId: 'remove-caption', expectedRevision: current.revision, expectedVersionId: current.currentVersionId, remove: true });
   assert.deepEqual((await call({ command: 'caption_tracks', projectId, compositionPath: 'index.html' })).tracks, []);
-  const after = await service.call('openmotion_get_project', { projectId });
-  await service.call('openmotion_restore_version', { projectId, requestId: 'restore-caption', versionId: current.currentVersionId, expectedRevision: after.revision, expectedVersionId: after.currentVersionId });
+  const after = await service.call('kinevyn_get_project', { projectId });
+  await service.call('kinevyn_restore_version', { projectId, requestId: 'restore-caption', versionId: current.currentVersionId, expectedRevision: after.revision, expectedVersionId: after.currentVersionId });
   assert.equal((await call({ command: 'caption_tracks', projectId, compositionPath: 'index.html' })).tracks.length, 1);
   await closeTranscripts(store);
 }));
 
 test('manual text and subtitle import need no media or model and retain native history guards', () => fixture(async store => {
   const service = api(store), projectId = store.projectId;
-  const call = (transcript: any) => service.call('openmotion_assets_use', { action: 'transcript', transcript });
-  let detail = await service.call('openmotion_get_project', { projectId });
+  const call = (transcript: any) => service.call('kinevyn_assets_use', { action: 'transcript', transcript });
+  let detail = await service.call('kinevyn_get_project', { projectId });
   const input = { command: 'caption_add', textKind: 'text', projectId, compositionPath: 'index.html', timelineStart: 2,
     segments: [{ id: 'manual', text: '<b>My title</b>', start: 0, end: 3 }], expectedRevision: detail.revision, expectedVersionId: detail.currentVersionId, requestId: 'manual-text' };
   const added = await call(input); assert.equal(added.captionCount, 1); assert.equal((await call(input)).replayed, true);
@@ -262,13 +262,13 @@ test('manual text and subtitle import need no media or model and retain native h
   assert.match(added.trackId, /^[a-f0-9-]{36}$/);
   assert.equal((await call({ command: 'caption_tracks', projectId, compositionPath: 'index.html' })).tracks[0].kind, 'text');
   await assert.rejects(call({ ...input, requestId: 'stale-text' }), /CONFLICT/);
-  detail = await service.call('openmotion_get_project', { projectId });
+  detail = await service.call('kinevyn_get_project', { projectId });
   const imported = await call({ command: 'caption_add', projectId, compositionPath: 'index.html', timelineStart: 1, subtitles: '1\n00:00:00,000 --> 00:00:01,000\nFirst\n\n2\n00:00:01,000 --> 00:00:02,000\nSecond\n', expectedRevision: detail.revision, expectedVersionId: detail.currentVersionId, requestId: 'standalone-srt' });
   assert.equal(imported.captionCount, 2);
   const tracks = (await call({ command: 'caption_tracks', projectId, compositionPath: 'index.html' })).tracks;
   assert.equal(tracks.length, 2); assert.equal(tracks[0].cueCount, 2); assert.equal(tracks[0].id, imported.trackId); assert.equal(tracks[1].id, added.trackId);
   html = await readFile(path.join(store.projectDirectory, 'index.html'), 'utf8'); assert.match(html, /data-start="1"/);
-  detail = await service.call('openmotion_get_project', { projectId });
+  detail = await service.call('kinevyn_get_project', { projectId });
   await assert.rejects(call({ ...input, expectedRevision: detail.revision, expectedVersionId: detail.currentVersionId, requestId: 'invalid-time', segments: [{ id: 'bad', text: 'Bad', start: 2, end: 1 }] }), /valid/);
   assert.equal(await readFile(path.join(store.projectDirectory, 'index.html'), 'utf8'), html);
 }));
@@ -318,13 +318,13 @@ test('caption on/off reserves one empty native lane, fills it, and preserves tex
 
 test('public caption toggle is replay-safe, revision guarded and reversible', () => fixture(async store => {
   const service = api(store), projectId = store.projectId;
-  const call = (transcript: any) => service.call('openmotion_assets_use', { action: 'transcript', transcript });
-  const before = await service.call('openmotion_get_project', { projectId });
+  const call = (transcript: any) => service.call('kinevyn_assets_use', { action: 'transcript', transcript });
+  const before = await service.call('kinevyn_get_project', { projectId });
   const input = { command: 'caption_toggle', projectId, compositionPath: 'index.html', visible: true, requestId: 'enable-captions', expectedRevision: before.revision, expectedVersionId: before.currentVersionId };
   const enabled = await call(input); assert.equal(enabled.captionCount, 0); assert.equal((await call(input)).replayed, true);
   assert.equal((await call({ command: 'caption_tracks', projectId, compositionPath: 'index.html' })).tracks.length, 1);
   await assert.rejects(call({ ...input, visible: false, requestId: 'stale-toggle' }), /VERSION_CONFLICT/);
-  const current = await service.call('openmotion_get_project', { projectId });
-  await service.call('openmotion_restore_version', { projectId, requestId: 'restore-no-captions', versionId: before.currentVersionId, expectedRevision: current.revision, expectedVersionId: current.currentVersionId });
+  const current = await service.call('kinevyn_get_project', { projectId });
+  await service.call('kinevyn_restore_version', { projectId, requestId: 'restore-no-captions', versionId: before.currentVersionId, expectedRevision: current.revision, expectedVersionId: current.currentVersionId });
   assert.equal((await call({ command: 'caption_tracks', projectId, compositionPath: 'index.html' })).tracks.length, 0);
 }));

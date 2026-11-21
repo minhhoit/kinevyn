@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { templates } from '../template-library.ts';
 import { builtinRecommendationIds, onboardingSourceFiles, onboardingTemplateIds, recommendationTemplateIds } from './onboarding-templates.ts';
 
-export const templatePresentationName = 'openmotion_show_template_recommendations';
+export const templatePresentationName = 'kinevyn_show_template_recommendations';
 export const templatePresentationMime = 'text/html;profile=mcp-app';
 export const templatePresentationCapability = 'io.modelcontextprotocol/ui';
 export const templatePresentationLimit = 1.5 * 1024 * 1024;
@@ -167,18 +167,18 @@ export function loadTemplatePresentation(options: { directory?: string; applicat
   const css = regularFile(directory, 'build/app.css').toString('utf8');
   const metadata = { ui: { prefersBorder: false, csp: { connectDomains: [], resourceDomains: ['blob:', 'https://r.open-design.ai'] } },
     'openai/ui': { preferredDisplayMode: 'inline' } };
-  const skeleton = '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>{{css}}</style></head><body><main id="openmotion-template-cards"></main><script>window.__OPENMOTION_TEMPLATE_CARDS__={{bootstrap}};</script><script>{{script}}</script></body></html>';
+  const skeleton = '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>{{css}}</style></head><body><main id="kinevyn-template-cards"></main><script>window.__KINEVYN_TEMPLATE_CARDS__={{bootstrap}};</script><script>{{script}}</script></body></html>';
   // This identity precedes HTML injection, avoiding a self-referential content hash.
   const resourceVersion = digest(JSON.stringify({ skeleton, manifest, metadata, css, script }));
   const text = skeleton.replace('{{css}}', () => css.replace(/<\/style/gi, '<\\/style'))
     .replace('{{bootstrap}}', () => safeJson({ resourceVersion, templates: previews }))
     .replace('{{script}}', () => script.replace(/<\/script/gi, '<\\/script'));
   const contentHash = digest(JSON.stringify({ text, metadata }));
-  const uri = `ui://openmotion/template-recommendations/${contentHash}/index.html`;
+  const uri = `ui://kinevyn/template-recommendations/${contentHash}/index.html`;
   const content = { uri, mimeType: templatePresentationMime, text, _meta: metadata };
   requireValue(Buffer.byteLength(JSON.stringify({ jsonrpc: '2.0', id: 1, result: { contents: [content] } })) <= templatePresentationLimit, 'resource exceeds 1.5 MiB');
   const tool: ToolDefinition = {
-    name: templatePresentationName, title: 'OpenMotion · Show Template Recommendations',
+    name: templatePresentationName, title: 'Kinevyn · Show Template Recommendations',
     description: 'Show three approved, full-video template previews in this chat, in the supplied order. Always set language to the language of the latest user request (or their explicit requested output language), regardless of the host interface locale. Supported: zh, en, ja, ko, fr, es, pt; use en for other languages. For first-run onboarding, preserve the prepared random three-of-four selection, open the template library once, then set onboarding=true: the persistent conversation component displays the maintained welcome above exactly three cards. Do not repeat the welcome in the final reply. Ordinary recommendations omit onboarding. Result _meta binds the negotiated immutable ui.resourceUri and a recommendation-specific openai/widgetSessionId. This read-only presentation does not create or select a project. Use only when discovered natively; otherwise use the prepared self-contained project-preview document from installation onboarding and assess native activation separately.',
     inputSchema: { type: 'object', properties: { templateIds: { type: 'array', minItems: 3, maxItems: 3,
       items: { type: 'string', enum: supportedIds }, uniqueItems: true },
@@ -187,7 +187,7 @@ export function loadTemplatePresentation(options: { directory?: string; applicat
     annotations: { readOnlyHint: true, openWorldHint: false },
     _meta: { ui: { resourceUri: uri }, 'openai/ui': { preferredModelDisplayMode: 'inline' } },
   };
-  return freeze({ uri, resourceVersion, tool, descriptor: { uri, name: 'OpenMotion template recommendations', mimeType: templatePresentationMime }, content, templates: manifest.templates });
+  return freeze({ uri, resourceVersion, tool, descriptor: { uri, name: 'Kinevyn template recommendations', mimeType: templatePresentationMime }, content, templates: manifest.templates });
 }
 
 /** Reinitialization must clear capabilities even when a previous init supported UI. */
@@ -195,7 +195,7 @@ export function negotiateTemplatePresentation(state: McpClientState | undefined,
   if (!state) return;
   state.presentation = undefined;
   const mimeTypes = capabilities?.extensions?.[templatePresentationCapability]?.mimeTypes;
-  if (profile !== 'phase1' || process.env.OPENMOTION_TEMPLATE_CARDS === '0'
+  if (profile !== 'phase1' || process.env.KINEVYN_TEMPLATE_CARDS === '0'
     || !Array.isArray(mimeTypes) || !mimeTypes.includes(templatePresentationMime)) return;
   try { state.presentation = loadTemplatePresentation(); }
   catch { /* Optional presentation failure must leave the domain tools available. */ }
@@ -222,5 +222,5 @@ export function showTemplateRecommendations(presentation: TemplatePresentation, 
   return { schemaVersion: 1, resourceVersion: presentation.resourceVersion, recommendationId: randomUUID(), cards,
     ...(args.language !== undefined ? { language: args.language } : {}),
     ...(args.onboarding === true ? { onboarding: true as const } : {}),
-    selectionGuide: 'Previewing is read-only. The Recreate template button prepares or copies an unsent brief; it never submits a task. A user-sent yes to one named recommendation accepts that exact template ID; continue without asking them to choose again. A numbered reply selects the corresponding card in this result order. If several cards were offered without one named recommendation, ask which card; a generic yes alone does not identify one. If the user delegates selection for onboarding, recommend the first card in this prepared result by name before creating. Carry the accepted ID, source and requirements into creation, route changes, retries and recovery until the user explicitly changes their selection. Rendering speed, duration or builtin availability never authorizes substitution. Follow the exact chosen template and complete submitted requirements, including requested HTML/MP4 delivery. Legacy createArgs apply only to an explicitly accepted unchanged builtin sample; never substitute them for a customized brief or reference. Call openmotion_get_template with the accepted ID and read instructions and motionDocument before choosing a workflow. If hasHtmlProject is true, follow openmotion-template-to-video and reuse the editable source, preserving unchanged content when no customization was requested. Use openmotion-recreate only for reference-only sources without an editable project. templateKind describes presentation provenance, not editable-source availability; reference cards intentionally have no builtin createArgs. If the selected source or workflow is unavailable, preserve the selection and report the blocker; do not create a different example. Reuse confirmed projects and stable operation IDs for the same intent, and reconcile an unknown write before retrying. Redisplaying cards never authorizes another project or export.' };
+    selectionGuide: 'Previewing is read-only. The Recreate template button prepares or copies an unsent brief; it never submits a task. A user-sent yes to one named recommendation accepts that exact template ID; continue without asking them to choose again. A numbered reply selects the corresponding card in this result order. If several cards were offered without one named recommendation, ask which card; a generic yes alone does not identify one. If the user delegates selection for onboarding, recommend the first card in this prepared result by name before creating. Carry the accepted ID, source and requirements into creation, route changes, retries and recovery until the user explicitly changes their selection. Rendering speed, duration or builtin availability never authorizes substitution. Follow the exact chosen template and complete submitted requirements, including requested HTML/MP4 delivery. Legacy createArgs apply only to an explicitly accepted unchanged builtin sample; never substitute them for a customized brief or reference. Call kinevyn_get_template with the accepted ID and read instructions and motionDocument before choosing a workflow. If hasHtmlProject is true, follow kinevyn-template-to-video and reuse the editable source, preserving unchanged content when no customization was requested. Use kinevyn-recreate only for reference-only sources without an editable project. templateKind describes presentation provenance, not editable-source availability; reference cards intentionally have no builtin createArgs. If the selected source or workflow is unavailable, preserve the selection and report the blocker; do not create a different example. Reuse confirmed projects and stable operation IDs for the same intent, and reconcile an unknown write before retrying. Redisplaying cards never authorizes another project or export.' };
 }

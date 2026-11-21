@@ -10,6 +10,6 @@ export function configureStudio(origin: string): void {
     url.protocol !== "http:" ||
     !["127.0.0.1", "localhost", "[::1]"].includes(url.hostname)
   )
-    throw new Error("OpenMotion requires a local Studio origin.");
+    throw new Error("Kinevyn requires a local Studio origin.");
   studio = url.origin;
 }

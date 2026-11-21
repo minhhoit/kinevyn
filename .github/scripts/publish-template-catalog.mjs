@@ -57,7 +57,7 @@ export async function buildTemplatePublication(root, commit, { origin = publicOr
   const prefix = snapshotKey || `${catalogRoot}/snapshots/${commit}`;
   const baseUrl = `${origin}/${prefix}`;
   const objectBaseUrl = `${origin}/${catalogRoot}/objects`;
-  const staging = await mkdtemp(path.join(os.tmpdir(), 'openmotion-template-publication-'));
+  const staging = await mkdtemp(path.join(os.tmpdir(), 'kinevyn-template-publication-'));
   const uploads = [];
   const objectFiles = new Map();
   try {
@@ -91,7 +91,7 @@ export async function buildTemplatePublication(root, commit, { origin = publicOr
       for (const file of files) objectFiles.set(file.sha256, file.absolute);
     }
     for (const [sha256, body] of objectFiles) uploads.push({ key: `${catalogRoot}/objects/${sha256}`, body, contentType: contentType(body), cache: 'public, max-age=31536000, immutable', immutable: true, object: true });
-    const catalog = { ...sourceCatalog, skills, commit, baseUrl, objectBaseUrl, hosted: { schemaVersion: 1, commit, source: 'openmotion-r2', baseUrl, objectBaseUrl } };
+    const catalog = { ...sourceCatalog, skills, commit, baseUrl, objectBaseUrl, hosted: { schemaVersion: 1, commit, source: 'kinevyn-r2', baseUrl, objectBaseUrl } };
     const catalogPath = path.join(staging, 'catalog.json');
     await writeFile(catalogPath, jsonBytes(catalog));
     uploads.push({ key: `${prefix}/catalog.json`, body: catalogPath, contentType: 'application/json; charset=utf-8', cache: 'public, max-age=31536000, immutable', immutable: true });
@@ -128,7 +128,7 @@ async function putObject(run, storage, upload, { immutable = false } = {}) {
 }
 
 async function verifyPublic(fetcher, url, expected) {
-  const response = await fetcher(url, { redirect: 'error', headers: { 'cache-control': 'no-cache', 'user-agent': 'OpenMotion-template-publisher' }, signal: AbortSignal.timeout(30_000) });
+  const response = await fetcher(url, { redirect: 'error', headers: { 'cache-control': 'no-cache', 'user-agent': 'Kinevyn-template-publisher' }, signal: AbortSignal.timeout(30_000) });
   assert(response.ok, `Public template catalog returned HTTP ${response.status}`);
   const actual = Buffer.from(await response.arrayBuffer());
   assert(actual.equals(expected), 'Public template catalog bytes differ');
@@ -199,7 +199,7 @@ export async function finalizeTemplateSnapshot(candidate, receipt, { endpoint, b
   assert.equal(digest(bytes), receipt.catalogSHA256, 'Prepared template catalog bytes differ');
   if (!promote) return receipt;
   const pointerKey = `${catalogRoot}/releases/catalog.json`;
-  const directory = await mkdtemp(path.join(os.tmpdir(), 'openmotion-catalog-pointer-'));
+  const directory = await mkdtemp(path.join(os.tmpdir(), 'kinevyn-catalog-pointer-'));
   try {
     const body = path.join(directory, 'catalog.json');
     await writeFile(body, bytes);
@@ -234,7 +234,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
         const receipt = JSON.parse(await readFile(receiptFile, 'utf8'));
         console.log(JSON.stringify(await finalizeTemplateSnapshot(candidate, receipt, { ...config, promote }), null, 2));
       } else {
-        work = await mkdtemp(path.join(os.tmpdir(), 'openmotion-template-release-'));
+        work = await mkdtemp(path.join(os.tmpdir(), 'kinevyn-template-release-'));
         source = path.join(work, 'source');
         await runFile('git', ['worktree', 'add', '--detach', source, commit], { cwd: root, env: { ...process.env, GIT_LFS_SKIP_SMUDGE: '1' } });
         await runFile('git', ['lfs', 'pull', '--include=library/templates/catalog/**,library/skills/**', '--exclude='], { cwd: source });

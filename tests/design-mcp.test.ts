@@ -27,13 +27,13 @@ test('MCP registry exposes 22 phase-1 tools including the 4 design tools and des
     assert(registry.tools.some(t => t.name === name), `missing tool ${name}`);
   }
   const resources = workflowResources();
-  assert(resources.some(r => r.uri === 'openmotion://workflow/design/start'));
-  assert(resources.some(r => r.uri === 'openmotion://workflow/design/iterate'));
-  const start = await readWorkflowResource('openmotion://workflow/design/start', os.tmpdir());
-  assert(start.text.includes('openmotion_design_project'));
+  assert(resources.some(r => r.uri === 'kinevyn://workflow/design/start'));
+  assert(resources.some(r => r.uri === 'kinevyn://workflow/design/iterate'));
+  const start = await readWorkflowResource('kinevyn://workflow/design/start', os.tmpdir());
+  assert(start.text.includes('kinevyn_design_project'));
 });
 
-test('Phase1Service dispatches all 4 openmotion_design_* tools end-to-end', async () => {
+test('Phase1Service dispatches all 4 kinevyn_design_* tools end-to-end', async () => {
   const dir = await mkdtemp(path.join(os.tmpdir(), 'om-design-mcp-'));
   try {
     const store = new WorkspaceStore(dir);
@@ -45,35 +45,35 @@ test('Phase1Service dispatches all 4 openmotion_design_* tools end-to-end', asyn
       cancelExport: async () => ({}),
     });
 
-    const cat = await service.call('openmotion_design_catalog', { action: 'list_scenarios' });
+    const cat = await service.call('kinevyn_design_catalog', { action: 'list_scenarios' });
     assert.equal(cat.scenarios.length, 7);
 
-    const created = await service.call('openmotion_design_project', {
+    const created = await service.call('kinevyn_design_project', {
       action: 'create', requestId: 'mcp-1', scenario: 'prototype', title: 'MCP Prototype', designSystemId: 'apple',
     });
     const pid = created.project.id;
     assert.equal(created.project.title, 'MCP Prototype');
 
-    const edited = await service.call('openmotion_design_edit', {
+    const edited = await service.call('kinevyn_design_edit', {
       action: 'write', projectId: pid, requestId: 'mcp-w1', expectedRevision: created.project.revision,
       files: [{ path: 'index.html', content: '<!doctype html><html><body><h1>From MCP</h1></body></html>' }],
       summary: 'MCP edit',
     });
     assert.equal(edited.version.label, 'v2');
 
-    const comment = await service.call('openmotion_design_comments', {
+    const comment = await service.call('kinevyn_design_comments', {
       action: 'create', projectId: pid, requestId: 'mcp-c1', expectedRevision: edited.project.revision,
       text: 'Make title larger',
       anchor: { filePath: 'index.html', viewport: { id: 'mobile', width: 390, height: 844 } },
     });
     assert.equal(comment.comment.status, 'open');
 
-    const resolved = await service.call('openmotion_design_comments', {
+    const resolved = await service.call('kinevyn_design_comments', {
       action: 'update', projectId: pid, commentId: comment.comment.id, status: 'resolved', expectedCommentRevision: 1,
     });
     assert.equal(resolved.comment.status, 'resolved');
 
-    const opened = await service.call('openmotion_design_project', { action: 'open', projectId: pid });
+    const opened = await service.call('kinevyn_design_project', { action: 'open', projectId: pid });
     assert.equal(opened.editorUrl, `http://127.0.0.1:4321/?page=design&scene=projects&designProject=${pid}`);
     assert.equal(opened.openComments, 0);
   } finally {
@@ -81,7 +81,7 @@ test('Phase1Service dispatches all 4 openmotion_design_* tools end-to-end', asyn
   }
 });
 
-test('stdio MCP subprocess runs all 4 openmotion_design_* tools and openmotion-design resources against live server', async t => {
+test('stdio MCP subprocess runs all 4 kinevyn_design_* tools and kinevyn-design resources against live server', async t => {
   const studioBuilt = await access(path.join(repoRoot, 'studio/build/index.html')).then(() => true, () => false);
   if (!studioBuilt) { t.skip('studio/build/index.html is not built yet'); return; }
 
@@ -124,7 +124,7 @@ test('stdio MCP subprocess runs all 4 openmotion_design_* tools and openmotion-d
 
     child = spawn(process.execPath, ['--experimental-strip-types', path.join(repoRoot, 'mcp.ts')], {
       cwd: repoRoot,
-      env: { ...process.env, MOTION_DATA_DIR: dir, PORT: String(port), OPENMOTION_TELEMETRY: '0' },
+      env: { ...process.env, MOTION_DATA_DIR: dir, PORT: String(port), KINEVYN_TELEMETRY: '0' },
       stdio: ['pipe', 'pipe', 'pipe'],
     });
     let stderr = '';
@@ -160,53 +160,53 @@ test('stdio MCP subprocess runs all 4 openmotion_design_* tools and openmotion-d
     assert.equal(listed.tools.length, 22);
     for (const name of DESIGN_TOOL_NAMES) assert.ok(listed.tools.some((tool: any) => tool.name === name), `missing ${name}`);
 
-    const guide = await send('resources/read', { uri: 'openmotion://workflow/design/start' });
-    assert.ok(guide.contents[0].text.includes('openmotion_design_project'));
+    const guide = await send('resources/read', { uri: 'kinevyn://workflow/design/start' });
+    assert.ok(guide.contents[0].text.includes('kinevyn_design_project'));
 
-    const catalog = await call('openmotion_design_catalog', { action: 'list_templates', scenario: 'prototype', limit: 5 });
+    const catalog = await call('kinevyn_design_catalog', { action: 'list_templates', scenario: 'prototype', limit: 5 });
     assert.ok(catalog.items.length > 0);
 
-    const created = await call('openmotion_design_project', {
+    const created = await call('kinevyn_design_project', {
       action: 'create', requestId: 'stdio-1', scenario: 'prototype', title: 'Stdio MCP Prototype', designSystemId: 'stripe',
     });
     const pid = created.project.id as string;
 
-    const readRes = await call('openmotion_design_edit', { action: 'read_file', projectId: pid, path: 'index.html' });
+    const readRes = await call('kinevyn_design_edit', { action: 'read_file', projectId: pid, path: 'index.html' });
     assert.ok(readRes.content.includes('Stdio MCP Prototype'));
 
-    const written = await call('openmotion_design_edit', {
+    const written = await call('kinevyn_design_edit', {
       action: 'write', projectId: pid, requestId: 'stdio-w1', expectedRevision: created.project.revision,
       files: [{ path: 'index.html', content: '<!doctype html><html><body><h1>Stdio Agent Update</h1></body></html>' }],
       summary: 'Agent hero update',
     });
     assert.equal(written.version.label, 'v2');
 
-    const comment = await call('openmotion_design_comments', {
+    const comment = await call('kinevyn_design_comments', {
       action: 'create', projectId: pid, requestId: 'stdio-c1', expectedRevision: written.project.revision,
       text: 'Refine CTA spacing',
       anchor: { filePath: 'index.html', viewport: { id: 'desktop', width: 1440, height: 900 } },
     });
     assert.equal(comment.comment.status, 'open');
 
-    const listedComments = await call('openmotion_design_comments', { action: 'list', projectId: pid, status: 'open' });
+    const listedComments = await call('kinevyn_design_comments', { action: 'list', projectId: pid, status: 'open' });
     assert.equal(listedComments.comments.length, 1);
 
-    const resolved = await call('openmotion_design_comments', {
+    const resolved = await call('kinevyn_design_comments', {
       action: 'update', projectId: pid, commentId: comment.comment.id, status: 'resolved', expectedCommentRevision: 1,
     });
     assert.equal(resolved.comment.status, 'resolved');
 
-    const versions = await call('openmotion_design_edit', { action: 'list_versions', projectId: pid });
+    const versions = await call('kinevyn_design_edit', { action: 'list_versions', projectId: pid });
     assert.equal(versions.versions.length, 2);
     const v1 = versions.versions.find((v: any) => v.label === 'v1');
-    const restored = await call('openmotion_design_edit', {
+    const restored = await call('kinevyn_design_edit', {
       action: 'restore_version', projectId: pid, requestId: 'stdio-r1', versionId: v1.id, expectedRevision: written.project.revision,
     });
     assert.equal(restored.version.label, 'v3');
 
-    const exported = await call('openmotion_design_project', { action: 'export', projectId: pid, format: 'open-design' });
+    const exported = await call('kinevyn_design_project', { action: 'export', projectId: pid, format: 'open-design' });
     assert.ok(exported.outputPath.endsWith('.zip'));
-    const reimported = await call('openmotion_design_project', { action: 'import', sourcePath: exported.outputPath });
+    const reimported = await call('kinevyn_design_project', { action: 'import', sourcePath: exported.outputPath });
     assert.equal(reimported.projects.length, 1);
     assert.notEqual(reimported.projects[0].id, pid);
   } finally {
@@ -226,7 +226,7 @@ test('stdio MCP subprocess runs all 4 openmotion_design_* tools and openmotion-d
 test('Design Studio hand-off prompts include self-contained MCP setup and live workspace guidance', () => {
   const integration = {
     previewUrl: 'http://127.0.0.1:4197',
-    dataDirectory: '/tmp/openmotion-data',
+    dataDirectory: '/tmp/kinevyn-data',
   };
   const briefEn = designBriefPrompt({
     scenario: 'prototype',
@@ -235,7 +235,7 @@ test('Design Studio hand-off prompts include self-contained MCP setup and live w
     skillIds: ['frontend-design'],
     integration,
   });
-  for (const needle of [setupSkillUrl, setupReadmeUrl, 'docs/install.md', 'http://127.0.0.1:4197/connect/guide?host=mcp', '/tmp/openmotion-data', 'openmotion_design_catalog', 'openmotion_design_project', 'openmotion_design_edit']) {
+  for (const needle of [setupSkillUrl, setupReadmeUrl, 'docs/install.md', 'http://127.0.0.1:4197/connect/guide?host=mcp', '/tmp/kinevyn-data', 'kinevyn_design_catalog', 'kinevyn_design_project', 'kinevyn_design_edit']) {
     assert.ok(briefEn.includes(needle), `briefEn missing ${needle}`);
   }
 
@@ -261,5 +261,5 @@ test('Design Studio hand-off prompts include self-contained MCP setup and live w
     { integration },
   );
   assert.ok(commentsPrompt.includes(setupSkillUrl));
-  assert.ok(commentsPrompt.includes('openmotion_design_comments'));
+  assert.ok(commentsPrompt.includes('kinevyn_design_comments'));
 });

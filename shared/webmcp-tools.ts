@@ -8,7 +8,7 @@ function failure(message: string, applied: boolean | 'unknown', fallback = 'WEBM
 }
 
 /** Page registration reuses the public contract and the existing service authority. */
-export function buildOpenMotionWebMcpTools(request: (url: string, init?: RequestInit) => Promise<Response>) {
+export function buildKinevynWebMcpTools(request: (url: string, init?: RequestInit) => Promise<Response>) {
   return phase1Tools.map(tool => ({
     name: tool.name,
     title: tool.title,
@@ -28,7 +28,7 @@ export function buildOpenMotionWebMcpTools(request: (url: string, init?: Request
         const result = await response.json();
         if (!response.ok) return { ...result, ...failure(typeof result.error === 'string' ? result.error : `HTTP ${response.status}`,
           typeof result.applied === 'boolean' ? result.applied : 'unknown', result.code ?? 'WEBMCP_CALL_FAILED', result) };
-        return tool.name === 'openmotion_assets_use' && (input as { action?: string }).action === 'read'
+        return tool.name === 'kinevyn_assets_use' && (input as { action?: string }).action === 'read'
           ? assetReadToolResult(result) : result;
       } catch (error) {
         return failure(error instanceof Error ? error.message : String(error), dispatched ? 'unknown' : false,

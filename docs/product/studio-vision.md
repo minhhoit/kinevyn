@@ -1,4 +1,4 @@
-# OpenMotion：All-in-One AI-native Studio 产品蓝图
+# Kinevyn：All-in-One AI-native Studio 产品蓝图
 
 更新：2026-11-08。本文维护已确认产品方向、概念与后续验收方式；当前实现以 [产品架构](architecture.md)、[Model Gateway](../model-gateway.md) 和 [工程契约](../project-workspace.md) 为准。本文不代表新增能力已经上线。
 
@@ -60,7 +60,7 @@ Input → Process → Output 仍是当前制作链路；发布、反馈与知识
 
 参考 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) 的插件化扩展思路，以及 [dsh-superagent-prototype](https://github.com/deepseek-ai/dsh-superagent-prototype) 对事件与持续任务的探索。核查日期为 2026-11-08。后者 README 将其标为研究原型，并明确与内部版本和文章中的设计存在差异。
 
-OpenMotion 将持续任务理念用于视频创作场景；本次只更新产品文档，不引入其代码、运行时或已实现能力。名称是本项目的概念定义，不代表 DeepSeek 背书。
+Kinevyn 将持续任务理念用于视频创作场景；本次只更新产品文档，不引入其代码、运行时或已实现能力。名称是本项目的概念定义，不代表 DeepSeek 背书。
 
 ## AI 原生架构蓝图
 
@@ -140,24 +140,24 @@ RAG 指按需检索已有知识，不等同于训练模型。Skill 沉淀先形�
 01  创作者 → Agent
     提供目标、素材、脚本 / 时间码与保持项
 
-02  Agent → openmotion_get_project
+02  Agent → kinevyn_get_project
     读取 projectId 对应的源码、上下文、revision 与 versionId
 
-03  Agent → openmotion_edit_project
+03  Agent → kinevyn_edit_project
     提交 files + requestId + expectedRevision + expectedVersionId
     ├─ 版本冲突：拒绝过时写入 → 重新读取 → 协调修改
     └─ 写入成功：保留新版本 → 通知编辑器文件监听
 
-04  Agent → openmotion_open_preview → Studio
+04  Agent → kinevyn_open_preview → Studio
     人工检查预览、继续细调；需要修改时回到步骤 02
 
-05  Agent → openmotion_export_request
+05  Agent → kinevyn_export_request
     指定 projectId / revision / versionId → 固定工程与本地素材快照
 
 06  渲染服务 → MP4 + 技术检查
     lint → render → 规格检查 → 完整解码 → 代表时间点 seek
 
-07  Agent → openmotion_get_project（exportJobId）
+07  Agent → kinevyn_get_project（exportJobId）
     等待实际产物 → 返回文件 → 正常速度审听 / 用户验收
 ```
 

@@ -30,11 +30,11 @@ test('project catalog reads finish after a stalled preview has entered the share
     return dispatch(name, args, host);
   };
   let openingSettled = false;
-  const opening = service.call('openmotion_open_preview', { projectId: 'project' }).finally(() => { openingSettled = true; });
+  const opening = service.call('kinevyn_open_preview', { projectId: 'project' }).finally(() => { openingSettled = true; });
   let listing: Promise<any> | undefined, timer: ReturnType<typeof setTimeout> | undefined;
   try {
     await entered.promise;
-    listing = service.call('openmotion_get_project', {});
+    listing = service.call('kinevyn_get_project', {});
     const listed = await Promise.race([listing, new Promise<never>((_, reject) => {
       timer = setTimeout(() => reject(new Error('Catalog read queued behind the stalled preview')), 1000);
     })]);
@@ -119,11 +119,11 @@ test('adding a caption reuses verified historical media instead of reading its b
   const store = new WorkspaceStore(root), service = new Phase1Service(store, pluginRoot, {
     origin: () => 'http://127.0.0.1:4173', nativeUrl: () => undefined, openProject: async () => {}, mutation: async task => task(), cancel: async () => {},
   });
-  const created = await service.call('openmotion_create_project', { requestId: 'create', projectType: 'natural_language', title: 'Caption performance', requirements: 'Editable captions' });
+  const created = await service.call('kinevyn_create_project', { requestId: 'create', projectType: 'natural_language', title: 'Caption performance', requirements: 'Editable captions' });
   const scoped = store.forProject(created.projectId), media = path.join(scoped.projectDirectory, 'assets/media.mp4');
   await mkdir(path.dirname(media), { recursive: true });
   await writeFile(media, Buffer.alloc(2 * 1024 * 1024, 51));
-  const detail = await service.call('openmotion_get_project', { projectId: created.projectId });
+  const detail = await service.call('kinevyn_get_project', { projectId: created.projectId });
   const versions = service.versions(created.projectId), version = (await versions.index()).versions.at(-1)!;
   const mediaFile = version.files.find(file => file.path === 'assets/media.mp4')!;
   const historicalMedia = mediaFile.retained ? versions.blob(mediaFile.hash) : await versions.nativeBlob(mediaFile.hash);
@@ -135,7 +135,7 @@ test('adding a caption reuses verified historical media instead of reading its b
   }) as typeof fs.createReadStream;
   syncBuiltinESMExports();
   t.after(() => { fs.createReadStream = original; syncBuiltinESMExports(); });
-  const added = await service.call('openmotion_assets_use', { action: 'transcript', transcript: {
+  const added = await service.call('kinevyn_assets_use', { action: 'transcript', transcript: {
     command: 'caption_add', projectId: created.projectId, compositionPath: 'index.html', requestId: 'caption',
     expectedRevision: detail.revision, expectedVersionId: detail.currentVersionId,
     segments: [{ id: 'line', text: 'New caption', start: 0, end: 3 }],
@@ -144,7 +144,7 @@ test('adding a caption reuses verified historical media instead of reading its b
   assert.equal(mediaReads, 0, 'a caption-only commit must not reread unchanged retained media');
   assert.equal(added.version.restorable, true);
   assert.match(await readFile(path.join(scoped.projectDirectory, 'index.html'), 'utf8'), /New caption/);
-  await assert.rejects(service.call('openmotion_assets_use', { action: 'transcript', transcript: {
+  await assert.rejects(service.call('kinevyn_assets_use', { action: 'transcript', transcript: {
     command: 'caption_add', projectId: created.projectId, compositionPath: 'index.html', requestId: 'stale-caption',
     expectedRevision: detail.revision, expectedVersionId: detail.currentVersionId,
     segments: [{ id: 'line', text: 'Stale caption', start: 0, end: 3 }],
@@ -176,14 +176,14 @@ test('native history restores retained media after later edits and refuses corru
   const store = new WorkspaceStore(root), service = new Phase1Service(store, pluginRoot, {
     origin: () => 'http://127.0.0.1:4173', nativeUrl: () => undefined, openProject: async () => {}, mutation: async task => task(), cancel: async () => {},
   });
-  const created = await service.call('openmotion_create_project', { requestId: 'create', projectType: 'natural_language', title: 'Restore fixture', requirements: 'Keep the historical media' });
+  const created = await service.call('kinevyn_create_project', { requestId: 'create', projectType: 'natural_language', title: 'Restore fixture', requirements: 'Keep the historical media' });
   const scoped = store.forProject(created.projectId), file = path.join(scoped.projectDirectory, 'assets/fixture.mp4'), bytes = Buffer.alloc(4096, 41);
   await writeFile(file, bytes);
-  const imported = await service.call('openmotion_get_project', { projectId: created.projectId });
+  const imported = await service.call('kinevyn_get_project', { projectId: created.projectId });
   await writeFile(file, Buffer.alloc(bytes.length, 42));
-  const latest = await service.call('openmotion_get_project', { projectId: created.projectId });
+  const latest = await service.call('kinevyn_get_project', { projectId: created.projectId });
   const args = { projectId: created.projectId, versionId: imported.currentVersionId, expectedRevision: latest.revision, expectedVersionId: latest.currentVersionId };
-  const restored = await service.call('openmotion_restore_version', { ...args, requestId: 'restore' });
+  const restored = await service.call('kinevyn_restore_version', { ...args, requestId: 'restore' });
   assert.deepEqual(await readFile(file), bytes);
   assert.ok(restored.version.versionNumber > latest.currentVersionNumber);
   const versions = service.versions(created.projectId), target = (await versions.index()).versions.find(version => version.versionId === imported.currentVersionId)!;
@@ -191,9 +191,9 @@ test('native history restores retained media after later edits and refuses corru
   assert.equal(media.retained, true);
   await writeFile(versions.blob(media.hash), Buffer.alloc(bytes.length));
   const before = await scoped.get();
-  await assert.rejects(service.call('openmotion_restore_version', { ...args, expectedRevision: restored.revision, expectedVersionId: restored.version.versionId, requestId: 'corrupt' }), /VERSION_NOT_RESTORABLE/);
+  await assert.rejects(service.call('kinevyn_restore_version', { ...args, expectedRevision: restored.revision, expectedVersionId: restored.version.versionId, requestId: 'corrupt' }), /VERSION_NOT_RESTORABLE/);
   assert.deepEqual(await scoped.get(), before);
-  const listed = await service.call('openmotion_list_versions', { projectId: created.projectId });
+  const listed = await service.call('kinevyn_list_versions', { projectId: created.projectId });
   assert.equal(listed.versions.find((version: any) => version.versionId === target.versionId).restorable, false);
 });
 test('media kept only in native aside reads as restorable and restores through the native reader', async t => {
@@ -205,7 +205,7 @@ test('media kept only in native aside reads as restorable and restores through t
   const store = new WorkspaceStore(root), service = new Phase1Service(store, pluginRoot, {
     origin: () => 'http://127.0.0.1:4173', nativeUrl: () => undefined, openProject: async () => {}, mutation: async task => task(), cancel: async () => {},
   });
-  const created = await service.call('openmotion_create_project', { requestId: 'create', projectType: 'natural_language', title: 'Aside fixture', requirements: 'Restore media only native history keeps aside' });
+  const created = await service.call('kinevyn_create_project', { requestId: 'create', projectType: 'natural_language', title: 'Aside fixture', requirements: 'Restore media only native history keeps aside' });
   const scoped = store.forProject(created.projectId), media = path.join(scoped.projectDirectory, 'assets/aside.mp4'), bytes = Buffer.from('media bytes native history keeps in aside');
   // Studio adds media and undoes the addition, so native history moves the bytes out of the project into aside.
   const native = await import(pathToFileURL(path.join(pluginRoot, 'node_modules/@hyperframes/studio-server/dist/history/index.js')).href);
@@ -219,7 +219,7 @@ test('media kept only in native aside reads as restorable and restores through t
     await history.undo(added.id, { who: { kind: 'person', name: 'You' } });
     await history.checkpoint();
   } finally { await history.close(); }
-  const detail = await service.call('openmotion_get_project', { projectId: created.projectId });
+  const detail = await service.call('kinevyn_get_project', { projectId: created.projectId });
   const versions = service.versions(created.projectId), target = (await versions.index()).versions.find(version => version.files.some(item => item.path === 'assets/aside.mp4'))!;
   const blob = target.files.find(item => item.path === 'assets/aside.mp4')!;
   const historyId = (await readFile(path.join(scoped.projectDirectory, '.hyperframes/history-id'), 'utf8')).trim();
@@ -228,9 +228,9 @@ test('media kept only in native aside reads as restorable and restores through t
   assert.equal(fs.existsSync(versions.blob(blob.hash)), false, 'no retained copy exists');
   assert.equal(fs.existsSync(path.join(nativeRoot, historyId, sharded)), false, 'no copied native blob exists');
   assert.equal(fs.existsSync(aside), true, 'the bytes live only under native aside');
-  const listed = await service.call('openmotion_list_versions', { projectId: created.projectId });
+  const listed = await service.call('kinevyn_list_versions', { projectId: created.projectId });
   assert.equal(listed.versions.find((version: any) => version.versionId === target.versionId).restorable, true, 'the cached verdict accepts the aside location');
-  const restored = await service.call('openmotion_restore_version', { projectId: created.projectId, versionId: target.versionId,
+  const restored = await service.call('kinevyn_restore_version', { projectId: created.projectId, versionId: target.versionId,
     expectedRevision: detail.revision, expectedVersionId: detail.currentVersionId, requestId: 'restore-aside' });
   assert.deepEqual(await readFile(media), bytes, 'restore stages the aside blob through the native reader');
   assert.ok(restored.version.versionNumber > detail.currentVersionNumber);

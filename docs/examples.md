@@ -2,16 +2,16 @@
 
 [简体中文](examples.zh-CN.md) · [Back to the showcase](../README.md#showcase) · [Sources and assets](readme/ASSETS.md#creative-examples)
 
-These briefs turn the seven README scenarios into concrete requests. The stills and GIFs are **external reference excerpts** from the resource catalog, not OpenMotion-made films or new bundled templates. Durations, aspect ratios and deliverables in the briefs are creative targets that require production and review.
+These briefs turn the seven README scenarios into concrete requests. The stills and GIFs are **external reference excerpts** from the resource catalog, not Kinevyn-made films or new bundled templates. Durations, aspect ratios and deliverables in the briefs are creative targets that require production and review.
 
 ## How to use a brief
 
-1. [Start OpenMotion and connect your agent](../README.md#quick-start). Supply your own footage, brand assets and approved content.
+1. [Start Kinevyn and connect your agent](../README.md#quick-start). Supply your own footage, brand assets and approved content.
 2. Choose a brief and replace its subject. Give your agent the brief, exact catalog ID and source; you can also search the reference title in Studio’s library.
 3. Have the agent inspect the reference before proposing a shot list and cut. Retrieval, transcription and audio analysis depend on host tools; missing media or timecodes must be supplied, not inferred from a description.
 4. Review the actual project in Studio at normal speed, including text and sound, before exporting MP4. Keep the editable source for the next revision.
 
-These are reference-led creative inputs, not new runtime tools, automatic platform adaptation or one-click generation guarantees. Existing editable templates use the [template reuse route](../skills/openmotion-template-to-video/SKILL.md); video reconstruction uses [openmotion-recreate](../skills/openmotion-recreate/SKILL.md). GIF previews are silent; voice, music and sound synchronization must be reviewed in the actual project.
+These are reference-led creative inputs, not new runtime tools, automatic platform adaptation or one-click generation guarantees. Existing editable templates use the [template reuse route](../skills/kinevyn-template-to-video/SKILL.md); video reconstruction uses [kinevyn-recreate](../skills/kinevyn-recreate/SKILL.md). GIF previews are silent; voice, music and sound synchronization must be reviewed in the actual project.
 
 <a id="talking-head"></a>
 
@@ -19,7 +19,7 @@ These are reference-led creative inputs, not new runtime tools, automatic platfo
 
 **Three minutes of footage. One sharp story.**
 
-[Watch reference: Ali Abdaal · 5 tools I use every day](../library/skills/openmotion-presenter-story/assets/ali-abdaal-workflow-reference.mp4)
+[Watch reference: Ali Abdaal · 5 tools I use every day](../library/skills/kinevyn-presenter-story/assets/ali-abdaal-workflow-reference.mp4)
 
 ![AI talking-head edits](readme/examples/talking-head.jpg)
 
@@ -28,8 +28,8 @@ These are reference-led creative inputs, not new runtime tools, automatic platfo
 - **Catalog ID:** `hf-reference-aroll-ali-abdaal-workflow`
 
 ```text
-Use OpenMotion. Creative reference: hf-reference-aroll-ali-abdaal-workflow
-../library/skills/openmotion-presenter-story/assets/ali-abdaal-workflow-reference.mp4
+Use Kinevyn. Creative reference: hf-reference-aroll-ali-abdaal-workflow
+../library/skills/kinevyn-presenter-story/assets/ali-abdaal-workflow-reference.mp4
 
 Make a 30-second, 9:16 cut from my three-minute recording and timed
 transcript. Lead with the strongest complete statement. Remove only the
@@ -56,7 +56,7 @@ approval.
 - **Catalog ID:** `hf-reference-aroll-hundred-days-story`
 
 ```text
-Use OpenMotion. Creative reference: hf-reference-aroll-hundred-days-story
+Use Kinevyn. Creative reference: hf-reference-aroll-hundred-days-story
 readme/media/hundred-days-story-reference.mp4
 
 Build a 25-second, 9:16 story from my clips, photos and voice-over about [my
@@ -83,7 +83,7 @@ by changing the sequence and holds, not just speeding everything up.
 - **Shot recipe:** [Stripe card flip](../examples/brand-studies/stripe/MOTION.md)
 
 ```text
-Use OpenMotion. Creative reference: https://x.com/stripe/status/2049621560743608481 (00:21.50–00:26.50)
+Use Kinevyn. Creative reference: https://x.com/stripe/status/2049621560743608481 (00:21.50–00:26.50)
 
 Create a 20-second, 16:9 launch film for [feature]. Use my real product
 screenshots, screen recording and Brandkit. Follow a reveal → one useful
@@ -109,7 +109,7 @@ Deliver editable scenes and a reviewed MP4.
 - **Catalog ID:** `hf-reference-jake-lovable`
 
 ```text
-Use OpenMotion. Creative reference: hf-reference-jake-lovable
+Use Kinevyn. Creative reference: hf-reference-jake-lovable
 readme/media/jake-lovable-reference.mp4
 
 Study this reference and build a new 12-second, 16:9 film for [my product /
@@ -136,7 +136,7 @@ with the agreed shot list before exporting.
 - **Catalog ID:** `hf-reference-remix-authorize-once`
 
 ```text
-Use OpenMotion. Creative reference: hf-reference-remix-authorize-once
+Use Kinevyn. Creative reference: hf-reference-remix-authorize-once
 readme/media/remix-authorize-once-reference.mp4
 
 Explain [my workflow] in a 20-second, 16:9 film with three steps. Start with
@@ -163,7 +163,7 @@ Deliver an editable project for review before MP4 export.
 - **Catalog ID:** `hf-moment-M1128`
 
 ```text
-Use OpenMotion. Creative reference: hf-moment-M1128
+Use Kinevyn. Creative reference: hf-moment-M1128
 readme/media/M1128-clip.mp4
 
 Turn my supplied dataset into a 15-second, 16:9 data story. Establish the
@@ -191,7 +191,7 @@ after review.
 - **Catalog ID:** `hf-moment-M1139`
 
 ```text
-Use OpenMotion. Creative reference: hf-moment-M1139
+Use Kinevyn. Creative reference: hf-moment-M1139
 readme/media/M1139-clip.mp4
 
 Create a 10-second, 16:9 visual passage for my audio track. Use the supplied
@@ -205,6 +205,6 @@ motion parameters editable. Review with sound, then export MP4.
 
 ## Review and provenance
 
-Preview and export checks do not establish audience understanding, reach or human visual acceptance. Verify content accuracy, pacing against the brief, editability and actual file playback before recording the result of a new production. Third-party brands, people and business metrics in the references are not OpenMotion product claims.
+Preview and export checks do not establish audience understanding, reach or human visual acceptance. Verify content accuracy, pacing against the brief, editability and actual file playback before recording the result of a new production. Third-party brands, people and business metrics in the references are not Kinevyn product claims.
 
 The [original catalog](../web/catalog/hyperframes.json) retains each entry. The [excerpt manifest](readme/examples/manifest.json) records exact sources, time ranges and file hashes. Attribution follows the catalog; the two entries labeled Hyperframes catalog identify the collection, without inferring the original author.

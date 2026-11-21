@@ -1,8 +1,8 @@
 export const WORKSPACE_LOCATION_CHANGED = 'motion:workspace-location';
-const entryKey = 'openmotionHistoryIndex';
-const sessionKey = 'openmotionHistorySession';
-const sourceKey = 'openmotionHistorySource';
-const settingsSourceKey = 'openmotionSettingsSource';
+const entryKey = 'kinevynHistoryIndex';
+const sessionKey = 'kinevynHistorySession';
+const sourceKey = 'kinevynHistorySource';
+const settingsSourceKey = 'kinevynSettingsSource';
 
 export type WorkspaceSource = { href: string; index: number };
 

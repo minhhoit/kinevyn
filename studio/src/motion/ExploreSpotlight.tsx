@@ -18,7 +18,7 @@ export const featuredSceneIds: readonly StudioScene['id'][] = ['shot-image', 'te
 /** Spotlight scenes open with their Studio's scene tabs. */
 const spotlightScenes = [studioDestination(findMediaStudio('design')!, 'text-to-image')];
 const slideDuration = 6000;
-const blackFridayPoster = motionSkills.find(skill => skill.id === 'openmotion-sale-carousel')?.cover?.poster ?? '';
+const blackFridayPoster = motionSkills.find(skill => skill.id === 'kinevyn-sale-carousel')?.cover?.poster ?? '';
 interface FeaturedSlide {
   id: string; title: string; subtitle: string; hint: string; icon: string; poster: string; clip?: string; credit?: string;
   scene?: { target: StudioDestination; prompt: string };

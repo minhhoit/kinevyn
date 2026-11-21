@@ -8,7 +8,7 @@ import { verificationBinaries } from '../scripts/verify-export.ts';
 import { AssetLibrary } from '../gateway/asset-library.ts';
 import { Phase1Service } from '../phase1.ts';
 import { phase1Tools, validateInput, phase1TransportTool, phase1McpCapabilities } from '../shared/phase1-tools.ts';
-import { buildOpenMotionWebMcpTools } from '../shared/webmcp-tools.ts';
+import { buildKinevynWebMcpTools } from '../shared/webmcp-tools.ts';
 import { transport } from './http.ts';
 import { gatewayFor } from '../gateway/service.ts';
 
@@ -22,12 +22,12 @@ async function media(directory: string, filename: string, input: string[], outpu
 const image = (dir: string, color: string) => media(dir, color + '.png', ['-f', 'lavfi', '-i', `color=c=${color}:s=32x24`], ['-frames:v', '1']);
 
 test('preferred and compatible asset tools are discover save recovery and retain action-specific validation', () => {
-  assert.equal(phase1TransportTool({ mcp: phase1McpCapabilities }, 'openmotion_assets_use'), 'openmotion_assets_use');
-  assert.equal(phase1TransportTool({ mcp: { protocol: 1, tools: ['openmotion_assets', 'motion_assets'] } }, 'openmotion_assets_use'), undefined);
-  const compatible = phase1Tools.find(tool => tool.name === 'openmotion_assets')!;
+  assert.equal(phase1TransportTool({ mcp: phase1McpCapabilities }, 'kinevyn_assets_use'), 'kinevyn_assets_use');
+  assert.equal(phase1TransportTool({ mcp: { protocol: 1, tools: ['kinevyn_assets', 'motion_assets'] } }, 'kinevyn_assets_use'), undefined);
+  const compatible = phase1Tools.find(tool => tool.name === 'kinevyn_assets')!;
   assert.ok(compatible.inputSchema.properties.action.enum.includes('resume'));
   assert.ok(!('timestamps' in compatible.inputSchema.properties));
-  for (const name of ['openmotion_assets_use']) {
+  for (const name of ['kinevyn_assets_use']) {
     const tool = phase1Tools.find(tool => tool.name === name);
     assert.ok(tool, name);
     assert.equal(tool.annotations.readOnlyHint, false);
@@ -45,14 +45,14 @@ test('preferred and compatible asset tools are discover save recovery and retain
 test('both names share upload receipts and read the exact immutable version without changing the library', () => fixture(async store => {
   const api = service(store), library = new AssetLibrary(store);
   const input = { action: 'import', requestId: 'shared', sourcePath: await image(store.directory, 'red'), name: 'Subject' };
-  const { asset } = await api.call('openmotion_assets_use', input);
-  assert.equal((await api.call('openmotion_assets', input)).asset.id, asset.id);
-  await api.call('openmotion_assets_use', { ...input, requestId: 'blue', sourcePath: await image(store.directory, 'blue'), assetId: asset.id, parentVersionId: asset.currentVersionId });
+  const { asset } = await api.call('kinevyn_assets_use', input);
+  assert.equal((await api.call('kinevyn_assets', input)).asset.id, asset.id);
+  await api.call('kinevyn_assets_use', { ...input, requestId: 'blue', sourcePath: await image(store.directory, 'blue'), assetId: asset.id, parentVersionId: asset.currentVersionId });
   const before = await library.get(asset.id);
   const args = { action: 'read', assetId: asset.id, versionId: asset.currentVersionId };
-  const result = await api.call('openmotion_assets_use', args);
-  assert.equal((await api.call('openmotion_assets', { ...args, action: 'get' })).version.sha256, result.version.sha256);
-  await assert.rejects(api.call('openmotion_assets', args), /INVALID_ARGUMENT/);
+  const result = await api.call('kinevyn_assets_use', args);
+  assert.equal((await api.call('kinevyn_assets', { ...args, action: 'get' })).version.sha256, result.version.sha256);
+  await assert.rejects(api.call('kinevyn_assets', args), /INVALID_ARGUMENT/);
   assert.equal(result.versionId, asset.currentVersionId);
   assert.equal(result.version.sha256, asset.versions[0].sha256);
   assert.equal(result.previews[0].width, 32); assert.equal(result.previews[0].height, 24);
@@ -63,16 +63,16 @@ test('both names share upload receipts and read the exact immutable version with
   const rgb = await readFile(pixels); assert.ok(rgb[0] > 200 && rgb[2] < 10, 'Read must show red V1, not current blue V2');
   assert.deepEqual(await library.get(asset.id), before);
   assert.deepEqual(await readdir(path.join(library.root, 'staging')), []);
-  await api.call('openmotion_assets_use', { action: 'update', assetId: asset.id, changes: { trashed: true } });
-  assert.equal((await api.call('openmotion_assets_use', args)).versionId, asset.currentVersionId, 'Retained trash remains readable, like get/download');
-  await assert.rejects(api.call('openmotion_assets_use', { ...args, versionId: crypto.randomUUID() }), /UNAVAILABLE/);
-  await assert.rejects(api.call('openmotion_assets_use', { ...args, timestamps: [0] }), /timestamps/);
+  await api.call('kinevyn_assets_use', { action: 'update', assetId: asset.id, changes: { trashed: true } });
+  assert.equal((await api.call('kinevyn_assets_use', args)).versionId, asset.currentVersionId, 'Retained trash remains readable, like get/download');
+  await assert.rejects(api.call('kinevyn_assets_use', { ...args, versionId: crypto.randomUUID() }), /UNAVAILABLE/);
+  await assert.rejects(api.call('kinevyn_assets_use', { ...args, timestamps: [0] }), /timestamps/);
   const source = (await library.resolve({ assetId: asset.id, versionId: asset.currentVersionId }, true)).filename;
   await writeFile(source, await readFile(input.sourcePath.replace('red.png', 'blue.png')));
-  await assert.rejects(api.call('openmotion_assets_use', args), /ASSET_CONTENT_CHANGED/);
+  await assert.rejects(api.call('kinevyn_assets_use', args), /ASSET_CONTENT_CHANGED/);
   assert.deepEqual(await readdir(path.join(library.root, 'staging')), []);
   await rm(source); await symlink(input.sourcePath, source);
-  await assert.rejects(api.call('openmotion_assets_use', args));
+  await assert.rejects(api.call('kinevyn_assets_use', args));
 }, false));
 
 test('preferred tool keeps all nine operations on the existing jobs, receipts and project import authority', () => fixture(async store => {
@@ -82,23 +82,23 @@ test('preferred tool keeps all nine operations on the existing jobs, receipts an
   gateway.options.codex = async () => { calls++; return readFile(await image(store.directory, 'green')); };
   try {
     const args = { action: 'generate', requestId: 'mock-generation', model: 'codex:image-generation', modality: 'image', prompt: 'Green' };
-    const { job } = await api.call('openmotion_assets_use', args);
-    assert.equal((await api.call('openmotion_assets', args)).job.id, job.id);
-    assert.ok((await api.call('openmotion_assets_use', { action: 'jobs' })).jobs.some((item: any) => item.id === job.id));
+    const { job } = await api.call('kinevyn_assets_use', args);
+    assert.equal((await api.call('kinevyn_assets', args)).job.id, job.id);
+    assert.ok((await api.call('kinevyn_assets_use', { action: 'jobs' })).jobs.some((item: any) => item.id === job.id));
     await gateway.tick(); await Promise.all([...gateway.active.values()].map(task => task.done));
-    const done = (await api.call('openmotion_assets_use', { action: 'status', jobId: job.id })).job;
+    const done = (await api.call('kinevyn_assets_use', { action: 'status', jobId: job.id })).job;
     assert.equal(done.state, 'completed'); assert.equal(calls, 1);
     const reference = done.libraryAssets[0];
-    assert.equal((await api.call('openmotion_assets_use', { action: 'get', ...reference })).asset.id, reference.assetId);
-    assert.ok((await api.call('openmotion_assets_use', { action: 'list' })).assets.some((asset: any) => asset.id === reference.assetId));
-    await api.call('openmotion_assets_use', { action: 'update', assetId: reference.assetId, changes: { name: 'Renamed' } });
-    const cancelled = (await api.call('openmotion_assets_use', { ...args, requestId: 'cancel-me' })).job;
-    assert.equal((await api.call('openmotion_assets_use', { action: 'cancel', jobId: cancelled.id })).job.state, 'cancelled');
-    const project = await api.call('openmotion_create_project', { requestId: 'film', projectType: 'natural_language', title: 'Film', requirements: 'Silent' });
+    assert.equal((await api.call('kinevyn_assets_use', { action: 'get', ...reference })).asset.id, reference.assetId);
+    assert.ok((await api.call('kinevyn_assets_use', { action: 'list' })).assets.some((asset: any) => asset.id === reference.assetId));
+    await api.call('kinevyn_assets_use', { action: 'update', assetId: reference.assetId, changes: { name: 'Renamed' } });
+    const cancelled = (await api.call('kinevyn_assets_use', { ...args, requestId: 'cancel-me' })).job;
+    assert.equal((await api.call('kinevyn_assets_use', { action: 'cancel', jobId: cancelled.id })).job.state, 'cancelled');
+    const project = await api.call('kinevyn_create_project', { requestId: 'film', projectType: 'natural_language', title: 'Film', requirements: 'Silent' });
     const input = { action: 'import_to_project', projectId: project.projectId, requestId: 'adopt', ...reference };
-    const imported = await api.call('openmotion_assets_use', input);
+    const imported = await api.call('kinevyn_assets_use', input);
     assert.equal(imported.status, 'completed'); assert.equal(imported.appliedToTimeline, false);
-    const replay = await api.call('openmotion_assets', input);
+    const replay = await api.call('kinevyn_assets', input);
     assert.equal(replay.items[0].assetId, imported.items[0].assetId);
     assert.equal(replay.items[0].path, imported.items[0].path);
     assert.equal(replay.items[0].sha256, imported.items[0].sha256);
@@ -109,7 +109,7 @@ test('large image previews retain aspect ratio and stay within the advertised pi
   const library = new AssetLibrary(store);
   const file = await media(store.directory, 'large.png', ['-f', 'lavfi', '-i', 'color=c=red@0.5:s=2048x1024,format=rgba'], ['-frames:v', '1']);
   const asset = await library.importFile(file, { requestId: 'large', name: 'Large' });
-  const result = await service(store).call('openmotion_assets_use', { action: 'read', assetId: asset.id, versionId: asset.currentVersionId });
+  const result = await service(store).call('kinevyn_assets_use', { action: 'read', assetId: asset.id, versionId: asset.currentVersionId });
   assert.equal(result.previews[0].width, 1024); assert.equal(result.previews[0].height, 512);
   assert.ok(result.previews[0].bytes <= 4 * 1024 * 1024);
   assert.equal(result.version.width, 2048);
@@ -126,14 +126,14 @@ test('video frames and audio clips are bounded, labelled and returned as media t
   const a = await library.importFile(video, { requestId: 'video', name: 'Video' });
   const args = { action: 'read', assetId: a.id, versionId: a.currentVersionId, timestamps: [0, 0.5] };
   const request = transport(store, { runtimeRoot: pluginRoot });
-  const tool = buildOpenMotionWebMcpTools(request).find(tool => tool.name === 'openmotion_assets_use')!;
+  const tool = buildKinevynWebMcpTools(request).find(tool => tool.name === 'kinevyn_assets_use')!;
   const result = await tool.execute(args);
   assert.equal(result.structuredContent.assetId, a.id);
   assert.deepEqual(result.structuredContent.previews.map((p: any) => p.timestamp), [0, 0.5]);
   assert.equal(result.content.filter((item: any) => item.type === 'image').length, 2);
   assert.ok(result.content.some((item: any) => item.type === 'text' && item.text.includes('0.5')));
   assert.ok(!JSON.stringify(result.structuredContent).includes('"data"'), 'Base64 must not be duplicated in metadata');
-  await assert.rejects(api.call('openmotion_assets_use', { ...args, timestamps: [1] }), /timestamp/);
+  await assert.rejects(api.call('kinevyn_assets_use', { ...args, timestamps: [1] }), /timestamp/);
   const audio = await media(store.directory, 'tone.wav', ['-f', 'lavfi', '-i', 'sine=duration=2']);
   const b = await library.importFile(audio, { requestId: 'audio', name: 'Audio' });
   const clip = await tool.execute({ action: 'read', assetId: b.id, versionId: b.currentVersionId, start: 0.25, duration: 0.4 });
@@ -141,6 +141,6 @@ test('video frames and audio clips are bounded, labelled and returned as media t
   assert.equal(clip.structuredContent.previews[0].start, 0.25);
   assert.ok(Math.abs(clip.structuredContent.previews[0].duration - 0.4) < 0.01);
   assert.ok(clip.structuredContent.previews[0].bytes < 20_000);
-  await assert.rejects(api.call('openmotion_assets_use', { action: 'read', assetId: b.id, versionId: b.currentVersionId, duration: 16 }), /INVALID_ARGUMENT/);
-  await assert.rejects(api.call('openmotion_assets_use', { action: 'read', assetId: b.id, versionId: b.currentVersionId, start: 2 }), /start/);
+  await assert.rejects(api.call('kinevyn_assets_use', { action: 'read', assetId: b.id, versionId: b.currentVersionId, duration: 16 }), /INVALID_ARGUMENT/);
+  await assert.rejects(api.call('kinevyn_assets_use', { action: 'read', assetId: b.id, versionId: b.currentVersionId, start: 2 }), /start/);
 }, false));

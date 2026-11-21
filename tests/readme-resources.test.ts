@@ -20,7 +20,7 @@ test('each README language opens the full guide and ships its localized cover', 
   ];
   const shipped = new Set(await distributionFiles('phase1'));
   const media = JSON.parse(await readFile('repository-media.json', 'utf8'));
-  assert(shipped.has('docs/readme/openmotion-logo.svg'));
+  assert(shipped.has('docs/readme/kinevyn-logo.svg'));
   for (const [file, language, suffix] of [...pages, ['README.zh-CN.md', '简体中文', '.zh-CN']]) {
     const text = await readFile(file, 'utf8');
     const selector = text.split('\n').find(line => line.includes(`**${language}**`) && line.includes(' · '));
@@ -83,10 +83,10 @@ test('only the repository-owned daily star chart is allowed as a live picture so
   const dir = await mkdtemp(path.join(tmpdir(), 'motion-star-history-'));
   t.after(() => rm(dir, { recursive: true, force: true }));
   const file = path.join(dir, 'README.md');
-  const url = 'https://raw.githubusercontent.com/nexu-io/openmotion/readme-charts/star-history.svg';
+  const url = 'https://raw.githubusercontent.com/rivyn-labs/kinevyn/readme-charts/star-history.svg';
   await writeFile(file, `<source srcset="${url}">`);
   await checkDocument(file);
-  for (const source of [url.replace('/nexu-io/', '/another-owner/'), url.replace('/readme-charts/', '/main/')]) {
+  for (const source of [url.replace('/rivyn-labs/', '/another-owner/'), url.replace('/readme-charts/', '/main/')]) {
     await writeFile(file, `<source srcset="${source}">`);
     await assert.rejects(checkDocument(file), /external display/);
   }

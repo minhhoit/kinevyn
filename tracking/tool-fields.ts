@@ -1,17 +1,17 @@
 const legacyAssetActions = ['list', 'get', 'import', 'update', 'generate', 'jobs', 'status', 'cancel', 'retry_save', 'resume', 'import_to_project'] as const;
 export const assetActions = [...legacyAssetActions, 'read', 'brand_kit', 'transcript'] as const;
 const actionSets = {
-  openmotion_assets_use: assetActions,
-  openmotion_assets: legacyAssetActions,
-  openmotion_media_use: ['inspect', 'reference', 'models', 'generate', 'status', 'cancel', 'retry_save', 'resume'],
-  openmotion_open_preview: ['open', 'record_review', 'record_display', 'begin', 'complete_generation'],
-  openmotion_export_request: ['request', 'record_review'],
-  openmotion_project_archive: ['export', 'import'],
-  openmotion_manage_project: ['comments', 'info', 'rename', 'duplicate', 'reveal', 'trash', 'restore', 'delete'],
-  openmotion_design_catalog: ['list_scenarios', 'list_templates', 'get_template', 'list_skills', 'get_skill', 'list_design_systems', 'get_design_system', 'get_craft'],
-  openmotion_design_project: ['create', 'list', 'get', 'rename', 'duplicate', 'trash', 'restore', 'delete', 'open', 'open_in', 'export', 'import'],
-  openmotion_design_edit: ['read_file', 'write', 'list_versions', 'restore_version'],
-  openmotion_design_comments: ['list', 'create', 'update', 'delete'],
+  kinevyn_assets_use: assetActions,
+  kinevyn_assets: legacyAssetActions,
+  kinevyn_media_use: ['inspect', 'reference', 'models', 'generate', 'status', 'cancel', 'retry_save', 'resume'],
+  kinevyn_open_preview: ['open', 'record_review', 'record_display', 'begin', 'complete_generation'],
+  kinevyn_export_request: ['request', 'record_review'],
+  kinevyn_project_archive: ['export', 'import'],
+  kinevyn_manage_project: ['comments', 'info', 'rename', 'duplicate', 'reveal', 'trash', 'restore', 'delete'],
+  kinevyn_design_catalog: ['list_scenarios', 'list_templates', 'get_template', 'list_skills', 'get_skill', 'list_design_systems', 'get_design_system', 'get_craft'],
+  kinevyn_design_project: ['create', 'list', 'get', 'rename', 'duplicate', 'trash', 'restore', 'delete', 'open', 'open_in', 'export', 'import'],
+  kinevyn_design_edit: ['read_file', 'write', 'list_versions', 'restore_version'],
+  kinevyn_design_comments: ['list', 'create', 'update', 'delete'],
 } as const;
 const targets = ['project', 'templates', 'providers'] as const;
 export const toolDimensions = { action: [...new Set(Object.values(actionSets).flat())], target: targets } as const;
@@ -19,9 +19,9 @@ export const toolDimensions = { action: [...new Set(Object.values(actionSets).fl
 export function toolInputFields(tool: string, input: unknown) {
   const args = input && typeof input === 'object' && !Array.isArray(input) ? input as { action?: unknown; target?: unknown } : {};
   const actions: readonly typeof toolDimensions.action[number][] = Object.hasOwn(actionSets, tool) ? actionSets[tool as keyof typeof actionSets] : [];
-  const defaultAction = tool === 'openmotion_export_request' ? 'request' : tool === 'openmotion_open_preview' ? 'open' : undefined;
+  const defaultAction = tool === 'kinevyn_export_request' ? 'request' : tool === 'kinevyn_open_preview' ? 'open' : undefined;
   const action = actions.find(value => value === (args.action === undefined ? defaultAction : args.action));
-  const target = tool === 'openmotion_open_preview'
+  const target = tool === 'kinevyn_open_preview'
     ? targets.find(value => value === (args.target === undefined ? 'project' : args.target)) : undefined;
   return { ...(action ? { action } : {}), ...(target ? { target } : {}) };
 }

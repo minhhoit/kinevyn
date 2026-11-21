@@ -85,7 +85,7 @@ export function ModelHub({ id, onExplore, onProvider, onModel, onUse, onSettings
 
 
     <section aria-live="polite">
-      <h2 className="om-subtitle">{t('Availability in OpenMotion')}</h2>
+      <h2 className="om-subtitle">{t('Availability in Kinevyn')}</h2>
       {failed ? <Button variant="ghost" className="om-button h-auto" onClick={retry}>{t('Retry loading models')}</Button>
         : !catalog ? <Skeleton className="om-featured-template-skeleton" />
         : served.length ? <div className="om-model-hub-models">{served.map((model, index) => <Button variant="plain" key={model.id} className="om-model-hub-model" onClick={() => { track('hub_availability', 'select_model', { model: model.id, position: index }); onModel(model.id); }}>

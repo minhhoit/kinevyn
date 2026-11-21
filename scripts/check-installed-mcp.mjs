@@ -13,9 +13,9 @@ export function redact(message, environment) {
 }
 
 export function validateTransport(config) {
-  if (!config) throw failure('MCP_NOT_REGISTERED', 'OpenMotion MCP is not registered in this host. Run setup for the selected host.');
-  if (config.enabled === false) throw failure('MCP_DISABLED', 'OpenMotion MCP is disabled. Enable it in the selected host before reconnecting.');
-  if (config.transport?.type !== 'stdio') throw failure('MCP_CONFIG_INVALID', 'OpenMotion requires a local stdio MCP connection.');
+  if (!config) throw failure('MCP_NOT_REGISTERED', 'Kinevyn MCP is not registered in this host. Run setup for the selected host.');
+  if (config.enabled === false) throw failure('MCP_DISABLED', 'Kinevyn MCP is disabled. Enable it in the selected host before reconnecting.');
+  if (config.transport?.type !== 'stdio') throw failure('MCP_CONFIG_INVALID', 'Kinevyn requires a local stdio MCP connection.');
   const transport = config.transport;
   if (transport.cwd != null && typeof transport.cwd !== 'string') throw failure('MCP_CONFIG_INVALID', 'MCP working directory must be a string.');
   if (transport.env != null && (typeof transport.env !== 'object' || Array.isArray(transport.env) || Object.values(transport.env).some(value => typeof value !== 'string'))) throw failure('MCP_CONFIG_INVALID', 'MCP environment overrides must contain string values.');
@@ -35,11 +35,11 @@ export function sameWorkspaceDirectory(actual, expected) {
 export function checkTransport(config, expectedVersion, { expectedTools, dataDirectory } = {}) {
   const transport = validateTransport(config);
   const messages = [
-    { jsonrpc: '2.0', id: 1, method: 'initialize', params: { protocolVersion: '2025-11-25', capabilities: {}, clientInfo: { name: 'openmotion-install-check', version: '1' } } },
+    { jsonrpc: '2.0', id: 1, method: 'initialize', params: { protocolVersion: '2025-11-25', capabilities: {}, clientInfo: { name: 'kinevyn-install-check', version: '1' } } },
     { jsonrpc: '2.0', method: 'notifications/initialized' },
     { jsonrpc: '2.0', id: 2, method: 'tools/list' },
   ];
-  if (dataDirectory) messages.push({ jsonrpc: '2.0', id: 3, method: 'tools/call', params: { name: 'openmotion_get_project', arguments: {} } });
+  if (dataDirectory) messages.push({ jsonrpc: '2.0', id: 3, method: 'tools/call', params: { name: 'kinevyn_get_project', arguments: {} } });
   const environment = { ...process.env, ...(transport.env || {}) };
   const result = spawnSync(transport.command, transport.args, { cwd: transport.cwd,
     env: environment, encoding: 'utf8', timeout: 15_000, maxBuffer: 4 * 1024 * 1024,
@@ -61,9 +61,9 @@ export function checkTransport(config, expectedVersion, { expectedTools, dataDir
   if (names.length !== expected.length || !expected.every(name => names.includes(name))) throw failure('MCP_TOOLS_MISMATCH', 'The MCP tool list does not match this installation. Refresh the host tool discovery after correcting the installation.');
   if (dataDirectory) {
     const read = responses.find(response => response.id === 3);
-    if (!read?.result || read.error || read.result.isError) throw failure('MCP_READ_FAILED', 'openmotion_get_project failed: ' + redact(JSON.stringify(read?.error || read?.result?.structuredContent || read?.result?.content || 'No result returned'), environment));
+    if (!read?.result || read.error || read.result.isError) throw failure('MCP_READ_FAILED', 'kinevyn_get_project failed: ' + redact(JSON.stringify(read?.error || read?.result?.structuredContent || read?.result?.content || 'No result returned'), environment));
     const directory = read?.result?.structuredContent?.dataDirectory;
-    if (typeof directory !== 'string' || !sameWorkspaceDirectory(directory, dataDirectory)) throw failure('MCP_WORKSPACE_MISMATCH', 'openmotion_get_project did not confirm the installation data directory. Do not switch workspaces or create a replacement project.');
+    if (typeof directory !== 'string' || !sameWorkspaceDirectory(directory, dataDirectory)) throw failure('MCP_WORKSPACE_MISMATCH', 'kinevyn_get_project did not confirm the installation data directory. Do not switch workspaces or create a replacement project.');
   }
   return { version: expectedVersion, cwd: transport.cwd, tools: names, ...(dataDirectory ? { dataDirectory } : {}) };
 }
@@ -71,8 +71,8 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   try {
     const root = fileURLToPath(new URL('../', import.meta.url));
     const version = JSON.parse(fs.readFileSync(path.join(root, '.codex-plugin/plugin.json'), 'utf8')).version;
-    let result = spawnSync('codex', ['mcp', 'get', 'openmotion', '--json'], { encoding: 'utf8', timeout: 15_000 });
-    if (!result.error && result.status !== 0 && /No MCP server named ['\"]openmotion['\"] found/.test(result.stderr)) result = spawnSync('codex', ['mcp', 'get', 'motion', '--json'], { encoding: 'utf8', timeout: 15_000 });
+    let result = spawnSync('codex', ['mcp', 'get', 'kinevyn', '--json'], { encoding: 'utf8', timeout: 15_000 });
+    if (!result.error && result.status !== 0 && /No MCP server named ['\"]kinevyn['\"] found/.test(result.stderr)) result = spawnSync('codex', ['mcp', 'get', 'motion', '--json'], { encoding: 'utf8', timeout: 15_000 });
     if (result.error || result.status !== 0) throw new Error('无法读取 Codex 实际 MCP 配置：' + (result.error?.message || result.stderr.slice(-500)));
     const checked = checkTransport(JSON.parse(result.stdout), version);
     console.log('安装预检通过：Codex 解析后的真实启动命令可完成 MCP 握手并列出工具。');

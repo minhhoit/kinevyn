@@ -45,7 +45,7 @@ export async function buildPlugin(output: string): Promise<void> {
     jsx: "automatic",
     loader: { '.svg': 'text' },
     banner: {
-      js: 'window.__ModuleLoader__.load({id:"openmotion-dsh",factory:(require)=>{var module={exports:{}};var exports=module.exports;',
+      js: 'window.__ModuleLoader__.load({id:"kinevyn-dsh",factory:(require)=>{var module={exports:{}};var exports=module.exports;',
     },
     footer: { js: "return module.exports;}});" },
   });

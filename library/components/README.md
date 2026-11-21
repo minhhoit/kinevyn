@@ -8,7 +8,7 @@ A component should explain one reusable piece of motion: its input, visible chan
 | [App Showcase](https://raw.githubusercontent.com/heygen-com/hyperframes/main/registry/blocks/app-showcase/registry-item.json) | External registry item · Hyperframes | Inspect the original source for a product-screen presentation. |
 | [Glass Shard Title](https://raw.githubusercontent.com/heygen-com/hyperframes/main/registry/blocks/glass-shard-title/registry-item.json) | External registry item · Hyperframes | Study a more expressive title treatment. |
 
-External items retain their own sources and terms. This index does not bundle them or prove they were verified in the current OpenMotion runtime. For new entries, include source or a useful recipe and follow the [contribution checklist](../ENTRY_TEMPLATE.md).
+External items retain their own sources and terms. This index does not bundle them or prove they were verified in the current Kinevyn runtime. For new entries, include source or a useful recipe and follow the [contribution checklist](../ENTRY_TEMPLATE.md).
 
 ## Editable showcase components
 

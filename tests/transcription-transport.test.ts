@@ -12,7 +12,7 @@ import { publicProviderFetch } from '../gateway/network.ts';
 import { transcribeAudio } from '../gateway/transcription-provider.ts';
 
 test('ASR accepts a silent 65-second response through the DNS-pinned transport without retries', async t => {
-  const directory = await mkdtemp(path.join(os.tmpdir(), 'openmotion-asr-transport-'));
+  const directory = await mkdtemp(path.join(os.tmpdir(), 'kinevyn-asr-transport-'));
   t.after(async () => { t.mock.restoreAll(); syncBuiltinESMExports(); await rm(directory, { recursive: true, force: true }); });
   const file = path.join(directory, 'audio.wav'); await writeFile(file, 'fixture audio');
   const addresses = [{ address: '93.184.216.34', family: 4 }];

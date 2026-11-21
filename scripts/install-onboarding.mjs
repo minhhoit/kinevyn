@@ -21,7 +21,7 @@ export async function installationInstructions(appRoot) {
 
 export async function prepareInstallationOnboarding({ appRoot, dataDirectory, templateEnvironment, host = 'codex', onboardingOutput,
   templateIds = selectOnboardingTemplateIds(),
-  language = process.env.OPENMOTION_ONBOARDING_LANGUAGE || 'en' }) {
+  language = process.env.KINEVYN_ONBOARDING_LANGUAGE || 'en' }) {
   // A missing canonical contract fails before host registration.
   const instructions = await installationInstructions(appRoot);
   const inline = (async () => {
@@ -52,10 +52,10 @@ export async function prepareInstallationOnboarding({ appRoot, dataDirectory, te
   const inlinePresentation = await inline;
   if (inlinePresentation && host !== 'codex') inlinePresentation.instructions = onboardingPresentationInstructions('host_cards');
   return { host, hostSessionVerified: false, instructions, catalog,
-    cardPresentation: { tool: host === 'deepseek' ? 'propose_action' : 'openmotion_show_template_recommendations',
-      ...(host === 'deepseek' ? { skill: 'openmotion-template-recommendations' } : {}),
+    cardPresentation: { tool: host === 'deepseek' ? 'propose_action' : 'kinevyn_show_template_recommendations',
+      ...(host === 'deepseek' ? { skill: 'kinevyn-template-recommendations' } : {}),
       arguments: host === 'deepseek' ? {
-        action: 'openmotion_template_recommendation', title: 'OpenMotion', brief: 'Choose a template to begin',
+        action: 'kinevyn_template_recommendation', title: 'Kinevyn', brief: 'Choose a template to begin',
         details: { onboarding: true, language, templates: catalog.templates.map(template => ({
           id: template.templateId, title: template.name, description: template.summary,
           previewUrl: template.previewUrl, posterUrl: template.posterUrl, duration: template.durationSeconds,
@@ -78,7 +78,7 @@ export async function prepareInstallationPreview({ appRoot, dataDirectory }) {
   } catch (error) {
     return { status: 'unavailable', openedByHost: false, projectCreated: false,
       warning: 'Template library could not be prepared: ' + error.message,
-      nextAction: 'Installation succeeded; report the preview failure and retry openmotion_open_preview with target=templates after connecting MCP. Do not create a placeholder project.' };
+      nextAction: 'Installation succeeded; report the preview failure and retry kinevyn_open_preview with target=templates after connecting MCP. Do not create a placeholder project.' };
   }
 }
 
@@ -90,7 +90,7 @@ export async function prepareInstallationFlow(options) {
     let configuration;
     try { configuration = JSON.parse(await readFile(path.join(options.appRoot, '.mcp.json'), 'utf8')); }
     catch (error) { if (error.code !== 'ENOENT') throw error; }
-    const server = configuration?.mcpServers?.openmotion;
+    const server = configuration?.mcpServers?.kinevyn;
     const declared = server?.env?.MOTION_DATA_DIR;
     if (declared !== undefined && declared !== '') {
       const expand = value => {
@@ -127,7 +127,7 @@ export async function prepareInstallationFlow(options) {
       codex: options.codex, request: options.hostRequest, templateIds: options.templateIds,
       language: onboarding.inlinePresentation?.language || options.language });
   }
-  const language = onboarding.inlinePresentation?.language || options.language || process.env.OPENMOTION_ONBOARDING_LANGUAGE || 'en';
+  const language = onboarding.inlinePresentation?.language || options.language || process.env.KINEVYN_ONBOARDING_LANGUAGE || 'en';
   return { ...onboarding, installationStatus: 'installed', applicationRoot: options.appRoot,
     welcomeMarkdown: installationFallbackWelcome(isLanguage(language) ? language : 'en'),
     dataDirectory: options.dataDirectory, preview,
@@ -197,7 +197,7 @@ export function installationSummary(result) {
     lines.push('ONBOARDING_PENDING: ' + result.onboardingStatus
       + '. Installation is registered; presentation remains unverified. '
       + onboardingPresentationInstructions(result.host && result.host !== 'codex' ? 'host_cards' : inlinePresentation?.status));
-    if (result.host === 'deepseek') lines.push('DSH_NEXT_ACTION: Refresh the current DSH browser page once if the OpenMotion UI has not loaded; do not kill DSH or restart the conversation. Load cardPresentation.skill and call propose_action with cardPresentation.arguments in this turn. The card opens the template library beside the current chat. Never call an unavailable openmotion_show_template_recommendations tool or report onboarding complete from a prepared receipt or healthy MCP alone.');
+    if (result.host === 'deepseek') lines.push('DSH_NEXT_ACTION: Refresh the current DSH browser page once if the Kinevyn UI has not loaded; do not kill DSH or restart the conversation. Load cardPresentation.skill and call propose_action with cardPresentation.arguments in this turn. The card opens the template library beside the current chat. Never call an unavailable kinevyn_show_template_recommendations tool or report onboarding complete from a prepared receipt or healthy MCP alone.');
   }
   if (hostHandoff?.status === 'refresh_requested') lines.push('After this tool step, run recovery.command/recovery.args once to verify the queued refresh; do not reload or prepare again. This does not block the prepared HTML presentation.');
   if (preview?.status !== 'ready') lines.push('LIBRARY_UNAVAILABLE: ' + (preview?.warning || 'No prepared library URL')

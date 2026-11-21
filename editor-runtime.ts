@@ -77,7 +77,7 @@ export async function ensureEditor(directory: string, mcpTool?: string): Promise
         if (health.service !== service || health.dataDirectory !== data || health.instanceId !== registry.instanceId) throw Object.assign(new Error('编辑器实例身份不匹配'), { terminal: true });
         const compatible = mcpTool ? supportsPhase1Tool(health, mcpTool) : health.version === version && health.build === editorBuild;
         if (health.protocol !== protocol || !compatible) throw Object.assign(
-          new Error('Editor runtime incompatible. Reconnect the OpenMotion MCP connection to the installed runtime and compare the expected and actual versions/builds. Stop an older editor only after confirming it is idle; do not bypass MCP or switch workspaces to continue.'),
+          new Error('Editor runtime incompatible. Reconnect the Kinevyn MCP connection to the installed runtime and compare the expected and actual versions/builds. Stop an older editor only after confirming it is idle; do not bypass MCP or switch workspaces to continue.'),
           { terminal: true, code: 'EDITOR_RUNTIME_INCOMPATIBLE', details: {
             dataDirectory: data, expected: { protocol, version, build: editorBuild },
             actual: { protocol: health.protocol, version: health.version, build: health.build },
@@ -127,7 +127,7 @@ export async function editorHeaders(store: WorkspaceStore, origin: string): Prom
 
 export async function serveEditor(directory: string) {
   const { data, runtime } = await editorDirectory(directory);
-  const held = fstatSync(Number(process.env.OPENMOTION_EDITOR_LOCK_FD)), lock = statSync(path.join(runtime, 'runtime.lock'));
+  const held = fstatSync(Number(process.env.KINEVYN_EDITOR_LOCK_FD)), lock = statSync(path.join(runtime, 'runtime.lock'));
   if (held.dev !== lock.dev || held.ino !== lock.ino) throw new Error('请通过共享编辑器启动器运行后台');
   const store = new WorkspaceStore(data), token = randomBytes(32).toString('hex'), instanceId = randomUUID();
   // All production macOS writers enter this authority; stale private workspace locks died with the old owner.

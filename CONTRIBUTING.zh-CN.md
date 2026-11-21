@@ -1,10 +1,10 @@
-# 参与 OpenMotion 开发
+# 参与 Kinevyn 开发
 
 [English](CONTRIBUTING.md)
 
 ## 从一份有用的贡献开始
 
-欢迎设计师、创作者、提示词作者和工程师。[OpenMotion Library](library/README.zh-CN.md) 集中收纳创作资源；核心制作工作流继续在 `skills/` 中维护。
+欢迎设计师、创作者、提示词作者和工程师。[Kinevyn Library](library/README.zh-CN.md) 集中收纳创作资源；核心制作工作流继续在 `skills/` 中维护。
 
 | 贡献内容 | 目录 | 请附上 |
 | --- | --- | --- |

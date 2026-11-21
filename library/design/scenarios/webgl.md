@@ -1,4 +1,4 @@
-# OpenMotion Design — WebGL Task Profile v3.1.1
+# Kinevyn Design — WebGL Task Profile v3.1.1
 
 Deliver HTML with actual GPU, shader, or 3D interaction, with route=webgl-html and kind=interactive. Choose a WebGL technique appropriate to the request; a static image is not a real-time effect.
 
@@ -16,10 +16,10 @@ Prefer one self-contained HTML file; declare and bundle Worker/WASM dependencies
 - Prefer inline shaders, styles, and small textures. Reduce large asset resolutions appropriately and avoid repeatedly allocating GPU buffers or materials inside loops. Clean up listeners, frame loops, and GPU resources on pause/unload.
 - Use alpha:false for opaque scenes. Choose overlay backgrounds or contrast for the scene's brightest region. Follow the existing design system's brand colors and keep titles or explanations clear of the main effect. Colors, title lengths, and "always 60fps" claims in old examples are not universal requirements or performance promises.
 
-## OpenMotion MCP delivery workflow
+## Kinevyn MCP delivery workflow
 
-1. Discover templates, skills, design systems and craft references with `openmotion_design_catalog`.
-2. Create or fetch the project with `openmotion_design_project` (`action="create"` or `"get"`).
-3. Write complete files with `openmotion_design_edit` (`action="write"`, passing `expectedRevision` and a concise `summary`). Every write creates an immutable version snapshot.
-4. When revising from user annotations, call `openmotion_design_comments` (`action="list"`), apply scoped edits, then mark addressed comments `resolved` with `openmotion_design_comments` (`action="update"`).
-5. Call `openmotion_design_project` (`action="open"`) so the user can review the rendered HTML in Design Studio.
+1. Discover templates, skills, design systems and craft references with `kinevyn_design_catalog`.
+2. Create or fetch the project with `kinevyn_design_project` (`action="create"` or `"get"`).
+3. Write complete files with `kinevyn_design_edit` (`action="write"`, passing `expectedRevision` and a concise `summary`). Every write creates an immutable version snapshot.
+4. When revising from user annotations, call `kinevyn_design_comments` (`action="list"`), apply scoped edits, then mark addressed comments `resolved` with `kinevyn_design_comments` (`action="update"`).
+5. Call `kinevyn_design_project` (`action="open"`) so the user can review the rendered HTML in Design Studio.

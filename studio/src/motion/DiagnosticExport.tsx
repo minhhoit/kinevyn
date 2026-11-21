@@ -27,7 +27,7 @@ export function DiagnosticExport() {
       const blob = await response.blob();
       recordBrowserDiagnostic('activity_diagnostic_export', `request=${request} outcome=archive_received status=${status} bytes=${blob.size} durationMs=${Math.round(performance.now() - start)}`);
       const url = URL.createObjectURL(blob), link = document.createElement('a');
-      link.href = url; link.download = response.headers.get('Content-Disposition')?.match(/filename="([\w.-]+\.zip)"/)?.[1] || 'openmotion-diagnostics.zip';
+      link.href = url; link.download = response.headers.get('Content-Disposition')?.match(/filename="([\w.-]+\.zip)"/)?.[1] || 'kinevyn-diagnostics.zip';
       try {
         document.body.append(link); link.click();
         toast.showToast('Download started. Check your browser downloads.', 'info', 'feedback');

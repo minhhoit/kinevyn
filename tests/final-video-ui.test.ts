@@ -21,7 +21,7 @@ test('bounded presentation reads complete media directly once, then preserves du
     assert.ok(JSON.stringify(envelope).length < 8192);
     ui.update(envelope); ui.update(envelope);
     await new Promise(resolve => setImmediate(resolve));
-    assert.deepEqual(calls, [{ name: 'openmotion_get_project', arguments: { projectId: work.projectId, workId: work.id, includeVideo: true } }]);
+    assert.deepEqual(calls, [{ name: 'kinevyn_get_project', arguments: { projectId: work.projectId, workId: work.id, includeVideo: true } }]);
     const video = root.querySelector('video')!, original = video.src;
     assert.match(original, /^blob:/);
     assert.deepEqual(Buffer.from(await (await fetch(original)).arrayBuffer()), bytes);
@@ -46,7 +46,7 @@ test('initial direct read failure exposes retry and never starts a render', asyn
     ui.update(presentation()); assert.equal(calls.length, 1, 'No automatic retry loop');
     retry.click(); await new Promise(resolve => setImmediate(resolve));
     assert.equal(calls.length, 2); assert.deepEqual(calls[0], calls[1]);
-    assert.equal(calls[1].name, 'openmotion_get_project'); assert.match(root.querySelector('video')!.src, /^blob:/);
+    assert.equal(calls[1].name, 'kinevyn_get_project'); assert.match(root.querySelector('video')!.src, /^blob:/);
   } finally { ui.destroy(); await window.happyDOM.abort(); }
 });
 
@@ -115,7 +115,7 @@ test('malformed first result can retry the tool-input work without exporting or 
     assert.equal(retry.hidden, false);
     retry.click();
     await new Promise(resolve => setImmediate(resolve));
-    assert.deepEqual(calls, [{ name: 'openmotion_get_project', arguments: {
+    assert.deepEqual(calls, [{ name: 'kinevyn_get_project', arguments: {
       projectId: work.projectId, workId: work.id, includeVideo: true,
     } }]);
     assert.match(root.querySelector('video')!.src, /^blob:/);

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Kinevyn Media"
+  short_description: "Generate and verify image, video, speech, and music assets via configured multimodal providers"
+  default_prompt: "Use Kinevyn $kinevyn-media to discover models via kinevyn_media_use, then generate and verify needed image, video, speech, or music assets via kinevyn_assets_use."

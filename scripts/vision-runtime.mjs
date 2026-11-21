@@ -96,7 +96,7 @@ export async function ensureVisionRuntime(root) {
   if (await ready(config)) return config;
   await withCacheLock(config.directory + '.lock', async () => {
     if (await ready(config)) return;
-    console.error('OpenMotion: preparing pinned Python, NumPy and OpenCV for vision tools.');
+    console.error('Kinevyn: preparing pinned Python, NumPy and OpenCV for vision tools.');
     const assets = [config.info.python, ...config.info.wheels];
     const directory = path.join(config.cache, config.target, 'vision-downloads');
     await mkdir(directory, { recursive: true });

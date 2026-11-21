@@ -1,6 +1,6 @@
 {
   "date": "2026-11-09",
-  "scope": "Pinned local template runner smoke test. Not OpenMotion Studio import, target-machine acceptance or a validated presenter-led film.",
+  "scope": "Pinned local template runner smoke test. Not Kinevyn Studio import, target-machine acceptance or a validated presenter-led film.",
   "packageSha256": "533320d081c578cb824dfbc6ce9d4ae3eb1ca190d67ae7185b4a32b02e236255",
   "archivePathsChecked": 331,
   "internalSha256ChecksPassed": 330,

@@ -145,7 +145,7 @@ export async function scanPackage(tgz, binary) {
     await unpackChecked(tgz, path.join(work, 'outer'));
     const outer = path.join(work, 'outer/package');
     const pkg = JSON.parse(await readFile(path.join(outer, 'package.json')));
-    assert.equal(pkg.name, '@openmotion/app'); assert.equal(pkg.private, false);
+    assert.equal(pkg.name, '@kinevyn/app'); assert.equal(pkg.private, false);
     const manifest = JSON.parse(await readFile(path.join(outer, 'payload/release-npm.json')));
     assert.equal(manifest.format, 'npm'); assert.equal(manifest.templateEnvironment, releaseTemplateEnvironment(pkg.version)); assert.equal(manifest.version, pkg.version);
     const appName = manifest.application.url.replace(/^\.\//, ''); assert.equal(path.basename(appName), appName);
@@ -166,7 +166,7 @@ export async function scanPluginPackage(tgz, binary) {
   try {
     await unpackChecked(tgz, work);
     const pkg = JSON.parse(await readFile(path.join(work, 'package/package.json')));
-    assert.equal(pkg.name, 'openmotion-dsh');
+    assert.equal(pkg.name, 'kinevyn-dsh');
     checkReleaseVersion(pkg.version);
     return { ...await scanTree(work, 'package', binary), version: pkg.version, tgzSHA256: await sha256(tgz) };
   } finally { await rm(work, { recursive: true, force: true }); }

@@ -89,7 +89,7 @@
     }
   ],
   "extensions": {
-    "org.openmotion": {
+    "org.kinevyn": {
       "status": "recipe",
       "rendered": false
     }

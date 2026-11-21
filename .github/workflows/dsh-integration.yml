@@ -86,11 +86,11 @@ jobs:
       - name: Retain the plugin for PR testing
         uses: actions/upload-artifact@v7.0.2
         with:
-          name: openmotion-dsh
+          name: kinevyn-dsh
           path: integrations/dsh/dist/*.tgz
           if-no-files-found: error
       - name: Publish verified main plugin downloads
-        if: github.repository == 'nexu-io/openmotion' && github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+        if: github.repository == 'rivyn-labs/kinevyn' && github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.CLOUDFLARE_R2_RELEASES_AK }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.CLOUDFLARE_R2_RELEASES_SK }}

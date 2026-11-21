@@ -95,7 +95,7 @@ export class LocalAgentDirectory {
     const modelInCommand = action === 'launch' && choice.model !== 'default' && Boolean(agent?.modelFlag);
     if (modelInCommand) args.push(agent!.modelFlag!, choice.model);
     if (action === 'launch' && choice.reasoning && choice.agent === 'codex') args.push('-c', `model_reasoning_effort="${choice.reasoning}"`);
-    const instruction = `Connect this Agent to OpenMotion using ${previewUrl}/connect/guide?host=${choice.agent === 'codex' || choice.agent === 'claude' ? choice.agent : choice.agent === 'deepseek-harness' ? 'deepseek' : 'mcp'}. Verify access to the current project before editing. ${choice.model !== 'default' ? `Use model ${choice.model}${choice.reasoning ? ` with ${choice.reasoning} reasoning` : ''}. ` : ''}Keep the Agent's normal approval controls enabled.`;
+    const instruction = `Connect this Agent to Kinevyn using ${previewUrl}/connect/guide?host=${choice.agent === 'codex' || choice.agent === 'claude' ? choice.agent : choice.agent === 'deepseek-harness' ? 'deepseek' : 'mcp'}. Verify access to the current project before editing. ${choice.model !== 'default' ? `Use model ${choice.model}${choice.reasoning ? ` with ${choice.reasoning} reasoning` : ''}. ` : ''}Keep the Agent's normal approval controls enabled.`;
     return { command: terminalCommand(bin, args, cwd), instruction, modelInCommand, terminalAvailable: ['darwin', 'win32', 'linux'].includes(process.platform) };
   }
   async open(choice: AgentChoice, cwd: string, previewUrl: string, action: 'login' | 'launch') {

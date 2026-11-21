@@ -1,6 +1,6 @@
 # Curated fonts
 
-OpenMotion ships a small, inspectable catalog of 40 font families with editorial use cases, role and language tags, pairing suggestions, spacing guidance and pinned resource identities. These suggestions help an Agent choose; they do not establish that a face improves a particular film.
+Kinevyn ships a small, inspectable catalog of 40 font families with editorial use cases, role and language tags, pairing suggestions, spacing guidance and pinned resource identities. These suggestions help an Agent choose; they do not establish that a face improves a particular film.
 
 The catalog is not a system-font installation or a new Studio picker. Existing brand, accepted template and reference choices retain priority.
 
@@ -8,7 +8,7 @@ Each family now includes construction traits and conditional brand fit (`brandFi
 
 The shared typography guide distinguishes original marks/packaging, prescribed brand reading text and open creative roles. Phone-led reviews inspect required titles, claims, supporting labels and CTA/URL at a stated display width with actual copy and timing. Its illustrative size ranges are editing starting points, not universal gates; actual legibility and the applicable identity decide the result.
 
-Open choices use a role-led actual-copy comparison: state the visible distinction, compare relevant constructions at equal display conditions, then tune the selected treatment in the real frame. The optional offline `scripts/font-specimen.ts <request.json> <new-output-directory>` helper checks supplied prepared resources against catalog hashes and produces portable HTML, copied fonts/licenses and a JSON input/resource record. It performs no downloads or project writes. Its [input schema and review procedure](../skills/openmotion-production/references/fonts.md#compare-prepared-faces-with-actual-copy) cover mixed-script stacks and explicit coverage gaps; generated output is comparison material, not visual acceptance.
+Open choices use a role-led actual-copy comparison: state the visible distinction, compare relevant constructions at equal display conditions, then tune the selected treatment in the real frame. The optional offline `scripts/font-specimen.ts <request.json> <new-output-directory>` helper checks supplied prepared resources against catalog hashes and produces portable HTML, copied fonts/licenses and a JSON input/resource record. It performs no downloads or project writes. Its [input schema and review procedure](../skills/kinevyn-production/references/fonts.md#compare-prepared-faces-with-actual-copy) cover mixed-script stacks and explicit coverage gaps; generated output is comparison material, not visual acceptance.
 
 | Family ID | Family | Language focus | Character / likely role |
 | --- | --- | --- | --- |
@@ -71,16 +71,16 @@ The language-specific additions include Traditional Chinese, Japanese, Korean, A
 
 ## How an Agent uses the catalog
 
-1. Read `openmotion://fonts/index`, filter by the film's actual language and text roles, then read only relevant `openmotion://fonts/<id>` details.
+1. Read `kinevyn://fonts/index`, filter by the film's actual language and text roles, then read only relevant `kinevyn://fonts/<id>` details.
 2. Run the returned preparation command on the host, optionally appending `--weight <available-weight>` (400 when available, otherwise the first available upright weight). It fetches only the selected upright resource and license, verifies size/SHA-256 and reuses verified cached files. The script can also run directly from the installed runtime: `node --experimental-strip-types scripts/prepare-font.ts <id> [--weight 400]`.
-3. Import the returned local `importItems` with the existing `openmotion_import_assets` Tool. Font files and optional license text become one versioned project change; the Tool returns actual font metadata and project-relative @font-face CSS.
-4. Read the new revision/version, save the relevant CSS/text through `openmotion_edit_project`, then inspect the actual copy and reading window. For nested stylesheets, resolve CSS URLs relative to their location.
+3. Import the returned local `importItems` with the existing `kinevyn_import_assets` Tool. Font files and optional license text become one versioned project change; the Tool returns actual font metadata and project-relative @font-face CSS.
+4. Read the new revision/version, save the relevant CSS/text through `kinevyn_edit_project`, then inspect the actual copy and reading window. For nested stylesheets, resolve CSS URLs relative to their location.
 
-The authoritative [metadata](../skills/openmotion-production/fonts/catalog.json) lives with the Skill so installed Skill-only hosts can filter it locally. MCP's index and family details are projections of the same file. [Typography guidance](../skills/openmotion-production/references/typography.md) and the [resource workflow](../skills/openmotion-production/references/fonts.md) describe selection and validation.
+The authoritative [metadata](../skills/kinevyn-production/fonts/catalog.json) lives with the Skill so installed Skill-only hosts can filter it locally. MCP's index and family details are projections of the same file. [Typography guidance](../skills/kinevyn-production/references/typography.md) and the [resource workflow](../skills/kinevyn-production/references/fonts.md) describe selection and validation.
 
 ## Storage and delivery
 
-Only metadata and code ship with the application/Skills, not the complete font binaries. Selected resources are downloaded from fixed upstream commits into `~/.cache/openmotion/fonts/<source-commit>/<id>/`. First use needs network access; verified cache entries work offline. Preparation does not modify projects or install system fonts. A finished portable project carries the actual selected font files and applicable license, so subsequent rendering and text changes do not depend on the author's system fonts.
+Only metadata and code ship with the application/Skills, not the complete font binaries. Selected resources are downloaded from fixed upstream commits into `~/.cache/kinevyn/fonts/<source-commit>/<id>/`. First use needs network access; verified cache entries work offline. Preparation does not modify projects or install system fonts. A finished portable project carries the actual selected font files and applicable license, so subsequent rendering and text changes do not depend on the author's system fonts.
 
 The catalog contains upright resources only. Variable axes and real weight ranges, glyph sample results, byte sizes, hashes and source revisions come from the pinned files. Language tags are not a guarantee for every character or regional glyph form; inspect actual copy. No visual-quality or anti-template effect has been established merely by catalog inclusion.
 

@@ -12,8 +12,8 @@ export async function startOwnedStudio(root, runtimeRoot, projectDirectory, logF
   const child = fork(filename, ['--owner', root, runtimeRoot, projectDirectory, logFile, String(port)], {
     detached: true,
     execArgv: ['--experimental-strip-types'],
-    env: { ...process.env, OPENMOTION_EDITOR_LOCK_FD: '4' },
-    stdio: ['ignore', 'ignore', 'inherit', 'ipc', Number(process.env.OPENMOTION_EDITOR_LOCK_FD)],
+    env: { ...process.env, KINEVYN_EDITOR_LOCK_FD: '4' },
+    stdio: ['ignore', 'ignore', 'inherit', 'ipc', Number(process.env.KINEVYN_EDITOR_LOCK_FD)],
   });
   const exited = new Promise(resolve => { child.once('exit', resolve); child.once('error', resolve); });
   const close = async () => {
@@ -40,7 +40,7 @@ export async function startOwnedStudio(root, runtimeRoot, projectDirectory, logF
 
 if (path.resolve(process.argv[1] || '') === filename && process.argv[2] === '--owner') {
   const [, , , root, runtimeRoot, projectDirectory, logFile, port] = process.argv;
-  const held = fstatSync(Number(process.env.OPENMOTION_EDITOR_LOCK_FD));
+  const held = fstatSync(Number(process.env.KINEVYN_EDITOR_LOCK_FD));
   const lock = statSync(path.join(root, '.editor-runtime', 'runtime.lock'));
   if (held.dev !== lock.dev || held.ino !== lock.ino) throw new Error('Studio owner requires the editor lock');
   let closing = false, monitor;

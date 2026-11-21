@@ -81,7 +81,7 @@
 [data-motion-studio] .om-title { margin: 0; font-size: var(--motion-text-step-18); font-weight: var(--motion-weight-semibold); color: var(--motion-strong); }
 [data-motion-studio] .om-subtitle { margin: 0; font-size: var(--motion-text-body); font-weight: var(--motion-weight-semibold); color: var(--motion-strong); }
 [data-motion-studio] .om-navigation-title { margin: 0; font-size: var(--motion-text-body); font-weight: var(--motion-weight-semibold); color: var(--motion-strong); }
-[data-motion-studio] .om-product-brand { width: 165px; height: 28px; margin: 0; background: var(--motion-strong); mask: url('../brand/openmotion-logo.svg') center / contain no-repeat; }
+[data-motion-studio] .om-product-brand { width: 165px; height: 28px; margin: 0; background: var(--motion-strong); mask: url('../brand/kinevyn-logo.svg') center / contain no-repeat; }
 [data-motion-studio] .om-opendesign-mark {
   display: inline-block;
   flex: none;

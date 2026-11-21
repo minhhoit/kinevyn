@@ -19,7 +19,7 @@ test('the unchanged decision-tree template exports a verified 1080p MP4', { time
   assert.equal(createHash('sha256').update(await readFile(path.join(store.snapshotDirectory(job.id), dependency))).digest('hex'), createHash('sha256').update(original).digest('hex'));
   await renderNext(store, pluginRoot);
   const completed = (await store.job(job.id))!;
-  const evidence = process.env.OPENMOTION_DECISION_TREE_EVIDENCE;
+  const evidence = process.env.KINEVYN_DECISION_TREE_EVIDENCE;
   if (evidence) {
     await mkdir(evidence, { recursive: true });
     await writeFile(path.join(evidence, 'export.json'), JSON.stringify(completed, null, 2));

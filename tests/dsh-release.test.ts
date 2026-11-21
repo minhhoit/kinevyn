@@ -42,7 +42,7 @@ test("new candidates seal the plugin identity and bytes; old candidates remain r
   const f = await candidateFixture(t, "main", { dsh: true });
   const candidate = await verifyDownloaded(f.directory, f.candidate.tgzSHA256);
   assert.equal(candidate.schemaVersion, 4);
-  assert((await readFile(path.join(f.directory, "candidate-install.md"), "utf8")).includes(`openmotion-dsh-${candidate.version}.tgz`));
+  assert((await readFile(path.join(f.directory, "candidate-install.md"), "utf8")).includes(`kinevyn-dsh-${candidate.version}.tgz`));
   for (const name of pluginCandidateFiles(candidate.version)) assert(candidate.files[name]);
   await writeFile(path.join(f.directory, pluginCandidateFiles(candidate.version)[0]), "changed plugin bytes");
   await assert.rejects(verifyDownloaded(f.directory, f.candidate.tgzSHA256), /Candidate file changed/);
@@ -56,7 +56,7 @@ test("the immutable Actions artifact carries and verifies all plugin files", asy
   const artifact = { id: 456, name: `motion-candidate-${f.candidate.version}`, expired: false, workflow_run: { id: 123 },
     size_in_bytes: bytes.length, digest: "sha256:" + createHash("sha256").update(bytes).digest("hex") };
   const producer = { id: 123, run_attempt: 1, event: "workflow_dispatch", head_branch: "main", head_sha: f.provenance.head_sha,
-    head_repository: { full_name: "nexu-io/openmotion" }, status: "completed", conclusion: "success", path: ".github/workflows/motion-candidate.yml" };
+    head_repository: { full_name: "rivyn-labs/kinevyn" }, status: "completed", conclusion: "success", path: ".github/workflows/motion-candidate.yml" };
   const fetcher: typeof fetch = async (url, init) => {
     const address = String(url);
     if (address.includes("/actions/artifacts?")) return Response.json({ total_count: 1, artifacts: [artifact] });
@@ -79,7 +79,7 @@ test("candidate sealing rejects a mismatched or unscanned plugin", async t => {
   const original = await readFile(filename, "utf8");
   const manifest = JSON.parse(original);
   const env = { ...f.env, MOTION_SOURCE_SHA: f.candidate.sourceCommit, GITHUB_RUN_ID: "123", GITHUB_RUN_ATTEMPT: "1",
-    GITHUB_WORKFLOW_REF: "nexu-io/openmotion/.github/workflows/motion-candidate.yml@refs/heads/main" };
+    GITHUB_WORKFLOW_REF: "rivyn-labs/kinevyn/.github/workflows/motion-candidate.yml@refs/heads/main" };
   const seal = () => sealCandidate(f.build, path.join(f.work, "mismatch"), f.root, env);
   await writeFile(filename, "null");
   await assert.rejects(seal(), "A malformed manifest cannot downgrade to a legacy candidate");

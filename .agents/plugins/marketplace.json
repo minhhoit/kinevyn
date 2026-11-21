@@ -1,11 +1,11 @@
 {
-  "name": "openmotion-local",
+  "name": "kinevyn-local",
   "interface": {
-    "displayName": "OpenMotion Local Development"
+    "displayName": "Kinevyn Local Development"
   },
   "plugins": [
     {
-      "name": "openmotion",
+      "name": "kinevyn",
       "source": { "source": "local", "path": "./" },
       "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
       "category": "Productivity"

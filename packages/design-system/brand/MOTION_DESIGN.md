@@ -1,12 +1,12 @@
 # Ink & Water — Motion Design
 
-**Version:** 0.1 · **Status:** creative direction / draft · **Author:** OpenMotion contributors · **License:** [Apache-2.0](../../../LICENSE).
+**Version:** 0.1 · **Status:** creative direction / draft · **Author:** Kinevyn contributors · **License:** [Apache-2.0](../../../LICENSE).
 
-**Reference:** the blue, green and cream painterly visual language of the [OpenDesign website](https://open-design.ai/), adapted for OpenMotion's public README artwork. This describes an art direction; it is not a copy of the website's assets or an automatically imported rendering theme.
+**Reference:** the blue, green and cream painterly visual language of the [OpenDesign website](https://open-design.ai/), adapted for Kinevyn's public README artwork. This describes an art direction; it is not a copy of the website's assets or an automatically imported rendering theme.
 
 ## Identity and message
 
-Use the [OpenMotion Brandkit](BRANDKIT.md) for product facts and approved copy. The central story is **Edit with AI. Everyone can be a creator.** Show AI editing as a way for people to express themselves: an editing request, a visible project change, then a preview and revision. The feeling is open, human and expressive; the work and its message remain the focal point.
+Use the [Kinevyn Brandkit](BRANDKIT.md) for product facts and approved copy. The central story is **Edit with AI. Everyone can be a creator.** Show AI editing as a way for people to express themselves: an editing request, a visible project change, then a preview and revision. The feeling is open, human and expressive; the work and its message remain the focal point.
 
 ## Composition and material
 

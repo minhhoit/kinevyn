@@ -24,7 +24,7 @@ export function BrandKitLivePreview({ id, poster, enabled }: { id: string; poste
   useEffect(() => {
     if (state !== 'loading') return;
     const receive = (event: MessageEvent) => {
-      if (frame.current && event.source === frame.current.contentWindow && event.data?.type === 'openmotion:brand-preview-ready')
+      if (frame.current && event.source === frame.current.contentWindow && event.data?.type === 'kinevyn:brand-preview-ready')
         setState('ready');
     };
     let timeout: ReturnType<typeof setTimeout>;
@@ -51,7 +51,7 @@ export function BrandKitLivePreview({ id, poster, enabled }: { id: string; poste
 
   useEffect(() => {
     if (state === 'ready')
-      frame.current?.contentWindow?.postMessage({ type: 'openmotion:brand-playback', playing: playing && enabled && inView }, '*');
+      frame.current?.contentWindow?.postMessage({ type: 'kinevyn:brand-playback', playing: playing && enabled && inView }, '*');
   }, [state, playing, enabled, inView]);
 
   const label = t(playing ? 'Pause' : 'Play');

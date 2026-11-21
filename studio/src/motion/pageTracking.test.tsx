@@ -137,8 +137,8 @@ it('reports a started extraction and an official import by catalogue id', () => 
 });
 
 const { McpConnectionPage } = await import('./McpConnectionPage');
-const mcpInfo = { name: 'OpenMotion', version: '1.2.3', previewUrl: 'http://127.0.0.1:4567', dataDirectory: '/PRIVATE_DATA_DIR', templateSource: 'repository',
-  transport: { type: 'stdio', command: 'node', args: ['/PRIVATE_DATA_DIR/mcp.ts'], cwd: '/PRIVATE_DATA_DIR', env: { MOTION_DATA_DIR: '/PRIVATE_DATA_DIR' } }, tools: [{ name: 'openmotion_media_use', description: 'Media Use' }] };
+const mcpInfo = { name: 'Kinevyn', version: '1.2.3', previewUrl: 'http://127.0.0.1:4567', dataDirectory: '/PRIVATE_DATA_DIR', templateSource: 'repository',
+  transport: { type: 'stdio', command: 'node', args: ['/PRIVATE_DATA_DIR/mcp.ts'], cwd: '/PRIVATE_DATA_DIR', env: { MOTION_DATA_DIR: '/PRIVATE_DATA_DIR' } }, tools: [{ name: 'kinevyn_media_use', description: 'Media Use' }] };
 const mcpTemplate = { id: 'fixture-film', title: 'Fixture film', description: 'Editable typography', subtitle: 'Launch', posterUrl: '/poster.png' };
 const roleTab = (name: string) => [...document.querySelectorAll<HTMLButtonElement>('[role=tab]')].find(node => node.textContent?.trim().endsWith(name))!;
 

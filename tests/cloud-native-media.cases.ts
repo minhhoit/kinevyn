@@ -164,7 +164,7 @@ test('Cloud rejects explicit first-frame ratios through MCP before reference res
   // These references do not exist: ratio validation must fail before opening them.
   const references = [{ assetId: randomUUID(), versionId: randomUUID() }];
   for (const modelId of ['wan-2.7', 'doubao-seedance-2-5-260628']) {
-    await assert.rejects(api.call('openmotion_assets_use', { action: 'generate', requestId: `bad-ratio-${modelId.replaceAll('.', '-')}`, model: `opendesign:${modelId}`,
+    await assert.rejects(api.call('kinevyn_assets_use', { action: 'generate', requestId: `bad-ratio-${modelId.replaceAll('.', '-')}`, model: `opendesign:${modelId}`,
       modality: 'video', prompt: 'slow push', references, parameters: { ratio: '16:9' } }), /First-frame video.*Remove parameters.ratio.*adaptive/);
     await assert.rejects(gateway.submit({ library: {}, model: `opendesign:${modelId}`, modality: 'video', prompt: 'hosted first frame',
       parameters: { ratio: '16:9', images: [{ asset_id: 'ma_existing', role: 'first_frame' }] } }), /First-frame video/);
@@ -184,11 +184,11 @@ test('Cloud first-frame video accepts omitted or adaptive ratios despite saved t
     for (const ratio of [undefined, 'adaptive']) {
       const parameters = ratio ? { ratio } : {};
       const input = { action: 'generate', requestId: `${modelId.replaceAll('.', '-')}-${ratio ?? 'omitted'}`, model: `opendesign:${modelId}`, modality: 'video', prompt: 'slow push', references: [ref], parameters };
-      const queued = (await api.call('openmotion_assets_use', input)).job;
+      const queued = (await api.call('kinevyn_assets_use', input)).job;
       const completed = await finish(store, queued.id);
       assert.equal(completed.state, 'completed', completed.error);
       assert.deepEqual(submits.at(-1), ['/api/v1/media/videos/tasks', { duration: 5, ...parameters, model: modelId, prompt: 'slow push', images: [{ asset_id: `ma_${submits.filter(([, body]) => body.images).length - 1}`, role: 'first_frame' }] }]);
-      assert.equal((await api.call('openmotion_assets_use', input)).job.id, queued.id);
+      assert.equal((await api.call('kinevyn_assets_use', input)).job.id, queued.id);
       assert.equal(completed.model.defaults?.ratio, '16:9');
     }
     const textOnly = await finish(store, (await gateway.submit({ library: {}, model: `opendesign:${modelId}`, modality: 'video', prompt: 'text only' })).id);
@@ -233,11 +233,11 @@ test('Cloud speech timestamps stay on the job and reach the MCP status result', 
   const alignment = { characters: ['你', '好'], character_start_times_seconds: [0, 0.2], character_end_times_seconds: [0.2, 0.4] };
   const submits: [string, any][] = []; cloud(gateway, (p, body) => submits.push([p, body]), { result: { alignment } });
   await gateway.configureProvider('opendesign', { apiKey: 'cloud-key', baseUrl: 'https://cloud.example' });
-  const queued = await api.call('openmotion_media_use', { action: 'generate', provider: 'opendesign', projectId: store.projectId, requestId: 'speech-ts', model: 'elevenlabs-v3',
+  const queued = await api.call('kinevyn_media_use', { action: 'generate', provider: 'opendesign', projectId: store.projectId, requestId: 'speech-ts', model: 'elevenlabs-v3',
     modality: 'audio', mode: 'text-to-speech', prompt: '你好', parameters: { voice: 'voice-1', voice_settings: { speed: 1.1 } } });
   const job = await finish(store, queued.job.id); assert.equal(job.state, 'completed', job.error);
   assert.deepEqual(submits, [['/api/v1/media/audio/speech', { model: 'elevenlabs-v3', voice: 'voice-1', parameters: { voice_settings: { speed: 1.1 }, text: '你好' } }]]);
-  const status = await api.call('openmotion_media_use', { action: 'status', projectId: store.projectId, jobId: job.id });
+  const status = await api.call('kinevyn_media_use', { action: 'status', projectId: store.projectId, jobId: job.id });
   assert.deepEqual(status.job.result, { alignment });
   await gateway.close();
 }));
@@ -356,7 +356,7 @@ for (const recovery of ['poll failure', 'interruption'] as const) test(`explicit
   await gateway.configureProvider('opendesign', { apiKey: 'cloud-key', baseUrl: 'https://cloud.example' });
   await gateway.listModels({ provider: 'opendesign', refresh: true });
   const ref = await libraryRef(store, 'input.png', 'red');
-  const queued = (await api.call('openmotion_assets_use', { action: 'generate', requestId: 'original', model: 'opendesign:edit-image', modality: 'image', prompt: 'edit', references: [ref] })).job;
+  const queued = (await api.call('kinevyn_assets_use', { action: 'generate', requestId: 'original', model: 'opendesign:edit-image', modality: 'image', prompt: 'edit', references: [ref] })).job;
   const failed = await finish(store, queued.id); assert.equal(failed.state, 'failed'); assert.equal(resumableJob(failed), true);
   assert.match(failed.error!, /action=resume/);
   if (recovery === 'interruption') {
@@ -365,13 +365,13 @@ for (const recovery of ['poll failure', 'interruption'] as const) test(`explicit
   }
   failing = false;
   const resume = { action: 'resume', jobId: failed.id, requestId: 'resume-original' };
-  await assert.rejects(api.call('openmotion_assets_use', { action: 'resume', jobId: failed.id }), /requestId|required/);
-  const pair = await Promise.all([api.call('openmotion_assets_use', resume), api.call('openmotion_assets_use', resume)]);
+  await assert.rejects(api.call('kinevyn_assets_use', { action: 'resume', jobId: failed.id }), /requestId|required/);
+  const pair = await Promise.all([api.call('kinevyn_assets_use', resume), api.call('kinevyn_assets_use', resume)]);
   assert.equal(pair[0].job.id, pair[1].job.id);
   await Promise.all([gateway.tick(), gateway.tick()]); assert.equal(gateway.active.size, 1);
   await Promise.all([...gateway.active.values()].map(task => task.done));
   const done = await gateway.getJob(failed.id); assert.equal(done.state, 'completed', done.error);
-  assert.equal((await api.call('openmotion_assets', resume)).job.state, 'completed');
+  assert.equal((await api.call('kinevyn_assets', resume)).job.state, 'completed');
   assert.equal(calls.filter(c => c === 'POST /api/v1/media/uploads').length, 1);
   assert.equal(calls.filter(c => c === 'POST /api/v1/media/images/edits').length, 1);
   const asset = await new AssetLibrary(store).get(done.libraryAssets![0].assetId);
@@ -409,11 +409,11 @@ test('project media resume retains project ownership and the original task', () 
     return fail ? new Response(null, { status: 400 }) : Response.json({ status: 'succeeded', assets: [{ url: 'https://cdn.example/audio' }] });
   }) as Fetcher;
   await gateway.configureProvider('opendesign', { apiKey: 'fixture', baseUrl: 'https://cloud.example' });
-  const queued = (await api.call('openmotion_media_use', { action: 'generate', projectId: store.projectId, provider: 'opendesign', model: 'music', modality: 'audio', prompt: 'x', requestId: 'original' })).job;
+  const queued = (await api.call('kinevyn_media_use', { action: 'generate', projectId: store.projectId, provider: 'opendesign', model: 'music', modality: 'audio', prompt: 'x', requestId: 'original' })).job;
   await finish(store, queued.id); fail = false;
   const args = { action: 'resume', projectId: store.projectId, jobId: queued.id, requestId: 'resume' };
-  await assert.rejects(api.call('openmotion_media_use', { ...args, projectId: randomUUID() }), /PROJECT_NOT_FOUND/);
-  await api.call('openmotion_media_use', args);
+  await assert.rejects(api.call('kinevyn_media_use', { ...args, projectId: randomUUID() }), /PROJECT_NOT_FOUND/);
+  await api.call('kinevyn_media_use', args);
   assert.equal((await finish(store, queued.id)).state, 'completed'); assert.equal(posts, 1);
   await gateway.close();
 }));
@@ -501,7 +501,7 @@ test('twenty references pass the public schema, while model count rejection prec
   await assert.rejects(gateway.submit({ library: { references: Array(21).fill(missing) }, model: 'opendesign:wide-edit', modality: 'image', prompt: 'x' }), /at most 20 input images/);
   await assert.rejects(gateway.submit({ library: { references: [null as any] }, model: 'opendesign:wide-edit', modality: 'image', prompt: 'x' }), /Invalid asset reference/);
   const ref = await libraryRef(store, 'input.png', 'red');
-  const queued = (await api.call('openmotion_assets_use', { action: 'generate', requestId: 'twenty', model: 'opendesign:wide-edit', modality: 'image', prompt: 'x', references: Array(20).fill(ref) })).job;
+  const queued = (await api.call('kinevyn_assets_use', { action: 'generate', requestId: 'twenty', model: 'opendesign:wide-edit', modality: 'image', prompt: 'x', references: Array(20).fill(ref) })).job;
   assert.equal((await finish(store, queued.id)).state, 'completed'); assert.equal(submits[0].images.length, 20);
   await gateway.close();
 }));
@@ -513,10 +513,10 @@ test('a failed save-only retry keeps a cancelled Cloud job cancelled and not res
   await gateway.configureProvider('opendesign', { apiKey: 'fixture', baseUrl: 'https://cloud.example' });
   const failed = await finish(store, (await gateway.submit({ library: {}, model: 'opendesign:music', modality: 'audio', prompt: 'x' })).id);
   await writeFile(path.join(gateway.root, 'jobs', failed.id + '.json'), JSON.stringify({ ...failed, state: 'cancelled', phase: 'cancelled' }));
-  await assert.rejects(api.call('openmotion_assets_use', { action: 'retry_save', jobId: failed.id, requestId: 'save' }), /SAVE_NOT_AVAILABLE/);
+  await assert.rejects(api.call('kinevyn_assets_use', { action: 'retry_save', jobId: failed.id, requestId: 'save' }), /SAVE_NOT_AVAILABLE/);
   const after = await gateway.getJob(failed.id);
   assert.equal(after.state, 'cancelled'); assert.equal(resumableJob(after), false);
-  await assert.rejects(api.call('openmotion_assets_use', { action: 'resume', jobId: failed.id, requestId: 'resume' }), /cannot be resumed/);
+  await assert.rejects(api.call('kinevyn_assets_use', { action: 'resume', jobId: failed.id, requestId: 'resume' }), /cannot be resumed/);
   assert.equal(posts, 1); assert.equal(gateway.active.size, 0);
   await gateway.close();
 }));
@@ -551,7 +551,7 @@ test('a failed save-only retry keeps an earlier Cloud-terminal job non-resumable
     const legacy = { ...failed, error: `OpenDesign Cloud task ${status}; inspect the original task before retrying` };
     delete (legacy as any).remoteTerminal;
     await writeFile(file, JSON.stringify(legacy));
-    await assert.rejects(api.call('openmotion_assets_use', { action: 'retry_save', jobId: failed.id, requestId: `save-${status}` }), /SAVE_NOT_AVAILABLE/);
+    await assert.rejects(api.call('kinevyn_assets_use', { action: 'retry_save', jobId: failed.id, requestId: `save-${status}` }), /SAVE_NOT_AVAILABLE/);
     const after = await gateway.getJob(failed.id);
     assert.equal(after.remoteTerminal, true); assert.equal(resumableJob(after), false);
     await assert.rejects(gateway.resume(failed.id, 'resume'), /cannot be resumed/);

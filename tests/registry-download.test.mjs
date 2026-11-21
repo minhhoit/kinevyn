@@ -37,7 +37,7 @@ test('registry propagation, rate limits, server errors and interrupted reads ret
 test('public download verifies both hashes against the frozen candidate without executing or publishing', async t => {
   const f = await candidateFixture(t), bytes = await readFile(path.join(f.directory, f.candidate.tgz));
   const metadata = { name: f.candidate.packageName, version: f.candidate.version,
-    dist: { integrity: f.candidate.integrity, tarball: 'https://registry.npmjs.org/@openmotion/app/-/app.tgz' } };
+    dist: { integrity: f.candidate.integrity, tarball: 'https://registry.npmjs.org/@kinevyn/app/-/app.tgz' } };
   let wrongBytes = false, downloads = 0;
   const options = clock(async url => {
     if (String(url).endsWith('.tgz')) { downloads++; return new Response(wrongBytes ? 'different bytes' : bytes); }

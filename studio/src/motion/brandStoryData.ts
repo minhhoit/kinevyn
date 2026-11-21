@@ -125,7 +125,7 @@ export function discoveryInsertions(items: GalleryTemplate[], series: BrandSerie
 /** Review-only receipts, retained in this tab. The preview server blocks production analytics. */
 export function recordBrandReview(event: string, fields: Record<string, string | number> = {}) {
   try {
-    const key = 'openmotion-brand-story-review';
+    const key = 'kinevyn-brand-story-review';
     const previous = JSON.parse(sessionStorage.getItem(key) || '[]');
     sessionStorage.setItem(key, JSON.stringify([...previous, { event, ...fields, at: new Date().toISOString() }].slice(-100)));
   } catch { /* Review telemetry must never interrupt browsing. */ }

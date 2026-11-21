@@ -19,7 +19,7 @@ export async function prepareCatalogFont(id: string, options: { cacheRoot?: stri
   if (!Number.isInteger(weight) || weight < 1 || weight > 1000) throw new Error('INVALID_FONT_WEIGHT');
   const selected = font.files.filter(file => { const [min, max = min] = file.weight.split(' ').map(Number); return file.style === 'normal' && min <= weight && weight <= max; });
   if (!selected.length) throw new Error('FONT_WEIGHT_UNAVAILABLE: choose an actual catalog weight');
-  const directory = path.resolve(options.cacheRoot ?? path.join(homedir(), '.cache', 'openmotion', 'fonts'), font.source.commit, id);
+  const directory = path.resolve(options.cacheRoot ?? path.join(homedir(), '.cache', 'kinevyn', 'fonts'), font.source.commit, id);
   await mkdir(directory, { recursive: true });
   const fetcher = options.fetcher ?? fetch;
   async function acquire(asset: Download) {

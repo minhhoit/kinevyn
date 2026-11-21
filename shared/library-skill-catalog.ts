@@ -5,8 +5,8 @@ import { fileURLToPath } from 'node:url';
 export type LibrarySkill = { id: string; kind: 'skill'; title: string; description: string; tags: string[]; repository?: string; license?: string; instructions: string; files: string[]; objects?: SkillObject[]; localSource?: string };
 export type SkillObject = { path: string; bytes: number; sha256: string };
 const root = fileURLToPath(new URL('../', import.meta.url));
-export const skillNextStep = 'Follow SKILL.md. When a new project is needed, use openmotion_create_project with projectType=natural_language. Skills are instructions, not copyable projects.';
-export const skillUsage = 'This ID is a library Skill, not a template. Read it with openmotion_get_skill(skillId). ' + skillNextStep;
+export const skillNextStep = 'Follow SKILL.md. When a new project is needed, use kinevyn_create_project with projectType=natural_language. Skills are instructions, not copyable projects.';
+export const skillUsage = 'This ID is a library Skill, not a template. Read it with kinevyn_get_skill(skillId). ' + skillNextStep;
 
 // Cards are build-time Studio sources with media imports, not a Node module.
 function fields(source: string): Record<string, string> {

@@ -12,7 +12,7 @@ import { loadCanvasSourceOperations } from '../shared/composition-canvas-source.
 
 const out = process.argv[2]; assert(out && path.isAbsolute(out)); await mkdir(out, { recursive: true });
 await configureNativeEnvironment(pluginRoot);
-const data = await mkdtemp(path.join(tmpdir(), 'openmotion-canvas-captions-')), client = new Client(data);
+const data = await mkdtemp(path.join(tmpdir(), 'kinevyn-canvas-captions-')), client = new Client(data);
 let browser, page;
 const errors = [], results = [];
 const check = name => { results.push(name); console.log('PASS', name); };
@@ -25,14 +25,14 @@ const click = async (selector, text) => {
 const capture = async name => { await page.evaluate(async () => { await Promise.allSettled(document.getAnimations().filter(a => a.effect?.getComputedTiming().endTime < 1000).map(a => a.finished)); }); await page.screenshot({ path: path.join(out, name + '.png') }); };
 try {
   await client.initialize();
-  const created = await client.call('openmotion_create_project', { projectType: 'natural_language', title: 'Canvas and captions fixture', requirements: 'Synthetic geometric framing and subtitle verification.', requestId: 'create' });
+  const created = await client.call('kinevyn_create_project', { projectType: 'natural_language', title: 'Canvas and captions fixture', requirements: 'Synthetic geometric framing and subtitle verification.', requestId: 'create' });
   const projectId = created.projectId;
-  let current = await client.call('openmotion_get_project', { projectId });
-  await client.call('openmotion_edit_project', { projectId, requestId: 'fixture', expectedRevision: current.revision, expectedVersionId: current.currentVersionId, files: [
+  let current = await client.call('kinevyn_get_project', { projectId });
+  await client.call('kinevyn_edit_project', { projectId, requestId: 'fixture', expectedRevision: current.revision, expectedVersionId: current.currentVersionId, files: [
     { path: 'assets/gsap.min.js', content: await readFile(path.join(pluginRoot, 'node_modules/gsap/dist/gsap.min.js'), 'utf8') },
     { path: 'index.html', content: '<!doctype html><html><head><script src="assets/gsap.min.js"></script><style>body{margin:0}#main{position:relative;width:640px;height:360px;background:#1b4b5a;color:white;font:32px sans-serif}#main>h1{position:absolute;left:80px;top:90px;margin:0;font-size:40px}</style></head><body><div id="main" data-composition-id="main" data-start="0" data-duration="2" data-width="640" data-height="360" data-fps="10"><h1 id="title" class="clip" data-start="0" data-duration="2" data-track-index="0">Canvas fixture</h1></div><script>window.__timelines={main:gsap.timeline({paused:true}).fromTo("#title",{x:0},{x:20,duration:2})};</script></body></html>' },
   ] });
-  const preview = await client.call('openmotion_open_preview', { projectId });
+  const preview = await client.call('kinevyn_open_preview', { projectId });
   browser = await puppeteer.launch({ executablePath: process.env.HYPERFRAMES_BROWSER_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: true, args: ['--autoplay-policy=no-user-gesture-required'] });
   const parsers = await loadCanvasSourceOperations(pluginRoot);
   const sceneTemplate = await readFile(path.join(pluginRoot, 'template-library/decision-tree/compositions/decision_tree.html'), 'utf8');
@@ -61,7 +61,7 @@ try {
   await page.evaluateOnNewDocument(() => localStorage.setItem('motion.studio.locale', 'en'));
   await page.setViewport({ width: 1440, height: 900 }); await page.goto(preview.previewUrl, { waitUntil: 'domcontentloaded' });
   await page.waitForFunction(() => document.querySelector('button[aria-label="Caption visibility"]')?.textContent === 'Off');
-  const tracks = () => client.call('openmotion_assets_use', { action: 'transcript', transcript: { command: 'caption_tracks', projectId, compositionPath: 'index.html' } });
+  const tracks = () => client.call('kinevyn_assets_use', { action: 'transcript', transcript: { command: 'caption_tracks', projectId, compositionPath: 'index.html' } });
   await click('button[aria-label="Caption visibility"]'); await click('[role=radio]', 'On');
   await page.waitForSelector('[data-testid=empty-caption-track]');
   assert.equal((await tracks()).tracks.length, 1); assert.equal((await tracks()).tracks[0].cueCount, 0);
@@ -99,9 +99,9 @@ try {
     assert(attempt < 100, 'The live preview must update its content fit'); await new Promise(resolve => setTimeout(resolve, 100));
   }
   await capture('portrait-crop');
-  await writeFile(path.join(out, 'saved-source.html'), (await client.call('openmotion_get_project', { projectId, file: { path: 'index.html' } })).file.content);
-  current = await client.call('openmotion_get_project', { projectId });
-  await client.call('openmotion_assets_use', { action: 'transcript', transcript: { command: 'caption_add', projectId, compositionPath: 'index.html', requestId: 'fill-empty', expectedRevision: current.revision, expectedVersionId: current.currentVersionId, segments: [{ id: 'cue', text: 'A real caption', start: 0, end: 1 }] } });
+  await writeFile(path.join(out, 'saved-source.html'), (await client.call('kinevyn_get_project', { projectId, file: { path: 'index.html' } })).file.content);
+  current = await client.call('kinevyn_get_project', { projectId });
+  await client.call('kinevyn_assets_use', { action: 'transcript', transcript: { command: 'caption_add', projectId, compositionPath: 'index.html', requestId: 'fill-empty', expectedRevision: current.revision, expectedVersionId: current.currentVersionId, segments: [{ id: 'cue', text: 'A real caption', start: 0, end: 1 }] } });
   await page.waitForFunction(() => !document.querySelector('[data-testid=empty-caption-track]'));
   assert.equal((await tracks()).tracks.length, 1); assert.equal((await tracks()).tracks[0].cueCount, 1); check('MCP fills the same C1 lane and Studio refreshes');
   await page.reload({ waitUntil: 'domcontentloaded' }); await page.waitForFunction(() => document.querySelector('button[aria-label="Aspect ratio"]')?.textContent === '9:16');
@@ -113,13 +113,13 @@ try {
   assert.equal(await page.$$eval('[data-clip]', nodes => nodes.length), 2, 'Framing must not create a phantom content clip');
   const previewDocuments = await Promise.all(page.frames().map(frame => frame.evaluate(() => document.querySelector('[data-composition-id]')?.outerHTML).catch(() => null)));
   await writeFile(path.join(out, 'live-preview.json'), JSON.stringify(previewDocuments.filter(Boolean), null, 2));
-  current = await client.call('openmotion_get_project', { projectId });
+  current = await client.call('kinevyn_get_project', { projectId });
   const exportArgs = { projectId, versionId: current.currentVersionId, expectedRevision: current.revision, requestId: 'portrait-export', audio: 'silent' };
-  const queued = await client.call('openmotion_export_request', exportArgs);
-  assert.equal((await client.call('openmotion_export_request', exportArgs)).job.id, queued.job.id);
+  const queued = await client.call('kinevyn_export_request', exportArgs);
+  assert.equal((await client.call('kinevyn_export_request', exportArgs)).job.id, queued.job.id);
   let completed; const deadline = Date.now() + 180_000;
   while (Date.now() < deadline) {
-    const { exportJob } = await client.call('openmotion_get_project', { projectId, exportJobId: queued.job.id });
+    const { exportJob } = await client.call('kinevyn_get_project', { projectId, exportJobId: queued.job.id });
     assert.notEqual(exportJob.state, 'failed', JSON.stringify(exportJob));
     if (exportJob.state === 'completed') { completed = exportJob; break; }
     await new Promise(resolve => setTimeout(resolve, 500));

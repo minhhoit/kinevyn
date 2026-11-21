@@ -12,14 +12,14 @@ async function fixture(t, version = '0.6.8') {
   let release, tagSource;
   const writes = [], env = { ...f.env, GH_TOKEN: 'fixture', MOTION_EXPECTED_SHA256: f.candidate.tgzSHA256, MOTION_INSTALL_PUBLIC_ORIGIN: 'https://download.example.invalid' };
   const fetcher = async (url, init) => {
-    assert(String(url).startsWith('https://api.github.com/repos/nexu-io/openmotion/'));
+    assert(String(url).startsWith('https://api.github.com/repos/rivyn-labs/kinevyn/'));
     assert.equal(init.headers.Authorization, 'Bearer fixture');
-    const route = new URL(url).pathname.split('/openmotion')[1], data = init.body && JSON.parse(init.body);
+    const route = new URL(url).pathname.split('/kinevyn')[1], data = init.body && JSON.parse(init.body);
     if (init.method !== 'GET') writes.push({ route, method: init.method, data });
     if (route.startsWith('/git/ref/')) return tagSource ? Response.json({ object: { type: 'commit', sha: tagSource } }) : new Response('', { status: 404 });
     if (route === '/releases' && init.method === 'GET') return Response.json([...(release ? [release] : []), { draft: false, prerelease: false, tag_name: 'v0.6.7' }]);
     if (route === '/releases/generate-notes') return Response.json({ body: '## Changes\n\n* Fix installation (#1)' });
-    if (route === '/releases' && init.method === 'POST') { release = { ...data, id: 7, html_url: 'https://github.com/nexu-io/openmotion/releases/tag/v' + version }; return Response.json(release); }
+    if (route === '/releases' && init.method === 'POST') { release = { ...data, id: 7, html_url: 'https://github.com/rivyn-labs/kinevyn/releases/tag/v' + version }; return Response.json(release); }
     if (route === '/releases/7' && init.method === 'PATCH') { release = { ...release, ...data }; tagSource = f.candidate.sourceCommit; return Response.json(release); }
     throw Error('Unexpected GitHub request: ' + init.method + ' ' + route);
   };
@@ -163,7 +163,7 @@ test('a comparison page the endpoint returns short is disclosed instead of faili
     };
     const body = await prepareCandidateNotes(f.build, { env, fetcher });
     assert(body.includes(`Only the first ${available} of ${total} compared commits are shown; inspect the full comparison.`));
-    assert(body.includes(`[Full source comparison/history](https://github.com/nexu-io/openmotion/compare/${base}...${f.candidate.sourceCommit})`));
+    assert(body.includes(`[Full source comparison/history](https://github.com/rivyn-labs/kinevyn/compare/${base}...${f.candidate.sourceCommit})`));
     assert.equal((body.match(/^- Change /gm) ?? []).length, available, 'Truncated ranges must not repeat rows');
     assert.equal(calls.length, Math.ceil(available / 100) + (available % 100 === 0 ? 1 : 0), 'Stop at the first page the endpoint cannot extend');
   }
@@ -200,9 +200,9 @@ test('the prepared 0.0.1 descriptions are selected from the exact candidate sour
     assert(filename.startsWith('docs/CHANGELOG/v0.0.1/'));
     return noteResponse(filename, await readFile(new URL('../' + filename, import.meta.url), 'utf8'));
   } });
-  assert(body.includes('# OpenMotion 0.0.1') && body.includes('templates: prod'));
+  assert(body.includes('# Kinevyn 0.0.1') && body.includes('templates: prod'));
   assert(body.includes('## English') && body.includes('## 简体中文'));
-  assert(body.includes('@openmotion/app@0.0.1') && body.includes('0.6.x'));
+  assert(body.includes('@kinevyn/app@0.0.1') && body.includes('0.6.x'));
   assert(body.includes(f.candidate.tgzSHA256));
 });
 
@@ -228,7 +228,7 @@ test('stable candidates freeze exact-source bilingual notes and publication reus
     const parsed = new URL(url), filename = parsed.pathname.split('/contents/')[1];
     assert.equal(parsed.searchParams.get('ref'), f.candidate.sourceCommit);
     assert(filename.startsWith('docs/CHANGELOG/v0.6.8/')); calls.push(filename);
-    return noteResponse(filename, '# OpenMotion 0.6.8\n\n## ' + (filename.endsWith('/en.md') ? 'Fixed\n\n- Restore Windows installation.' : '修复\n\n- 恢复 Windows 安装。'));
+    return noteResponse(filename, '# Kinevyn 0.6.8\n\n## ' + (filename.endsWith('/en.md') ? 'Fixed\n\n- Restore Windows installation.' : '修复\n\n- 恢复 Windows 安装。'));
   } });
   assert.deepEqual(calls.sort(), ['docs/CHANGELOG/v0.6.8/en.md', 'docs/CHANGELOG/v0.6.8/zh-CN.md']);
   assert(body.includes('## English') && body.includes('## 简体中文') && body.includes('恢复 Windows 安装'));
@@ -255,7 +255,7 @@ test('missing stable copy warns and keeps the automatic draft; English-only copy
     const body = await prepareCandidateNotes(f.build, { env, fetcher: async url => {
       if (url.includes('/contents/')) {
         const filename = new URL(url).pathname.split('/contents/')[1];
-        return english && filename.endsWith('/en.md') ? noteResponse(filename, '# OpenMotion 0.6.8\n\n## Known issues\n\nTemplate acceptance is pending.') : new Response('', { status: 404 });
+        return english && filename.endsWith('/en.md') ? noteResponse(filename, '# Kinevyn 0.6.8\n\n## Known issues\n\nTemplate acceptance is pending.') : new Response('', { status: 404 });
       }
       assert(!english, 'Authored copy does not depend on mutable Release history');
       if (url.includes('/releases?')) return Response.json([]);
@@ -275,10 +275,10 @@ test('invalid authored stable copy fails before sealing instead of silently usin
   for (const invalid of ['version', 'empty', 'utf8', 'size', 'symlink', 'default-locale']) {
     await assert.rejects(prepareCandidateNotes(f.build, { env, fetcher: async url => {
       const filename = new URL(url).pathname.split('/contents/')[1];
-      if (filename.endsWith('/zh-CN.md')) return noteResponse(filename, '# OpenMotion 0.6.8\n\n## 修复\n\n- 安装修复。');
+      if (filename.endsWith('/zh-CN.md')) return noteResponse(filename, '# Kinevyn 0.6.8\n\n## 修复\n\n- 安装修复。');
       if (invalid === 'default-locale') return new Response('', { status: 404 });
-      if (invalid === 'version') return noteResponse(filename, '# OpenMotion 0.6.9\n\nWrong version.');
-      if (invalid === 'empty') return noteResponse(filename, '# OpenMotion 0.6.8\n');
+      if (invalid === 'version') return noteResponse(filename, '# Kinevyn 0.6.9\n\nWrong version.');
+      if (invalid === 'empty') return noteResponse(filename, '# Kinevyn 0.6.8\n');
       if (invalid === 'utf8') return noteResponse(filename, Buffer.from([0xff]));
       if (invalid === 'size') return Response.json({ type: 'file', path: filename, encoding: 'base64', size: 512 * 1024 + 1 });
       return Response.json({ type: 'symlink', path: filename });
@@ -296,8 +296,8 @@ test('the maintained bilingual drafts can be archived for an exact version witho
     fetcher: async url => {
       const filename = new URL(url).pathname.split('/contents/')[1], locale = path.basename(filename);
       const draft = await readFile(new URL('../docs/CHANGELOG/unreleased/' + locale, import.meta.url), 'utf8');
-      assert(draft.startsWith('# OpenMotion Unreleased\n'));
-      return noteResponse(filename, draft.replace('# OpenMotion Unreleased', '# OpenMotion 0.6.8'));
+      assert(draft.startsWith('# Kinevyn Unreleased\n'));
+      return noteResponse(filename, draft.replace('# Kinevyn Unreleased', '# Kinevyn 0.6.8'));
     },
   });
   assert(body.includes('## Highlights') && body.includes('## 亮点'));
@@ -311,7 +311,7 @@ test('combined bilingual copy must fit the sealed candidate limit', async t => {
   await assert.rejects(prepareCandidateNotes(f.build, {
     env: { MOTION_VERSION: f.candidate.version, MOTION_SOURCE_SHA: f.candidate.sourceCommit },
     fetcher: async url => {
-      const filename = new URL(url).pathname.split('/contents/')[1], heading = '# OpenMotion 0.6.8\n\n';
+      const filename = new URL(url).pathname.split('/contents/')[1], heading = '# Kinevyn 0.6.8\n\n';
       return noteResponse(filename, heading + 'x'.repeat(512 * 1024 - heading.length));
     },
   }), /Candidate notes exceed 1 MiB/);

@@ -11,7 +11,7 @@ import { launchStudioChrome } from './chrome-executable.mjs';
 import { installWebMcpHost } from './webmcp-host.mjs';
 
 // The browser uses a fake same-origin collector; never report fixtures to the real collector.
-process.env.OPENMOTION_TELEMETRY = '0';
+process.env.KINEVYN_TELEMETRY = '0';
 const evidence = process.env.WEBMCP_E2E_EVIDENCE_DIR || await mkdtemp(path.join(tmpdir(), 'motion-webmcp-evidence-'));
 await mkdir(evidence, { recursive: true });
 const directory = await mkdtemp(path.join(tmpdir(), 'motion-webmcp-source-edit-'));
@@ -62,28 +62,28 @@ try {
   await page.setViewport({ width: 1600, height: 1000 });
   await page.evaluateOnNewDocument(installWebMcpHost, '__webMcpSource');
   await page.goto(url, { waitUntil: 'domcontentloaded' });
-  await page.waitForFunction(() => window.__webMcpSource?.has('openmotion_get_project') && window.__webMcpSource.has('openmotion_studio_look'), { timeout: 90_000 });
+  await page.waitForFunction(() => window.__webMcpSource?.has('kinevyn_get_project') && window.__webMcpSource.has('kinevyn_studio_look'), { timeout: 90_000 });
   const call = (name, input) => page.evaluate((name, input) => window.__webMcpSource.call(name, input), name, input);
   results.tools = await page.evaluate(() => window.__webMcpSource.names());
   assert.equal(results.tools.length, 17);
-  assert.deepEqual(results.tools.filter(name => name.startsWith('openmotion_studio_')).sort(), [
-    'openmotion_studio_look', 'openmotion_studio_select', 'openmotion_studio_seek', 'openmotion_studio_frame', 'openmotion_studio_inspect',
+  assert.deepEqual(results.tools.filter(name => name.startsWith('kinevyn_studio_')).sort(), [
+    'kinevyn_studio_look', 'kinevyn_studio_select', 'kinevyn_studio_seek', 'kinevyn_studio_frame', 'kinevyn_studio_inspect',
   ].sort());
   for (const action of ['set_text', 'set_style', 'transform', 'add_animation', 'update_animation', 'add_keyframe', 'delete_animation']) {
-    await assert.rejects(call(`openmotion_studio_${action}`, {}), /not registered/);
+    await assert.rejects(call(`kinevyn_studio_${action}`, {}), /not registered/);
   }
 
-  const current = await call('openmotion_get_project', { projectId, file: { path: 'index.html' } });
+  const current = await call('kinevyn_get_project', { projectId, file: { path: 'index.html' } });
   assert.equal(current.file.content, await readFile(index, 'utf8'));
   assert.ok(current.file.content.includes('Source edit fixture'));
   const content = current.file.content.replace('Source edit fixture', 'WebMCP 测试成功');
-  results.saved = await call('openmotion_edit_project', {
+  results.saved = await call('kinevyn_edit_project', {
     projectId, requestId: 'webmcp-source-title', expectedRevision: current.revision,
     expectedVersionId: current.version.versionId, files: [{ path: 'index.html', content }], summary: 'Edit title through WebMCP source files',
   });
   assert.equal(results.saved.changed, true, JSON.stringify(results.saved));
   assert.equal(await readFile(index, 'utf8'), content);
-  results.stale = await call('openmotion_edit_project', {
+  results.stale = await call('kinevyn_edit_project', {
     projectId, requestId: 'webmcp-stale-title', expectedRevision: current.revision,
     expectedVersionId: current.version.versionId, files: [{ path: 'index.html', content: before }],
   });
@@ -95,8 +95,8 @@ try {
     const iframe = document.querySelector('hyperframes-player')?.shadowRoot?.querySelector('iframe');
     return iframe?.contentDocument?.getElementById('title')?.textContent === 'WebMCP 测试成功';
   }, { timeout: 90_000 });
-  await page.waitForFunction(async () => (await window.__webMcpSource.call('openmotion_studio_look', {})).duration === 4, { timeout: 30_000 });
-  results.seek = await call('openmotion_studio_seek', { time: 0.9 });
+  await page.waitForFunction(async () => (await window.__webMcpSource.call('kinevyn_studio_look', {})).duration === 4, { timeout: 30_000 });
+  results.seek = await call('kinevyn_studio_seek', { time: 0.9 });
   assert.equal(results.seek.ok, true, JSON.stringify(results.seek));
   assert.ok(Math.abs(results.seek.playhead - 0.9) < 0.01);
   results.animation = await page.evaluate(() => {

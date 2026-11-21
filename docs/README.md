@@ -1,11 +1,11 @@
-# OpenMotion 文档
+# Kinevyn 文档
 
 这里维护公开的使用说明、技术契约和可复现检查。每次变更时整体审视 [产品架构](product/architecture.md)，判断定位、核心流程、模块职责、依赖、数据与接口边界、当前能力和限制是否仍准确一致；仅在需要时更新，并按需调整相关说明。架构仍准确时保持文档不变，不要求每次提交或 PR 修改文档或新增需求记录。不将个人环境、客户资料、内部讨论或商业研究写入公开文档。
 
 - [Final video playback and editor delivery](inline-video.md)
 ## 阅读入口
 
-- [Changelog and stable release descriptions](https://github.com/nexu-io/openmotion/blob/main/CHANGELOG.md)
+- [Changelog and stable release descriptions](https://github.com/rivyn-labs/kinevyn/blob/main/CHANGELOG.md)
 
 - [English](../README.md) · [简体中文](README.zh-CN.md) · [日本語](README.ja.md)
 - [使用与首次体验](usage.md)
@@ -20,10 +20,10 @@
 - [真人叙事配方与六组 Motion Design 前后对比](motion-design-examples.zh-CN.md) / [English](motion-design-examples.md)
 - [Presenter Tech 科技风口播模板](../library/templates/presenter-tech/README.md) — 本地包、制作指南与验证记录
 - [资源索引](collections/README.md) / [中文](collections/README.zh-CN.md)
-- [OpenMotion Library](../library/README.zh-CN.md)：Skills、模板、Motion 组件、设计体系与 Brandkits
-- [OpenMotion Brandkit](../library/brandkits/openmotion/BRANDKIT.md) / [Ink & Water 动效设计体系](../library/design-systems/ink-water/MOTION_DESIGN.md)
+- [Kinevyn Library](../library/README.zh-CN.md)：Skills、模板、Motion 组件、设计体系与 Brandkits
+- [Kinevyn Brandkit](../library/brandkits/kinevyn/BRANDKIT.md) / [Ink & Water 动效设计体系](../library/design-systems/ink-water/MOTION_DESIGN.md)
 
-- [Agent 双向接入：从应用连接 Agent / 在 Agent 中使用 OpenMotion](agent-adapters.md)
+- [Agent 双向接入：从应用连接 Agent / 在 Agent 中使用 Kinevyn](agent-adapters.md)
 - [browser-runtime.md](browser-runtime.md)
 - [design-system.md](design-system.md)
 - [Design Studio: HTML projects, annotations, versions and Open Design round-trip](design-studio.md)
@@ -38,7 +38,7 @@
 - [model-gateway.md](model-gateway.md)
 - [Application settings and model connections](provider-settings.md)
 - [Local Agent installation, sign-in and model selection](local-agents.md)
-- [openmotion-director.md](openmotion-director.md)
+- [kinevyn-director.md](kinevyn-director.md)
 - [motion-extension-scope.md](motion-extension-scope.md)
 - [npm application installation and diagnostics](npm-installation.md)
 - [Installation: source, main Skill and published npm application](install.md)

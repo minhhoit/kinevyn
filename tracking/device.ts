@@ -11,7 +11,7 @@ export function deviceIdentity(platform: string, identifier: string): DeviceIden
   const normalized = identifier.trim().toLowerCase().replaceAll('-', '');
   if (!['darwin', 'win32', 'linux'].includes(platform) || !/^[0-9a-f]{32}$/.test(normalized)
     || /^0+$|^f+$/.test(normalized)) return unknownDevice;
-  return { device_id: 'omd_' + createHmac('sha256', Buffer.from(normalized, 'hex')).update('openmotion:device:v1\0' + platform).digest('hex'),
+  return { device_id: 'omd_' + createHmac('sha256', Buffer.from(normalized, 'hex')).update('kinevyn:device:v1\0' + platform).digest('hex'),
     device_id_source: 'platform' };
 }
 

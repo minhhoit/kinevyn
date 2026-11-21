@@ -30,18 +30,18 @@ async function fixture(run: (context: { directory: string; destination: string; 
     const commands = {
       git: 'echo "git $*" >> "$MOTION_TEST_LOG"\n[ "${MOTION_TEST_DOWNLOAD_FAIL:-0}" = 0 ] || exit 8\nwhile [ "$1" = -c ]; do shift 2; done\n[ "$1" = clone ] || exit 0\nfor destination; do :; done\nmkdir -p "$destination"\ncp -R "$MOTION_TEST_SOURCE/." "$destination/"',
       npm: 'echo "npm $*" >> "$MOTION_TEST_LOG"\nif [ "$1" = ci ]; then [ "${MOTION_TEST_DEPENDENCY_FAIL:-0}" = 0 ] || exit 9; fi\nif [ "$*" = "run build:studio" ]; then [ "${MOTION_TEST_BUILD_FAIL:-0}" = 0 ] || exit 9; mkdir -p studio/build; touch studio/build/index.html; fi',
-      codex: '[ "$*" != "plugin list --marketplace openmotion-local --available --json" ] || { printf \'{"installed":[],"available":[]}\\n\'; exit 0; }\n' + 'echo "codex $*" >> "$MOTION_TEST_LOG"\n[ "${MOTION_TEST_OLD_CODEX:-0}" = 0 ] || exit 10',
+      codex: '[ "$*" != "plugin list --marketplace kinevyn-local --available --json" ] || { printf \'{"installed":[],"available":[]}\\n\'; exit 0; }\n' + 'echo "codex $*" >> "$MOTION_TEST_LOG"\n[ "${MOTION_TEST_OLD_CODEX:-0}" = 0 ] || exit 10',
       node: 'case "${1:-}" in\n  */check-installed-mcp.mjs) echo "MCP check" >> "$MOTION_TEST_LOG"; exit "${MOTION_TEST_MCP_FAIL:-0}" ;;\nesac\nexec "$MOTION_TEST_NODE" "$@"',
     };
     for (const [name, command] of Object.entries(commands)) {
       await writeFile(path.join(bin, name), '#!/bin/bash\nset -eu\n' + command + '\n', { mode: 0o755 });
     }
     await run({ directory, destination, log, env: { ...process.env, PATH: bin + path.delimiter + process.env.PATH,
-      OPENMOTION_SKIP_PUBLIC_SKILL: '1', OPENMOTION_INSTALL_DIR: destination, OPENMOTION_REF: 'test-ref', MOTION_TEST_SOURCE: source,
+      KINEVYN_SKIP_PUBLIC_SKILL: '1', KINEVYN_INSTALL_DIR: destination, KINEVYN_REF: 'test-ref', MOTION_TEST_SOURCE: source,
       // Exercise a known calling chat without inheriting a developer's real
       // session or relying on CI to provide one. The control socket is absent.
       CODEX_THREAD_ID: '11111111-1111-4111-8111-111111111111', CODEX_SESSION_ID: '',
-      OPENMOTION_CODEX_SOCKET: path.join(directory, 'absent-host.sock'),
+      KINEVYN_CODEX_SOCKET: path.join(directory, 'absent-host.sock'),
       MOTION_TEST_NODE: process.execPath, MOTION_TEST_LOG: log } });
   } finally { await rm(directory, { recursive: true, force: true }); }
 }
@@ -52,12 +52,12 @@ test('remote entry point builds a fresh checkout before registering and checking
     assert.equal(result.status, 0, result.stderr);
     await access(path.join(destination, 'studio/build/index.html'));
     const commands = await readFile(log, 'utf8');
-    assert.match(commands, /git .*clone --depth 1 --single-branch --branch test-ref -- https:\/\/github\.com\/nexu-io\/openmotion\.git/);
+    assert.match(commands, /git .*clone --depth 1 --single-branch --branch test-ref -- https:\/\/github\.com\/rivyn-labs\/kinevyn\.git/);
     assert.ok(commands.indexOf('npm ci --include=dev') < commands.indexOf('npm run build:studio'));
     assert.ok(commands.indexOf('npm run build:studio') < commands.indexOf('codex plugin marketplace add'));
-    assert.match(commands, /codex plugin add openmotion@openmotion-local\ncodex plugin list --marketplace openmotion-local\nMCP check/);
+    assert.match(commands, /codex plugin add kinevyn@kinevyn-local\ncodex plugin list --marketplace kinevyn-local\nMCP check/);
     assert.match(result.stderr, /MCP_ACTIVATION: blocked.*HOST_CONTROL_UNAVAILABLE/);
-    const onboarding = JSON.parse(result.stdout.slice(result.stdout.indexOf('\n{\n') + 1).split('\n[OpenMotion]')[0]);
+    const onboarding = JSON.parse(result.stdout.slice(result.stdout.indexOf('\n{\n') + 1).split('\n[Kinevyn]')[0]);
     assert.equal(onboarding.hostSessionVerified, false);
     assert.equal(onboarding.hostHandoff.status, 'host_action_required');
     assert.equal(onboarding.hostHandoff.presentationVerified, false);
@@ -83,7 +83,7 @@ test('source setup without a calling chat reports that boundary without invoking
     });
     assert.equal(result.status, 0, result.stderr);
     assert.match(result.stderr, /MCP_ACTIVATION: blocked.*CURRENT_CHAT_UNKNOWN/);
-    const onboarding = JSON.parse(result.stdout.slice(result.stdout.indexOf('\n{\n') + 1).split('\n[OpenMotion]')[0]);
+    const onboarding = JSON.parse(result.stdout.slice(result.stdout.indexOf('\n{\n') + 1).split('\n[Kinevyn]')[0]);
     assert.equal(onboarding.installationStatus, 'installed');
     assert.equal(onboarding.hostHandoff.reason, 'CURRENT_CHAT_UNKNOWN');
     assert.equal(onboarding.hostHandoff.hostSessionVerified, false);
@@ -106,7 +106,7 @@ export async function prepareInlineOnboarding({output, language}) { await fs.mkd
     assert.doesNotMatch(await readFile(log, 'utf8'), /codex queue/);
     assert.match(result.stderr, /same installation turn/);
     assert.match(result.stderr, /[Pp]ublish.*permitted visualization directory/);
-    const onboarding = JSON.parse(result.stdout.slice(result.stdout.indexOf('\n{\n') + 1).split('\n[OpenMotion]')[0]);
+    const onboarding = JSON.parse(result.stdout.slice(result.stdout.indexOf('\n{\n') + 1).split('\n[Kinevyn]')[0]);
     assert.equal(onboarding.inlinePresentation.status, 'prepared');
     assert.equal(onboarding.onboardingComplete, false);
     assert.equal(onboarding.onboardingStatus, 'awaiting_host_delivery', 'Presentation acceptance must remain separate from current-chat activation');
@@ -153,7 +153,7 @@ test('repeat source setup reuses the build and preserves earlier diagnostic evid
     assert.equal(first.status, 0, first.stderr);
     const directory = path.join(destination, '.artifacts/install');
     const before = await readFile(path.join(directory, 'timings.jsonl'), 'utf8');
-    const summary = JSON.parse(first.stdout.slice(first.stdout.indexOf('\n{\n') + 1).split('\n[OpenMotion]')[0]);
+    const summary = JSON.parse(first.stdout.slice(first.stdout.indexOf('\n{\n') + 1).split('\n[Kinevyn]')[0]);
     const originalDetails = await readFile(summary.detailsFile, 'utf8');
     const second = spawnSync('bash', [path.join(destination, 'scripts/install-motion.command')], { env, encoding: 'utf8' });
     assert.equal(second.status, 0, second.stderr);
@@ -174,7 +174,7 @@ for (const [failure, expected] of [
       const result = spawnSync('bash', [path.join(root, 'install.sh')], { env: { ...env, [failure]: '1' }, encoding: 'utf8' });
       assert.notEqual(result.status, 0);
       if (expected) assert.match(result.stderr, expected);
-      assert.doesNotMatch(await readFile(log, 'utf8'), /marketplace add|plugin add openmotion@/);
+      assert.doesNotMatch(await readFile(log, 'utf8'), /marketplace add|plugin add kinevyn@/);
       assert.doesNotMatch(result.stdout, /preflight succeeded|Installation-success reply/);
     });
   });
@@ -184,9 +184,9 @@ test('MCP verification failure is reported even after plugin registration', asyn
   await fixture(async ({ log, env }) => {
     const result = spawnSync('bash', [path.join(root, 'install.sh')], { env: { ...env, MOTION_TEST_MCP_FAIL: '1' }, encoding: 'utf8' });
     assert.notEqual(result.status, 0);
-    assert.match(await readFile(log, 'utf8'), /plugin add openmotion@openmotion-local/);
+    assert.match(await readFile(log, 'utf8'), /plugin add kinevyn@kinevyn-local/);
     assert.doesNotMatch(result.stdout, /preflight succeeded|Installation-success reply/);
-    const phases = (await readFile(path.join(env.OPENMOTION_INSTALL_DIR!, '.artifacts/install/timings.jsonl'), 'utf8'))
+    const phases = (await readFile(path.join(env.KINEVYN_INSTALL_DIR!, '.artifacts/install/timings.jsonl'), 'utf8'))
       .trim().split('\n').map(line => JSON.parse(line));
     assert.equal(phases.at(-1).phase, 'mcp-preflight');
     assert.equal(phases.at(-1).exitCode, 1, 'a failed phase must retain its actual failure status');
@@ -199,7 +199,7 @@ test('a missing onboarding contract stops before plugin registration', async () 
     const result = spawnSync('bash', [path.join(root, 'install.sh')], { env, encoding: 'utf8' });
     assert.notEqual(result.status, 0);
     assert.match(result.stderr, /install\.md/);
-    assert.doesNotMatch(await readFile(log, 'utf8'), /marketplace add|plugin add openmotion@/);
+    assert.doesNotMatch(await readFile(log, 'utf8'), /marketplace add|plugin add kinevyn@/);
     assert.doesNotMatch(result.stdout, /preflight succeeded|Installation-success reply/);
   });
 });
@@ -212,7 +212,7 @@ test('the onboarding entry runs through a symlinked checkout path', async () => 
     assert.equal(result.status, 0, result.stderr);
     const onboarding = JSON.parse(result.stdout);
     assert.equal(onboarding.hostSessionVerified, false);
-    assert.match(onboarding.instructions, /OpenMotion 安装好啦/);
+    assert.match(onboarding.instructions, /Kinevyn 安装好啦/);
     assert.equal(onboarding.catalog.source, 'unavailable');
     assert.deepEqual(onboarding.catalog.templates, []);
     assert.equal(onboarding.catalog.recommendedTemplateId, null);
@@ -235,10 +235,10 @@ test('the source entry overrides broken global LFS filters without downloading o
 test('an optional public Skill failure does not block the installed plugin or onboarding', async () => {
   await fixture(async ({ env }) => {
     await writeFile(path.join(env.MOTION_TEST_SOURCE!, 'scripts/install-public-skill.ts'), 'console.error("Public Skill fixture offline"); process.exitCode = 1;');
-    const result = spawnSync('bash', [path.join(root, 'install.sh')], { env: { ...env, OPENMOTION_SKIP_PUBLIC_SKILL: '' }, encoding: 'utf8' });
+    const result = spawnSync('bash', [path.join(root, 'install.sh')], { env: { ...env, KINEVYN_SKIP_PUBLIC_SKILL: '' }, encoding: 'utf8' });
     assert.equal(result.status, 0, result.stderr);
     assert.match(result.stderr, /Public Skill fixture offline/);
-    const phases = (await readFile(path.join(env.OPENMOTION_INSTALL_DIR!, '.artifacts/install/timings.jsonl'), 'utf8'))
+    const phases = (await readFile(path.join(env.KINEVYN_INSTALL_DIR!, '.artifacts/install/timings.jsonl'), 'utf8'))
       .trim().split('\n').map(line => JSON.parse(line));
     assert.equal(phases.find(phase => phase.phase === 'public-skill').exitCode, 1);
     assert.equal(phases.at(-1).phase, 'onboarding');

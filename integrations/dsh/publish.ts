@@ -23,9 +23,9 @@ export async function publishPlugin({
   assert(/^[a-z0-9][a-z0-9-]{1,61}[a-z0-9]$/.test(bucket), 'Require the configured R2 bucket');
   const bytes = await readFile(archive);
   const sha256 = createHash('sha256').update(bytes).digest('hex');
-  const key = `${downloadPrefix}/snapshots/${commit}/${sha256}/openmotion-dsh.tgz`;
-  const manifest = validateDownload({ schemaVersion: 1, name: 'openmotion-dsh', version, dshVersion, sourceCommit: commit, sha256, bytes: bytes.length, tarballUrl: `${downloadOrigin}/${key}` });
-  const staging = await mkdtemp(path.join(tmpdir(), 'openmotion-dsh-publish-'));
+  const key = `${downloadPrefix}/snapshots/${commit}/${sha256}/kinevyn-dsh.tgz`;
+  const manifest = validateDownload({ schemaVersion: 1, name: 'kinevyn-dsh', version, dshVersion, sourceCommit: commit, sha256, bytes: bytes.length, tarballUrl: `${downloadOrigin}/${key}` });
+  const staging = await mkdtemp(path.join(tmpdir(), 'kinevyn-dsh-publish-'));
   const put = (key: string, body: string, contentType: string, cache: string, immutable = false) => execute('aws', [
     '--endpoint-url', api.origin, '--region', 'auto', 's3api', 'put-object', '--bucket', bucket, '--key', key,
     '--body', body, '--content-type', contentType, '--cache-control', cache, ...(immutable ? ['--if-none-match', '*'] : []),
@@ -51,11 +51,11 @@ export async function publishPlugin({
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
-  assert(process.env.GITHUB_REPOSITORY === 'nexu-io/openmotion' && process.env.GITHUB_REF === 'refs/heads/main' && ['push', 'workflow_dispatch'].includes(process.env.GITHUB_EVENT_NAME || ''), 'Only trusted main may publish the DSH plugin');
+  assert(process.env.GITHUB_REPOSITORY === 'rivyn-labs/kinevyn' && process.env.GITHUB_REF === 'refs/heads/main' && ['push', 'workflow_dispatch'].includes(process.env.GITHUB_EVENT_NAME || ''), 'Only trusted main may publish the DSH plugin');
   const pkg = JSON.parse(await readFile(path.join(directory, 'plugin/package.json'), 'utf8'));
   const host = JSON.parse(await readFile(path.join(directory, 'package.json'), 'utf8'));
   console.log(JSON.stringify(await publishPlugin({
     commit: process.env.GITHUB_SHA || '', endpoint: process.env.MOTION_R2_ENDPOINT || '', bucket: process.env.MOTION_R2_BUCKET || '',
-    archive: path.join(directory, `dist/openmotion-dsh-${pkg.version}.tgz`), version: pkg.version, dshVersion: host.dependencies['@deepseek-ai/dsh'],
+    archive: path.join(directory, `dist/kinevyn-dsh-${pkg.version}.tgz`), version: pkg.version, dshVersion: host.dependencies['@deepseek-ai/dsh'],
   }), null, 2));
 }

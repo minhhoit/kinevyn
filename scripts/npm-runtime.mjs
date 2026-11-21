@@ -8,7 +8,7 @@ import { executable, extractArchive, nativeComponents, obtainAsset, readJSON, re
 
 export function defaultInstallationHome(environment = 'prod') {
   const base = process.platform === 'win32' ? process.env.LOCALAPPDATA || os.homedir() : path.join(os.homedir(), '.local/share');
-  return path.join(base, environment === 'dev' ? 'openmotion-dev' : 'openmotion');
+  return path.join(base, environment === 'dev' ? 'kinevyn-dev' : 'kinevyn');
 }
 
 export const nativeCacheDirectory = home => path.join(home, 'cache/native');
@@ -135,7 +135,7 @@ async function prepareComponent(native, component) {
       if (await ready(native, component)) return;
       const asset = info[component];
       if (process.platform === 'win32') assert(Number(os.release().split('.')[2]) >= 22000, 'Pinned native runtime requires Windows 11 or later');
-      console.error(`OpenMotion: preparing pinned ${component} in the background.`);
+      console.error(`Kinevyn: preparing pinned ${component} in the background.`);
       const archive = path.join(config.cacheDirectory, 'downloads', asset.sha256 + (new URL(asset.url).pathname.endsWith('.zip') ? '.zip' : '.tar.gz'));
       await update({ stage: 'downloading' });
       await obtainAsset(asset, archive, config.allowLocalAssets === true, update);
@@ -203,7 +203,7 @@ export async function requireNativeRuntime(root, capability) {
   const status = await nativeRuntimeStatus(root);
   if (!status.managed || status.capabilities[capability]) return;
   await startNativePreparation(root);
-  throw Object.assign(new Error('NATIVE_RUNTIME_NOT_READY: Video components are preparing or need retry. Continue editing; check Studio preparation status or run openmotion prepare for this installation, then retry this operation.'),
+  throw Object.assign(new Error('NATIVE_RUNTIME_NOT_READY: Video components are preparing or need retry. Continue editing; check Studio preparation status or run kinevyn prepare for this installation, then retry this operation.'),
     { code: 'NATIVE_RUNTIME_NOT_READY', details: status });
 }
 

@@ -104,7 +104,7 @@ test('the inline renderer returns a streaming welcome separately from three real
   assert(result.bytes < 1_000_000);
   const fragment = await readFile(output, 'utf8');
   assert.doesNotMatch(fragment, /<!doctype|<html[ >]|<head[ >]|<body[ >]/i);
-  assert.doesNotMatch(fragment, /__OPENMOTION_INLINE_/);
+  assert.doesNotMatch(fragment, /__KINEVYN_INLINE_/);
   const window = new Window();
   t.after(() => window.happyDOM.abort());
   const videoTypes: string[] = [];
@@ -181,7 +181,7 @@ test('publication CLI returns a complete reply from the frozen document language
   const prepared = await renderInlineOnboarding({ appRoot, output: path.join(directory, 'runtime/cards.html'), language: 'zh' });
   const args = [path.join(appRoot, 'scripts/inline-onboarding.mjs'), '--publish-from', prepared.path,
     '--sha256', prepared.sha256, '--host-directory', path.join(directory, 'host')];
-  const published = JSON.parse(await runFile(process.execPath, args, { env: { ...process.env, OPENMOTION_ONBOARDING_LANGUAGE: 'en' } }));
+  const published = JSON.parse(await runFile(process.execPath, args, { env: { ...process.env, KINEVYN_ONBOARDING_LANGUAGE: 'en' } }));
   assert.equal(published.finalReplyMarkdown, `${welcomeMarkdown('zh')}\n\n${published.contentReference}`);
   const recovered = JSON.parse(await runFile(process.execPath, [...args, '--welcome-delivered']));
   assert.equal(recovered.finalReplyMarkdown, published.contentReference);

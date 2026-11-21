@@ -1,9 +1,9 @@
-# Adding OpenMotion tracking events
+# Adding Kinevyn tracking events
 
 Use this guide to ask a coding agent to add an event, implement it through the
 existing MCP/Studio tracking path, and verify its meaning and delivery. It describes
 the current in-repository implementation, originating in PR #189, not a released npm API. Check the current checkout
-before applying examples. `@openmotion/tracking` is private; application callers
+before applying examples. `@kinevyn/tracking` is private; application callers
 currently import repository sources rather than installing it from npm.
 
 ## Give the agent a business question
@@ -18,7 +18,7 @@ Copy this task template and replace the bracketed lines:
 
 ```text
 Read tracking/INTEGRATION.md, tracking/README.md and AGENTS.md first.
-Add tracking for this OpenMotion behavior:
+Add tracking for this Kinevyn behavior:
 - Question: [what decision will this data support?]
 - Entry: [Studio / MCP / worker]
 - Trigger: [the exact interaction or completed operation]
@@ -167,7 +167,7 @@ adds event UUID/time, schema and app version, environment, entrypoint/runtime,
 installation/device identity, saved attribution, platform, locale and timezone.
 Do not place common fields inside an event's properties or copy a browser identity
 into Node. `installation_id` is a random UUID per data directory. `device_id` is an
-OpenMotion-scoped HMAC of a validated OS device identifier, independent of directories,
+Kinevyn-scoped HMAC of a validated OS device identifier, independent of directories,
 versions and hosts; raw OS identifiers are never stored or sent. `distinct_id`
 continues to equal `installation_id`, including for existing installations after
 upgrade, so the new device field does not create another analytics identity.
@@ -192,7 +192,7 @@ installation without a source keeps `utm_source` null. The installer emits
 registration, onboarding persistence and Skill installation complete; a rolled-back
 setup does not emit a success result.
 
-Events go to the existing OpenDesign project (420348), with `product=openmotion`.
+Events go to the existing OpenDesign project (420348), with `product=kinevyn`.
 Filter OM queries by that property and exclude OM from unrelated shared reports.
 An OM-only receiver transformation preserves coarse GeoIP and removes raw IP and
 precise location after the existing GeoIP transformation; non-OM events are unchanged.
@@ -206,7 +206,7 @@ data** disables collection for the installation, including MCP and Studio across
 restarts. Re-enabling resumes new reports without replaying discarded events.
 Application version and environment are event properties, not collection gates.
 DEV packages retain their separate installation/data directories and template routing.
-`OPENMOTION_TELEMETRY=0` or `DO_NOT_TRACK=1` forces it off; browser Do Not Track also
+`KINEVYN_TELEMETRY=0` or `DO_NOT_TRACK=1` forces it off; browser Do Not Track also
 suppresses browser collection. An added event must respect those controls.
 
 ## Diagnose without logging event contents
@@ -301,9 +301,9 @@ For a POSIX shell, prepare the environment before starting the normal test runne
 or application entry:
 
 ```sh
-export OPENMOTION_TRACKING_ENV=test
-export OPENMOTION_TRACKING_TEST_RUN_ID="$(node -e 'console.log(crypto.randomUUID())')"
-export MOTION_DATA_DIR="$(mktemp -d "${TMPDIR:-/tmp}/openmotion-tracking.XXXXXX")"
+export KINEVYN_TRACKING_ENV=test
+export KINEVYN_TRACKING_TEST_RUN_ID="$(node -e 'console.log(crypto.randomUUID())')"
+export MOTION_DATA_DIR="$(mktemp -d "${TMPDIR:-/tmp}/kinevyn-tracking.XXXXXX")"
 ```
 
 These lines only prepare a test; they do not run the feature or prove delivery.
@@ -311,14 +311,14 @@ Keep test-run UUIDs stable for one run and start a fresh UUID for another. Do no
 override a user's saved preference or remove their force-off variables to make a
 test pass. Use a separately owned test launch; record an intentional opt-out case.
 
-Exercise the actual action, then query the exact `test_run_id` and `product=openmotion`
+Exercise the actual action, then query the exact `test_run_id` and `product=kinevyn`
 in the OpenDesign PostHog project. A read-authorized connector/account is needed; the distributed
 public capture token cannot query events. For example, replace the UUID below:
 
 ```sql
 SELECT event, count() AS rows, uniqExact(uuid) AS unique_events
 FROM events
-WHERE properties.product = 'openmotion'
+WHERE properties.product = 'kinevyn'
   AND properties.env = 'test'
   AND properties.test_run_id = 'REPLACE_WITH_TEST_RUN_UUID'
 GROUP BY event

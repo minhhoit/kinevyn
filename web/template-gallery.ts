@@ -214,11 +214,11 @@ export function mountTemplates(root: HTMLElement, options: {
     button.setAttribute('aria-pressed', String(enabled)); language.attribute(button, 'aria-label', enabled ? "Pause animated previews" : "Play animated previews"); const label = document.createElement('span'); language.text(label, 'Animated previews'); button.replaceChildren(glyph(enabled ? 'pause' : 'play'), label); configurePlayback();
   }
   function restorePlayback() {
-    let saved = true; try { saved = localStorage.getItem('openmotion.template-previews') !== 'paused'; } catch {}
+    let saved = true; try { saved = localStorage.getItem('kinevyn.template-previews') !== 'paused'; } catch {}
     enabled = !reducedMotion.matches && saved; renderPlayback();
   }
   element('toggle-previews').onclick = () => {
-    enabled = !enabled; try { localStorage.setItem('openmotion.template-previews', enabled ? 'playing' : 'paused'); } catch {}
+    enabled = !enabled; try { localStorage.setItem('kinevyn.template-previews', enabled ? 'playing' : 'paused'); } catch {}
     renderPlayback();
   };
   restorePlayback(); reducedMotion.addEventListener('change', restorePlayback, { signal: lifetime.signal }); window.addEventListener('resize', configurePlayback, { signal: lifetime.signal });

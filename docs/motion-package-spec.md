@@ -89,7 +89,7 @@ Frame-based timing MUST declare frame rate; seconds MUST be labeled. Preserve so
 
 ## 5. Manifest
 
-The machine-readable contract is [schema.json](../packages/motion-package/schema.json), using JSON Schema 2020-12. `specVersion` versions this package contract; `version` versions the author's content. They are independent of DESIGN.md's version, dependency versions and the OpenMotion application version.
+The machine-readable contract is [schema.json](../packages/motion-package/schema.json), using JSON Schema 2020-12. `specVersion` versions this package contract; `version` versions the author's content. They are independent of DESIGN.md's version, dependency versions and the Kinevyn application version.
 
 | Field | Requirement and meaning |
 | --- | --- |

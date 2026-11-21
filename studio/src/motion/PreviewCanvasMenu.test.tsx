@@ -10,7 +10,7 @@ vi.mock('../contexts/StudioContext', () => ({ useStudioShellContext: () => ({ pr
 vi.mock('../player/store/previewIframeStore', () => ({ useLivePreviewIframe: () => ({ contentDocument: document }) }));
 vi.mock('./gatewayClient', () => ({ gatewayRequest: vi.fn(async (_path, _method, input) => {
   state.calls.push(input);
-  if (input.name === 'openmotion_get_project') return { revision: 'snapshot', currentVersionId: 'version' };
+  if (input.name === 'kinevyn_get_project') return { revision: 'snapshot', currentVersionId: 'version' };
   if (state.error) throw new Error(state.error);
   return {};
 }) }));
@@ -30,21 +30,21 @@ afterEach(() => { act(() => root.unmount()); document.body.innerHTML = ''; });
 it('uses the saved fit and guarded public operation after flushing native edits', async () => {
   await render(); await act(async () => trigger().click()); await choosePortrait();
   expect(state.wait).toHaveBeenCalledOnce();
-  expect(state.calls[1]).toMatchObject({ name: 'openmotion_edit_project', arguments: { projectId: 'project', expectedRevision: 'snapshot', expectedVersionId: 'version', canvas: { compositionPath: 'index.html', ratio: '9:16', fit: 'cover' } } });
+  expect(state.calls[1]).toMatchObject({ name: 'kinevyn_edit_project', arguments: { projectId: 'project', expectedRevision: 'snapshot', expectedVersionId: 'version', canvas: { compositionPath: 'index.html', ratio: '9:16', fit: 'cover' } } });
   expect(state.calls[1].arguments.requestId).toBeTruthy(); expect(state.toast).toHaveBeenCalledWith('Canvas updated', 'info');
 });
 it('retries an interrupted response with the same request and does not display unsaved dimensions', async () => {
   state.error = 'Disconnected'; await render(); await act(async () => trigger().click()); await choosePortrait();
   expect(trigger().textContent).toBe('16:9'); expect(state.toast).toHaveBeenCalledWith('Disconnected', 'error');
   state.error = ''; await choosePortrait();
-  expect(state.calls.filter(call => call.name === 'openmotion_get_project')).toHaveLength(1);
-  const writes = state.calls.filter(call => call.name === 'openmotion_edit_project'); expect(writes[0].arguments).toEqual(writes[1].arguments);
+  expect(state.calls.filter(call => call.name === 'kinevyn_get_project')).toHaveLength(1);
+  const writes = state.calls.filter(call => call.name === 'kinevyn_edit_project'); expect(writes[0].arguments).toEqual(writes[1].arguments);
 });
 it('reads fresh revision guards after a conflict', async () => {
   state.error = 'VERSION_CONFLICT'; await render(); await act(async () => trigger().click()); await choosePortrait();
   state.error = ''; await choosePortrait();
-  expect(state.calls.filter(call => call.name === 'openmotion_get_project')).toHaveLength(2);
-  const writes = state.calls.filter(call => call.name === 'openmotion_edit_project'); expect(writes[0].arguments.requestId).not.toBe(writes[1].arguments.requestId);
+  expect(state.calls.filter(call => call.name === 'kinevyn_get_project')).toHaveLength(2);
+  const writes = state.calls.filter(call => call.name === 'kinevyn_edit_project'); expect(writes[0].arguments.requestId).not.toBe(writes[1].arguments.requestId);
 });
 it('does not write after switching compositions or when native save authority blocks edits', async () => {
   let finish!: () => void; state.wait.mockImplementation(() => new Promise<void>(resolve => { finish = resolve; }));

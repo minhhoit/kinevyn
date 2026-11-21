@@ -18,7 +18,7 @@ export function LintModal({
   projectId,
   projectDir,
   title,
-  promptIntro = "Fix these OpenMotion project check issues",
+  promptIntro = "Fix these Kinevyn project check issues",
   onClose,
 }: {
   findings: LintFinding[];

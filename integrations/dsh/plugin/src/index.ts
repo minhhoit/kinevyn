@@ -6,7 +6,7 @@ import * as mcpClient from "@deepseek-ai/dsh-mcp-client";
 import { studioOrigin } from "../../config.ts";
 import { readFile } from "node:fs/promises";
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { registerOpenMotionTemplateCards } from "./templateRecommendationCards.ts";
+import { registerKinevynTemplateCards } from "./templateRecommendationCards.ts";
 
 export type Config = {
   root: string;
@@ -29,7 +29,7 @@ export const inject = ["webServer", "tools"];
 export async function apply(ctx: HostContext, config: Config) {
   if (!config?.root || !config.dataDirectory)
     throw new Error(
-      "Configure the OpenMotion root and dataDirectory before enabling this plugin.",
+      "Configure the Kinevyn root and dataDirectory before enabling this plugin.",
     );
   const root = path.resolve(config.root),
     data = path.resolve(config.dataDirectory);
@@ -50,7 +50,7 @@ export async function apply(ctx: HostContext, config: Config) {
   const { resolveDesignSystemFile } = await import(pathToFileURL(path.join(root, "packages/design-system/index.js")).href);
   // Use DSH's maintained MCP adapter, including disposal and credential scrubbing.
   await mcpClient.apply(ctx, {
-    serverName: "openmotion",
+    serverName: "kinevyn",
     transport: "stdio",
     command: executable,
     args: ["--experimental-strip-types", path.join(root, "mcp.ts")],
@@ -65,12 +65,12 @@ export async function apply(ctx: HostContext, config: Config) {
     toolCallTimeoutMs: 180_000,
   });
   // Register when optional services become available, including after this plugin starts.
-  ctx.inject(["skills", "actionCards"], (inner) => registerOpenMotionTemplateCards(inner));
+  ctx.inject(["skills", "actionCards"], (inner) => registerKinevynTemplateCards(inner));
   ctx.effect(() =>
     ctx.webServer.register({
-      kind: "prefix", path: "/openmotion-dsh/design-system",
+      kind: "prefix", path: "/kinevyn-dsh/design-system",
       handler: async (req, res) => {
-        const pathname = new URL(req.url || "/", "http://localhost").pathname.slice("/openmotion-dsh".length);
+        const pathname = new URL(req.url || "/", "http://localhost").pathname.slice("/kinevyn-dsh".length);
         if (req.method !== "GET" || !resolveDesignSystemFile(pathname)) { res.writeHead(404); res.end(); return; }
         try {
           const response = await fetch(origin + pathname, { signal: AbortSignal.timeout(5000), redirect: "error" });
@@ -83,7 +83,7 @@ export async function apply(ctx: HostContext, config: Config) {
   ctx.effect(() =>
     ctx.webServer.register({
       kind: "exact",
-      path: "/openmotion-dsh/status",
+      path: "/kinevyn-dsh/status",
       handler: async (req, res) => {
         if (req.method !== "GET") {
           res.writeHead(405);
@@ -93,7 +93,7 @@ export async function apply(ctx: HostContext, config: Config) {
         const tools = ctx.tools
           .definitions()
           .map((tool) => tool.name)
-          .filter((name) => name.startsWith("mcp__openmotion__"));
+          .filter((name) => name.startsWith("mcp__kinevyn__"));
         res.writeHead(200, {
           "Content-Type": "application/json",
           "Cache-Control": "no-store",
@@ -106,7 +106,7 @@ export async function apply(ctx: HostContext, config: Config) {
   ctx.effect(() =>
     ctx.webServer.register({
       kind: "exact",
-      path: "/openmotion-dsh/style.css",
+      path: "/kinevyn-dsh/style.css",
       handler: async (_req, res) => {
         res.writeHead(200, { "Content-Type": "text/css" });
         res.end(
@@ -119,10 +119,10 @@ export async function apply(ctx: HostContext, config: Config) {
   ctx.effect(() =>
     ctx.webServer.register({
       kind: "prefix",
-      path: "/openmotion-dsh/data",
+      path: "/kinevyn-dsh/data",
       handler: async (req, res) => {
         const url = new URL(req.url || "/", "http://127.0.0.1");
-        const endpoint = url.pathname.slice("/openmotion-dsh/data".length);
+        const endpoint = url.pathname.slice("/kinevyn-dsh/data".length);
         if (
           req.method !== "GET" ||
           !["/motion-api/projects", "/api/template-catalog"].includes(endpoint)
@@ -147,7 +147,7 @@ export async function apply(ctx: HostContext, config: Config) {
           res.end(
             JSON.stringify({
               error:
-                "OpenMotion Studio is unavailable. Restart the integration.",
+                "Kinevyn Studio is unavailable. Restart the integration.",
             }),
           );
         }

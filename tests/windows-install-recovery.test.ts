@@ -19,7 +19,7 @@ test('missing commands exit promptly without keeping the five-minute deadline al
   const module = new URL('../scripts/runtime-assets.mjs', import.meta.url).href;
   const child = spawn(process.execPath, ['--input-type=module', '-e', `
     import {runFile} from ${JSON.stringify(module)};
-    try { await runFile('openmotion-missing-cli-' + process.pid, []); process.exitCode=2; }
+    try { await runFile('kinevyn-missing-cli-' + process.pid, []); process.exitCode=2; }
     catch(e) { if(e.code !== 'ENOENT' || !e.message.includes('Install this CLI')) process.exitCode=3; }
   `], { stdio: 'ignore' });
   try { assert.equal((await once(child, 'exit'))[0], 0); }
@@ -57,12 +57,12 @@ test('DeepSeek upgrade targets a fresh bundle while accepting an owned legacy de
   const configFile = path.join(dshHome, 'profiles', 'desktop', 'package.json');
   await mkdir(path.dirname(configFile), { recursive: true });
   const legacy = path.join(home, 'hosts', 'deepseek');
-  await writeFile(configFile, JSON.stringify({ dependencies: { 'dsh-plugin-openmotion-local': 'file:' + legacy } }));
+  await writeFile(configFile, JSON.stringify({ dependencies: { 'dsh-plugin-kinevyn-local': 'file:' + legacy } }));
   const saved = { hosts: { deepseek: { configFile, bundleDirectory: legacy } } };
   const plan = await hostPlan({ host: 'deepseek', profile: 'desktop', dsh: process.execPath }, home, path.join(home, 'run-mcp.mjs'), saved, '12345678-1234-1234-1234-123456789012');
   assert.notEqual(plan.metadata.bundleDirectory, legacy);
   assert.equal(path.dirname(plan.metadata.bundleDirectory), path.dirname(legacy));
-  await writeFile(configFile, JSON.stringify({ dependencies: { 'dsh-plugin-openmotion-local': 'file:' + path.join(root, 'foreign') } }));
+  await writeFile(configFile, JSON.stringify({ dependencies: { 'dsh-plugin-kinevyn-local': 'file:' + path.join(root, 'foreign') } }));
   await assert.rejects(hostPlan({ host: 'deepseek', profile: 'desktop' }, home, 'launcher', saved), /not owned/);
 });
 

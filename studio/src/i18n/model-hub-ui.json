@@ -2,7 +2,7 @@
   "zh-CN": {
     "New model": "新模型",
     "Connect {provider}": "连接 {provider}",
-    "Availability in OpenMotion": "在 OpenMotion 中的可用状态",
+    "Availability in Kinevyn": "在 Kinevyn 中的可用状态",
     "Pair with {vendor} media models": "搭配 {vendor} 的图片与视频模型",
     "Page unavailable": "页面不可用",
     "Rube Goldberg machine in an 80s arcade": "80 年代街机厅里的 Rube Goldberg 连锁机关",
@@ -138,7 +138,7 @@
   "ja": {
     "New model": "新モデル",
     "Connect {provider}": "{provider} に接続",
-    "Availability in OpenMotion": "OpenMotion での利用状況",
+    "Availability in Kinevyn": "Kinevyn での利用状況",
     "Pair with {vendor} media models": "{vendor} の画像・動画モデルと組み合わせる",
     "Page unavailable": "ページを表示できません",
     "Rube Goldberg machine in an 80s arcade": "80年代のゲームセンターのピタゴラ装置",
@@ -257,7 +257,7 @@
   "ko": {
     "New model": "새 모델",
     "Connect {provider}": "{provider} 연결",
-    "Availability in OpenMotion": "OpenMotion 사용 가능 여부",
+    "Availability in Kinevyn": "Kinevyn 사용 가능 여부",
     "Pair with {vendor} media models": "{vendor} 이미지·동영상 모델과 함께 사용",
     "Page unavailable": "페이지를 사용할 수 없음",
     "Rube Goldberg machine in an 80s arcade": "80년대 오락실 속 루브 골드버그 장치",
@@ -376,7 +376,7 @@
   "de": {
     "New model": "Neues Modell",
     "Connect {provider}": "{provider} verbinden",
-    "Availability in OpenMotion": "Verfügbarkeit in OpenMotion",
+    "Availability in Kinevyn": "Verfügbarkeit in Kinevyn",
     "Pair with {vendor} media models": "Mit Medienmodellen von {vendor} kombinieren",
     "Page unavailable": "Seite nicht verfügbar",
     "Rube Goldberg machine in an 80s arcade": "Rube-Goldberg-Maschine in einer 80er-Spielhalle",
@@ -495,7 +495,7 @@
   "fr": {
     "New model": "Nouveau modèle",
     "Connect {provider}": "Connecter {provider}",
-    "Availability in OpenMotion": "Disponibilité dans OpenMotion",
+    "Availability in Kinevyn": "Disponibilité dans Kinevyn",
     "Pair with {vendor} media models": "Associer aux modèles médias de {vendor}",
     "Page unavailable": "Page indisponible",
     "Rube Goldberg machine in an 80s arcade": "Machine de Rube Goldberg dans une salle d’arcade des années 80",
@@ -614,7 +614,7 @@
   "ru": {
     "New model": "Новая модель",
     "Connect {provider}": "Подключить {provider}",
-    "Availability in OpenMotion": "Доступность в OpenMotion",
+    "Availability in Kinevyn": "Доступность в Kinevyn",
     "Pair with {vendor} media models": "Сочетать с медиамоделями {vendor}",
     "Page unavailable": "Страница недоступна",
     "Rube Goldberg machine in an 80s arcade": "Машина Голдберга в игровом зале 80-х",
@@ -733,7 +733,7 @@
   "es": {
     "New model": "Nuevo modelo",
     "Connect {provider}": "Conectar {provider}",
-    "Availability in OpenMotion": "Disponibilidad en OpenMotion",
+    "Availability in Kinevyn": "Disponibilidad en Kinevyn",
     "Pair with {vendor} media models": "Combinar con modelos multimedia de {vendor}",
     "Page unavailable": "Página no disponible",
     "Rube Goldberg machine in an 80s arcade": "Máquina de Rube Goldberg en un salón recreativo de los 80",
@@ -852,7 +852,7 @@
   "pt-BR": {
     "New model": "Novo modelo",
     "Connect {provider}": "Conectar {provider}",
-    "Availability in OpenMotion": "Disponibilidade no OpenMotion",
+    "Availability in Kinevyn": "Disponibilidade no Kinevyn",
     "Pair with {vendor} media models": "Combinar com modelos de mídia da {vendor}",
     "Page unavailable": "Página indisponível",
     "Rube Goldberg machine in an 80s arcade": "Máquina de Rube Goldberg num fliperama dos anos 80",
@@ -971,7 +971,7 @@
   "it": {
     "New model": "Nuovo modello",
     "Connect {provider}": "Connetti {provider}",
-    "Availability in OpenMotion": "Disponibilità in OpenMotion",
+    "Availability in Kinevyn": "Disponibilità in Kinevyn",
     "Pair with {vendor} media models": "Abbina ai modelli multimediali di {vendor}",
     "Page unavailable": "Pagina non disponibile",
     "Rube Goldberg machine in an 80s arcade": "Macchina di Rube Goldberg in una sala giochi anni ’80",
@@ -1090,7 +1090,7 @@
   "tr": {
     "New model": "Yeni model",
     "Connect {provider}": "{provider} bağla",
-    "Availability in OpenMotion": "OpenMotion’da kullanılabilirlik",
+    "Availability in Kinevyn": "Kinevyn’da kullanılabilirlik",
     "Pair with {vendor} media models": "{vendor} medya modelleriyle birlikte kullan",
     "Page unavailable": "Sayfa kullanılamıyor",
     "Rube Goldberg machine in an 80s arcade": "80’lerin atari salonunda Rube Goldberg makinesi",

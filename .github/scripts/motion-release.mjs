@@ -14,7 +14,7 @@ import { scanPackage, scanSource, scanPluginPackage } from './motion-scan.mjs';
 import { pluginCandidateFiles, verifyCandidatePlugin } from '../../integrations/dsh/candidate.ts';
 import { verifyRegistryDownload } from './motion-registry.mjs';
 
-export const repository = 'nexu-io/openmotion';
+export const repository = 'rivyn-labs/kinevyn';
 export const candidateWorkflow = '.github/workflows/motion-candidate.yml';
 export const publicationWorkflow = '.github/workflows/motion-publish-test.yml';
 export const recoveryWorkflow = '.github/workflows/motion-publication-recovery.yml';
@@ -71,7 +71,7 @@ export async function resolveCandidate(control, requested, version, env = proces
       return env.GITHUB_RUN_ATTEMPT === '1' ? next.slice(0, -2) : next;
     };
     version = automaticVersion(source.version);
-    const response = await fetcher('https://registry.npmjs.org/@openmotion%2fapp', { redirect: 'error', signal: AbortSignal.timeout(30_000) });
+    const response = await fetcher('https://registry.npmjs.org/@kinevyn%2fapp', { redirect: 'error', signal: AbortSignal.timeout(30_000) });
     assert(response.ok, 'Cannot resolve the published npm version baseline: HTTP ' + response.status);
     const tags = (await response.json())['dist-tags'];
     assert(tags && typeof tags === 'object', 'Missing npm version tags');
@@ -96,7 +96,7 @@ export async function validateSource(control, commit, version, run = runFile, ch
 }
 
 export function candidateNoteIdentity(candidate) {
-  return `<!-- openmotion-candidate version=${candidate.version} source=${candidate.sourceCommit} sha256=${candidate.tgzSHA256} -->`;
+  return `<!-- kinevyn-candidate version=${candidate.version} source=${candidate.sourceCommit} sha256=${candidate.tgzSHA256} -->`;
 }
 
 export async function sealCandidate(build, output, source, env = process.env) {
@@ -111,7 +111,7 @@ export async function sealCandidate(build, output, source, env = process.env) {
   assert(producer, 'Build candidates only from main using a trusted workflow');
   assert(/^[1-9]\d*$/.test(env.GITHUB_RUN_ID || '') && /^[1-9]\d*$/.test(env.GITHUB_RUN_ATTEMPT || ''));
   const filename = manifest.installer.url.replace(/^\.\//, '');
-  assert.equal(filename, `openmotion-app-${manifest.version}.tgz`);
+  assert.equal(filename, `kinevyn-app-${manifest.version}.tgz`);
   let hasPlugin = false;
   try { await readFile(path.join(build, 'dsh-plugin.json')); hasPlugin = true; }
   catch (error) { if (error.code !== 'ENOENT') throw error; }
@@ -120,7 +120,7 @@ export async function sealCandidate(build, output, source, env = process.env) {
   await mkdir(output, { recursive: true });
   for (const name of [filename, 'release-npm.json', 'source-scan.json', 'package-scan.json', 'release-notes.md', ...pluginFiles]) await cp(path.join(build, name), path.join(output, name));
   const guide = await generateInstallGuide(path.join(output, filename), output);
-  assert.equal(guide.packageName, '@openmotion/app'); assert.equal(guide.commit, env.MOTION_SOURCE_SHA);
+  assert.equal(guide.packageName, '@kinevyn/app'); assert.equal(guide.commit, env.MOTION_SOURCE_SHA);
   for (const name of ['source-scan.json', 'package-scan.json']) assert.equal((await json(path.join(output, name))).status, 'passed');
   const template = await readFile(new URL('../../docs/templates/release-record.md', import.meta.url), 'utf8');
   assert(template.includes('<!-- CANDIDATE_IDENTITY -->'), 'Acceptance template needs its generated identity marker');
@@ -132,7 +132,7 @@ export async function sealCandidate(build, output, source, env = process.env) {
   const installTemplate = await readFile(new URL('../../docs/templates/candidate-install.md', import.meta.url), 'utf8');
   const values = { VERSION: guide.version, TGZ: filename, SHA256: identity.tgzSHA256, SOURCE_SHA: guide.commit,
     TEMPLATE_ENVIRONMENT: guide.templateEnvironment,
-    DSH_INSTRUCTIONS: hasPlugin ? `## Optional DSH acceptance\n\nOnly when DSH testing is requested, use the included \`openmotion-dsh-${guide.version}.tgz\` and \`dsh-plugin.json\`. They share this candidate's version and source commit. Follow https://github.com/${repository}/blob/${guide.commit}/integrations/dsh/README.md using a separate built source checkout at that commit and an isolated DSH profile/data directory. Install this local tarball instead of downloading a moving channel. Preserve existing installations and credentials. The plugin is not a standalone runtime; npm/MCP acceptance does not establish native DSH acceptance.\n` : '',
+    DSH_INSTRUCTIONS: hasPlugin ? `## Optional DSH acceptance\n\nOnly when DSH testing is requested, use the included \`kinevyn-dsh-${guide.version}.tgz\` and \`dsh-plugin.json\`. They share this candidate's version and source commit. Follow https://github.com/${repository}/blob/${guide.commit}/integrations/dsh/README.md using a separate built source checkout at that commit and an isolated DSH profile/data directory. Install this local tarball instead of downloading a moving channel. Preserve existing installations and credentials. The plugin is not a standalone runtime; npm/MCP acceptance does not establish native DSH acceptance.\n` : '',
     DETAILS_URL: `https://github.com/${repository}/blob/${guide.commit}/docs/npm-installation.md` };
   const instructions = installTemplate.replace(/\{\{([A-Z0-9_]+)\}\}/g, (_, key) => { assert(Object.hasOwn(values, key)); return values[key]; });
   assert(!instructions.includes('{{'), 'Unresolved candidate instructions');
@@ -204,16 +204,16 @@ async function verifyAuthorization(directory, inputs, env = process.env) {
 
 export async function verifyCandidate(directory, expectedSHA256, run) {
   const candidate = await json(path.join(directory, 'candidate.json'));
-  assert([2, 3, 4].includes(candidate.schemaVersion), 'Unsupported candidate schema'); assert.equal(candidate.kind, 'motion-candidate'); assert.equal(candidate.packageName, '@openmotion/app');
+  assert([2, 3, 4].includes(candidate.schemaVersion), 'Unsupported candidate schema'); assert.equal(candidate.kind, 'motion-candidate'); assert.equal(candidate.packageName, '@kinevyn/app');
   checkReleaseVersion(candidate.version);
-  assert.equal(candidate.tgz, `openmotion-app-${candidate.version}.tgz`); assert.equal(candidate.tgzSHA256, expectedSHA256);
+  assert.equal(candidate.tgz, `kinevyn-app-${candidate.version}.tgz`); assert.equal(candidate.tgzSHA256, expectedSHA256);
   assert.match(expectedSHA256, hashPattern); assert.match(candidate.sourceCommit, /^[a-f0-9]{40}$/);
   const ref = `refs/heads/${run.head_branch || 'main'}`; // Older main-only receipts omitted the branch.
   assert(candidateRefs.includes(ref), 'Untrusted candidate branch');
   // Immutable receipts predating the rename keep their original name. Artifact lookup
   // and live run validation still use only the current repository; never follow an alias.
   const receiptRepository = candidate.workflow?.repository;
-  assert([repository, 'nexu-io/html-anything'].includes(receiptRepository), 'Untrusted candidate repository');
+  assert([repository, 'rivyn-labs/html-anything'].includes(receiptRepository), 'Untrusted candidate repository');
   const producer = run.path?.split('@')[0] || candidateWorkflow;
   assert(candidateWorkflows.includes(producer), 'Untrusted candidate workflow');
   if (producer === publicationWorkflow) assert.equal(ref, 'refs/heads/main');
@@ -312,7 +312,7 @@ export async function downloadCandidate(version, directory, expectedSHA256, fetc
 }
 
 export async function registryPackage(candidate, fetcher = fetch) {
-  const response = await fetcher('https://registry.npmjs.org/@openmotion%2fapp', { signal: AbortSignal.timeout(30_000) });
+  const response = await fetcher('https://registry.npmjs.org/@kinevyn%2fapp', { signal: AbortSignal.timeout(30_000) });
   if (response.status === 404) return { version: null, tags: {} };
   assert(response.ok, 'Registry metadata request failed'); const data = await response.json();
   const version = data.versions?.[candidate.version];

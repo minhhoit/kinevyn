@@ -14,12 +14,12 @@ import { closeFixtureEditor } from './fixtures.ts';
 
 const output = process.argv[2];
 assert(output && path.isAbsolute(output), 'Pass an absolute evidence directory');
-const lock = path.join(tmpdir(), 'openmotion-template-catalog-browser.lock');
+const lock = path.join(tmpdir(), 'kinevyn-template-catalog-browser.lock');
 await mkdir(lock);
-const work = await mkdtemp(path.join(tmpdir(), 'openmotion-template-browser-'));
+const work = await mkdtemp(path.join(tmpdir(), 'kinevyn-template-browser-'));
 let publication;
 async function scenario(appRoot, source, hook) {
-  const data = path.join(work, source), env = { ...process.env, MOTION_DATA_DIR: data, OPENMOTION_TELEMETRY: '0', HYPERFRAMES_NO_TELEMETRY: '1', HYPERFRAMES_BROWSER_PATH: process.env.HYPERFRAMES_BROWSER_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', HYPERFRAMES_FFMPEG_PATH: process.env.HYPERFRAMES_FFMPEG_PATH || '/opt/homebrew/bin/ffmpeg', HYPERFRAMES_FFPROBE_PATH: process.env.HYPERFRAMES_FFPROBE_PATH || '/opt/homebrew/bin/ffprobe' };
+  const data = path.join(work, source), env = { ...process.env, MOTION_DATA_DIR: data, KINEVYN_TELEMETRY: '0', HYPERFRAMES_NO_TELEMETRY: '1', HYPERFRAMES_BROWSER_PATH: process.env.HYPERFRAMES_BROWSER_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', HYPERFRAMES_FFMPEG_PATH: process.env.HYPERFRAMES_FFMPEG_PATH || '/opt/homebrew/bin/ffmpeg', HYPERFRAMES_FFPROBE_PATH: process.env.HYPERFRAMES_FFPROBE_PATH || '/opt/homebrew/bin/ffprobe' };
   delete env.MOTION_TEMPLATE_SOURCE;
   if (hook) env.NODE_OPTIONS = '--import=' + hook;
   const child = spawn(process.execPath, ['--experimental-strip-types', path.join(appRoot, 'mcp.ts')], { cwd: work, env, stdio: ['pipe', 'pipe', 'pipe'] });

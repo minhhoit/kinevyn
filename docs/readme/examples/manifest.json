@@ -1,5 +1,5 @@
 {
-  "description": "Short, silent excerpts of external catalog references for the README. Not OpenMotion-generated examples or bundled editable templates. Source pixels, sequence and normal playback speed are preserved; frame rate and size are reduced for GitHub. Attribution is copied from the catalog, not independently inferred.",
+  "description": "Short, silent excerpts of external catalog references for the README. Not Kinevyn-generated examples or bundled editable templates. Source pixels, sequence and normal playback speed are preserved; frame rate and size are reduced for GitHub. Attribution is copied from the catalog, not independently inferred.",
   "entries": [
     {
       "slug": "talking-head",
@@ -19,7 +19,7 @@
       "previewFps": 10,
       "paletteColors": 128,
       "dither": "bayer:3",
-      "localVideo": "../../../library/skills/openmotion-presenter-story/assets/ali-abdaal-workflow-reference.mp4"
+      "localVideo": "../../../library/skills/kinevyn-presenter-story/assets/ali-abdaal-workflow-reference.mp4"
     },
     {
       "slug": "story-recut",

@@ -28,7 +28,7 @@ test('brand-series events traverse real admission and the Node sender; invalid f
     assert.equal((await post(rows)).status, 200);
     assert.equal(await tracking.flush(), 'accepted');
     assert.equal(indexed.length, rows.length);
-    assert(indexed.every(row => row.properties.series_view_id === source.series_view_id && row.properties.product === 'openmotion' && row.properties.env === 'test'));
+    assert(indexed.every(row => row.properties.series_view_id === source.series_view_id && row.properties.product === 'kinevyn' && row.properties.env === 'test'));
     assert.equal((await post([{ ...rows[0], properties: { ...source, page_name: 'studio', area: 'template_series_card', element: 'card', brand_name: 'PRIVATE' } }])).status, 400);
     assert.equal((await post([{ ...rows[0], properties: { ...source, page_name: 'studio', area: 'template_series_card', element: 'card', ranking_policy: 'PRIVATE' } }])).status, 400);
     tracking.setEnabled(false);

@@ -12,7 +12,7 @@ import { loadTemplatePresentation } from '../shared/mcp-template-recommendations
 import { inlineVideoUri } from '../shared/inline-video.ts';
 import { onboardingTemplateIds } from '../shared/onboarding-templates.ts';
 
-const name = 'openmotion_show_template_recommendations';
+const name = 'kinevyn_show_template_recommendations';
 const ids = ['decision-tree', 'product-promo', 'nyt-graph'];
 const capabilities = { extensions: { 'io.modelcontextprotocol/ui': { mimeTypes: ['text/html;profile=mcp-app'] } } };
 let nextId = 0;
@@ -50,7 +50,7 @@ test('a negotiated native presentation is discoverable, readable and project-fre
   const content = resource.result.contents[0];
   assert.equal(content.mimeType, 'text/html;profile=mcp-app');
   assert.deepEqual(content._meta.ui.csp.resourceDomains, ['blob:', 'https://r.open-design.ai']);
-  assert.match(content.text, /__OPENMOTION_TEMPLATE_CARDS__/);
+  assert.match(content.text, /__KINEVYN_TEMPLATE_CARDS__/);
   assert.ok(Buffer.byteLength(JSON.stringify(resource)) < 1.5 * 1024 * 1024);
   assert.deepEqual(await store.get(), before);
 }));
@@ -70,7 +70,7 @@ test('presentation capability is connection-local and cleared by reinitializatio
   assert.equal((await call(b, 'resources/read', { uri })).error.code, -32602);
   assert.equal((await call(a, 'tools/list', {}, mcpRegistry('legacy'))).result.tools.length, 28);
   const baseResources = await call(b, 'resources/list');
-  assert.ok(baseResources.result.resources.some((item: any) => item.uri.startsWith('openmotion://workflow/')));
+  assert.ok(baseResources.result.resources.some((item: any) => item.uri.startsWith('kinevyn://workflow/')));
   for (const invalid of [{}, { extensions: { 'io.modelcontextprotocol/ui': { mimeTypes: ['text/html+skybridge'] } } }, { extensions: { 'io.modelcontextprotocol/ui': { mimeTypes: 'text/html;profile=mcp-app' } } }]) {
     await call(a, 'initialize', { capabilities });
     assert.equal((await call(a, 'tools/list')).result.tools.length, 24);
@@ -149,8 +149,8 @@ test('actual stdio preserves negotiated UI state and disabling template cards re
   for (const disabled of [false, true]) {
     const child = spawnSync(process.execPath, ['--experimental-strip-types', 'mcp.ts'], {
       input, encoding: 'utf8', timeout: 10_000,
-      env: { ...process.env, MOTION_DATA_DIR: store.directory, OPENMOTION_TELEMETRY: '0',
-        OPENMOTION_TEMPLATE_CARDS: disabled ? '0' : '1' },
+      env: { ...process.env, MOTION_DATA_DIR: store.directory, KINEVYN_TELEMETRY: '0',
+        KINEVYN_TEMPLATE_CARDS: disabled ? '0' : '1' },
     });
     assert.equal(child.status, 0, child.stderr);
     const responses = child.stdout.trim().split('\n').map(line => JSON.parse(line));
@@ -169,7 +169,7 @@ test('optional registry entries retain collision and exposure checks', () => {
 });
 
 test('old resource bytes survive asset replacement and invalid assets are rejected', async () => {
-  const directory = await mkdtemp(path.join(tmpdir(), 'openmotion-ui-assets-'));
+  const directory = await mkdtemp(path.join(tmpdir(), 'kinevyn-ui-assets-'));
   const source = fileURLToPath(new URL('../mcp-ui/template-recommendations/', import.meta.url));
   try {
     await cp(source, directory, { recursive: true });

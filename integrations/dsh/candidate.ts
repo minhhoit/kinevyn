@@ -7,7 +7,7 @@ import { validateDownload, type PluginDownload } from "./download.ts";
 const json = async (filename: string) => JSON.parse(await readFile(filename, "utf8"));
 
 export function pluginCandidateFiles(version: string): string[] {
-  const archive = `openmotion-dsh-${version}.tgz`;
+  const archive = `kinevyn-dsh-${version}.tgz`;
   assert.equal(path.basename(archive), archive, "Invalid plugin archive name");
   return [archive, "dsh-plugin.json", "dsh-package-scan.json"];
 }

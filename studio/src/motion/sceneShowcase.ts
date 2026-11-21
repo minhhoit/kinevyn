@@ -4,7 +4,7 @@ import lunar from './scene-art/apollo-11.jpg';
 import speakerRoom from './scene-art/speaker-room.webp';
 import speakerStudio from './scene-art/speaker-studio.webp';
 import soundtrackCover from './scene-art/ambient-piano.webp';
-import welcomeMusic from '../../../template-library/openmotion-welcome/assets/soundtrack.m4a?url';
+import welcomeMusic from '../../../template-library/kinevyn-welcome/assets/soundtrack.m4a?url';
 import studiesScore from '../../../examples/motion-studies/assets/score.m4a?url';
 import studiesCover from './scene-art/studies-score.webp';
 import wingScore from '../../../examples/wing-construction/assets/score.m4a?url';
@@ -54,8 +54,8 @@ const wingWaveform = [36, 68, 75, 67, 59, 53, 49, 79, 89, 83, 76, 72, 67, 62, 57
 const cueWaveform = [2, 94, 66, 35, 46, 44, 14, 4, 2, 33, 24, 9, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 47, 77, 48, 30, 18, 43, 19, 7, 3, 43, 20, 7, 2, 2, 2, 2, 94, 87, 62, 43, 31, 22, 15, 11, 8, 5, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 50, 56, 29, 15, 8, 4, 2, 2, 2, 2, 43, 81, 54, 36, 23, 15, 63, 46, 28, 17, 44, 74, 42, 24, 14, 8, 4, 2];
 const flightWaveform = [2, 2, 30, 58, 74, 76, 74, 72, 69, 63, 56, 51, 39, 28, 48, 10, 3, 2, 2, 7, 13, 23, 27, 32, 38, 43, 46, 48, 49, 48, 49, 49, 51, 49, 50, 51, 52, 50, 51, 50, 51, 51, 51, 53, 51, 51, 51, 52, 52, 50, 51, 52, 51, 50, 51, 50, 49, 49, 49, 46, 42, 39, 35, 31, 26, 22, 21, 45, 44, 52, 46, 43, 47, 43, 43, 34, 2, 2, 2, 94, 79, 47, 29, 19, 12, 8, 6, 4, 47, 45, 33, 2, 2, 2, 2, 2];
 
-const splashClip = motionSkills.find(skill => skill.id === 'openmotion-splash-float-product')?.cover?.video;
-const productClip = motionSkills.find(skill => skill.id === 'openmotion-light-shadow-product')?.cover?.video;
+const splashClip = motionSkills.find(skill => skill.id === 'kinevyn-splash-float-product')?.cover?.video;
+const productClip = motionSkills.find(skill => skill.id === 'kinevyn-light-shadow-product')?.cover?.video;
 
 const portrait = { title: 'Product portrait', prompt: 'Photograph an amber glass bottle in warm sidelight, with soft leaf shadows on stone.', poster: product, clip: productClip };
 const cameraStudy = { title: 'Vintage camera study', prompt: 'Frame a vintage camera in soft sidelight. Let the background fall into shadow.', poster: camera };

@@ -1,8 +1,8 @@
 # Title reveal
 
-**Kind:** motion recipe · **Status:** draft, not a rendered component · **Source:** original OpenMotion library example · **License:** [Apache-2.0](../../../LICENSE).
+**Kind:** motion recipe · **Status:** draft, not a rendered component · **Source:** original Kinevyn library example · **License:** [Apache-2.0](../../../LICENSE).
 
-Use for a short headline that needs to become readable before the next shot. Supply the headline, typeface, foreground/background colors and available reading time. Pair it with a [Brandkit](../../brandkits/openmotion/BRANDKIT.md) and a [motion design system](../../design-systems/ink-water/MOTION_DESIGN.md).
+Use for a short headline that needs to become readable before the next shot. Supply the headline, typeface, foreground/background colors and available reading time. Pair it with a [Brandkit](../../brandkits/kinevyn/BRANDKIT.md) and a [motion design system](../../design-systems/ink-water/MOTION_DESIGN.md).
 
 ## Example behavior
 

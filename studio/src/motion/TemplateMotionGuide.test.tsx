@@ -29,7 +29,7 @@ it('preserves artwork, scripts and asset resolution inside the adapted guide', (
   expect(doc.querySelector('script[src]')?.getAttribute('src')).toBe('runtime.js');
   expect(doc.body.style.getPropertyValue('--paper')).toBe('#96d93c');
   expect(doc.documentElement.style.getPropertyValue('--om-guide-background')).toBe('#f5f5f5');
-  expect(doc.documentElement.dataset.openmotionGuide).toBe('light');
+  expect(doc.documentElement.dataset.kinevynGuide).toBe('light');
   expect(doc.querySelector('style')?.textContent).not.toMatch(/filter:|\.demo-stage.*background/);
 });
 
@@ -46,7 +46,7 @@ it('syncs theme without re-fetching or replacing the guide document and keeps th
   expect(frame.hasAttribute('srcdoc')).toBe(false);
   expect(fetch).toHaveBeenCalledWith(url, expect.objectContaining({ credentials: 'omit', referrerPolicy: 'no-referrer' }));
   await act(async () => { document.documentElement.removeAttribute('data-theme'); });
-  expect(postMessage).toHaveBeenCalledWith(expect.objectContaining({ type: 'openmotion:guide-appearance', appearance: expect.objectContaining({ theme: 'dark' }) }), '*');
+  expect(postMessage).toHaveBeenCalledWith(expect.objectContaining({ type: 'kinevyn:guide-appearance', appearance: expect.objectContaining({ theme: 'dark' }) }), '*');
   expect(frame.src).toBe(src);
   expect(URL.createObjectURL).toHaveBeenCalledTimes(1);
   expect(fetch).toHaveBeenCalledTimes(1);
@@ -79,9 +79,9 @@ it('returns from the expanded guide only for Escape from its focused sandboxed f
   const frame = host.querySelector('iframe')!;
   const guideWindow = frame.contentWindow!;
   const escape = (sender: Window, origin: string) => window.dispatchEvent(new MessageEvent('message', {
-    source: sender, origin, data: 'openmotion:guide-escape',
+    source: sender, origin, data: 'kinevyn:guide-escape',
   }));
-  expect(frame.srcdoc).toContain("parent.postMessage('openmotion:guide-escape', '*')");
+  expect(frame.srcdoc).toContain("parent.postMessage('kinevyn:guide-escape', '*')");
   escape(guideWindow, 'null');
   frame.focus();
   escape(window, 'null');
@@ -131,7 +131,7 @@ it('delegates only the current local guide frame and pins its template identity'
   const action = vi.spyOn(guideActions, 'handleGuideAction').mockResolvedValue(null);
   await act(async () => root.render(<TemplateMotionGuide url={location.origin + '/api/template-source/' + id + '/preview.html'} title="Guide" />));
   const frame = host.querySelector('iframe')!;
-  const rpc = { type: 'openmotion:guide-action', templateId: id, viewId: crypto.randomUUID(), requestId: 'load-1', action: 'load', locale: 'en' };
+  const rpc = { type: 'kinevyn:guide-action', templateId: id, viewId: crypto.randomUUID(), requestId: 'load-1', action: 'load', locale: 'en' };
   await act(async () => window.dispatchEvent(new MessageEvent('message', { data: rpc, source: window })));
   expect(action).not.toHaveBeenCalled();
   await act(async () => window.dispatchEvent(new MessageEvent('message', { data: { ...rpc, templateId: 'motion-another-template' }, source: frame.contentWindow })));

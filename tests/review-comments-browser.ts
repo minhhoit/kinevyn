@@ -9,7 +9,7 @@ import { fixture } from './fixtures.ts';
 import { startServer } from '../server.ts';
 import { reviewComments } from '../review-comments.ts';
 
-const output = path.join(tmpdir(), 'openmotion-review-comments-evidence');
+const output = path.join(tmpdir(), 'kinevyn-review-comments-evidence');
 async function button(page: Page, label: string) {
   await page.waitForFunction(label => [...document.querySelectorAll<HTMLButtonElement>('button')].some(button =>
     (button.getAttribute('aria-label') || button.textContent?.trim()) === label && button.checkVisibility() && !button.closest('[inert]') && !button.disabled), {}, label);

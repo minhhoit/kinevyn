@@ -9,18 +9,18 @@ export type GuideAppearance = {
 
 // These selectors affect the guide's chrome, never the artwork in its nested demo frames.
 const guideStyles = `
-html[data-openmotion-guide] { color-scheme: var(--om-guide-scheme); }
-html[data-openmotion-guide] body { background: var(--om-guide-background) !important; }
-html[data-openmotion-guide="dark"] {
+html[data-kinevyn-guide] { color-scheme: var(--om-guide-scheme); }
+html[data-kinevyn-guide] body { background: var(--om-guide-background) !important; }
+html[data-kinevyn-guide="dark"] {
   --bg: var(--om-guide-background); --fg: var(--om-guide-text);
   --muted: var(--om-guide-muted); --line: var(--om-guide-border); --soft: var(--om-guide-surface);
 }
-html[data-openmotion-guide="dark"] body { color: var(--om-guide-text) !important; }
-html[data-openmotion-guide="dark"] :is(.intro, .board-heading, .rule-label, .production, #source-view) :is(h1,h2,h3,strong),
-html[data-openmotion-guide="dark"] :is(.quiet, .beat>span, .tab.active, .wordmark) { color: var(--om-guide-text) !important; }
-html[data-openmotion-guide="dark"] :is(.type-sheet p, .swatch code, .intro-copy, .intro-copy p, .rule-copy p, .rule-copy ul, .production p, .production li, .board-heading p, .roles, .roles .label, .eyebrow, .tiny, .filmstrip figcaption, .rule-label>span, .beat b, .beat small, th, td, footer, footer p, .demo-controls button, .demo-controls output, .demo-controls select, .demo-params label, .demo-params input[type=text], .demo-presets button, .demo figcaption) { color: var(--om-guide-muted) !important; }
-html[data-openmotion-guide="dark"] :is(.type-sheet, .palette, .overview, .shell, .rule.text-only, #source-view pre, .demo-controls, .demo-params, .demo figcaption) { background: var(--om-guide-surface) !important; }
-html[data-openmotion-guide="dark"] :is(.identity, .palette, .overview, .type-baseline, .quiet, .shell, .rule, .roles, .roles span, .timeline-sheet, .beats, .beat, .production, .production-rules, footer, th, td, .demo, .demo-controls, .demo-params, .demo-presets button, .demo-params input) { border-color: var(--om-guide-border) !important; }
+html[data-kinevyn-guide="dark"] body { color: var(--om-guide-text) !important; }
+html[data-kinevyn-guide="dark"] :is(.intro, .board-heading, .rule-label, .production, #source-view) :is(h1,h2,h3,strong),
+html[data-kinevyn-guide="dark"] :is(.quiet, .beat>span, .tab.active, .wordmark) { color: var(--om-guide-text) !important; }
+html[data-kinevyn-guide="dark"] :is(.type-sheet p, .swatch code, .intro-copy, .intro-copy p, .rule-copy p, .rule-copy ul, .production p, .production li, .board-heading p, .roles, .roles .label, .eyebrow, .tiny, .filmstrip figcaption, .rule-label>span, .beat b, .beat small, th, td, footer, footer p, .demo-controls button, .demo-controls output, .demo-controls select, .demo-params label, .demo-params input[type=text], .demo-presets button, .demo figcaption) { color: var(--om-guide-muted) !important; }
+html[data-kinevyn-guide="dark"] :is(.type-sheet, .palette, .overview, .shell, .rule.text-only, #source-view pre, .demo-controls, .demo-params, .demo figcaption) { background: var(--om-guide-surface) !important; }
+html[data-kinevyn-guide="dark"] :is(.identity, .palette, .overview, .type-baseline, .quiet, .shell, .rule, .roles, .roles span, .timeline-sheet, .beats, .beat, .production, .production-rules, footer, th, td, .demo, .demo-controls, .demo-params, .demo-presets button, .demo-params input) { border-color: var(--om-guide-border) !important; }
 `;
 
 /** Keep the remote document and its resource base intact inside the existing opaque-origin sandbox. */
@@ -30,7 +30,7 @@ export function prepareMotionGuide(source: string, url: string, appearance: Guid
   base.href = new URL(base.getAttribute('href') ?? url, url).href;
   if (!base.parentNode) doc.head.prepend(base);
   const root = doc.documentElement;
-  root.dataset.openmotionGuide = appearance.theme;
+  root.dataset.kinevynGuide = appearance.theme;
   if (locale) root.dataset.guideLocale = locale;
   root.style.setProperty('--om-guide-scheme', appearance.theme);
   for (const key of ['background', 'text', 'muted', 'surface', 'border'] as const) {
@@ -46,15 +46,15 @@ export function prepareMotionGuide(source: string, url: string, appearance: Guid
         if (event.key !== 'Escape' || event.defaultPrevented || event.isComposing || event.repeat ||
             event.altKey || event.ctrlKey || event.metaKey || event.shiftKey || document.fullscreenElement) return;
         event.preventDefault();
-        parent.postMessage('openmotion:guide-escape', '*');
+        parent.postMessage('kinevyn:guide-escape', '*');
       });
     }
     window.addEventListener('message', event => {
-      if (event.source !== parent || event.data?.type !== 'openmotion:guide-appearance') return;
+      if (event.source !== parent || event.data?.type !== 'kinevyn:guide-appearance') return;
       const value = event.data.appearance;
       if (!value || !['light', 'dark'].includes(value.theme)) return;
       const root = document.documentElement;
-      root.dataset.openmotionGuide = value.theme;
+      root.dataset.kinevynGuide = value.theme;
       root.style.setProperty('--om-guide-scheme', value.theme);
       for (const key of ['background', 'text', 'muted', 'surface', 'border']) {
         if (typeof value[key] === 'string' && CSS.supports('color', value[key])) root.style.setProperty('--om-guide-' + key, value[key]);

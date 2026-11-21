@@ -29,11 +29,11 @@ export function PreviewCanvasMenu() {
       await shell.waitForPendingDomEditSaves(); if (!valid()) return;
       const canvas = { compositionPath, ratio: nextRatio, fit: nextFit }, signature = JSON.stringify({ projectId, canvas });
       if (pending.current?.signature !== signature) {
-        const detail = await gatewayRequest<{ revision: string; currentVersionId: string }>('phase1/call', 'POST', { name: 'openmotion_get_project', arguments: { projectId } });
+        const detail = await gatewayRequest<{ revision: string; currentVersionId: string }>('phase1/call', 'POST', { name: 'kinevyn_get_project', arguments: { projectId } });
         pending.current = { signature, payload: { projectId, canvas, expectedRevision: detail.revision, expectedVersionId: detail.currentVersionId, requestId: crypto.randomUUID(), summary: 'Change canvas framing' } };
       }
       if (!valid()) return;
-      await gatewayRequest('phase1/call', 'POST', { name: 'openmotion_edit_project', arguments: pending.current.payload });
+      await gatewayRequest('phase1/call', 'POST', { name: 'kinevyn_edit_project', arguments: pending.current.payload });
       pending.current = null;
       if (valid()) { setOpen(false); shell.showToast(t('Canvas updated'), 'info'); }
     } catch (error) {

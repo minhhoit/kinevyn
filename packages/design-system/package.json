@@ -1,9 +1,9 @@
 {
-  "name": "@openmotion/design-system",
+  "name": "@kinevyn/design-system",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Shared OpenMotion interface tokens, styles, assets and brand guidance",
+  "description": "Shared Kinevyn interface tokens, styles, assets and brand guidance",
   "exports": {
     ".": "./index.js",
     "./ui.css": "./ui.css",

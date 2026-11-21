@@ -48,14 +48,14 @@ async function responseBytes(response: Response, limit: number): Promise<Buffer>
 async function fetchFile(request: Request, baseUrl: string, relative: string, limit = maxJsonBytes): Promise<Buffer> {
   safePath(relative);
   return responseBytes(await request(`${baseUrl}/${relative.split('/').map(encodeURIComponent).join('/')}`, {
-    headers: { accept: 'application/octet-stream', 'user-agent': 'openmotion-template-catalog' },
+    headers: { accept: 'application/octet-stream', 'user-agent': 'kinevyn-template-catalog' },
     redirect: 'error', signal: AbortSignal.timeout(60_000),
   }), limit);
 }
 
 async function fetchJson(request: Request, url: string): Promise<any> {
   return JSON.parse((await responseBytes(await request(url, {
-    headers: { accept: 'application/json', 'user-agent': 'openmotion-template-catalog' },
+    headers: { accept: 'application/json', 'user-agent': 'kinevyn-template-catalog' },
     redirect: 'error', signal: AbortSignal.timeout(30_000),
   }), maxCatalogBytes)).toString('utf8'));
 }
@@ -110,7 +110,7 @@ export function restoreHostedCatalog(value: unknown, request: Request = fetch): 
   return createCatalog(snapshot, snapshot.publication as TemplatePublication, records, request, snapshot.warning);
 }
 
-/** Read the latest published main catalog from OpenMotion's own public CDN. */
+/** Read the latest published main catalog from Kinevyn's own public CDN. */
 export async function loadHostedCatalog(request: Request = fetch): Promise<HostedRepositoryCatalog> {
   const manifest = await fetchJson(request, hostedCatalogUrl);
   assert(manifest.schemaVersion === 1 && typeof manifest.commit === 'string' && /^[a-f0-9]{40}$/.test(manifest.commit), 'Invalid hosted template catalog identity');

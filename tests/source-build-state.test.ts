@@ -68,7 +68,7 @@ test('the source installer rebuilds stale sources once and reuses matching depen
   const root = await fixture(t);
   await mkdir(path.join(root, '.git'));
   await mkdir(path.join(root, 'scripts'));
-  await writeFile(path.join(root, 'marketplace.example.json'), JSON.stringify({ name: 'openmotion-local', plugins: [{ name: 'openmotion', source: { source: 'local', path: './' } }] }));
+  await writeFile(path.join(root, 'marketplace.example.json'), JSON.stringify({ name: 'kinevyn-local', plugins: [{ name: 'kinevyn', source: { source: 'local', path: './' } }] }));
   for (const file of ['install-motion.command', 'source-build-state.mjs']) {
     await copyFile(fileURLToPath(new URL('../scripts/' + file, import.meta.url)), path.join(root, 'scripts', file));
   }

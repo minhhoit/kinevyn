@@ -4,9 +4,9 @@ import React, { useEffect, useState } from "react";
 import { registerEditingWorkspace } from "./editing";
 import { studio, configureStudio, studioAssetUrl } from "./studio";
 import { useDashboardList } from "./useDashboardList";
-import { OPENMOTION_TEMPLATE_ACTION } from "./templateRecommendationAction";
+import { KINEVYN_TEMPLATE_ACTION } from "./templateRecommendationAction";
 import { TemplateRecommendationCard } from "./TemplateRecommendationCard";
-const selectedKey = "openmotion-dsh-project";
+const selectedKey = "kinevyn-dsh-project";
 type Page = "home" | "templates" | "brands" | "assets";
 const pageNames: Record<Page, string> = {
   home: "Workspace",
@@ -69,7 +69,7 @@ const Mark = () => (
 
 export function registerTemplateRecommendationBody(ctx: any): void {
   if (!ctx.actionCards?.register) return;
-  ctx.effect(() => ctx.locale?.register("openmotionTemplateRecommendations", {
+  ctx.effect(() => ctx.locale?.register("kinevynTemplateRecommendations", {
     en: {},
     zh: {},
     ja: {},
@@ -81,30 +81,30 @@ export function registerTemplateRecommendationBody(ctx: any): void {
     pt: {},
   }));
   ctx.effect(() => ctx.actionCards.register({
-    action: OPENMOTION_TEMPLATE_ACTION,
-    locale: "openmotionTemplateRecommendations",
+    action: KINEVYN_TEMPLATE_ACTION,
+    locale: "kinevynTemplateRecommendations",
     Body: function RecommendationBody(props: React.ComponentProps<typeof TemplateRecommendationCard>) {
       const [libraryOpened, setLibraryOpened] = useState(false);
       useEffect(() => {
         if (!props.proposal.details.onboarding) return;
         const ready = () => setLibraryOpened(true);
-        window.addEventListener("openmotion:library-ready", ready);
+        window.addEventListener("kinevyn:library-ready", ready);
         // Open the library in the current conversation's native right-hand pane.
         // This is browsing, so do not select or create a project.
         const callId = props.proposal.callId;
         const key = callId ? "omd-onboarding:" + callId : undefined;
         if (!key || localStorage.getItem(key) !== "requested") {
-          ctx.sidebarRight.openTab("openmotion-studio", { params: { page: "templates" } });
+          ctx.sidebarRight.openTab("kinevyn-studio", { params: { page: "templates" } });
           const sessionId = ctx.sidebarRight.mounted?.getSnapshot();
           if (sessionId) localStorage.setItem("omd-session-page:" + sessionId, "templates");
           if (key) localStorage.setItem(key, "requested");
         }
-        return () => window.removeEventListener("openmotion:library-ready", ready);
+        return () => window.removeEventListener("kinevyn:library-ready", ready);
       }, [props.proposal.callId, props.proposal.details.onboarding]);
       return <TemplateRecommendationCard {...props} proposal={{ ...props.proposal,
         details: { ...props.proposal.details, libraryOpened } }} />;
     },
-  }), "openmotion-dsh: template recommendation body");
+  }), "kinevyn-dsh: template recommendation body");
 }
 export function Dashboard({
   begin,
@@ -123,10 +123,10 @@ export function Dashboard({
     );
   const [prompt, setPrompt] = useState("");
   const { items: projects, loading: projectsLoading, error: projectsError, reload: loadProjects } = useDashboardList<Project>(
-    "/openmotion-dsh/data/motion-api/projects", "projects", "Could not load projects",
+    "/kinevyn-dsh/data/motion-api/projects", "projects", "Could not load projects",
   );
   const { items: templates, loading: templatesLoading, error: templatesError, reload: loadTemplates } = useDashboardList<Template>(
-    "/openmotion-dsh/data/api/template-catalog?limit=6&locale=en&covered=true", "items", "Could not load templates",
+    "/kinevyn-dsh/data/api/template-catalog?limit=6&locale=en&covered=true", "items", "Could not load templates",
   );
   const choose = (id: string) => {
     localStorage.setItem(selectedKey, id);
@@ -136,14 +136,14 @@ export function Dashboard({
   const current = projects.find((p) => p.id === project);
   const start = (text = prompt) =>
     begin(
-      `${text || "Help me create a short product video. Ask me about the product, audience and style first."}\n\nOpenMotion project: ${current?.title || project} (${project}). Use OpenMotion tools to read the latest project before editing. Confirm the brief with me before creating a new project.`,
+      `${text || "Help me create a short product video. Ask me about the product, audience and style first."}\n\nKinevyn project: ${current?.title || project} (${project}). Use Kinevyn tools to read the latest project before editing. Confirm the brief with me before creating a new project.`,
     );
   return (
     <section className="omd" data-motion-ui data-theme={theme}>
       <header className="omd-top">
         <div className="omd-breadcrumb">
           <Mark />
-          <strong>OpenMotion</strong>
+          <strong>Kinevyn</strong>
           <span>/</span>
           <span>{pageNames[page]}</span>
         </div>
@@ -159,7 +159,7 @@ export function Dashboard({
           </button>
         </div>
       </header>
-      <nav className="omd-nav" aria-label="OpenMotion workspace">
+      <nav className="omd-nav" aria-label="Kinevyn workspace">
         {[
           ["home", "Overview"],
           ["studio", "Studio"],
@@ -198,7 +198,7 @@ export function Dashboard({
       {page !== "home" ? (
         <div className="omd-embedded">
           <iframe
-            title={"OpenMotion " + page}
+            title={"Kinevyn " + page}
             key={page}
             src={libraryUrl(page, templateId)}
             allow="clipboard-write; fullscreen"
@@ -215,7 +215,7 @@ export function Dashboard({
                 Studio.
               </p>
             </div>
-            <span className="omd-version">OPENMOTION / DSH</span>
+            <span className="omd-version">KINEVYN / DSH</span>
           </div>
           <form
             className="omd-compose"
@@ -398,17 +398,17 @@ export const inject = [
   "locale",
 ];
 export async function apply(ctx: any) {
-  const response = await fetch("/openmotion-dsh/status");
+  const response = await fetch("/kinevyn-dsh/status");
   if (!response.ok)
     throw new Error(
-      "OpenMotion host connection is unavailable. Restart DSH and inspect its log.",
+      "Kinevyn host connection is unavailable. Restart DSH and inspect its log.",
     );
   configureStudio((await response.json()).studioUrl);
   registerTemplateRecommendationBody(ctx);
   const links = [
-    "/openmotion-dsh/design-system/ui.css",
-    "/openmotion-dsh/design-system/studio/feedback.css",
-    "/openmotion-dsh/style.css",
+    "/kinevyn-dsh/design-system/ui.css",
+    "/kinevyn-dsh/design-system/studio/feedback.css",
+    "/kinevyn-dsh/style.css",
   ].map((href) => {
     const link = document.createElement("link");
     link.rel = "stylesheet";
@@ -439,7 +439,7 @@ export async function apply(ctx: any) {
         if (mounted.getSnapshot() !== sessionId) return;
         localStorage.setItem("omd-session:" + sessionId, projectId);
         localStorage.removeItem("omd-session-page:" + sessionId);
-        ctx.sidebarRight.openTab("openmotion-studio", { params: { projectId } });
+        ctx.sidebarRight.openTab("kinevyn-studio", { params: { projectId } });
       });
       return true;
     }
@@ -455,7 +455,7 @@ export async function apply(ctx: any) {
     ctx.slots.register(
       {
         name: "main",
-        key: "openmotion",
+        key: "kinevyn",
         inject: () => ({ begin, openConversation, openProject }),
       },
       Dashboard,
@@ -465,23 +465,23 @@ export async function apply(ctx: any) {
     ctx.slots.register(
       {
         name: "sidebar.panellist",
-        id: "openmotion",
+        id: "kinevyn",
         order: -100,
-        label: "OpenMotion",
+        label: "Kinevyn",
       },
       () => <Mark />,
     ),
   );
   ctx.effect(() =>
     ctx.sidebarRightTabs.register({
-      id: "openmotion.studio",
-      kind: "openmotion-studio",
-      title: () => "OpenMotion",
+      id: "kinevyn.studio",
+      kind: "kinevyn-studio",
+      title: () => "Kinevyn",
       guide: [
         {
           id: "studio",
           order: -20,
-          title: () => "OpenMotion",
+          title: () => "Kinevyn",
           description: () => "Edit and preview your video project",
         },
       ],
@@ -496,7 +496,7 @@ export async function apply(ctx: any) {
         localStorage.getItem(selectedKey) ||
         "project";
       localStorage.setItem(key, project);
-      ctx.sidebarRight.openTab("openmotion-studio", {
+      ctx.sidebarRight.openTab("kinevyn-studio", {
         params: localStorage.getItem("omd-session-page:" + sessionId) === "templates" ? { page: "templates" } : { projectId: project },
       });
     },
@@ -506,16 +506,16 @@ export async function apply(ctx: any) {
       <button
         className="ui-button ui-button--ghost ui-button--sm"
         onClick={openStudio}
-        title="Open current OpenMotion project"
+        title="Open current Kinevyn project"
       >
-        <Icon size={15} /> OpenMotion
+        <Icon size={15} /> Kinevyn
       </button>
     </span>
   );
   for (const slot of ["conversation.session.header.actions"])
     ctx.slots.inject(slot, () =>
       ctx.slots.register(
-        { name: slot, id: "openmotion-studio", inject: studioActions },
+        { name: slot, id: "kinevyn-studio", inject: studioActions },
         StudioAction,
       ),
     );

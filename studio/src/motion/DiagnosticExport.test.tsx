@@ -25,7 +25,7 @@ it('downloads one local ZIP, disables duplicate clicks and releases the browser 
   const create = vi.spyOn(URL, 'createObjectURL').mockReturnValue('blob:diagnostic-fixture');
   const revoke = vi.spyOn(URL, 'revokeObjectURL').mockImplementation(() => {});
   const click = vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(function (this: HTMLAnchorElement) {
-    expect(this.download).toBe('openmotion-diagnostics-fixture.zip');
+    expect(this.download).toBe('kinevyn-diagnostics-fixture.zip');
   });
   const button = await render(); expect(button.textContent).toBe('导出诊断 ZIP');
   await act(async () => { button.click(); button.click(); });
@@ -35,7 +35,7 @@ it('downloads one local ZIP, disables duplicate clicks and releases the browser 
   const diagnosticCalls = () => fetcher.mock.calls.filter(([url]) => url === '/motion-api/diagnostics');
   expect(button.disabled).toBe(true); expect(diagnosticCalls()).toHaveLength(1);
   expect(document.querySelector('[role=status]')).toBeNull();
-  const response = new Response('ZIP', { headers: { 'Content-Type': 'application/zip', 'Content-Disposition': 'attachment; filename="openmotion-diagnostics-fixture.zip"' } });
+  const response = new Response('ZIP', { headers: { 'Content-Type': 'application/zip', 'Content-Disposition': 'attachment; filename="kinevyn-diagnostics-fixture.zip"' } });
   let finishBody!: (value: Blob) => void;
   vi.spyOn(response, 'blob').mockReturnValue(new Promise<Blob>(resolve => { finishBody = resolve; }));
   await act(async () => finish(response));

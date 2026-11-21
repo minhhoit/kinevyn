@@ -1,4 +1,4 @@
-<p align="center"><img src="docs/readme/openmotion-logo.svg" width="420" alt="OpenMotion"></p>
+<p align="center"><img src="docs/readme/kinevyn-logo.svg" width="420" alt="Kinevyn"></p>
 
 <p align="center"><strong>Reverse engineering for any video</strong></p>
 
@@ -6,27 +6,27 @@
   <a href="docs/readme/media/presenter-caption-remake.mp4"><picture>
     <source type="image/webp" srcset="docs/readme/capcut-claude-motion-cover.webp">
     <source media="(max-width: 600px)" srcset="https://releases.open-design.ai/open-motion/media/sha256/730e1d6235820d39ba8adde42810d1165377992136a3b20290ad5d504abb527b.jpg">
-    <img src="https://releases.open-design.ai/open-motion/media/sha256/730e1d6235820d39ba8adde42810d1165377992136a3b20290ad5d504abb527b.jpg" width="100%" alt="Dan Martell’s original beside an OpenMotion remake with Riya. A handwritten keyword sits between two lines of bold captions, with the editable Studio timeline below.">
+    <img src="https://releases.open-design.ai/open-motion/media/sha256/730e1d6235820d39ba8adde42810d1165377992136a3b20290ad5d504abb527b.jpg" width="100%" alt="Dan Martell’s original beside an Kinevyn remake with Riya. A handwritten keyword sits between two lines of bold captions, with the editable Studio timeline below.">
   </picture></a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/nexu-io/html-anything"><img src="docs/readme/badges/stars.svg" alt="GitHub Stars · 9.5k (2026-11-09)"></a>
+  <a href="https://github.com/rivyn-labs/html-anything"><img src="docs/readme/badges/stars.svg" alt="GitHub Stars · 9.5k (2026-11-09)"></a>
   <a href="package.json"><img src="docs/readme/badges/node.svg" alt="Node.js 22.18+"></a>
   <a href="LICENSE"><img src="docs/readme/badges/license.svg" alt="Apache 2.0 license"></a>
-  <a href="https://github.com/nexu-io/open-design"><img src="docs/readme/badges/built-by-opendesign.svg" alt="Built by OpenDesign"></a>
+  <a href="https://github.com/rivyn-labs/open-design"><img src="docs/readme/badges/built-by-opendesign.svg" alt="Built by OpenDesign"></a>
 </p>
 
 <p align="center">
-  <a href="https://open-design.ai/motion/?utm_source=github&amp;utm_medium=referral&amp;utm_campaign=openmotion&amp;utm_content=readme_en"><img src="docs/readme/badges/website.svg" alt="OpenMotion website" /></a>
-  <a href="https://go.open-design.ai/?utm_source=github&amp;utm_medium=referral&amp;utm_campaign=openmotion&amp;utm_content=readme_en"><img src="docs/readme/badges/opendesign-go.svg" alt="OpenDesign Go model subscriptions" /></a>
+  <a href="https://open-design.ai/motion/?utm_source=github&amp;utm_medium=referral&amp;utm_campaign=kinevyn&amp;utm_content=readme_en"><img src="docs/readme/badges/website.svg" alt="Kinevyn website" /></a>
+  <a href="https://go.open-design.ai/?utm_source=github&amp;utm_medium=referral&amp;utm_campaign=kinevyn&amp;utm_content=readme_en"><img src="docs/readme/badges/opendesign-go.svg" alt="OpenDesign Go model subscriptions" /></a>
   <a href="https://discord.gg/mHAjSMV6gz"><img src="docs/readme/badges/discord.svg" alt="Join the OpenDesign Discord" /></a>
   <a href="https://x.com/OpenDesignHQ"><img src="docs/readme/badges/x-opendesignhq.svg" alt="OpenDesign on X (@OpenDesignHQ)" /></a>
   <a href="https://x.com/OpenDesignDevs"><img src="docs/readme/badges/x-opendesigndevs.svg" alt="OpenDesign Developers on X (@OpenDesignDevs)" /></a>
   <a href="https://www.youtube.com/channel/UChtshixMhvtgBWzoD9R_Qfg"><img src="docs/readme/badges/youtube.svg" alt="OpenDesign on YouTube" /></a>
 </p>
 
-<p align="center"><a href="#agent-wall">Agents</a> · <a href="#showcase">Use cases &amp; remakes</a> · <a href="#features">Why OpenMotion</a> · <a href="#technical-guide">Setup & architecture</a> · <a href="#community">Community</a></p>
+<p align="center"><a href="#agent-wall">Agents</a> · <a href="#showcase">Use cases &amp; remakes</a> · <a href="#features">Why Kinevyn</a> · <a href="#technical-guide">Setup & architecture</a> · <a href="#community">Community</a></p>
 
 <div align="center">
 
@@ -34,13 +34,13 @@
 
 </div>
 
-# OpenMotion
+# Kinevyn
 
-OpenMotion is a **full-stack agentic video** studio and an **open-source alternative to Claude Motion and CapCut**. Upload a reference video or paste a social video link to **recreate it with your own footage, logo and copy**.
+Kinevyn is a **full-stack agentic video** studio and an **open-source alternative to Claude Motion and CapCut**. Upload a reference video or paste a social video link to **recreate it with your own footage, logo and copy**.
 
 - 🎬 **Full-stack video recreation.** Code video with HTML. Your agent breaks down the reference, rebuilds its shots and transitions, and generates missing assets. Edit the timing in Studio and render an MP4 from the same project.
-- 🔑 **BYOA — Bring Your Own Agent. BYOK — Bring Your Own Keys.** OpenMotion is free and open source. Recreate videos in [your local agent](#agent-wall) and use your own API keys at every layer.
-- 🧩 OpenMotion introduces **Motion.md**, a Markdown format for shot order, timing and transitions. Use it to share how a brand film works, shot by shot.
+- 🔑 **BYOA — Bring Your Own Agent. BYOK — Bring Your Own Keys.** Kinevyn is free and open source. Recreate videos in [your local agent](#agent-wall) and use your own API keys at every layer.
+- 🧩 Kinevyn introduces **Motion.md**, a Markdown format for shot order, timing and transitions. Use it to share how a brand film works, shot by shot.
 - 🎛️ **Images, video, music and voice.** Create artwork with GPT Image 2.6, add a shot with Seedance 2.5, score it with Suno and narrate it with Eleven v4. [Explore the models and providers](#model-wall).
 
 <a id="agent-wall"></a>
@@ -64,7 +64,7 @@ Edit around the speaker’s voice, with captions and screen inserts that follow 
 <tr><th colspan="3" align="left">🎓 Teach & explain</th></tr>
 <tr>
 <td width="33%" valign="top" align="center">
-<a href="library/skills/openmotion-presenter-story/assets/careerwithriya-reference.mp4"><picture><source media="(prefers-reduced-motion: reduce)" srcset="docs/readme/people/careerwithriya.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/7716c7166bf9f098f67845d55872e08f5765eaeb1439eb5760db785fa6d2d41e.gif" width="216" alt="Presenter video reference: 6 essential skills to transform your career"></picture></a><br>
+<a href="library/skills/kinevyn-presenter-story/assets/careerwithriya-reference.mp4"><picture><source media="(prefers-reduced-motion: reduce)" srcset="docs/readme/people/careerwithriya.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/7716c7166bf9f098f67845d55872e08f5765eaeb1439eb5760db785fa6d2d41e.gif" width="216" alt="Presenter video reference: 6 essential skills to transform your career"></picture></a><br>
 <strong>6 essential skills to transform your career</strong><br>
 Numbered points + kinetic keywords<br>
 <sub>Reference · <a href="https://www.instagram.com/reel/Ddd57MBszhc/">@careerwithriya</a></sub>
@@ -85,13 +85,13 @@ A personal lesson + readable captions<br>
 <tr><th colspan="3" align="left">🖥️ Show the workflow</th></tr>
 <tr>
 <td width="33%" valign="top" align="center">
-<a href="library/skills/openmotion-presenter-story/assets/ali-abdaal-workflow-reference.mp4"><picture><source media="(prefers-reduced-motion: reduce)" srcset="docs/readme/people/ali-abdaal-workflow.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/03b9096a894f0572289ec31f9476854e660113852a97b4898c5b88158030b9a8.gif" width="216" alt="Presenter video reference: 5 tools I use every day"></picture></a><br>
+<a href="library/skills/kinevyn-presenter-story/assets/ali-abdaal-workflow-reference.mp4"><picture><source media="(prefers-reduced-motion: reduce)" srcset="docs/readme/people/ali-abdaal-workflow.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/03b9096a894f0572289ec31f9476854e660113852a97b4898c5b88158030b9a8.gif" width="216" alt="Presenter video reference: 5 tools I use every day"></picture></a><br>
 <strong>5 tools I use every day</strong><br>
 Desk-side story + workflow inserts<br>
 <sub>Reference · Ali Abdaal</sub>
 </td>
 <td width="33%" valign="top" align="center">
-<a href="library/skills/openmotion-presenter-story/assets/john-tagudin-capso-reference.mp4"><picture><source media="(prefers-reduced-motion: reduce)" srcset="docs/readme/people/john-tagudin-capso.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/a8a09b0b4837125c948bcdeff964ae7a9ff971ea0275927d045bc72f81141d72.gif" width="216" alt="Presenter video reference: Tool demo with callouts"></picture></a><br>
+<a href="library/skills/kinevyn-presenter-story/assets/john-tagudin-capso-reference.mp4"><picture><source media="(prefers-reduced-motion: reduce)" srcset="docs/readme/people/john-tagudin-capso.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/a8a09b0b4837125c948bcdeff964ae7a9ff971ea0275927d045bc72f81141d72.gif" width="216" alt="Presenter video reference: Tool demo with callouts"></picture></a><br>
 <strong>Tool demo with callouts</strong><br>
 Presenter + screens + callouts<br>
 <sub>Reference · <a href="https://www.tiktok.com/@john.tagudin/video/7524883942328126728">@john.tagudin</a></sub>
@@ -127,22 +127,22 @@ Product tutorial + live demonstration<br>
 <tr><th colspan="3" align="left">Original → external adaptation</th></tr>
 <tr>
 <td colspan="1" width="33%" align="center" valign="top">
-<a href="library/skills/openmotion-presenter-story/assets/careerwithriya-result.mp4"><picture><source media="(prefers-reduced-motion: reduce)" srcset="docs/readme/people/careerwithriya-comparison.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/68fae88f1bd057ca91fd02b0de88c8112d675bf0d140bed14481cac14af9521e.gif" width="576" alt="Original presenter video and upstream remix with different presenter and content"></picture></a><br>
+<a href="library/skills/kinevyn-presenter-story/assets/careerwithriya-result.mp4"><picture><source media="(prefers-reduced-motion: reduce)" srcset="docs/readme/people/careerwithriya-comparison.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/68fae88f1bd057ca91fd02b0de88c8112d675bf0d140bed14481cac14af9521e.gif" width="576" alt="Original presenter video and upstream remix with different presenter and content"></picture></a><br>
 <strong>Career advice → video-production explainer</strong><br>
 Numbered ideas and proof cards follow the new presenter’s explanation.<br>
-<sub><a href="library/skills/openmotion-presenter-story/references/presenter-listicle/MOTION_DESIGN.md">Motion.md</a> · <a href="library/skills/openmotion-presenter-story/SKILL.md">Skill</a> · <a href="library/skills/openmotion-presenter-story/assets/careerwithriya-reference.mp4">Original</a> · <a href="library/skills/openmotion-presenter-story/assets/careerwithriya-result.mp4">Full adaptation</a></sub>
+<sub><a href="library/skills/kinevyn-presenter-story/references/presenter-listicle/MOTION_DESIGN.md">Motion.md</a> · <a href="library/skills/kinevyn-presenter-story/SKILL.md">Skill</a> · <a href="library/skills/kinevyn-presenter-story/assets/careerwithriya-reference.mp4">Original</a> · <a href="library/skills/kinevyn-presenter-story/assets/careerwithriya-result.mp4">Full adaptation</a></sub>
 </td>
 <td colspan="1" width="33%" align="center" valign="top">
-<a href="library/skills/openmotion-presenter-story/assets/ali-abdaal-workflow-result.mp4"><picture><source media="(prefers-reduced-motion: reduce)" srcset="docs/readme/people/ali-abdaal-workflow-comparison.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/e6c2078a7595d03b644129697a6c26b12b32d7f0014ea74d7d2ec58c3f4cc07f.gif" width="576" alt="Original presenter video and upstream remix with different presenter and content"></picture></a><br>
+<a href="library/skills/kinevyn-presenter-story/assets/ali-abdaal-workflow-result.mp4"><picture><source media="(prefers-reduced-motion: reduce)" srcset="docs/readme/people/ali-abdaal-workflow-comparison.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/e6c2078a7595d03b644129697a6c26b12b32d7f0014ea74d7d2ec58c3f4cc07f.gif" width="576" alt="Original presenter video and upstream remix with different presenter and content"></picture></a><br>
 <strong>Everyday tools → a design-workspace story</strong><br>
 Screen inserts follow the speaker through a different workflow.<br>
-<sub><a href="library/skills/openmotion-presenter-story/references/workflow-demo/MOTION_DESIGN.md">Motion.md</a> · <a href="library/skills/openmotion-presenter-story/SKILL.md">Skill</a> · <a href="library/skills/openmotion-presenter-story/assets/ali-abdaal-workflow-reference.mp4">Original</a> · <a href="library/skills/openmotion-presenter-story/assets/ali-abdaal-workflow-result.mp4">Full adaptation</a></sub>
+<sub><a href="library/skills/kinevyn-presenter-story/references/workflow-demo/MOTION_DESIGN.md">Motion.md</a> · <a href="library/skills/kinevyn-presenter-story/SKILL.md">Skill</a> · <a href="library/skills/kinevyn-presenter-story/assets/ali-abdaal-workflow-reference.mp4">Original</a> · <a href="library/skills/kinevyn-presenter-story/assets/ali-abdaal-workflow-result.mp4">Full adaptation</a></sub>
 </td>
 <td colspan="1" width="33%" align="center" valign="top">
-<a href="library/skills/openmotion-presenter-story/assets/john-tagudin-capso-result.mp4"><picture><source media="(prefers-reduced-motion: reduce)" srcset="docs/readme/people/john-tagudin-capso-comparison.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/b4690ff3537552b1237c2b16bdb83c439447e5ca9f288ff27a775c525e9b5c23.gif" width="576" alt="Original presenter video and upstream remix with different presenter and content"></picture></a><br>
+<a href="library/skills/kinevyn-presenter-story/assets/john-tagudin-capso-result.mp4"><picture><source media="(prefers-reduced-motion: reduce)" srcset="docs/readme/people/john-tagudin-capso-comparison.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/b4690ff3537552b1237c2b16bdb83c439447e5ca9f288ff27a775c525e9b5c23.gif" width="576" alt="Original presenter video and upstream remix with different presenter and content"></picture></a><br>
 <strong>Tool demo → video-editor walkthrough</strong><br>
 Picture-in-picture and callouts turn a tool demo into an editing walkthrough.<br>
-<sub><a href="library/skills/openmotion-presenter-story/references/product-walkthrough/MOTION_DESIGN.md">Motion.md</a> · <a href="library/skills/openmotion-presenter-story/SKILL.md">Skill</a> · <a href="library/skills/openmotion-presenter-story/assets/john-tagudin-capso-reference.mp4">Original</a> · <a href="library/skills/openmotion-presenter-story/assets/john-tagudin-capso-result.mp4">Full adaptation</a></sub>
+<sub><a href="library/skills/kinevyn-presenter-story/references/product-walkthrough/MOTION_DESIGN.md">Motion.md</a> · <a href="library/skills/kinevyn-presenter-story/SKILL.md">Skill</a> · <a href="library/skills/kinevyn-presenter-story/assets/john-tagudin-capso-reference.mp4">Original</a> · <a href="library/skills/kinevyn-presenter-story/assets/john-tagudin-capso-result.mp4">Full adaptation</a></sub>
 </td>
 </tr>
 </table>
@@ -171,7 +171,7 @@ Stickers and photo cards mark time in a personal video diary.<br>
 
 Build a reveal around the moment your product comes into view.
 
-In the five-second comparisons, the original is on the left and the OpenMotion remake on the right (top and bottom on mobile).
+In the five-second comparisons, the original is on the left and the Kinevyn remake on the right (top and bottom on mobile).
 
 <table width="100%">
 <tr>
@@ -239,44 +239,44 @@ The cursor types on a film slate. A warm flash carries the last keystroke into t
 <tr><th colspan="2" align="left">Editable studies · original and adaptation from the same project</th></tr>
 <tr>
 <td colspan="1" width="50%" align="center" valign="top">
-<a href="library/skills/openmotion-design-remix/previews/wireframe-portal-title.mp4"><picture><source media="(prefers-reduced-motion: reduce)" srcset="library/skills/openmotion-design-remix/previews/wireframe-portal-title.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/d6cd62a5cf75aa06e6091ec56a94ebf6cb3dfe6faade022aded21092d00b9fd4.gif" width="100%" alt="Wireframe portal: synchronized original on the left and changed content on the right"></picture></a><br>
-<strong>Wireframe portal · BREAKTHROUGH → OPENMOTION</strong><br>
+<a href="library/skills/kinevyn-design-remix/previews/wireframe-portal-title.mp4"><picture><source media="(prefers-reduced-motion: reduce)" srcset="library/skills/kinevyn-design-remix/previews/wireframe-portal-title.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/d6cd62a5cf75aa06e6091ec56a94ebf6cb3dfe6faade022aded21092d00b9fd4.gif" width="100%" alt="Wireframe portal: synchronized original on the left and changed content on the right"></picture></a><br>
+<strong>Wireframe portal · BREAKTHROUGH → KINEVYN</strong><br>
 Keep: Portal timing, dimensional lettering and camera push. Replace: Title, subtitle and the 3D phrase.<br>
-<sub><a href="library/skills/openmotion-design-remix/references/wireframe-portal-title/MOTION_DESIGN.md">Motion.md</a> · <a href="library/skills/openmotion-design-remix/SKILL.md">Skill</a> · <a href="library/skills/openmotion-design-remix/presets/wireframe-portal-title.json">Content preset</a> · <a href="library/skills/openmotion-design-remix/previews/wireframe-portal-title.mp4">MP4</a></sub>
+<sub><a href="library/skills/kinevyn-design-remix/references/wireframe-portal-title/MOTION_DESIGN.md">Motion.md</a> · <a href="library/skills/kinevyn-design-remix/SKILL.md">Skill</a> · <a href="library/skills/kinevyn-design-remix/presets/wireframe-portal-title.json">Content preset</a> · <a href="library/skills/kinevyn-design-remix/previews/wireframe-portal-title.mp4">MP4</a></sub>
 </td>
 <td colspan="1" width="50%" align="center" valign="top">
-<a href="library/skills/openmotion-design-remix/previews/canopy-part-title.mp4"><picture><source media="(prefers-reduced-motion: reduce)" srcset="library/skills/openmotion-design-remix/previews/canopy-part-title.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/600a3791258b1b9873bc5626254f6a024a6dfc5df88dded9b468400853c0ccb0.gif" width="100%" alt="Canopy typography: synchronized original on the left and changed content on the right"></picture></a><br>
-<strong>Canopy typography · Understory → OpenMotion</strong><br>
+<a href="library/skills/kinevyn-design-remix/previews/canopy-part-title.mp4"><picture><source media="(prefers-reduced-motion: reduce)" srcset="library/skills/kinevyn-design-remix/previews/canopy-part-title.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/600a3791258b1b9873bc5626254f6a024a6dfc5df88dded9b468400853c0ccb0.gif" width="100%" alt="Canopy typography: synchronized original on the left and changed content on the right"></picture></a><br>
+<strong>Canopy typography · Understory → Kinevyn</strong><br>
 Keep: Leaf sweeps, depth, occlusion and reading holds. Replace: Two brand headlines.<br>
-<sub><a href="library/skills/openmotion-design-remix/references/canopy-part-title/MOTION_DESIGN.md">Motion.md</a> · <a href="library/skills/openmotion-design-remix/SKILL.md">Skill</a> · <a href="library/skills/openmotion-design-remix/presets/canopy-part-title.json">Content preset</a> · <a href="library/skills/openmotion-design-remix/previews/canopy-part-title.mp4">MP4</a></sub>
+<sub><a href="library/skills/kinevyn-design-remix/references/canopy-part-title/MOTION_DESIGN.md">Motion.md</a> · <a href="library/skills/kinevyn-design-remix/SKILL.md">Skill</a> · <a href="library/skills/kinevyn-design-remix/presets/canopy-part-title.json">Content preset</a> · <a href="library/skills/kinevyn-design-remix/previews/canopy-part-title.mp4">MP4</a></sub>
 </td>
 </tr>
 <tr>
 <td colspan="1" width="50%" align="center" valign="top">
-<a href="library/skills/openmotion-design-remix/previews/ui-3d-reveal.mp4"><picture><source media="(prefers-reduced-motion: reduce)" srcset="library/skills/openmotion-design-remix/previews/ui-3d-reveal.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/bb31f3558e38bde6ee01b3dbf23c8bed8b7d458ae7af851b3a3c198aee382d40.gif" width="100%" alt="Interface reveal: synchronized original on the left and changed content on the right"></picture></a><br>
+<a href="library/skills/kinevyn-design-remix/previews/ui-3d-reveal.mp4"><picture><source media="(prefers-reduced-motion: reduce)" srcset="library/skills/kinevyn-design-remix/previews/ui-3d-reveal.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/bb31f3558e38bde6ee01b3dbf23c8bed8b7d458ae7af851b3a3c198aee382d40.gif" width="100%" alt="Interface reveal: synchronized original on the left and changed content on the right"></picture></a><br>
 <strong>Interface reveal · Product tour → AI editing story</strong><br>
 Keep: Tilted canvas, depth hierarchy and continuous camera. Replace: Hero headline, document and community copy.<br>
-<sub><a href="library/skills/openmotion-design-remix/references/ui-3d-reveal/MOTION_DESIGN.md">Motion.md</a> · <a href="library/skills/openmotion-design-remix/SKILL.md">Skill</a> · <a href="library/skills/openmotion-design-remix/presets/ui-3d-reveal.json">Content preset</a> · <a href="library/skills/openmotion-design-remix/previews/ui-3d-reveal.mp4">MP4</a></sub>
+<sub><a href="library/skills/kinevyn-design-remix/references/ui-3d-reveal/MOTION_DESIGN.md">Motion.md</a> · <a href="library/skills/kinevyn-design-remix/SKILL.md">Skill</a> · <a href="library/skills/kinevyn-design-remix/presets/ui-3d-reveal.json">Content preset</a> · <a href="library/skills/kinevyn-design-remix/previews/ui-3d-reveal.mp4">MP4</a></sub>
 </td>
 <td colspan="1" width="50%" align="center" valign="top">
-<a href="library/skills/openmotion-design-remix/previews/code-3d-extrude.mp4"><picture><source media="(prefers-reduced-motion: reduce)" srcset="library/skills/openmotion-design-remix/previews/code-3d-extrude.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/ad7adbd831a97e3af69ce46d332396cec0b633f04de9f8c5c2cf070d9df7b076.gif" width="100%" alt="Dimensional code: synchronized original on the left and changed content on the right"></picture></a><br>
+<a href="library/skills/kinevyn-design-remix/previews/code-3d-extrude.mp4"><picture><source media="(prefers-reduced-motion: reduce)" srcset="library/skills/kinevyn-design-remix/previews/code-3d-extrude.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/ad7adbd831a97e3af69ce46d332396cec0b633f04de9f8c5c2cf070d9df7b076.gif" width="100%" alt="Dimensional code: synchronized original on the left and changed content on the right"></picture></a><br>
 <strong>Dimensional code · loadConfig() → cutVideo()</strong><br>
 Keep: Extruded slab, syntax colors and the camera move. Replace: Function, variables and displayed calls.<br>
-<sub><a href="library/skills/openmotion-design-remix/references/code-3d-extrude/MOTION_DESIGN.md">Motion.md</a> · <a href="library/skills/openmotion-design-remix/SKILL.md">Skill</a> · <a href="library/skills/openmotion-design-remix/presets/code-3d-extrude.json">Content preset</a> · <a href="library/skills/openmotion-design-remix/previews/code-3d-extrude.mp4">MP4</a></sub>
+<sub><a href="library/skills/kinevyn-design-remix/references/code-3d-extrude/MOTION_DESIGN.md">Motion.md</a> · <a href="library/skills/kinevyn-design-remix/SKILL.md">Skill</a> · <a href="library/skills/kinevyn-design-remix/presets/code-3d-extrude.json">Content preset</a> · <a href="library/skills/kinevyn-design-remix/previews/code-3d-extrude.mp4">MP4</a></sub>
 </td>
 </tr>
 <tr>
 <td colspan="1" width="50%" align="center" valign="top">
-<a href="library/skills/openmotion-design-remix/previews/code-particle-assemble.mp4"><picture><source media="(prefers-reduced-motion: reduce)" srcset="library/skills/openmotion-design-remix/previews/code-particle-assemble.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/6866faabec5d5cf7d1a7b609166915e22c2e0ec44202999344491abe5e6df516.gif" width="100%" alt="Particle assembly: synchronized original on the left and changed content on the right"></picture></a><br>
+<a href="library/skills/kinevyn-design-remix/previews/code-particle-assemble.mp4"><picture><source media="(prefers-reduced-motion: reduce)" srcset="library/skills/kinevyn-design-remix/previews/code-particle-assemble.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/6866faabec5d5cf7d1a7b609166915e22c2e0ec44202999344491abe5e6df516.gif" width="100%" alt="Particle assembly: synchronized original on the left and changed content on the right"></picture></a><br>
 <strong>Particle assembly · parse / optimize / emit → select / trim / render</strong><br>
 Keep: Seeded particle motion and assembly rhythm. Replace: Pipeline name and steps.<br>
-<sub><a href="library/skills/openmotion-design-remix/references/code-particle-assemble/MOTION_DESIGN.md">Motion.md</a> · <a href="library/skills/openmotion-design-remix/SKILL.md">Skill</a> · <a href="library/skills/openmotion-design-remix/presets/code-particle-assemble.json">Content preset</a> · <a href="library/skills/openmotion-design-remix/previews/code-particle-assemble.mp4">MP4</a></sub>
+<sub><a href="library/skills/kinevyn-design-remix/references/code-particle-assemble/MOTION_DESIGN.md">Motion.md</a> · <a href="library/skills/kinevyn-design-remix/SKILL.md">Skill</a> · <a href="library/skills/kinevyn-design-remix/presets/code-particle-assemble.json">Content preset</a> · <a href="library/skills/kinevyn-design-remix/previews/code-particle-assemble.mp4">MP4</a></sub>
 </td>
 <td colspan="1" width="50%" align="center" valign="top">
-<a href="library/skills/openmotion-design-remix/previews/liquid-glass-widgets.mp4"><picture><source media="(prefers-reduced-motion: reduce)" srcset="library/skills/openmotion-design-remix/previews/liquid-glass-widgets.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/39d97875c565d4673f5aa74df2a0f0a46244c12d3466b059b5b8de7d09b2ed9f.gif" width="100%" alt="Glass information cards: synchronized original on the left and changed content on the right"></picture></a><br>
+<a href="library/skills/kinevyn-design-remix/previews/liquid-glass-widgets.mp4"><picture><source media="(prefers-reduced-motion: reduce)" srcset="library/skills/kinevyn-design-remix/previews/liquid-glass-widgets.jpg"><img src="https://releases.open-design.ai/open-motion/media/sha256/39d97875c565d4673f5aa74df2a0f0a46244c12d3466b059b5b8de7d09b2ed9f.gif" width="100%" alt="Glass information cards: synchronized original on the left and changed content on the right"></picture></a><br>
 <strong>Glass information cards · Device widgets → creator workspace</strong><br>
 Keep: Glass treatment, card hierarchy, stagger and meters. Replace: Labels, units and feature story.<br>
-<sub><a href="library/skills/openmotion-design-remix/references/liquid-glass-widgets/MOTION_DESIGN.md">Motion.md</a> · <a href="library/skills/openmotion-design-remix/SKILL.md">Skill</a> · <a href="library/skills/openmotion-design-remix/presets/liquid-glass-widgets.json">Content preset</a> · <a href="library/skills/openmotion-design-remix/previews/liquid-glass-widgets.mp4">MP4</a></sub>
+<sub><a href="library/skills/kinevyn-design-remix/references/liquid-glass-widgets/MOTION_DESIGN.md">Motion.md</a> · <a href="library/skills/kinevyn-design-remix/SKILL.md">Skill</a> · <a href="library/skills/kinevyn-design-remix/presets/liquid-glass-widgets.json">Content preset</a> · <a href="library/skills/kinevyn-design-remix/previews/liquid-glass-widgets.mp4">MP4</a></sub>
 </td>
 </tr>
 </table>
@@ -332,19 +332,19 @@ The rotating field becomes a vinyl record; the title lands on its sleeve.<br>
 [Get agent prompts for all seven use cases](docs/examples.md)
 
 <a id="features"></a>
-<a id="why-openmotion"></a>
+<a id="why-kinevyn"></a>
 
-## ✨ Why OpenMotion
+## ✨ Why Kinevyn
 
 <a id="video-is-code"></a>
 
 ### 1. A full-stack agentic video studio
 
-**Code video with HTML.** OpenMotion uses HTML, CSS and JavaScript to describe scenes, typography, layout, transitions and timing. Recorded footage, generated clips, images, music and voice-over become media inside the composition. The same project opens in Studio and renders to MP4.
+**Code video with HTML.** Kinevyn uses HTML, CSS and JavaScript to describe scenes, typography, layout, transitions and timing. Recorded footage, generated clips, images, music and voice-over become media inside the composition. The same project opens in Studio and renders to MP4.
 
 ![Your local agent, optional media-model accounts and creative resources feed a workflow of understanding the reference, coding scenes, generating missing media, editing and rendering MP4 with reusable source.](docs/readme/diagrams/creation-stack.svg)
 
-**Write it. Watch it. Change it. Render it.** Ask your agent to replace the product, tighten the hook, add a presenter, change the captions or try another ending. It edits the project source; you review the result in the visual editor. Local MCP clients use the project tools, while agents with shell access can follow the Skills and pinned CLI workflow. [Agent setup](#agent-setup) · [Native composition guide](skills/openmotion-production/references/native.md) · [Example HTML project](template-library/product-promo/index.html)
+**Write it. Watch it. Change it. Render it.** Ask your agent to replace the product, tighten the hook, add a presenter, change the captions or try another ending. It edits the project source; you review the result in the visual editor. Local MCP clients use the project tools, while agents with shell access can follow the Skills and pinned CLI workflow. [Agent setup](#agent-setup) · [Native composition guide](skills/kinevyn-production/references/native.md) · [Example HTML project](template-library/product-promo/index.html)
 
 #### What you can change in Studio
 
@@ -410,7 +410,7 @@ The rotating field becomes a vinyl record; the title lands on its sleeve.<br>
 | **🎨 Brand and material** | Add your logo, fonts, screenshots, camera footage, script and music. Keep identity and approved assets in the Brand Kit section of Motion.md. |
 | **🧩 Starting resources** | Browse references, motion components, templates and community Skills. Pick a direction, give the source or reference to your agent, and make it yours. |
 
-**The OpenMotion creation pipeline is open source: Skills, project tools, model integrations, Studio and rendering.** Run it locally, inspect the implementation and extend the parts you need. OpenMotion charges no software subscription or per-render fee for this local workflow. You can also work with your own footage, images and audio without invoking media-generation APIs.
+**The Kinevyn creation pipeline is open source: Skills, project tools, model integrations, Studio and rendering.** Run it locally, inspect the implementation and extend the parts you need. Kinevyn charges no software subscription or per-render fee for this local workflow. You can also work with your own footage, images and audio without invoking media-generation APIs.
 
 Provider credentials stay in your workspace, separate from the video project. Your agent and media providers bill any subscriptions or usage to your own accounts. [Agent setup and compatibility](docs/agent-adapters.md)
 
@@ -418,7 +418,7 @@ Provider credentials stay in your workspace, separate from the video project. Yo
 
 ### 3. 300+ Motion.md brand film studies + 890+ creative resources
 
-OpenMotion introduces **Motion.md**. The first open-source collection breaks down brand films shot by shot, recording timing, transitions and the assets you can replace. In the [Stripe example](examples/brand-studies/stripe/MOTION.md), the flip stays on the same beat while a payment card becomes a film frame.
+Kinevyn introduces **Motion.md**. The first open-source collection breaks down brand films shot by shot, recording timing, transitions and the assets you can replace. In the [Stripe example](examples/brand-studies/stripe/MOTION.md), the flip stays on the same beat while a payment card becomes a film frame.
 
 The Brand Kit section holds the logo, palette, type, voice and approved product facts. Story, motion, sound and review notes describe what should survive a change of brand. Give the file to your agent alongside your assets when starting a new cut.
 
@@ -432,17 +432,17 @@ Explore **42 full-length reference films and 393 motion clips** for shot timing 
 
 | What you want to do | Where to start |
 | --- | --- |
-| Give your agent a production workflow | [Five core Skills](docs/skills.md) cover direction, recreation, template adaptation, template creation and editing through export. [Motion Design Remix](library/skills/openmotion-design-remix/SKILL.md) includes six editable studies. [Presenter Story](library/skills/openmotion-presenter-story/SKILL.md) has three recipes for speech-led videos. |
+| Give your agent a production workflow | [Five core Skills](docs/skills.md) cover direction, recreation, template adaptation, template creation and editing through export. [Motion Design Remix](library/skills/kinevyn-design-remix/SKILL.md) includes six editable studies. [Presenter Story](library/skills/kinevyn-presenter-story/SKILL.md) has three recipes for speech-led videos. |
 | Reuse a title, transition or interface reveal | [Motion components](library/components/README.md) include source and timing notes. Try the [title reveal](library/components/title-reveal/README.md) with your own copy and entrance timing. |
-| Give your agent brand and motion rules | Use the [Brandkit Skill](library/skills/openmotion-brandkit/SKILL.md) to collect [logos, voice and product facts](library/brandkits/openmotion/BRANDKIT.md) for the Brand Kit section of Motion.md. [Ink & Water](library/design-systems/ink-water/MOTION_DESIGN.md) shows how to write a reusable visual and motion style. |
+| Give your agent brand and motion rules | Use the [Brandkit Skill](library/skills/kinevyn-brandkit/SKILL.md) to collect [logos, voice and product facts](library/brandkits/kinevyn/BRANDKIT.md) for the Brand Kit section of Motion.md. [Ink & Water](library/design-systems/ink-water/MOTION_DESIGN.md) shows how to write a reusable visual and motion style. |
 
 ##### Editable Studio templates
 
-OpenMotion also ships four editable projects. In Studio, choose one under **Templates → Ready to edit** to create your own copy.
+Kinevyn also ships four editable projects. In Studio, choose one under **Templates → Ready to edit** to create your own copy.
 
-| [OpenMotion Welcome · 37.3s](template-library/openmotion-welcome/) | [Product Promo · 20s](template-library/product-promo/) | [NYT Graph · 15s](template-library/nyt-graph/) | [Decision Tree · 10s](template-library/decision-tree/) |
+| [Kinevyn Welcome · 37.3s](template-library/kinevyn-welcome/) | [Product Promo · 20s](template-library/product-promo/) | [NYT Graph · 15s](template-library/nyt-graph/) | [Decision Tree · 10s](template-library/decision-tree/) |
 | --- | --- | --- | --- |
-| [![OpenMotion Welcome template preview](template-library/openmotion-welcome/poster.jpg)](template-library/openmotion-welcome/) | [![Product Promo template preview](template-library/product-promo/poster.jpg)](template-library/product-promo/) | [![NYT Graph template preview](template-library/nyt-graph/poster.jpg)](template-library/nyt-graph/) | [![Decision Tree template preview](template-library/decision-tree/poster.jpg)](template-library/decision-tree/) |
+| [![Kinevyn Welcome template preview](template-library/kinevyn-welcome/poster.jpg)](template-library/kinevyn-welcome/) | [![Product Promo template preview](template-library/product-promo/poster.jpg)](template-library/product-promo/) | [![NYT Graph template preview](template-library/nyt-graph/poster.jpg)](template-library/nyt-graph/) | [![Decision Tree template preview](template-library/decision-tree/poster.jpg)](template-library/decision-tree/) |
 | Rename the brand, rewrite the welcome copy and check the closing invitation. | Swap in your product screenshots, headline and end card. | Replace the figures, units and annotations. | Change the question, branches and reveal order. |
 
 For a presenter-led video with screen demonstrations, the [Presenter Tech template package](library/templates/presenter-tech/README.md) includes its own local runner.
@@ -559,8 +559,8 @@ For a packaged install, give your agent the [test installation guide](https://re
 Use Git, npm and **Node.js 26.11.1**. Source-based preview and export also need Chrome/Chromium and FFmpeg/FFprobe. [Runtime setup](docs/usage.md)
 
 ```sh
-git clone --branch main https://github.com/nexu-io/openmotion.git openmotion
-cd openmotion
+git clone --branch main https://github.com/rivyn-labs/kinevyn.git kinevyn
+cd kinevyn
 npm ci
 npm run build:studio
 npm start
@@ -580,7 +580,7 @@ bash scripts/install-motion.command
 
 <a id="workbuddy-setup"></a>
 
-**WorkBuddy** · Import the OpenMotion connector in WorkBuddy or add its `mcp.json` as a custom MCP server. Ask WorkBuddy to list the available video templates. [WorkBuddy setup](docs/agent-adapters.md#workbuddy)
+**WorkBuddy** · Import the Kinevyn connector in WorkBuddy or add its `mcp.json` as a custom MCP server. Ask WorkBuddy to list the available video templates. [WorkBuddy setup](docs/agent-adapters.md#workbuddy)
 
 <a id="claude-setup"></a>
 
@@ -588,13 +588,13 @@ bash scripts/install-motion.command
 
 <a id="deepseek-setup"></a>
 
-**DeepSeek** · Work with the editable HTML project from the terminal in DeepSeek TUI. For DeepSeek Harness, connect the OpenMotion MCP tools with the Cordis configuration. [DeepSeek Harness setup](docs/agent-adapters.md#deepseek-harness)
+**DeepSeek** · Work with the editable HTML project from the terminal in DeepSeek TUI. For DeepSeek Harness, connect the Kinevyn MCP tools with the Cordis configuration. [DeepSeek Harness setup](docs/agent-adapters.md#deepseek-harness)
 
 The installer uses locally built packages. [Windows test packages](docs/test-packages.md)
 
 Try the included template first:
 
-> Use OpenMotion to open a fresh copy of the 20-second Product Promo in Studio and export an MP4. Keep the editable project.
+> Use Kinevyn to open a fresh copy of the 20-second Product Promo in Studio and export an MP4. Keep the editable project.
 
 Then make it yours:
 
@@ -608,32 +608,32 @@ From the checkout, discover and install the five core workflows with the [Skills
 
 ```sh
 npx skills add ./skills --list
-npx skills add ./skills --skill openmotion-director openmotion-production openmotion-template-to-video openmotion-recreate openmotion-video-to-template
+npx skills add ./skills --skill kinevyn-director kinevyn-production kinevyn-template-to-video kinevyn-recreate kinevyn-video-to-template
 ```
 
 This copies instructions; it does not install the runtime or register MCP. Keep the shared documentation available and connect the app separately, or use the integrated local installer above.
 
 | Skill | Use it for |
 | --- | --- |
-| [openmotion-recreate](skills/openmotion-recreate/SKILL.md) | Reconstructing a reference video and comparing the result |
-| [openmotion-template-to-video](skills/openmotion-template-to-video/SKILL.md) | Adapting an existing editable template |
-| [openmotion-director](skills/openmotion-director/SKILL.md) | Original films, narrative, movement, sound and creative review |
-| [openmotion-video-to-template](skills/openmotion-video-to-template/SKILL.md) | Producing a portable reusable template |
-| [openmotion-production](skills/openmotion-production/SKILL.md) | Scoped edits, preview, checks, troubleshooting and export |
+| [kinevyn-recreate](skills/kinevyn-recreate/SKILL.md) | Reconstructing a reference video and comparing the result |
+| [kinevyn-template-to-video](skills/kinevyn-template-to-video/SKILL.md) | Adapting an existing editable template |
+| [kinevyn-director](skills/kinevyn-director/SKILL.md) | Original films, narrative, movement, sound and creative review |
+| [kinevyn-video-to-template](skills/kinevyn-video-to-template/SKILL.md) | Producing a portable reusable template |
+| [kinevyn-production](skills/kinevyn-production/SKILL.md) | Scoped edits, preview, checks, troubleshooting and export |
 
 <a id="local-agent-connection"></a>
 
-**Connect a local agent** · Open **Connect Agent** in Studio to copy the launch command for your workspace. Use the configuration below in clients with local stdio MCP support. In a shell-based agent, open the project directory and use the [local engine CLI](skills/openmotion-production/references/native.md) to preview and render the HTML scenes.
+**Connect a local agent** · Open **Connect Agent** in Studio to copy the launch command for your workspace. Use the configuration below in clients with local stdio MCP support. In a shell-based agent, open the project directory and use the [local engine CLI](skills/kinevyn-production/references/native.md) to preview and render the HTML scenes.
 
 <a id="manual-mcp"></a>
 
 ```json
 {
   "mcpServers": {
-    "openmotion": {
+    "kinevyn": {
       "command": "/absolute/path/to/node",
-      "args": ["--experimental-strip-types", "/absolute/openmotion/mcp.ts"],
-      "env": { "MOTION_DATA_DIR": "/absolute/openmotion-data" }
+      "args": ["--experimental-strip-types", "/absolute/kinevyn/mcp.ts"],
+      "env": { "MOTION_DATA_DIR": "/absolute/kinevyn-data" }
     }
   }
 }
@@ -641,9 +641,9 @@ This copies instructions; it does not install the runtime or register MCP. Keep 
 
 The **eighteen registered public MCP tool names** (including one asset compatibility alias) cover template discovery and details, Skill discovery and reading, project creation, reading, management and archives, editing, preview, media import, the asset library and media generation, export, version restoration and cancellation. Shared workflow and engine guides are available through MCP resources. [Tool contract](docs/mcp-phase1-tools.md)
 
-Find a template with `openmotion_list_templates`, inspect it with `openmotion_get_template`, then create an editable copy with `openmotion_create_project`. [Template catalog](docs/template-catalog.md)
+Find a template with `kinevyn_list_templates`, inspect it with `kinevyn_get_template`, then create an editable copy with `kinevyn_create_project`. [Template catalog](docs/template-catalog.md)
 
-Use `npm start` for the app and `npm run mcp` for stdio. Shell-capable agents can inspect and render with the pinned engine CLI returned by the runtime; managed edits retain project revision checks. [Native authoring](skills/openmotion-production/references/native.md)
+Use `npm start` for the app and `npm run mcp` for stdio. Shell-capable agents can inspect and render with the pinned engine CLI returned by the runtime; managed edits retain project revision checks. [Native authoring](skills/kinevyn-production/references/native.md)
 
 <a id="your-agent-your-studio"></a>
 
@@ -659,10 +659,10 @@ Use `npm start` for the app and `npm run mcp` for stdio. Shell-capable agents ca
 | **Typography and identity** — type hierarchy, color and composition | Your fonts, palette and words, recorded in Motion.md’s Brand Kit section |
 | **Sound and rhythm** — speech timing, music cues and emphasis | Your voice, supplied music and sound direction |
 
-Supply the clip and timecodes if your agent cannot open the social link. Start from the reference with the [recreation workflow](skills/openmotion-recreate/SKILL.md), or use the [template workflow](skills/openmotion-template-to-video/SKILL.md) when you already have editable source.
+Supply the clip and timecodes if your agent cannot open the social link. Start from the reference with the [recreation workflow](skills/kinevyn-recreate/SKILL.md), or use the [template workflow](skills/kinevyn-template-to-video/SKILL.md) when you already have editable source.
 
 ```text
-Use OpenMotion to reverse-engineer the attached reference for our brand.
+Use Kinevyn to reverse-engineer the attached reference for our brand.
 
 Study: the opening hook, shot order, typography, transitions and sound cues.
 Keep: the product reveal and camera rhythm in the selected segment.
@@ -679,13 +679,13 @@ export an MP4 and retain the source for the next edit.
 
 #### Start in your agent
 
-![OpenMotion embedded viewer for Codex, showing the editable Product Promo project, preview, layers and timeline.](https://releases.open-design.ai/open-motion/media/sha256/1fbaaffd0c77d9f7c6eda67cd452b37735c1fce5d5c4d747db1a1db03bd8cab8.png)
+![Kinevyn embedded viewer for Codex, showing the editable Product Promo project, preview, layers and timeline.](https://releases.open-design.ai/open-motion/media/sha256/1fbaaffd0c77d9f7c6eda67cd452b37735c1fce5d5c4d747db1a1db03bd8cab8.png)
 
 #### Start in Studio
 
 Browse references, open a template or bring in your recordings. Choose **Connect Agent**, follow the workspace-specific instructions and give the agent your brief. Review its edits on the same timeline and make hands-on adjustments whenever you want.
 
-![Standalone OpenMotion Studio with sessions, the saved request and an editable video project.](https://releases.open-design.ai/open-motion/media/sha256/07882f8677e7d52c8b04b52f2fa9f85be7785cff8b7f69c193a529278e13b1c2.png)
+![Standalone Kinevyn Studio with sessions, the saved request and an editable video project.](https://releases.open-design.ai/open-motion/media/sha256/07882f8677e7d52c8b04b52f2fa9f85be7785cff8b7f69c193a529278e13b1c2.png)
 
 #### Connect your agent to a template
 
@@ -722,7 +722,7 @@ Motion.md (includes Brand Kit) + Skills + templates + components
                             |
               +-------------+------------------+
               v                                v
-BYOA: YOUR LOCAL AGENT                OPENMOTION STUDIO
+BYOA: YOUR LOCAL AGENT                KINEVYN STUDIO
 DeepSeek Harness / Codex /            React 19 + TypeScript + Vite
 Claude Code / other local hosts       Tailwind CSS + Zustand
 Skills + host analysis tools         CodeMirror + Dockview
@@ -767,7 +767,7 @@ Version-linked outcomes -> team memory / RAG -> evaluated Skill improvements
 
 </details>
 
-BYOA keeps the agent in your existing client; BYOK connects your supported model accounts. Studio and the local service manage the editable work, while provider credentials remain outside project files. The public phase-one MCP surface contains **eighteen registered tool names, including one asset compatibility alias**. Agents reach model generation through `openmotion_media_use`, and Studio uses the same local Gateway service; the diagram does not add publishing tools to that public MCP contract.
+BYOA keeps the agent in your existing client; BYOK connects your supported model accounts. Studio and the local service manage the editable work, while provider credentials remain outside project files. The public phase-one MCP surface contains **eighteen registered tool names, including one asset compatibility alias**. Agents reach model generation through `kinevyn_media_use`, and Studio uses the same local Gateway service; the diagram does not add publishing tools to that public MCP contract.
 
 The diagrams follow the cover’s painterly visual language. [Artwork, source reference and prompts](docs/readme/diagrams/ARTWORK.md)
 
@@ -796,7 +796,7 @@ Dependency pins live in [package.json](package.json), [package-lock.json](packag
 | **Agents and developer tools** | Improve a host adapter, Skill, resource guide or project-tool workflow | [Agent adapters](docs/agent-adapters.md) · [MCP contract](docs/mcp-phase1-tools.md) |
 | **Motion and creative coding** | Share a component, native template or Motion.md package with an actual remix | [Components](library/components/README.md) · [Entry checklist](library/ENTRY_TEMPLATE.md) |
 | **Video and rendering** | Improve export reliability, media handling or reproducible validation | [Engine notes](docs/hyperframes.md) · [Export verifier](scripts/verify-export.ts) |
-| **Social publishing** | Help design the Coming connector layer: account access, release review, scheduling and version mapping | [Publishing direction](docs/product/studio-vision.md) · [Discuss a proposal](https://github.com/nexu-io/html-anything/issues) |
+| **Social publishing** | Help design the Coming connector layer: account access, release review, scheduling and version mapping | [Publishing direction](docs/product/studio-vision.md) · [Discuss a proposal](https://github.com/rivyn-labs/html-anything/issues) |
 
 Start with the [local setup](#quick-start), choose one layer, and follow [CONTRIBUTING.md](CONTRIBUTING.md) and [AGENTS.md](AGENTS.md). Keep user projects and credentials outside the checkout and preserve dependency pins and upstream licenses.
 
@@ -847,15 +847,15 @@ Share a remake, a reusable template or a Motion.md that captures the rhythm of a
 | **Brand Kit content for Motion.md** | Identity, accurate product facts and approved assets within the creative specification |
 | **Agent support or editor improvements** | A focused change with reproducible validation |
 
-[Library entry checklist](library/ENTRY_TEMPLATE.md) · [Contribute](CONTRIBUTING.md) · [Report an issue](https://github.com/nexu-io/html-anything/issues) · [Contributors](https://github.com/nexu-io/html-anything/graphs/contributors) · [Media kit](docs/media-kit.md)
+[Library entry checklist](library/ENTRY_TEMPLATE.md) · [Contribute](CONTRIBUTING.md) · [Report an issue](https://github.com/rivyn-labs/html-anything/issues) · [Contributors](https://github.com/rivyn-labs/html-anything/graphs/contributors) · [Media kit](docs/media-kit.md)
 
-The dedicated OpenMotion site is coming to `open-design.ai/openmotion`.
+The dedicated Kinevyn site is coming to `open-design.ai/kinevyn`.
 
-[Motion showcase](https://open-design.ai/motion/?utm_source=github&utm_medium=referral&utm_campaign=openmotion&utm_content=readme_en) · [OpenDesign Go](https://go.open-design.ai/?utm_source=github&utm_medium=referral&utm_campaign=openmotion&utm_content=readme_en) · [Discord](https://discord.gg/mHAjSMV6gz) · [X @OpenDesignDevs](https://x.com/OpenDesignDevs) · [X @OpenDesignHQ](https://x.com/OpenDesignHQ) · [YouTube](https://www.youtube.com/channel/UChtshixMhvtgBWzoD9R_Qfg)
+[Motion showcase](https://open-design.ai/motion/?utm_source=github&utm_medium=referral&utm_campaign=kinevyn&utm_content=readme_en) · [OpenDesign Go](https://go.open-design.ai/?utm_source=github&utm_medium=referral&utm_campaign=kinevyn&utm_content=readme_en) · [Discord](https://discord.gg/mHAjSMV6gz) · [X @OpenDesignDevs](https://x.com/OpenDesignDevs) · [X @OpenDesignHQ](https://x.com/OpenDesignHQ) · [YouTube](https://www.youtube.com/channel/UChtshixMhvtgBWzoD9R_Qfg)
 
-[**Star OpenMotion on GitHub**](https://github.com/nexu-io/html-anything)
+[**Star Kinevyn on GitHub**](https://github.com/rivyn-labs/html-anything)
 
-[![Stay tuned with us · Star OpenMotion](docs/readme/community-star.svg)](https://github.com/nexu-io/html-anything)
+[![Stay tuned with us · Star Kinevyn](docs/readme/community-star.svg)](https://github.com/rivyn-labs/html-anything)
 
 <a id="acknowledgements"></a>
 
@@ -863,21 +863,21 @@ The dedicated OpenMotion site is coming to `open-design.ai/openmotion`.
 
 Original brand-film excerpts are credited in the comparisons. [Agent and model marks](docs/readme/models/README.md)
 
-OpenMotion is licensed under [Apache-2.0](LICENSE). Third-party code, templates, media and fonts retain their own licenses and attribution.
+Kinevyn is licensed under [Apache-2.0](LICENSE). Third-party code, templates, media and fonts retain their own licenses and attribution.
 
 | Source | Connection |
 | --- | --- |
-| [OpenDesign](https://github.com/nexu-io/open-design) | UI provenance, resource structure and brand direction; [design system](docs/design-system.md) and [Motion showcase](https://open-design.ai/motion/) |
+| [OpenDesign](https://github.com/rivyn-labs/open-design) | UI provenance, resource structure and brand direction; [design system](docs/design-system.md) and [Motion showcase](https://open-design.ai/motion/) |
 | [Hyperframes](https://github.com/heygen-com/hyperframes) | HTML-to-video composition, Studio and rendering foundations, pinned to 0.9.7; creator references, external adaptation demonstrations and component source; [engine notes](docs/hyperframes.md), [template notices](template-library/NOTICE.md) and [catalog provenance](docs/template-catalog.md) |
 | [MotionGit](https://motiongit.com/) / adunext | Kinetic Tech source packaged as Presenter Tech; [license and attribution](library/templates/presenter-tech/NOTICE.md) |
 | [Hypit](https://github.com/hypit-ai/hypit) | Inspiration for agent-led viral-video cloning and editable variants; no runtime imported here |
 | [rea-video](https://github.com/JuneYaooo/rea-video) | Reference analysis and case studies for [live-action unboxing](https://github.com/JuneYaooo/rea-video/blob/main/docs/cases/unboxing/report_en.md) and [characters, code and screen footage](https://github.com/JuneYaooo/rea-video/blob/main/docs/cases/dual_role/report_en.md); [showcase attribution](docs/readme/brand-showcase/README.md), no runtime imported here |
 | [OpenAI · Codex Originals](https://openai.com/codex-originals/) | External brand-film inspiration; official campaign still and outbound viewing link |
-| [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) / [Super-agent prototype](https://github.com/deepseek-ai/dsh-superagent-prototype) | Agent extensibility and continuing-task inspiration; the prototype is separate from OpenMotion's current runtime |
+| [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) / [Super-agent prototype](https://github.com/deepseek-ai/dsh-superagent-prototype) | Agent extensibility and continuing-task inspiration; the prototype is separate from Kinevyn's current runtime |
 | Claude Motion / CapCut / [ChatCut](https://chatcut.io/docs/what-is-chatcut) / [OpenChatCut](https://github.com/0xsline/OpenChatCut) | Product references for agent-led creation, approachable AI editing and continued revision |
 | [OpusClip](https://www.opus.pro/calendar) | Product reference for distribution and [external scheduling](https://www.opus.pro/tools/instagram-reels-scheduler); no built-in connector |
 | [GSAP](https://github.com/greensock/GSAP) / [FFmpeg](https://ffmpeg.org/) | Animation and media dependencies with versions retained in [package.json](package.json) and the [runtime lock](scripts/runtime-lock.json) |
 
 [Asset sources](docs/readme/ASSETS.md) · [Additional showcase sources](docs/readme/brand-showcase/README.md) · [Font notices](web/design-system/fonts/NOTICES.txt) · [Studio license](studio/LICENSE)
 
-The former HTML Anything application is preserved on the [`legacy` branch](https://github.com/nexu-io/html-anything/tree/legacy). See the [repository migration guide](docs/repository-migration.md) for the active branch and distribution boundaries.
+The former HTML Anything application is preserved on the [`legacy` branch](https://github.com/rivyn-labs/html-anything/tree/legacy). See the [repository migration guide](docs/repository-migration.md) for the active branch and distribution boundaries.

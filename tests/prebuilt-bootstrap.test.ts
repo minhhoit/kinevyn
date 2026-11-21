@@ -23,15 +23,15 @@ if(args.indexOf('-o')<0 || args.indexOf('-o')>args.indexOf('--')) process.exit(9
 fs.copyFileSync(process.env.OM_TEST_PAYLOAD,args[args.indexOf('-o')+1]);
 `, { mode: 0o755 });
   const env = { ...process.env, PATH: bin + path.delimiter + process.env.PATH, OM_TEST_LOG: log,
-    OM_TEST_PAYLOAD: payload, OPENMOTION_INSTALLER_SHA256: createHash('sha256').update('candidate fixture').digest('hex') };
+    OM_TEST_PAYLOAD: payload, KINEVYN_INSTALLER_SHA256: createHash('sha256').update('candidate fixture').digest('hex') };
   return { directory, payload, log, env };
 }
 
 test('the prebuilt entry pins the npm version and forwards inline setup without a Git checkout', async t => {
   const { log, env } = await fixture(t);
-  const result = spawnSync('bash', [entry, '--package', '@openmotion/app@1.2.3', '--onboarding-output', '/chat/welcome.html'], { env, encoding: 'utf8' });
+  const result = spawnSync('bash', [entry, '--package', '@kinevyn/app@1.2.3', '--onboarding-output', '/chat/welcome.html'], { env, encoding: 'utf8' });
   assert.equal(result.status, 0, result.stderr);
-  assert.deepEqual(JSON.parse(await readFile(log, 'utf8')), ['exec', '--yes', '--package', '@openmotion/app@1.2.3', '--', 'openmotion', 'setup', '--host', 'codex', '--onboarding-output', '/chat/welcome.html']);
+  assert.deepEqual(JSON.parse(await readFile(log, 'utf8')), ['exec', '--yes', '--package', '@kinevyn/app@1.2.3', '--', 'kinevyn', 'setup', '--host', 'codex', '--onboarding-output', '/chat/welcome.html']);
   assert.match(result.stdout, /download included/);
 });
 
@@ -46,8 +46,8 @@ test('URL candidates are verified before execution and only the owned download i
 
 test('floating versions and failed candidate hashes stop before executing any package', async t => {
   const { log, env, payload } = await fixture(t);
-  for (const spec of ['@openmotion/app@latest', '@openmotion/app@test', payload]) {
-    const result = spawnSync('bash', [entry, '--package', spec], { env: { ...env, OPENMOTION_INSTALLER_SHA256: '0'.repeat(64) }, encoding: 'utf8' });
+  for (const spec of ['@kinevyn/app@latest', '@kinevyn/app@test', payload]) {
+    const result = spawnSync('bash', [entry, '--package', spec], { env: { ...env, KINEVYN_INSTALLER_SHA256: '0'.repeat(64) }, encoding: 'utf8' });
     assert.notEqual(result.status, 0);
     await assert.rejects(access(log), { code: 'ENOENT' });
   }
@@ -70,7 +70,7 @@ test('one maintained guide serves source setup and npm generation while the old 
   assert.match(source, /https:\/\/releases\.open-design\.ai\/open-motion\/dev\/install\.md/);
   assert.match(source, /Do not guess a package version/);
   assert.match(source, /install.sh --package EXACT_PACKAGE_SPEC/);
-  assert.match(source, /OPENMOTION_INSTALLER_SHA256/);
+  assert.match(source, /KINEVYN_INSTALLER_SHA256/);
   const oldOnboarding = await readFile(new URL('../docs/install-onboarding.md', import.meta.url), 'utf8');
   assert.match(oldOnboarding, /id="installation-success-reply"/);
   const forward = await readFile(new URL('../install.md', import.meta.url), 'utf8');
@@ -78,7 +78,7 @@ test('one maintained guide serves source setup and npm generation while the old 
   assert.doesNotMatch(forward, /```|npm|onboarding/i);
   for (const file of ['README.md', 'README.zh-CN.md', 'docs/README.zh-CN.md', 'docs/README.ja.md']) {
     const readme = await readFile(new URL('../' + file, import.meta.url), 'utf8');
-    const sourceEntry = readme.indexOf('https://github.com/nexu-io/openmotion/blob/main/docs/install.md');
+    const sourceEntry = readme.indexOf('https://github.com/rivyn-labs/kinevyn/blob/main/docs/install.md');
     const npmEntry = readme.indexOf('https://releases.open-design.ai/motion');
     assert(sourceEntry >= 0 && npmEntry > sourceEntry, file + ': source prompt precedes optional npm prompt');
   }

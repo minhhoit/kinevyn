@@ -4,12 +4,12 @@ import { handleGuideAction, type GuideAction } from './actions';
 import { readStudioUiPreferences } from '../utils/studioUiPreferences';
 
 type Label = keyof typeof labels.en;
-declare const __OPENMOTION_GUIDE_ICONS__: Record<string, string>;
-const config = JSON.parse(document.querySelector('#openmotion-guide-page')!.textContent!) as TemplateGuidePage;
+declare const __KINEVYN_GUIDE_ICONS__: Record<string, string>;
+const config = JSON.parse(document.querySelector('#kinevyn-guide-page')!.textContent!) as TemplateGuidePage;
 const viewId = crypto.randomUUID();
 function report(action: TemplateGuideEvent['action'], details: Partial<Omit<TemplateGuideEvent, 'action' | 'view_id'>> = {}) {
   const event = { action, view_id: viewId, ...details };
-  if (parent !== window) parent.postMessage({ type: 'openmotion:guide-event', templateId: config.id, event }, '*');
+  if (parent !== window) parent.postMessage({ type: 'kinevyn:guide-event', templateId: config.id, event }, '*');
   else return import('../motion/tracking').then(({ trackMotion }) => trackMotion('template_guide_interaction', { page_name: 'studio', template_id: config.id, ...event })).catch(() => {});
 }
 let locale = 'zh-CN';
@@ -20,7 +20,7 @@ const t = (key: Label) => messages[locale]?.[key] || messages.en[key];
 const element = <K extends keyof HTMLElementTagNameMap>(tag: K, className = '', text = '') => {
   const node = document.createElement(tag); node.className = className; if (text) node.textContent = text; return node;
 };
-const icon = (name: string) => `<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">${__OPENMOTION_GUIDE_ICONS__[name] || ''}</svg>`;
+const icon = (name: string) => `<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true">${__KINEVYN_GUIDE_ICONS__[name] || ''}</svg>`;
 const button = (text: string, name?: string, quiet = false) => {
   const node = element('button', 'ui-button' + (quiet ? ' ui-button--ghost' : ''), text); node.type = 'button';
   if (name) { const box = element('span'); box.innerHTML = icon(name); node.append(box); } return node;
@@ -32,12 +32,12 @@ const link = (text: string, url: string, name?: string) => {
 const pending = new Map<string, { resolve: (value: any) => void; reject: (error: Error) => void; timer: ReturnType<typeof setTimeout> }>();
 window.addEventListener('message', event => {
   if (event.source !== parent || parent === window) return;
-  if (event.data?.type === 'openmotion:guide-action-result') {
+  if (event.data?.type === 'kinevyn:guide-action-result') {
     const callback = pending.get(event.data.requestId); if (!callback) return;
     clearTimeout(callback.timer); pending.delete(event.data.requestId);
     if (event.data.error) callback.reject(new Error(event.data.error)); else callback.resolve(event.data.result);
   }
-  if (event.data?.type === 'openmotion:guide-appearance') document.documentElement.dataset.theme = event.data.appearance?.theme === 'dark' ? 'dark' : 'light';
+  if (event.data?.type === 'kinevyn:guide-appearance') document.documentElement.dataset.theme = event.data.appearance?.theme === 'dark' ? 'dark' : 'light';
 });
 function host(action: GuideAction, value?: TemplateGuideDraft): Promise<any> {
   if (parent === window) return handleGuideAction(config.id, action, value, locale);
@@ -45,7 +45,7 @@ function host(action: GuideAction, value?: TemplateGuideDraft): Promise<any> {
   return new Promise((resolve, reject) => {
     const timer = setTimeout(() => { pending.delete(requestId); reject(new Error('GUIDE_HOST_UNAVAILABLE')); }, action === 'open' ? 120_000 : 8_000);
     pending.set(requestId, { resolve, reject, timer });
-    parent.postMessage({ type: 'openmotion:guide-action', templateId: config.id, viewId, requestId, action, value, locale }, '*');
+    parent.postMessage({ type: 'kinevyn:guide-action', templateId: config.id, viewId, requestId, action, value, locale }, '*');
   });
 }
 
@@ -54,7 +54,7 @@ async function mount() {
   root.dataset.motionUi = ''; root.dataset.templateGuide = config.id;
   const syncTheme = () => {
     const theme = readStudioUiPreferences().theme || 'light';
-    root.dataset.theme = root.dataset.openmotionGuide || (theme === 'system' ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme);
+    root.dataset.theme = root.dataset.kinevynGuide || (theme === 'system' ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme);
   };
   syncTheme(); window.addEventListener('storage', syncTheme);
   const original = document.querySelector<HTMLElement>('#board-view');
@@ -76,7 +76,7 @@ async function mount() {
   const shell = element('header', 'omg-top');
   const home = link('', `/?templates=1&template=${encodeURIComponent(config.id)}`); home.target = '_self'; home.setAttribute('aria-label', t('library'));
   home.onclick = event => { if (parent !== window) { event.preventDefault(); void host('library'); } };
-  const logo = element('img'); logo.src = '/design-system/brand/openmotion-logo.svg'; logo.alt = 'OpenMotion'; home.append(logo);
+  const logo = element('img'); logo.src = '/design-system/brand/kinevyn-logo.svg'; logo.alt = 'Kinevyn'; home.append(logo);
   shell.append(home, element('span', 'omg-top-title', config.title));
   const back = link(t('library'), `/?templates=1&template=${encodeURIComponent(config.id)}`, 'arrow-left-line'); back.target = '_self'; back.onclick = home.onclick; shell.append(back);
   const layout = element('main', 'omg-layout'), preview = element('section', 'omg-preview'), first = element('div', 'omg-first');
@@ -203,7 +203,7 @@ async function mount() {
   // Restore semantic keyboard labels missing from older authored controls.
   const play = controls?.querySelector('.play');
   if (play) { const label = () => play.setAttribute('aria-label', play.textContent || 'Play'); label(); new MutationObserver(label).observe(play, { childList: true, characterData: true, subtree: true }); }
-  document.title = config.title + ' · OpenMotion';
+  document.title = config.title + ' · Kinevyn';
   let exposure: ReturnType<typeof setTimeout> | undefined, shown = false, visible = false, ready = !sequence || sequence.dataset.ready === 'true';
   const measure = () => { clearTimeout(exposure); if (!shown && ready && visible && !document.hidden) exposure = setTimeout(() => { shown = true; report('shown'); observer.disconnect(); }, 1000); };
   const observer = new IntersectionObserver(entries => { visible = Boolean(entries[0]?.isIntersecting && entries[0].intersectionRatio >= .5); measure(); }, { threshold: [.5] });

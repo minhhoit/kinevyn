@@ -3,7 +3,7 @@
   "sourceCommit": "54fded2d2e165a2da97d866cea93ef6a704231dd",
   "catalogSource": "cms",
   "catalogVersion": "b478155a-feab-4576-a75e-1d13025b8188",
-  "source": "OpenMotion Studio in an isolated workspace, using the production catalog and the bundled sample project.",
+  "source": "Kinevyn Studio in an isolated workspace, using the production catalog and the bundled sample project.",
   "templateId": "motion-c74e1725-6fd2-4885-be7f-f1f705e9af66",
   "note": "The library shows the complete Notion search results. The Custom Agents detail and handoff previews are paused at 18.1 and 22.2 seconds, respectively. Each handoff includes the expanded instruction and successful copy confirmation. All captures show the full Studio viewport without browser chrome, framed with a 56 px margin.",
   "files": [

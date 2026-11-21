@@ -1,4 +1,4 @@
-# OpenMotion Design — Live Artifact Task Profile v3.1.5
+# Kinevyn Design — Live Artifact Task Profile v3.1.5
 
 Use for refreshable dashboards and synchronized reports with route=live-artifact and kind=live. Resolve the real data source and refresh method first, using user-authorized local data or existing connectors. Do not describe static examples as live synchronization.
 
@@ -23,7 +23,7 @@ The following commands, JSON, and file structures are internal production guidan
 
 Use the existing OD_NODE_BIN/OD_BIN environment variables directly for the commands below. Do not enumerate the environment with env/printenv or read configuration or credentials. Use the existing CLI and input structures shown here; do not search host source code or reimplement the registration service. Use tools live-artifacts --help when command options are needed. Correct failures from returned structured fields rather than repeatedly guessing interfaces.
 
-During production, run `"Node" "OpenMotion MCP tools" tools live-artifacts create --input artifact.json`. Use update --artifact-id <known-id> --input artifact.json only when changing the registered artifact definition. For source-data-only changes, edit the authorized source and run `"Node" "OpenMotion MCP tools" tools live-artifacts refresh --artifact-id <known-id>`; use the returned refresh status and generated preview. Keep the same registration, slug, and template; do not call create again or rewrite the template, generated preview, or fallback data to simulate a refresh. Do not supply daemon-owned id/projectId/timestamps; use only returned IDs and files. The daemon generates index.html as the preview; the Agent must not fabricate it. Tell the user the artifact's name. Choose a stable lowercase hyphenated slug internally and use it in create input without explaining the internal identifier to the user. Use the actual registered ID and preview entry returned by the tool; do not guess random IDs or pass copied static HTML off as a refreshable entry. Preserve the same registered ID and slug on updates.
+During production, run `"Node" "Kinevyn MCP tools" tools live-artifacts create --input artifact.json`. Use update --artifact-id <known-id> --input artifact.json only when changing the registered artifact definition. For source-data-only changes, edit the authorized source and run `"Node" "Kinevyn MCP tools" tools live-artifacts refresh --artifact-id <known-id>`; use the returned refresh status and generated preview. Keep the same registration, slug, and template; do not call create again or rewrite the template, generated preview, or fallback data to simulate a refresh. Do not supply daemon-owned id/projectId/timestamps; use only returned IDs and files. The daemon generates index.html as the preview; the Agent must not fabricate it. Tell the user the artifact's name. Choose a stable lowercase hyphenated slug internally and use it in create input without explaining the internal identifier to the user. Use the actual registered ID and preview entry returned by the tool; do not guess random IDs or pass copied static HTML off as a refreshable entry. Preserve the same registered ID and slug on updates.
 
 Report registration failures honestly and retain source files. Rendering source data is a production step; do not start a repeated evaluation loop afterward.
 
@@ -58,15 +58,15 @@ Put `data-od-repeat` on each row, never on the list container: the renderer repe
 
 Define this structure at initial creation. A later data-only refresh must preserve it, including when the source becomes empty. Do not repair an empty state by changing a user-locked template during that refresh.
 
-## OpenMotion Design Studio live artifact layout
+## Kinevyn Design Studio live artifact layout
 
-Store `data.json` alongside `index.html` (and optional `template.html` / `provenance.json`) in the design project using `openmotion_design_edit`. Have `index.html` fetch `./data.json` at load time (with safe escaped rendering — never unescaped HTML injection) and support a refresh triggered by reloading the preview. Keep credentials and raw API tokens out of the project files.
+Store `data.json` alongside `index.html` (and optional `template.html` / `provenance.json`) in the design project using `kinevyn_design_edit`. Have `index.html` fetch `./data.json` at load time (with safe escaped rendering — never unescaped HTML injection) and support a refresh triggered by reloading the preview. Keep credentials and raw API tokens out of the project files.
 
 
-## OpenMotion MCP delivery workflow
+## Kinevyn MCP delivery workflow
 
-1. Discover templates, skills, design systems and craft references with `openmotion_design_catalog`.
-2. Create or fetch the project with `openmotion_design_project` (`action="create"` or `"get"`).
-3. Write complete files with `openmotion_design_edit` (`action="write"`, passing `expectedRevision` and a concise `summary`). Every write creates an immutable version snapshot.
-4. When revising from user annotations, call `openmotion_design_comments` (`action="list"`), apply scoped edits, then mark addressed comments `resolved` with `openmotion_design_comments` (`action="update"`).
-5. Call `openmotion_design_project` (`action="open"`) so the user can review the rendered HTML in Design Studio.
+1. Discover templates, skills, design systems and craft references with `kinevyn_design_catalog`.
+2. Create or fetch the project with `kinevyn_design_project` (`action="create"` or `"get"`).
+3. Write complete files with `kinevyn_design_edit` (`action="write"`, passing `expectedRevision` and a concise `summary`). Every write creates an immutable version snapshot.
+4. When revising from user annotations, call `kinevyn_design_comments` (`action="list"`), apply scoped edits, then mark addressed comments `resolved` with `kinevyn_design_comments` (`action="update"`).
+5. Call `kinevyn_design_project` (`action="open"`) so the user can review the rendered HTML in Design Studio.

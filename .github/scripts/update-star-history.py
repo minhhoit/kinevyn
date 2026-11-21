@@ -31,8 +31,8 @@ def chart(history):
         return BOTTOM - (BOTTOM - TOP) * count / ceiling
 
     svg = [f'''<svg xmlns="http://www.w3.org/2000/svg" width="780" height="280" viewBox="0 0 780 280" role="img" aria-labelledby="title desc">
-  <title id="title">OpenMotion star history</title>
-  <desc id="desc">Daily GitHub stars for nexu-io/openmotion from {first} to {last}. Latest total: {history[last]:,}.</desc>
+  <title id="title">Kinevyn star history</title>
+  <desc id="desc">Daily GitHub stars for rivyn-labs/kinevyn from {first} to {last}. Latest total: {history[last]:,}.</desc>
   <style>
     svg {{ font: 13px system-ui, sans-serif; color: #24292f; }}
     text {{ fill: currentColor; }}
@@ -44,7 +44,7 @@ def chart(history):
     }}
   </style>
   <rect class="background" width="780" height="280" rx="10"/>
-  <text x="24" y="40" font-size="23" font-weight="600">nexu-io/openmotion</text>
+  <text x="24" y="40" font-size="23" font-weight="600">rivyn-labs/kinevyn</text>
   <text x="740" y="39" text-anchor="end">{history[last]:,} ★ · {last}</text>''']
     for tick in range(0, ceiling + 1, step):
         label = f"{tick / 1000:g}k" if tick >= 1000 else str(tick)

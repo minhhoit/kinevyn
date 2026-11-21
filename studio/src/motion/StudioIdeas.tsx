@@ -54,8 +54,8 @@ function ExampleMedia({ example, enabled }: { example: SceneExample; enabled: bo
       disabled={requestedClip === example.clip} onClick={() => setRequestedClip(example.clip)}>{t(requestedClip === example.clip ? 'Loading…' : 'Play')}</Button>}
     {example.audio && !failed && enabled && <div className="om-scene-audio">
       <div className="om-sound-sleeve" aria-hidden="true"><img src={example.poster} alt="" /></div>
-      <div className="om-sound-track"><h3 className="om-subtitle">{t('OpenMotion welcome soundtrack')}</h3>
-        {audioUrl ? <MediaPreviewPlayer kind="audio" url={audioUrl} name={t('OpenMotion welcome soundtrack')} waveform={example.waveform}
+      <div className="om-sound-track"><h3 className="om-subtitle">{t('Kinevyn welcome soundtrack')}</h3>
+        {audioUrl ? <MediaPreviewPlayer kind="audio" url={audioUrl} name={t('Kinevyn welcome soundtrack')} waveform={example.waveform}
           autoPlay={false} onError={() => setFailed(true)} />
           : <div className="om-sound-loading" role="status" aria-label={t('Loading…')}><Skeleton /></div>}
       </div>

@@ -8,7 +8,7 @@ import { mountConnection } from '../../../web/connect';
 let controller: ReturnType<typeof mountConnection> | undefined;
 afterEach(() => { controller?.destroy(); controller = undefined; document.body.replaceChildren(); vi.restoreAllMocks(); vi.unstubAllGlobals(); });
 
-const info = { name: 'OpenMotion', version: '0.6.3', previewUrl: 'http://localhost:4173', dataDirectory: '/test/workspace',
+const info = { name: 'Kinevyn', version: '0.6.3', previewUrl: 'http://localhost:4173', dataDirectory: '/test/workspace',
   transport: { type: 'stdio', command: 'node', args: ['mcp.ts'], env: { MOTION_DATA_DIR: '/test/workspace' } }, tools: [] };
 const template = { id: 'hf-moment-M1147', title: 'Private-looking title', author: 'Creator Name', description: 'Body', tags: [], role: 'a-roll', collection: 'moment', kind: 'reference' };
 

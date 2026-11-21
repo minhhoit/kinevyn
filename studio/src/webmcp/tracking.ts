@@ -52,7 +52,7 @@ export function withWebMcpTracking(tool: ModelContextTool): ModelContextTool {
         const observed = failure ?? outcome(result);
         const reply = result as { error?: unknown; kind?: string } | undefined;
         const importRejected = (observed === 'partial' || observed === 'failure')
-          && (toolName === 'openmotion_import_assets' || fields.action === 'import_to_project');
+          && (toolName === 'kinevyn_import_assets' || fields.action === 'import_to_project');
         const code = observed === 'cancelled' ? 'ABORTED' : importRejected && !reply?.error ? 'ASSET_IMPORT_FAILED'
           : reply?.kind === 'invalid' ? 'INVALID_ARGUMENT' : reply?.kind === 'blocked' ? 'STUDIO_TOOL_BLOCKED'
           : reply?.kind === 'internal' ? 'STUDIO_TOOL_INTERNAL' : undefined;

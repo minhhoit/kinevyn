@@ -1,5 +1,5 @@
 /**
- * `openmotion_studio_set_text` and `openmotion_studio_set_style`: the tools that change the file.
+ * `kinevyn_studio_set_text` and `kinevyn_studio_set_style`: the tools that change the file.
  *
  * Retained but not registered as page tools in this surface; see the retention
  * note in `../useStudioAgentTools.ts`. Both functions stay callable and tested.
@@ -41,7 +41,7 @@ export interface ContentToolDeps extends TargetedWriteDeps {
  * `persist-failed` is exogenous; the rest are states it should route around.
  */
 const DECLINE_HINTS: Record<string, { kind: "blocked" | "invalid" | "failed"; hint?: string }> = {
-  "no-selection": { kind: "invalid", hint: "Call openmotion_studio_select first." },
+  "no-selection": { kind: "invalid", hint: "Call kinevyn_studio_select first." },
   "no-project": { kind: "blocked" },
   "geometry-property": {
     kind: "blocked",
@@ -49,11 +49,11 @@ const DECLINE_HINTS: Record<string, { kind: "blocked" | "invalid" | "failed"; hi
   },
   "styles-not-editable": {
     kind: "blocked",
-    hint: "openmotion_studio_inspect reports why, in can.reasonIfDisabled.",
+    hint: "kinevyn_studio_inspect reports why, in can.reasonIfDisabled.",
   },
   "not-text-editable": {
     kind: "blocked",
-    hint: "This element has no editable text. openmotion_studio_inspect lists its textFields.",
+    hint: "This element has no editable text. kinevyn_studio_inspect lists its textFields.",
   },
   "persist-failed": { kind: "failed", hint: "The write did not reach the file. Check Studio." },
 };
@@ -100,7 +100,7 @@ export async function studioSetText(
         return toolFailure(
           "blocked",
           "this element has no editable text field",
-          "openmotion_studio_inspect lists an element's textFields.",
+          "kinevyn_studio_inspect lists an element's textFields.",
         );
       }
       return toolFailure(
@@ -165,7 +165,7 @@ export async function studioSetStyle(
         : toolFailure(
             "blocked",
             "this element's styles are not editable",
-            "openmotion_studio_inspect reports why, in can.reasonIfDisabled.",
+            "kinevyn_studio_inspect reports why, in can.reasonIfDisabled.",
           ),
     write: async (selection) => {
       const applied: Record<string, string> = {};
@@ -211,12 +211,12 @@ export async function studioSetStyle(
 export const STUDIO_SET_TEXT_INPUT_SCHEMA = {
   type: "object",
   properties: {
-    handle: { type: "string", description: "A source-safe element handle from openmotion_studio_look." },
+    handle: { type: "string", description: "A source-safe element handle from kinevyn_studio_look." },
     text: { type: "string", description: "The new text content." },
     field: {
       type: "string",
       description:
-        "Which text field to write, from openmotion_studio_inspect. Omit for the element's own text.",
+        "Which text field to write, from kinevyn_studio_inspect. Omit for the element's own text.",
     },
   },
   required: ["handle", "text"],
@@ -224,7 +224,7 @@ export const STUDIO_SET_TEXT_INPUT_SCHEMA = {
 } as const;
 
 export const STUDIO_SET_TEXT_DESCRIPTION = [
-  "Set one element's text using its source-safe handle from openmotion_studio_look.",
+  "Set one element's text using its source-safe handle from kinevyn_studio_look.",
   "This is the edit a synthetic double-click cannot reach, because Studio's canvas",
   "takes pointer capture and recognises the double press itself.",
   "Returns `ok: true` with the resulting text and whether it changed, or `ok: false`",
@@ -235,7 +235,7 @@ export const STUDIO_SET_TEXT_DESCRIPTION = [
 export const STUDIO_SET_STYLE_INPUT_SCHEMA = {
   type: "object",
   properties: {
-    handle: { type: "string", description: "A source-safe element handle from openmotion_studio_look." },
+    handle: { type: "string", description: "A source-safe element handle from kinevyn_studio_look." },
     styles: {
       type: "object",
       description: 'CSS property to value, for example {"color": "red", "font-size": "48px"}.',
@@ -247,7 +247,7 @@ export const STUDIO_SET_STYLE_INPUT_SCHEMA = {
 } as const;
 
 export const STUDIO_SET_STYLE_DESCRIPTION = [
-  "Set inline styles on one element using its source-safe handle from openmotion_studio_look.",
+  "Set inline styles on one element using its source-safe handle from kinevyn_studio_look.",
   "Each property is a separate commit, so N properties produce N undo entries.",
   "Position and size properties (left, top, width, height) are refused here on purpose;",
   "they belong to the transform tools.",

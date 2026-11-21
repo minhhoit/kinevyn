@@ -1,4 +1,4 @@
-/* RailRecentMenu geometry with OpenMotion's neutral and semantic color tokens. */
+/* RailRecentMenu geometry with Kinevyn's neutral and semantic color tokens. */
 [data-menu-panel].motion-menu-panel {
   min-width: max(var(--studio-menu-min-width, 140px), var(--anchor-width, 0px));
   max-width: calc(100vw - var(--motion-space-16));

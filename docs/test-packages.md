@@ -38,22 +38,22 @@ PR / main 工作流执行清单、类型、Studio 构建与回归、安装/打�
 
 将最终 ZIP 交给 Codex：
 
-> 请将此 OpenMotion 测试包安装到稳定的用户应用目录，读取包内安装说明，注册 openmotion-test 原生插件，保留其他插件和已有工程。运行包内适用平台的安装脚本，验证 MCP 版本、模板和预览，在新会话使用。
+> 请将此 Kinevyn 测试包安装到稳定的用户应用目录，读取包内安装说明，注册 kinevyn-test 原生插件，保留其他插件和已有工程。运行包内适用平台的安装脚本，验证 MCP 版本、模板和预览，在新会话使用。
 
 Agent 负责展开 ZIP。包内含 Node、浏览器、媒体工具和生产依赖，无需用户另外执行 npm install。
 
-工程默认在 `~/OpenMotion-test-data`，独立于包和插件缓存；可通过 `MOTION_DATA_DIR` 指定已有目录。试装不自动迁移、卸载 motion-local；若同时启用，测试会话需明确选择本次插件，避免同名工具混淆。
+工程默认在 `~/Kinevyn-test-data`，独立于包和插件缓存；可通过 `MOTION_DATA_DIR` 指定已有目录。试装不自动迁移、卸载 motion-local；若同时启用，测试会话需明确选择本次插件，避免同名工具混淆。
 
 Mac 入口为 scripts/install.command；Windows 为 scripts/install.ps1。Agent 也可在当前终端执行：
 
 ```text
 <包内Node> <展开后的包目录>/scripts/configure-plugin.mjs
 codex plugin marketplace add <展开后的包目录>
-codex plugin add motion@openmotion-test
-codex plugin list --marketplace openmotion-test
+codex plugin add motion@kinevyn-test
+codex plugin list --marketplace kinevyn-test
 ```
 
-安装器先把当前应用目录写入薄插件配置，再注册到 Codex。完整应用、生产依赖与运行时留在安装目录；Codex 缓存只包含入口、技能与文档，避免再次复制完整运行时。原生插件入口路径在安装时生成，不包含构建机路径。应用目录不要在安装后移动，移动或更换版本后重新执行安装器。Windows 应使用较短的目录（如用户目录下的 OpenMotion-test），避免浏览器完整路径达到 260 字符；启动前会给出明确提示。安装器不重启 Codex。升级安装新的唯一版本，工程保留在包外；跨版本工程兼容和回退仍需另行验证。
+安装器先把当前应用目录写入薄插件配置，再注册到 Codex。完整应用、生产依赖与运行时留在安装目录；Codex 缓存只包含入口、技能与文档，避免再次复制完整运行时。原生插件入口路径在安装时生成，不包含构建机路径。应用目录不要在安装后移动，移动或更换版本后重新执行安装器。Windows 应使用较短的目录（如用户目录下的 Kinevyn-test），避免浏览器完整路径达到 260 字符；启动前会给出明确提示。安装器不重启 Codex。升级安装新的唯一版本，工程保留在包外；跨版本工程兼容和回退仍需另行验证。
 
 完整包也保留 `scripts/export-adapters.ts` 及其无依赖 ZIP helper，可在目标安装机器为四家生成绑定该应用的薄适配器；不要在 Linux 装配阶段固化目标机路径。原有 Codex 安装入口保留，其他宿主的生成和独立验收见 [多 Agent 适配器](agent-adapters.md)。
 
@@ -84,8 +84,8 @@ node scripts/smoke-test-package.mjs <最终ZIP路径> .tools/codex-cli/node_modu
 
 ## Local diagnostic handoff
 
-Test and stable packages both include the local diagnostic ZIP collector. In Studio use Privacy settings → Export diagnostic ZIP; without a working Studio/MCP connection use `openmotion diagnostics --home /absolute/installation-home --output /absolute/support.zip` from the exact installed package. Plugin/complete-ZIP users can run the shipped `scripts/diagnostics.mjs` with `--data-dir`. Collection is local, bounded and redacted, and does not publish/upload data or run an MCP probe. Review the ZIP before sharing, include reproduction steps, and keep its exact version/build identity with the defect. See [scope, commands and limits](npm-installation.md#export-a-local-diagnostic-zip).
+Test and stable packages both include the local diagnostic ZIP collector. In Studio use Privacy settings → Export diagnostic ZIP; without a working Studio/MCP connection use `kinevyn diagnostics --home /absolute/installation-home --output /absolute/support.zip` from the exact installed package. Plugin/complete-ZIP users can run the shipped `scripts/diagnostics.mjs` with `--data-dir`. Collection is local, bounded and redacted, and does not publish/upload data or run an MCP probe. Review the ZIP before sharing, include reproduction steps, and keep its exact version/build identity with the defect. See [scope, commands and limits](npm-installation.md#export-a-local-diagnostic-zip).
 
 ## Recreation vision tools
 
-Complete platform packages include `runtime/vision-assets`, containing the pinned Python distribution and NumPy/OpenCV wheels. The recreation Skill entry prepares a private cached environment from these local assets on first use, including offline. Use the package's Node executable with `skills/openmotion-recreate/scripts/vision-tools.mjs prepare` to prepare explicitly. The measurement helpers support macOS 13+ arm64 and Windows 11+ x64. Their original licenses remain inside the included archives and installed distributions.
+Complete platform packages include `runtime/vision-assets`, containing the pinned Python distribution and NumPy/OpenCV wheels. The recreation Skill entry prepares a private cached environment from these local assets on first use, including offline. Use the package's Node executable with `skills/kinevyn-recreate/scripts/vision-tools.mjs prepare` to prepare explicitly. The measurement helpers support macOS 13+ arm64 and Windows 11+ x64. Their original licenses remain inside the included archives and installed distributions.

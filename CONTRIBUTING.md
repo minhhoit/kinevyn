@@ -1,10 +1,10 @@
-# Contributing to OpenMotion
+# Contributing to Kinevyn
 
 [简体中文](CONTRIBUTING.zh-CN.md)
 
 ## Start with one useful contribution
 
-Designers, creators, prompt authors and engineers are all welcome. The [OpenMotion Library](library/README.md) is the shared home for creative contributions; core production workflow changes remain in `skills/`.
+Designers, creators, prompt authors and engineers are all welcome. The [Kinevyn Library](library/README.md) is the shared home for creative contributions; core production workflow changes remain in `skills/`.
 
 | Contribution | Location | Include |
 | --- | --- | --- |
@@ -18,7 +18,7 @@ Designers, creators, prompt authors and engineers are all welcome. The [OpenMoti
 
 Use the [entry checklist](library/ENTRY_TEMPLATE.md), link the new entry from its collection, and preserve sources and licenses. Label references, recipes and editable examples accurately. Adding a folder does not register it in Studio, the MCP workflow registry or the default five-Skill installation. Packaging uses an explicit file list.
 
-For published motion guidance source and locale metadata, use the [catalog contribution loop](https://github.com/nexu-io/openmotion/tree/main/library/templates/catalog#change-a-template). Stage changes before running the storage-policy check. New media needs no CMS account; maintainers prepare final media on the original PR before Squash merge.
+For published motion guidance source and locale metadata, use the [catalog contribution loop](https://github.com/rivyn-labs/kinevyn/tree/main/library/templates/catalog#change-a-template). Stage changes before running the storage-policy check. New media needs no CMS account; maintainers prepare final media on the original PR before Squash merge.
 
 ## Media in the default npm package
 
@@ -74,14 +74,14 @@ Replace `PR_URL` with your PR link. A promise to keep watching is not a running 
 Share your video, reference or editable project with your Agent and paste this brief:
 
 ```text
-Create a reusable OpenMotion template from the video or project I provide.
-Read https://github.com/nexu-io/openmotion/blob/main/CONTRIBUTING.md and the linked
-template catalog contribution guide. Use the OpenMotion video-to-template workflow
+Create a reusable Kinevyn template from the video or project I provide.
+Read https://github.com/rivyn-labs/kinevyn/blob/main/CONTRIBUTING.md and the linked
+template catalog contribution guide. Use the Kinevyn video-to-template workflow
 for a reference video; preserve editable source for an existing project.
 Include a preview, replaceable content, TEMPLATE.md, motion guidance, source
 attribution and asset licenses. Register catalog entries and locale metadata only
 as described in the catalog guide. Run the applicable template and storage checks.
-Prepare a focused pull request against nexu-io/openmotion with an English title
+Prepare a focused pull request against rivyn-labs/kinevyn with an English title
 and description, and show me the template and validation results for review.
 Do not merge or publish packages or CMS content.
 ```
@@ -112,16 +112,16 @@ Have a local folder with a `SKILL.md`, or a public repository with one? Share it
 
 ```text
 Contribute the Agent skill I provide (a local SKILL.md folder or a public GitHub
-repository) to OpenMotion. Read https://github.com/nexu-io/openmotion/blob/main/CONTRIBUTING.md
+repository) to Kinevyn. Read https://github.com/rivyn-labs/kinevyn/blob/main/CONTRIBUTING.md
 and library/ENTRY_TEMPLATE.md first. Confirm that I wrote the skill or that its
 license allows redistribution; record the author, original URL or version and the
 licenses of its code and media, and stop to ask me if any of this is unclear.
-Fork nexu-io/openmotion and branch from the latest main. Put the skill at
+Fork rivyn-labs/kinevyn and branch from the latest main. Put the skill at
 library/skills/<name>/SKILL.md with name and description frontmatter, a clear
 trigger, steps and a real usage example; keep its references and scripts in the
 same folder and add a README.md from the entry checklist. Link the entry from the
 Skills row of library/README.md. Do not change skills/, Studio, the MCP registry or
-the distribution file list. Open a draft pull request against nexu-io/openmotion
+the distribution file list. Open a draft pull request against rivyn-labs/kinevyn
 with an English title and description that state the source and license, then send
 me the link. Do not merge or publish anything.
 ```

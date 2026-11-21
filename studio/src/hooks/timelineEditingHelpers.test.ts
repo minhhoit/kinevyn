@@ -716,7 +716,7 @@ describe("persistElementAttribute — unwind value", () => {
 });
 
 describe("applyTimelineMoveAttributes lane-only renumber", () => {
-  // Main track of template-library/openmotion-welcome: authored at 10-decimal
+  // Main track of template-library/kinevyn-welcome: authored at 10-decimal
   // precision so each clip ends exactly where the next one starts.
   const WELCOME = `<div id="main" data-composition-id="main" data-start="0" data-duration="37.3">
   <div id="welcome-reel" class="clip" data-start="10.7333333333" data-duration="8.5333333334" data-track-index="0"></div>

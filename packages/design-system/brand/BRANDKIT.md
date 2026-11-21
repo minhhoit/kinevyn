@@ -1,4 +1,4 @@
-# OpenMotion Brandkit
+# Kinevyn Brandkit
 
 **Status:** public README brand kit · **Source:** [product architecture](../../../docs/product/architecture.md) and [media fact sheet](../../../docs/media-kit.md) · **License:** original text follows [Apache-2.0](../../../LICENSE); upstream assets keep their attribution.
 
@@ -6,7 +6,7 @@
 
 ## Name and message
 
-- **Name:** OpenMotion. Capital O and M. Command and directory names retain their actual spelling.
+- **Name:** Kinevyn. Capital O and M. Command and directory names retain their actual spelling.
 - **Website metadata:** OpenDesign Motion — AI Video & Motion Design. Social cards use **OpenDesign Motion — Create with your AI agent**. Retain **The fullstack agentic video editor** as the positioning tagline. Keep these titles across interface languages and localize descriptions of the editable workflow, brand templates, references and image/video/music/voice generation. The shared source is `../metadata.js`; generate both HTML entries with `npm run design:tokens`. Catalogue counts require a verified source; recreation is a workflow, not a guarantee of fidelity or reach.
 - **Central topic:** AI 剪辑 / **AI editing**. Use **AI video editing** for the full category and **AI editing** in concise headings. The core positioning is **The AI-native, open-source CapCut alternative.**
 - **Product headline:** The All-in-One AI-native Studio for AI editing & Motion.
@@ -18,7 +18,7 @@
 - **Agent concept:** We introduce our Super Motion Video Agent concept: understand the creator, organize tasks, coordinate tools/models, review the work and carry knowledge forward. Persistent orchestration is planned; do not claim an industry first.
 - **Motion positioning:** The open-source Claude Motion alternative. Use the spelling **Claude Motion**.
 - **Product:** a standalone local AI video editing app that also works with external agents through Skills, MCP and CLI.
-- **Agent entry directions:** connect your agent from OpenMotion, or use OpenMotion inside your agent through Skills / MCP / CLI. Both work on the same project; the agent runs in its external client.
+- **Agent entry directions:** connect your agent from Kinevyn, or use Kinevyn inside your agent through Skills / MCP / CLI. Both work on the same project; the agent runs in its external client.
 - **Core story:** bring material → tell the story in your voice → organize and cut on the timeline → generate/select and refine media → preview and revise → export MP4 and keep the source.
 - **Product pillars:** intelligent cuts and story organization; media generation and search; multiplatform input and output. Current generation needs configured models. Integrated resource/Avatar search, automatic content selection and platform adaptation are product directions; use the [fact sheet](../../../docs/media-kit.md) for exact status.
 
@@ -47,10 +47,10 @@ These are artwork guidance, not replacements for the application's [UI tokens](.
 - [Cover](https://releases.open-design.ai/open-motion/media/sha256/cfeb12861412bd36d34000ee1fe6d7f4e7b124ac9cad680d595c3cb44708eead.png), [animated cover](https://releases.open-design.ai/open-motion/media/sha256/6f6379825bac5cc67ee2d8fdc328ec25a16eea64fdac420f358092ddae95ad47.gif) and [social preview](https://releases.open-design.ai/open-motion/media/sha256/9683e195639f5f6a54524f33fe4c7c3f4ec47efebb97fc93e4ec38895dd08412.jpg): generated brand artwork.
 - [Library artwork](https://releases.open-design.ai/open-motion/media/sha256/e84a6ce63123aac0c1e48e78a2faf261638f9cfa75bf3e92b9c35192802f85bd.png): the same painterly family.
 - [Workspace](https://releases.open-design.ai/open-motion/media/sha256/98f02a127ec68acb7cde4d5278acc66ef53c0e91625aebccd1274fe1d74da0d7.jpg) and [editor](https://releases.open-design.ai/open-motion/media/sha256/c98d8eeff73abaa8af85d01028f3953c95cfd5b0e4821148e887b008276469e5.jpg): real Studio snapshots at commit `7aee372`; preserve original labels and capture-commit context.
-- [OpenDesign symbol](../../../docs/readme/opendesign-symbol.svg): upstream mark, retained unmodified and credited; do not present it as a newly designed OpenMotion logo.
+- [OpenDesign symbol](../../../docs/readme/opendesign-symbol.svg): upstream mark, retained unmodified and credited; do not present it as a newly designed Kinevyn logo.
 - [Sources and generation prompts](../../../docs/readme/ASSETS.md).
 
-Center the [OpenMotion symbol and wordmark](openmotion-logo.svg) at the top of the README. Place the plain-text heading `OpenMotion` directly above the introduction. Use the same mark in covers and closing banners. Keep cover text within generous margins. Do not add badges, prices, adoption figures or customer logos without factual support. Reference films, template posters and screenshots retain their original identity; consistent framing must not rewrite their content.
+Center the [Kinevyn symbol and wordmark](kinevyn-logo.svg) at the top of the README. Place the plain-text heading `Kinevyn` directly above the introduction. Use the same mark in covers and closing banners. Keep cover text within generous margins. Do not add badges, prices, adoption figures or customer logos without factual support. Reference films, template posters and screenshots retain their original identity; consistent framing must not rewrite their content.
 
 ## Motion handoff
 

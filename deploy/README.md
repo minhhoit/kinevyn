@@ -1,6 +1,6 @@
 # Docker deployment
 
-Run OpenMotion in a container on the machine you work on. The image is built
+Run Kinevyn in a container on the machine you work on. The image is built
 from this checkout and contains Node.js, Chromium, FFmpeg/ffprobe and CJK fonts,
 so the host needs only Docker.
 
@@ -18,17 +18,17 @@ docker compose up -d
 
 Open `http://127.0.0.1:4173`.
 
-Projects, exports and settings are stored in the `openmotion_data` volume,
+Projects, exports and settings are stored in the `kinevyn_data` volume,
 mounted at `/data` (`MOTION_DATA_DIR`). `docker compose down` keeps the volume;
 `docker compose down -v` deletes it together with every project in it.
 
 ## Connect an Agent
 
-Install the primary OpenMotion Skill in your host Agent using the standard
+Install the primary Kinevyn Skill in your host Agent using the standard
 [Quick Start](../README.md#quick-start) command:
 
 ```sh
-npx skills add nexu-io/openmotion --skill openmotion
+npx skills add rivyn-labs/kinevyn --skill kinevyn
 ```
 
 This installs Agent guidance. Reuse the running container for the application;
@@ -48,19 +48,19 @@ instruction and Connection guide also retain this Docker installation.
 ```json
 {
   "mcpServers": {
-    "openmotion": {
+    "kinevyn": {
       "command": "docker",
-      "args": ["exec", "-i", "openmotion", "node", "--experimental-strip-types", "mcp.ts"]
+      "args": ["exec", "-i", "kinevyn", "node", "--experimental-strip-types", "mcp.ts"]
     }
   }
 }
 ```
 
 Paths passed to MCP tools are container paths. To import local media with
-`openmotion_import_assets`, mount the folder into the container and pass the
+`kinevyn_import_assets`, mount the folder into the container and pass the
 mounted path.
 
-Compose sets `MOTION_CONTAINER_NAME=openmotion` to match `container_name`.
+Compose sets `MOTION_CONTAINER_NAME=kinevyn` to match `container_name`.
 If you rename the container, update both values so the generated host commands
 enter the right container. When running the image without Compose, set
 `MOTION_CONTAINER_NAME` to the actual container name to enable these commands.
@@ -69,8 +69,8 @@ enter the right container. When running the image without Compose, set
 
 | Variable | Default | Purpose |
 | --- | --- | --- |
-| `OPENMOTION_PORT` | `4173` | Port on the host's `127.0.0.1` and inside the container. Both sides use the same value so returned URLs open on the host. |
-| `OPENMOTION_MEM_LIMIT` | `4g` | Container memory limit. Rendering runs Chromium and FFmpeg. |
+| `KINEVYN_PORT` | `4173` | Port on the host's `127.0.0.1` and inside the container. Both sides use the same value so returned URLs open on the host. |
+| `KINEVYN_MEM_LIMIT` | `4g` | Container memory limit. Rendering runs Chromium and FFmpeg. |
 | `DO_NOT_TRACK` | empty | Set to `1` to disable analytics. |
 
 ## How access is restricted

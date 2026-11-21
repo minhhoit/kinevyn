@@ -439,12 +439,12 @@ export function useFileManager({
       await editorSave.flushPendingSave();
       const current = await motionApi<{ revision: string; currentVersionId: string }>('/phase1/call', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: 'openmotion_get_project', arguments: { projectId: pid } }),
+        body: JSON.stringify({ name: 'kinevyn_get_project', arguments: { projectId: pid } }),
       });
       if (projectIdRef.current !== pid) return;
       await motionApi('/phase1/call', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: 'openmotion_edit_project', arguments: { projectId: pid, requestId: crypto.randomUUID(),
+        body: JSON.stringify({ name: 'kinevyn_edit_project', arguments: { projectId: pid, requestId: crypto.randomUUID(),
           expectedRevision: current.revision, expectedVersionId: current.currentVersionId, files: [], assetNames: [{ path: assetPath, name }] } }),
       });
       reportEdit('asset_rename', 'assets', true, pid);

@@ -38,9 +38,9 @@ export async function prepareCandidatePlugin(source: string, output: string, ver
     const bytes = await readFile(path.join(output, pluginCandidateFiles(version)[0]));
     const sha256 = createHash("sha256").update(bytes).digest("hex");
     const host = await json(path.join(source, "integrations/dsh/package.json"));
-    const manifest = validateDownload({ schemaVersion: 1, name: "openmotion-dsh", version, sourceCommit: commit,
+    const manifest = validateDownload({ schemaVersion: 1, name: "kinevyn-dsh", version, sourceCommit: commit,
       dshVersion: host.dependencies["@deepseek-ai/dsh"], sha256, bytes: bytes.length,
-      tarballUrl: `${downloadOrigin}/${downloadPrefix}/snapshots/${commit}/${sha256}/openmotion-dsh.tgz` });
+      tarballUrl: `${downloadOrigin}/${downloadPrefix}/snapshots/${commit}/${sha256}/kinevyn-dsh.tgz` });
     await writeFile(path.join(output, "dsh-plugin.json"), JSON.stringify(manifest, null, 2) + "\n");
     return manifest;
   } finally { await rm(staging, { recursive: true, force: true }); }

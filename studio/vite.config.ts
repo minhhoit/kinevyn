@@ -11,7 +11,7 @@ const local = (file: string) => fileURLToPath(new URL(file, import.meta.url));
 export default defineConfig({
   root: local('./'),
   plugins: [react(), tailwindcss(), {
-    name: 'openmotion-design-system',
+    name: 'kinevyn-design-system',
     configureServer(server) {
       server.middlewares.use(async (req, res, next) => {
         const file = resolveDesignSystemFile(new URL(req.url || '/', 'http://localhost').pathname);

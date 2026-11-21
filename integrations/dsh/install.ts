@@ -29,16 +29,16 @@ export async function workspacePatch(text: string, root: string, data: string, n
   let entry: any;
   for (const row of doc.contents.items) {
     if (!isMap(row)) continue;
-    if (value(row, "id") === "mcp-openmotion" && value(row, "disabled") !== true)
-      throw new Error("Disable the existing mcp-openmotion adapter before enabling the workspace plugin");
+    if (value(row, "id") === "mcp-kinevyn" && value(row, "disabled") !== true)
+      throw new Error("Disable the existing mcp-kinevyn adapter before enabling the workspace plugin");
     const inserted = row.get("insert");
     for (const candidate of [row, ...(isSeq(inserted) ? inserted.items : [])]) {
       if (!isMap(candidate)) continue;
       if (typeof value(candidate, "name") === "string") modules.add(value(candidate, "name") as string);
-      if (value(candidate, "id") === "mcp-openmotion" && value(candidate, "disabled") !== true)
-        throw new Error("Disable the existing mcp-openmotion adapter before enabling the workspace plugin");
-      if (value(candidate, "id") !== "openmotion-workspace") continue;
-      assert(!entry, "Multiple OpenMotion workspace entries; select one before installation");
+      if (value(candidate, "id") === "mcp-kinevyn" && value(candidate, "disabled") !== true)
+        throw new Error("Disable the existing mcp-kinevyn adapter before enabling the workspace plugin");
+      if (value(candidate, "id") !== "kinevyn-workspace") continue;
+      assert(!entry, "Multiple Kinevyn workspace entries; select one before installation");
       entry = candidate;
     }
   }
@@ -46,13 +46,13 @@ export async function workspacePatch(text: string, root: string, data: string, n
     for (const [key, wanted] of [["root", root], ["dataDirectory", data]]) {
       const existing = entry.getIn(["config", key]);
       assert(typeof existing === "string" && path.resolve(existing) === wanted,
-        "The profile uses another OpenMotion installation/workspace; keep it or choose a different profile");
+        "The profile uses another Kinevyn installation/workspace; keep it or choose a different profile");
     }
     entry.set("name", path.join(root, "integrations/dsh/dist/plugin/lib/index.js"));
     entry.setIn(["config", "node"], node);
     entry.delete("disabled");
   } else {
-    doc.add({ insert: [{ id: "openmotion-workspace", name: path.join(root, "integrations/dsh/dist/plugin/lib/index.js"),
+    doc.add({ insert: [{ id: "kinevyn-workspace", name: path.join(root, "integrations/dsh/dist/plugin/lib/index.js"),
       config: { root, dataDirectory: data, node } }] });
   }
   const cards = [
@@ -66,7 +66,7 @@ export async function workspacePatch(text: string, root: string, data: string, n
 // Bind checks to the requested workspace, never another healthy DSH instance.
 export function installationActive(status: any, root: string, data: string): boolean {
   return status?.applicationRoot === root && status?.dataDirectory === data && Array.isArray(status.tools)
-    && ["openmotion_get_project", "openmotion_list_templates"].every(name => status.tools.includes("mcp__openmotion__" + name));
+    && ["kinevyn_get_project", "kinevyn_list_templates"].every(name => status.tools.includes("mcp__kinevyn__" + name));
 }
 
 export async function profileModules(text: string): Promise<string[]> {
@@ -94,13 +94,13 @@ export async function installDsh(options: Options) {
   const data = await realpath(options.dataDirectory);
   assert((await stat(path.join(paths.profileDirectory, "package.json"))).isFile(), "Use an existing DSH profile");
   const original = await readFile(paths.patch, "utf8");
-  const language = options.language || process.env.OPENMOTION_ONBOARDING_LANGUAGE || "en";
+  const language = options.language || process.env.KINEVYN_ONBOARDING_LANGUAGE || "en";
   assert(["en", "zh", "ja", "ko", "fr", "es", "pt"].includes(language), "Use a supported --language");
-  const env = { ...process.env, DSH_HOME: paths.dshHome, MOTION_DATA_DIR: data, OPENMOTION_ONBOARDING_LANGUAGE: language,
+  const env = { ...process.env, DSH_HOME: paths.dshHome, MOTION_DATA_DIR: data, KINEVYN_ONBOARDING_LANGUAGE: language,
     PATH: path.dirname(process.execPath) + path.delimiter + (process.env.PATH || "") };
   const phases: { phase: string; milliseconds: number }[] = [];
   async function stage<T>(phase: string, run: () => Promise<T>): Promise<T> {
-    console.error("[OpenMotion] " + phase);
+    console.error("[Kinevyn] " + phase);
     const started = Date.now(), result = await run();
     phases.push({ phase, milliseconds: Date.now() - started });
     return result;
@@ -129,13 +129,13 @@ export async function installDsh(options: Options) {
     const { buildPlugin } = await import("./build.ts");
     await buildPlugin(path.join(root, "integrations/dsh/dist/plugin"));
   });
-  const temporary = paths.patch + ".openmotion-" + process.pid;
+  const temporary = paths.patch + ".kinevyn-" + process.pid;
   try {
     await writeFile(temporary, patch, { flag: "wx", mode: 0o600 });
     assert.equal(await readFile(paths.patch, "utf8"), original, "Profile changed during installation; retry without overwriting it");
     if (patch !== original) await rename(temporary, paths.patch);
   } finally { await rm(temporary, { force: true }); }
-  const publicSkill = await stage("official OpenMotion Skill", async () => {
+  const publicSkill = await stage("official Kinevyn Skill", async () => {
     try {
       const { installPublicSkill } = await import("../../scripts/install-public-skill.ts");
       const ref = (await run("git", ["rev-parse", "HEAD"])).stdout.trim();
@@ -147,7 +147,7 @@ export async function installDsh(options: Options) {
     } catch (error) { return { status: "unavailable", reason: error instanceof Error ? error.message : String(error) }; }
   });
   const flow = await import(new URL("../../scripts/install-onboarding.mjs", import.meta.url).href);
-  const receiptFile = options.resume || path.join(paths.profileDirectory, "openmotion-onboarding.json");
+  const receiptFile = options.resume || path.join(paths.profileDirectory, "kinevyn-onboarding.json");
   let onboarding;
   try { onboarding = JSON.parse(await readFile(receiptFile, "utf8")); }
   catch (error) { if (options.resume || (error as NodeJS.ErrnoException).code !== "ENOENT") throw error; }
@@ -163,7 +163,7 @@ export async function installDsh(options: Options) {
   } else onboarding = await stage("prepare welcome and three recommendations", () => flow.prepareInstallationFlow({
     appRoot: root, dataDirectory: data, host: "deepseek", language,
   }));
-  await writeFile(path.join(paths.profileDirectory, "openmotion-onboarding.json"), JSON.stringify(onboarding, null, 2) + "\n", { mode: 0o600 });
+  await writeFile(path.join(paths.profileDirectory, "kinevyn-onboarding.json"), JSON.stringify(onboarding, null, 2) + "\n", { mode: 0o600 });
   let active = false;
   let nativeCardsAvailable = false;
   const webUrl = options.url || process.env.DSH_WEB_URL;
@@ -171,7 +171,7 @@ export async function installDsh(options: Options) {
     const url = new URL(webUrl);
     assert(["http:", "https:"].includes(url.protocol) && ["localhost", "127.0.0.1", "[::1]"].includes(url.hostname)
       && !url.username && !url.password, "Use the actual local DSH_WEB_URL");
-    const statusUrl = new URL("openmotion-dsh/status", url.href.endsWith("/") ? url : url.href + "/");
+    const statusUrl = new URL("kinevyn-dsh/status", url.href.endsWith("/") ? url : url.href + "/");
     await stage("check live workspace activation", async () => {
       for (let attempt = 0; attempt < 20; attempt++) {
         try {
@@ -187,9 +187,9 @@ export async function installDsh(options: Options) {
   }
   return { installationStatus: active ? "active" : "configured", onboardingStatus: "awaiting_host_delivery", onboardingComplete: false,
     profile: options.profile, dataDirectory: data, publicSkill, phases, nativeCardsAvailable,
-    detailsFile: path.join(paths.profileDirectory, "openmotion-onboarding.json"),
+    detailsFile: path.join(paths.profileDirectory, "kinevyn-onboarding.json"),
     cardPresentation: onboarding.cardPresentation, preview: { previewUrl: onboarding.preview?.previewUrl },
-    nextActions: [active ? "Refresh the current DSH browser page once if OpenMotion is missing; keep this chat and do not restart DSH."
+    nextActions: [active ? "Refresh the current DSH browser page once if Kinevyn is missing; keep this chat and do not restart DSH."
       : "Check activation in this DSH profile. Do not kill the current host or claim MCP is connected yet.",
     "Load cardPresentation.skill, then call cardPresentation.tool with cardPresentation.arguments in this same turn. The native card opens the template library beside this chat.",
     "A prepared receipt, tools or healthy Studio do not complete onboarding. Show the shared welcome and three recommendations; report any display blocker instead of declaring completion."] };

@@ -38,7 +38,7 @@ assert.deepEqual(packageManifest.exports, exports, 'Keep package exports in sync
 
 const readme = `# Open Design UI
 
-Shared React controls from Open Design and OpenMotion.
+Shared React controls from Open Design and Kinevyn.
 
 ## Install
 

@@ -50,7 +50,7 @@ export function mountFinalVideo(root, app) {
       video.src = url;
       if (media.poster) video.poster = media.poster;
       validSource = true;
-      console.info('openmotion.final_video.media_received', JSON.stringify({ workId: next.id, jobId: next.jobId, bytes: bytes.length }));
+      console.info('kinevyn.final_video.media_received', JSON.stringify({ workId: next.id, jobId: next.jobId, bytes: bytes.length }));
       loadTimer = document.defaultView.setTimeout(() => error('视频加载超时，请重新加载。'), 15000);
       video.load();
     } catch (reason) { error(reason.message.startsWith('INLINE_RESULT_INVALID:') ? '成片返回格式异常，请重新加载。' : reason.message); }
@@ -59,7 +59,7 @@ export function mountFinalVideo(root, app) {
     const pinned = target || (work && { projectId: work.projectId, workId: work.id });
     if (!pinned || closed || loading) return;
     loading = true; retry.disabled = true; status.textContent = '正在加载成片…';
-    try { update(await app.callServerTool({ name: 'openmotion_get_project', arguments: { ...pinned, includeVideo: true } }, { timeout: 15000 }), false); }
+    try { update(await app.callServerTool({ name: 'kinevyn_get_project', arguments: { ...pinned, includeVideo: true } }, { timeout: 15000 }), false); }
     catch { error('成片读取失败，请重新加载。'); }
     finally { loading = false; retry.disabled = false; }
   }
@@ -67,7 +67,7 @@ export function mountFinalVideo(root, app) {
     if (closed || !validSource || !Number.isFinite(video.duration) || video.duration <= 0 || !video.videoWidth || !video.videoHeight) return;
     clearLoadTimer();
     screen.hidden = false; status.textContent = '成片可播放'; retry.hidden = true;
-    console.info('openmotion.final_video.ready', JSON.stringify({ workId: work.id, jobId: work.jobId, duration: video.duration,
+    console.info('kinevyn.final_video.ready', JSON.stringify({ workId: work.id, jobId: work.jobId, duration: video.duration,
       width: video.videoWidth, height: video.videoHeight }));
     const seconds = Math.round(video.duration);
     root.querySelector('.duration').textContent = `片长 ${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;

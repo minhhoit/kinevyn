@@ -77,7 +77,7 @@ export async function buildTemplateCards() {
     build: {
       lib: {
         entry: path.join(directory, 'native.ts'),
-        name: 'OpenMotionTemplateCards',
+        name: 'KinevynTemplateCards',
         formats: ['iife'],
         fileName: () => 'app.js',
       },
@@ -92,7 +92,7 @@ export async function buildTemplateCards() {
   await build({
     configFile: false, root: applicationRoot, logLevel: 'warn',
     build: {
-      lib: { entry: path.join(directory, 'app.ts'), name: 'OpenMotionTemplateCards', formats: ['iife'], fileName: () => 'inline.js' },
+      lib: { entry: path.join(directory, 'app.ts'), name: 'KinevynTemplateCards', formats: ['iife'], fileName: () => 'inline.js' },
       outDir: path.join(directory, 'build'), emptyOutDir: false,
       minify: 'esbuild', sourcemap: false, cssCodeSplit: false,
     },

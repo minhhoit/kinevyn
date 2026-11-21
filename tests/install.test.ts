@@ -9,14 +9,14 @@ test('installation onboarding routes only to existing Skills', async () => {
   const script = await readFile(new URL('../scripts/install-motion.command', import.meta.url), 'utf8');
   assert.match(script, /scripts\/install-onboarding\.mjs/);
   const contract = await readFile(new URL('../docs/install.md', import.meta.url), 'utf8');
-  assert.match(contract, /When `hasHtmlProject` is true, use `openmotion-template-to-video` to reuse the editable source/);
-  assert.match(contract, /Use `openmotion-recreate` only when the source has no editable project/);
-  await access(new URL('../skills/openmotion-recreate/SKILL.md', import.meta.url));
-  await access(new URL('../skills/openmotion-template-to-video/SKILL.md', import.meta.url));
+  assert.match(contract, /When `hasHtmlProject` is true, use `kinevyn-template-to-video` to reuse the editable source/);
+  assert.match(contract, /Use `kinevyn-recreate` only when the source has no editable project/);
+  await access(new URL('../skills/kinevyn-recreate/SKILL.md', import.meta.url));
+  await access(new URL('../skills/kinevyn-template-to-video/SKILL.md', import.meta.url));
   const guide = new URL('../docs/usage.md', import.meta.url);
   const guideText = await readFile(guide, 'utf8');
   assert.match(guideText, /install\.md#installation-success-reply/);
-  const canonical = new URL('../skills/openmotion-template-to-video/SKILL.md', import.meta.url);
+  const canonical = new URL('../skills/kinevyn-template-to-video/SKILL.md', import.meta.url);
   for (const [url, body] of [
     ...await Promise.all(['../README.md', '../docs/README.zh-CN.md'].map(async file => {
       const url = new URL(file, import.meta.url);
@@ -50,29 +50,29 @@ test('preview resolves versioned cache and compatible local cache without changi
     assert.equal(resolveInstalled(project, codex), versioned);
     await rm(versioned, { recursive: true }); assert.equal(resolveInstalled(project, codex), local);
     await writeFile(path.join(local, '.codex-plugin/plugin.json'), JSON.stringify({ name: 'motion', version: '0.1.0' }));
-    assert.throws(() => resolveInstalled(project, codex), /未找到 OpenMotion 0.2.0/);
+    assert.throws(() => resolveInstalled(project, codex), /未找到 Kinevyn 0.2.0/);
   } finally { await rm(root, { recursive: true, force: true }); }
 });
 
 test('source and complete installers register the canonical plugin and caches prefer it over legacy entries', async () => {
   for (const file of ['scripts/bundle/install.command', 'scripts/bundle/install.ps1']) {
     const script = await readFile(new URL('../' + file, import.meta.url), 'utf8');
-    assert.match(script, /openmotion@openmotion-test/);
+    assert.match(script, /kinevyn@kinevyn-test/);
     assert.doesNotMatch(script, /(?:^|\s)motion@/m);
   }
   const script = await readFile(new URL('../scripts/install-motion.command', import.meta.url), 'utf8');
-  assert.match(script, /plugin add openmotion@openmotion-local/);
-  const root = await mkdtemp(path.join(tmpdir(), 'openmotion-cache-'));
+  assert.match(script, /plugin add kinevyn@kinevyn-local/);
+  const root = await mkdtemp(path.join(tmpdir(), 'kinevyn-cache-'));
   try {
     const project = path.join(root, 'project'), codex = path.join(root, 'codex');
     await mkdir(path.join(project, '.codex-plugin'), { recursive: true });
-    await writeFile(path.join(project, '.codex-plugin/plugin.json'), JSON.stringify({ name: 'openmotion', version: '0.2.0' }));
-    for (const [cache, name] of [['motion-local/motion', 'motion'], ['openmotion-local/openmotion', 'openmotion']]) {
+    await writeFile(path.join(project, '.codex-plugin/plugin.json'), JSON.stringify({ name: 'kinevyn', version: '0.2.0' }));
+    for (const [cache, name] of [['motion-local/motion', 'motion'], ['kinevyn-local/kinevyn', 'kinevyn']]) {
       const directory = path.join(codex, 'plugins/cache', cache, '0.2.0');
       await mkdir(path.join(directory, '.codex-plugin'), { recursive: true });
       await writeFile(path.join(directory, '.codex-plugin/plugin.json'), JSON.stringify({ name, version: '0.2.0' }));
       await writeFile(path.join(directory, 'server.ts'), '');
     }
-    assert.equal(resolveInstalled(project, codex), path.join(codex, 'plugins/cache/openmotion-local/openmotion/0.2.0'));
+    assert.equal(resolveInstalled(project, codex), path.join(codex, 'plugins/cache/kinevyn-local/kinevyn/0.2.0'));
   } finally { await rm(root, { recursive: true, force: true }); }
 });

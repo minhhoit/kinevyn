@@ -1,7 +1,7 @@
 {
   "version": 2,
   "project": 420348,
-  "product": "openmotion",
+  "product": "kinevyn",
   "environment": "production",
   "entrypoint": "studio",
   "page": "studio",
@@ -71,7 +71,7 @@
     "motion-d2c98a37-41c1-411a-a21f-fc50219b3a7a": 4,
     "motion-f11e199c-f90b-4df1-be9c-33734ad80c26": 4,
     "motion-ffaef2b8-7833-4612-ba45-0efd992cc43a": 4,
-    "openmotion-welcome": 4,
+    "kinevyn-welcome": 4,
     "decision-tree": 3,
     "motion-018becab-0461-43d9-8e84-79833fd1f831": 3,
     "motion-10adc0e0-3f63-45c9-9389-2657360c8aa0": 3,
@@ -404,7 +404,7 @@
       "exposed": 41,
       "clicked": 3
     },
-    "openmotion-welcome": {
+    "kinevyn-welcome": {
       "exposed": 23,
       "clicked": 3
     },

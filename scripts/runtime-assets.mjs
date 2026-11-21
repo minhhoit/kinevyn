@@ -125,7 +125,7 @@ export async function withLock(filename, work) {
   try { handle = await open(filename, 'wx', 0o600); }
   catch (error) {
     if (error.code !== 'EEXIST') throw error;
-    throw new Error(`Another OpenMotion install is using ${filename}. Retry after it finishes; after a crash confirm its PID has exited before removing this lock.`);
+    throw new Error(`Another Kinevyn install is using ${filename}. Retry after it finishes; after a crash confirm its PID has exited before removing this lock.`);
   }
   try { await handle.writeFile(String(process.pid)); return await work(); }
   finally { await handle.close(); await rm(filename, { force: true }); }

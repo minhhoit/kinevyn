@@ -83,24 +83,24 @@ test('production stdio connections use one authority and keep project identity',
     const current = await readEditor(directory);
     if (current) await editorRequest(current, '/editor-api/shutdown', {}).catch(() => {});
     await pause(150);
-    if (process.env.OPENMOTION_EDITOR_EVIDENCE) await writeFile(path.join(process.env.OPENMOTION_EDITOR_EVIDENCE, 'shared-process-observations.json'), JSON.stringify({ observations, traces: clients.map(c => c.trace) }, null, 2));
+    if (process.env.KINEVYN_EDITOR_EVIDENCE) await writeFile(path.join(process.env.KINEVYN_EDITOR_EVIDENCE, 'shared-process-observations.json'), JSON.stringify({ observations, traces: clients.map(c => c.trace) }, null, 2));
     await rm(directory, { recursive: true, force: true });
   });
   await t.test('six first project calls start one backend and no Studio', async () => {
     await Promise.all(clients.map(c => c.initialize()));
-    const template = await clients[0].call('openmotion_get_workflow', { workflow: 'template' });
-    const manufacturing = await clients[1].call('openmotion_get_workflow', { workflow: 'video-to-template' });
-    assert.equal(template.documentId, 'skills/openmotion-template-to-video/SKILL.md');
+    const template = await clients[0].call('kinevyn_get_workflow', { workflow: 'template' });
+    const manufacturing = await clients[1].call('kinevyn_get_workflow', { workflow: 'video-to-template' });
+    assert.equal(template.documentId, 'skills/kinevyn-template-to-video/SKILL.md');
     assert.equal(template.status, 'ready');
-    assert.equal(manufacturing.documentId, 'skills/openmotion-video-to-template/SKILL.md');
+    assert.equal(manufacturing.documentId, 'skills/kinevyn-video-to-template/SKILL.md');
     assert.equal(manufacturing.status, 'ready');
     assert.equal(await stat(path.join(directory, '.editor-runtime/starts.jsonl')).then(() => true, () => false), false);
-    await Promise.all(clients.map(c => c.call('openmotion_get_project'))); editor = await readEditor(directory);
+    await Promise.all(clients.map(c => c.call('kinevyn_get_project'))); editor = await readEditor(directory);
     first = await editorRequest(editor, '/editor-api/health');
     assert.equal((await readFile(path.join(directory, '.editor-runtime/starts.jsonl'), 'utf8')).trim().split('\n').length, 1);
     assert.equal(await stat(path.join(directory, 'studio.log')).then(() => true, () => false), false);
 
-    a = await clients[0].call('openmotion_get_project'); assert.equal(a.projectId, 'project');
+    a = await clients[0].call('kinevyn_get_project'); assert.equal(a.projectId, 'project');
     observations.push({ scenario: 'six-initialize', instanceId: first.instanceId, pid: first.pid, starts: 1, tools: (await clients[0].rpc('tools/list')).tools.length, studioStarted: false });
   });
   await t.test('private credentials, Origin and Host checks reject foreign requests', async () => {
@@ -118,47 +118,47 @@ test('production stdio connections use one authority and keep project identity',
     bId = crypto.randomUUID();
     await cp(store.projectDirectory, store.projectDirectoryFor(bId), { recursive: true });
     await store.lock(() => store.selectProject(bId, { id: bId, title: 'Project B' }));
-    const b = await clients[1].call('openmotion_get_project', { projectId: bId });
+    const b = await clients[1].call('kinevyn_get_project', { projectId: bId });
     assert.equal(b.revision, a.revision, 'fixture projects must have identical content');
-    await clients[0].call('openmotion_get_workflow', { workflow: 'template' });
-    await clients[1].call('openmotion_get_workflow', { workflow: 'video-to-template' });
-    const committed = await clients[0].call('openmotion_write_files', { expectedRevision: a.revision, files: [{ path: 'belongs-to-a.md', content: 'A' }] });
+    await clients[0].call('kinevyn_get_workflow', { workflow: 'template' });
+    await clients[1].call('kinevyn_get_workflow', { workflow: 'video-to-template' });
+    const committed = await clients[0].call('kinevyn_write_files', { expectedRevision: a.revision, files: [{ path: 'belongs-to-a.md', content: 'A' }] });
     assert.notEqual(committed.revision, a.revision);
-    const unchangedB = await clients[1].call('openmotion_get_project');
+    const unchangedB = await clients[1].call('kinevyn_get_project');
     assert.equal(unchangedB.projectId, bId); assert.equal(unchangedB.revision, b.revision);
     assert.ok(!unchangedB.project.files.some((f: any) => f.path === 'belongs-to-a.md'));
-    a = await clients[0].call('openmotion_get_project'); assert.equal(a.projectId, 'project');
+    a = await clients[0].call('kinevyn_get_project'); assert.equal(a.projectId, 'project');
     observations.push({ scenario: 'equal-hash-project-isolation', activeUiProject: bId, connectionProject: a.projectId, misdirectedWrites: 0 });
   });
   await t.test('two MCP writers receive one commit and one revision conflict', async () => {
-    const result = await Promise.allSettled([0, 2].map((index, value) => clients[index].call('openmotion_write_files', { projectId: 'project', expectedRevision: a.revision, files: [{ path: 'race.md', content: String(value) }] })));
+    const result = await Promise.allSettled([0, 2].map((index, value) => clients[index].call('kinevyn_write_files', { projectId: 'project', expectedRevision: a.revision, files: [{ path: 'race.md', content: String(value) }] })));
     assert.equal(result.filter(r => r.status === 'fulfilled').length, 1);
     assert.equal((result.find(r => r.status === 'rejected') as PromiseRejectedResult).reason.code, 'REVISION_CONFLICT');
-    a = await clients[0].call('openmotion_get_project');
+    a = await clients[0].call('kinevyn_get_project');
   });
   await t.test('invalid scopes and unknown arguments do not crash the backend queue', async () => {
-    await assert.rejects(clients[0].call('openmotion_get_project', { projectId: '../outside' }), /工程/);
-    await assert.rejects(clients[0].call('openmotion_write_files', { expectedRevision: a.revision, files: [{ path: '../outside.md', content: 'no' }] }), /路径/);
-    await assert.rejects(clients[0].call('openmotion_get_project', { secret: 'not-in-schema' }), /参数/);
+    await assert.rejects(clients[0].call('kinevyn_get_project', { projectId: '../outside' }), /工程/);
+    await assert.rejects(clients[0].call('kinevyn_write_files', { expectedRevision: a.revision, files: [{ path: '../outside.md', content: 'no' }] }), /路径/);
+    await assert.rejects(clients[0].call('kinevyn_get_project', { secret: 'not-in-schema' }), /参数/);
     assert.equal((await editorRequest(editor, '/editor-api/health')).instanceId, first.instanceId);
-    assert.equal((await clients[0].call('openmotion_get_project')).revision, a.revision);
+    assert.equal((await clients[0].call('kinevyn_get_project')).revision, a.revision);
   });
   await t.test('all MCP processes exit while the same backend retains both projects', async () => {
     await Promise.all(clients.map(c => c.close()));
     const next = new Client(directory, { legacy: true }); clients.push(next); await next.initialize();
     assert.equal((await editorRequest(editor, '/editor-api/health')).instanceId, first.instanceId);
-    assert.equal((await next.call('openmotion_get_project', { projectId: 'project' })).revision, a.revision);
-    assert.equal((await next.call('openmotion_get_project', { projectId: bId })).projectId, bId);
+    assert.equal((await next.call('kinevyn_get_project', { projectId: 'project' })).revision, a.revision);
+    assert.equal((await next.call('kinevyn_get_project', { projectId: bId })).projectId, bId);
   });
   await t.test('idle SIGKILL and four reconnects create one replacement', async () => {
     process.kill(first.pid, 'SIGKILL'); await pause(100);
     const next = Array.from({ length: 4 }, () => new Client(directory, { legacy: true })); clients.push(...next);
     await Promise.all(next.map(c => c.initialize()));
-    await Promise.all(next.map(c => c.call('openmotion_get_project'))); editor = await readEditor(directory);
+    await Promise.all(next.map(c => c.call('kinevyn_get_project'))); editor = await readEditor(directory);
     const replacement = await editorRequest(editor, '/editor-api/health');
     assert.notEqual(replacement.instanceId, first.instanceId);
     assert.equal((await readFile(path.join(directory, '.editor-runtime/starts.jsonl'), 'utf8')).trim().split('\n').length, 2);
-    assert.equal((await next[0].call('openmotion_get_project', { projectId: 'project' })).revision, a.revision);
+    assert.equal((await next[0].call('kinevyn_get_project', { projectId: 'project' })).revision, a.revision);
     observations.push({ scenario: 'idle-crash-reconnect', reconnects: 4, startsIncludingOriginal: 2, newPid: replacement.pid });
   });
   await t.test('incompatible live service refuses without a competing backend', async () => {

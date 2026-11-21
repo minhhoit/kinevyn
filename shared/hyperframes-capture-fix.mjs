@@ -15,7 +15,7 @@ export function fixCaptureModule(url, source) {
     // Chrome's desktop search can register a menu bar icon even in headless mode.
     const anchor = '        const disabledFeatures = [';
     if (source.split(anchor).length !== 2) {
-      process.emitWarning('OpenMotion could not disable Chrome desktop search because the Puppeteer launcher has changed.');
+      process.emitWarning('Kinevyn could not disable Chrome desktop search because the Puppeteer launcher has changed.');
       return source;
     }
     return source.replace(anchor, anchor + "\n            'OmniboxEverywhere',");

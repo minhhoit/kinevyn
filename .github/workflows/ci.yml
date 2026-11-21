@@ -174,7 +174,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
     env:
-      OPENMOTION_TELEMETRY: '0'
+      KINEVYN_TELEMETRY: '0'
     steps:
       - uses: actions/checkout@v6.0.2
         with:
@@ -199,7 +199,7 @@ jobs:
   studio:
     name: Studio regression (${{ matrix.shard }}/2)
     env:
-      OPENMOTION_TELEMETRY: '0'
+      KINEVYN_TELEMETRY: '0'
     strategy:
       fail-fast: false
       matrix:
@@ -240,7 +240,7 @@ jobs:
       run:
         shell: bash
     env:
-      OPENMOTION_TELEMETRY: '0'
+      KINEVYN_TELEMETRY: '0'
       HYPERFRAMES_BROWSER_PATH: /usr/bin/google-chrome
       HYPERFRAMES_FFMPEG_PATH: /usr/bin/ffmpeg
       HYPERFRAMES_FFPROBE_PATH: /usr/bin/ffprobe
@@ -359,7 +359,7 @@ jobs:
       run:
         shell: bash
     env:
-      OPENMOTION_TELEMETRY: '0'
+      KINEVYN_TELEMETRY: '0'
       HYPERFRAMES_BROWSER_PATH: /usr/bin/google-chrome
       HYPERFRAMES_FFMPEG_PATH: /usr/bin/ffmpeg
       HYPERFRAMES_FFPROBE_PATH: /usr/bin/ffprobe
@@ -460,7 +460,7 @@ jobs:
         run: |
           # Studio was built above from this same checkout; keep the public package command self-contained.
           node --experimental-strip-types scripts/package.ts --mcp-profile=phase1
-          archive="$PWD/dist/openmotion-$(node -p "require('./package.json').version")-phase1.zip"
+          archive="$PWD/dist/kinevyn-$(node -p "require('./package.json').version")-phase1.zip"
           node tests/phase1-package.mjs "$archive" "$PWD/.artifacts/phase1-package-e2e"
       - name: Validate two-round inline rendering
         if: steps.scope.outputs.full == 'true'
@@ -474,7 +474,7 @@ jobs:
           version=$(node scripts/test-package.mjs version "$GITHUB_RUN_NUMBER" "${GITHUB_RUN_ATTEMPT:-1}")
           if [ "$PACKAGE_FORMAT" = npm ]; then
             node scripts/package-npm.mjs "dist/$version" "$version" --template-env="$TEMPLATE_ENVIRONMENT"
-            bytes=$(wc -c < "dist/$version/openmotion-app-$version.tgz" | tr -d '[:space:]')
+            bytes=$(wc -c < "dist/$version/kinevyn-app-$version.tgz" | tr -d '[:space:]')
             printf '## npm install package\n\nCompressed size: %s bytes\n' "$bytes" >> "$GITHUB_STEP_SUMMARY"
           else
             for target in mac-arm64 win-x64; do
@@ -499,14 +499,14 @@ jobs:
               npm run build:studio &&
               node scripts/package-npm.mjs "$base_output" "$version" --template-env="$TEMPLATE_ENVIRONMENT"
             ) > "$RUNNER_TEMP/npm-package-baseline.log" 2>&1; then
-              baseline=(--baseline "$base_output/openmotion-app-$version.tgz")
+              baseline=(--baseline "$base_output/kinevyn-app-$version.tgz")
             else
               echo "::warning::Could not build the PR baseline. The candidate size and budget are still checked."
               tail -40 "$RUNNER_TEMP/npm-package-baseline.log" 2>/dev/null || true
               echo 'Package baseline unavailable. Reporting candidate size only.' >> "$GITHUB_STEP_SUMMARY"
             fi
           fi
-          python3 .github/scripts/npm-package-size.py "dist/$version/openmotion-app-$version.tgz" "${baseline[@]}"
+          python3 .github/scripts/npm-package-size.py "dist/$version/kinevyn-app-$version.tgz" "${baseline[@]}"
       - name: Generate candidate installation guide
         if: steps.scope.outputs.full == 'true' && (inputs.format || 'npm') == 'npm' && (inputs.template_environment || 'dev') == 'dev'
         run: |

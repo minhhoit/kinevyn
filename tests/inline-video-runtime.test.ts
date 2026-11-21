@@ -18,9 +18,9 @@ test('real per-round MCP playback keeps first and edited exports separate, reope
   };
   const appState: any = {};
   await rpc({ jsonrpc: '2.0', id: 'app-init', method: 'initialize', params: { capabilities: { extensions: { 'io.modelcontextprotocol/ui': { mimeTypes: ['text/html;profile=mcp-app'] } } } } }, store, mcpRegistry(), undefined, appState);
-  const show = async (projectId: string, workId: string) => (await rpc({ jsonrpc: '2.0', id: crypto.randomUUID(), method: 'tools/call', params: { name: 'openmotion_show_video', arguments: { projectId, workId } } }, store, mcpRegistry(), undefined, appState) as any).result;
+  const show = async (projectId: string, workId: string) => (await rpc({ jsonrpc: '2.0', id: crypto.randomUUID(), method: 'tools/call', params: { name: 'kinevyn_show_video', arguments: { projectId, workId } } }, store, mcpRegistry(), undefined, appState) as any).result;
   const exportFile = async (jobId: string) => store.exportPath((await store.job(jobId))!);
-  const view = async (projectId: string, workId: string, includeVideo = false) => call('openmotion_get_project', { projectId, workId, includeVideo });
+  const view = async (projectId: string, workId: string, includeVideo = false) => call('kinevyn_get_project', { projectId, workId, includeVideo });
   const wait = async (projectId: string, workId: string) => {
     const end = Date.now() + 90_000;
     for (;;) {
@@ -31,16 +31,16 @@ test('real per-round MCP playback keeps first and edited exports separate, reope
     }
   };
   try {
-    const p = (await call('openmotion_create_project', { requestId: 'create', projectType: 'natural_language', title: 'Inline runtime', requirements: '静音移动图形' })).structuredContent;
+    const p = (await call('kinevyn_create_project', { requestId: 'create', projectType: 'natural_language', title: 'Inline runtime', requirements: '静音移动图形' })).structuredContent;
     async function round(requestId: string, mode: string, before: any, color: string) {
-      const work = (await call('openmotion_open_preview', { projectId: p.projectId, action: 'begin', requestId, mode })).structuredContent.inlineWork;
-      const saved = (await call('openmotion_edit_project', { projectId: p.projectId, workId: work.id, requestId: requestId + '-save', expectedRevision: before.revision, expectedVersionId: before.version.versionId, files: [{ path: 'index.html', content: film(color) }] })).structuredContent;
+      const work = (await call('kinevyn_open_preview', { projectId: p.projectId, action: 'begin', requestId, mode })).structuredContent.inlineWork;
+      const saved = (await call('kinevyn_edit_project', { projectId: p.projectId, workId: work.id, requestId: requestId + '-save', expectedRevision: before.revision, expectedVersionId: before.version.versionId, files: [{ path: 'index.html', content: film(color) }] })).structuredContent;
       assert.equal((await view(p.projectId, work.id)).structuredContent.inlineWork.playable, false);
       assert.equal(saved.previewHandoff.state, 'deferred');
       const premature = await show(p.projectId, work.id);
       assert.equal(premature.isError, true);
       assert.match(premature.structuredContent.error.message, /FINAL_VIDEO_NOT_READY/);
-      await call('openmotion_export_request', { projectId: p.projectId, workId: work.id, requestId: requestId + '-export', expectedRevision: saved.revision, versionId: saved.version.versionId, audio: 'silent' });
+      await call('kinevyn_export_request', { projectId: p.projectId, workId: work.id, requestId: requestId + '-export', expectedRevision: saved.revision, versionId: saved.version.versionId, audio: 'silent' });
       return { work: await wait(p.projectId, work.id), saved };
     }
     const first = await round('first', 'create', p, '#d7f6af');
@@ -48,7 +48,7 @@ test('real per-round MCP playback keeps first and edited exports separate, reope
     assert.equal(original.isError, undefined);
     assert.equal(original.structuredContent.inlineVideoTransport, 'server-tool');
     assert.equal(original._meta.inlineVideo, undefined);
-    assert.equal(original._meta.ui.resourceUri, 'ui://openmotion/inline-video/v2/player.html');
+    assert.equal(original._meta.ui.resourceUri, 'ui://kinevyn/inline-video/v2/player.html');
     assert.ok(JSON.stringify(original).length < 8192, 'Presentation fits bounded Agent envelopes');
     const originalMedia = await view(p.projectId, first.work.id, true);
     assert.ok(originalMedia._meta.inlineVideo.video.startsWith('data:video/mp4;base64,'));
@@ -63,10 +63,10 @@ test('real per-round MCP playback keeps first and edited exports separate, reope
     assert.notEqual((await view(p.projectId, second.work.id, true))._meta.inlineVideo.video, originalMedia._meta.inlineVideo.video);
     assert.equal((await show(p.projectId, first.work.id)).structuredContent.inlineWork.jobId, first.work.jobId);
     assert.equal((await view(p.projectId, first.work.id, true))._meta.inlineVideo.video, originalMedia._meta.inlineVideo.video);
-    const reopened = await rpc({ jsonrpc: '2.0', id: 'reopen', method: 'tools/call', params: { name: 'openmotion_get_project', arguments: { projectId: p.projectId, workId: first.work.id, includeVideo: true } } }, new (await import('../workspace.ts')).WorkspaceStore(store.directory));
+    const reopened = await rpc({ jsonrpc: '2.0', id: 'reopen', method: 'tools/call', params: { name: 'kinevyn_get_project', arguments: { projectId: p.projectId, workId: first.work.id, includeVideo: true } } }, new (await import('../workspace.ts')).WorkspaceStore(store.directory));
     assert.equal((reopened as any).result._meta.inlineVideo.video, originalMedia._meta.inlineVideo.video);
     assert.equal((await view(p.projectId, first.work.id)).structuredContent.inlineWork.versionId, first.work.versionId);
-    await call('openmotion_export_cancel', { projectId: p.projectId, requestId: 'cancel-completed', jobId: first.work.jobId });
+    await call('kinevyn_export_cancel', { projectId: p.projectId, requestId: 'cancel-completed', jobId: first.work.jobId });
     assert.equal((await view(p.projectId, first.work.id)).structuredContent.inlineWork.playable, true);
     await truncate(await exportFile(first.work.jobId), 33 * 1024 * 1024);
     const oversized = await view(p.projectId, first.work.id, true);

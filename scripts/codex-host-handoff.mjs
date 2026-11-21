@@ -7,7 +7,7 @@ import { sameWorkspaceDirectory } from './check-installed-mcp.mjs';
 import { selectOnboardingTemplateIds } from '../shared/onboarding-templates.ts';
 import { welcomeMarkdown } from '../mcp-ui/template-recommendations/i18n.ts';
 
-const presentationTool = 'openmotion_show_template_recommendations';
+const presentationTool = 'kinevyn_show_template_recommendations';
 const languages = ['zh', 'en', 'ja', 'ko', 'fr', 'es', 'pt'];
 
 // Connect only to an existing host. Starting `codex app-server` would verify a
@@ -60,7 +60,7 @@ async function hostClient({ codex, socketPath, timeoutMs, env }) {
   });
   const close = () => { fail(new Error('HOST_CONTROL_CLOSED')); child.stdin.end(); child.kill(); };
   try {
-    await request('initialize', { clientInfo: { name: 'openmotion_installer', version: '1' }, capabilities: { experimentalApi: true } });
+    await request('initialize', { clientInfo: { name: 'kinevyn_installer', version: '1' }, capabilities: { experimentalApi: true } });
     child.stdin.write(JSON.stringify({ method: 'initialized' }) + '\n');
     return { request, close };
   } catch (error) { close(); throw error; }
@@ -69,7 +69,7 @@ async function hostClient({ codex, socketPath, timeoutMs, env }) {
 export async function prepareCodexHostHandoff(options = {}) {
   const env = options.env ?? process.env;
   const threadId = options.threadId ?? env.CODEX_THREAD_ID ?? env.CODEX_SESSION_ID;
-  const language = options.language ?? env.OPENMOTION_ONBOARDING_LANGUAGE ?? 'en';
+  const language = options.language ?? env.KINEVYN_ONBOARDING_LANGUAGE ?? 'en';
   const presentation = { tool: presentationTool, arguments: {
     templateIds: options.templateIds ?? selectOnboardingTemplateIds(), onboarding: !options.welcomeDelivered,
     language: languages.includes(language) ? language : 'en',
@@ -78,7 +78,7 @@ export async function prepareCodexHostHandoff(options = {}) {
     welcomeMarkdown: options.welcomeDelivered ? '' : welcomeMarkdown(presentation.arguments.language) };
   const hostRequests = [
     { method: 'config/mcpServer/reload', params: null },
-    { method: 'mcpServerStatus/list', params: { threadId, serverName: 'openmotion', detail: 'toolsAndAuthOnly' } },
+    { method: 'mcpServerStatus/list', params: { threadId, serverName: 'kinevyn', detail: 'toolsAndAuthOnly' } },
   ];
   const required = reason => ({ ...base, status: 'host_action_required', reason, hostRequests,
     automaticActivation: 'blocked',
@@ -89,7 +89,7 @@ export async function prepareCodexHostHandoff(options = {}) {
   let request = options.request;
   try {
     if (!request) {
-      const socketPath = options.socketPath ?? env.OPENMOTION_CODEX_SOCKET
+      const socketPath = options.socketPath ?? env.KINEVYN_CODEX_SOCKET
         ?? path.join(env.CODEX_HOME || path.join(os.homedir(), '.codex'), 'app-server-control/app-server-control.sock');
       if (!path.isAbsolute(socketPath)) return required('HOST_CONTROL_UNAVAILABLE');
       try { client = await hostClient({ codex: options.codex ?? env.CODEX_APP_RUNTIME_CLI_PATH ?? 'codex', socketPath, timeoutMs: options.timeoutMs ?? 10_000, env }); }
@@ -106,12 +106,12 @@ export async function prepareCodexHostHandoff(options = {}) {
     }
     if (!loaded) return required('CURRENT_CHAT_NOT_LOADED');
     const inventory = await request('mcpServerStatus/list', hostRequests[1].params);
-    const server = inventory.data?.find(item => item.name === 'openmotion');
+    const server = inventory.data?.find(item => item.name === 'kinevyn');
     if (server?.toolsError) return required('HOST_TOOL_DISCOVERY_FAILED');
     const tool = server?.tools?.[presentationTool];
     const acceptedIds = tool?.inputSchema?.properties?.templateIds?.items?.enum;
     let staleReason;
-    if (!server?.tools?.openmotion_get_project || (options.requirePresentation !== false && !tool)) staleReason = 'NATIVE_PRESENTATION_UNAVAILABLE';
+    if (!server?.tools?.kinevyn_get_project || (options.requirePresentation !== false && !tool)) staleReason = 'NATIVE_PRESENTATION_UNAVAILABLE';
     else if (options.requirePresentation !== false && Array.isArray(acceptedIds)
       && presentation.arguments.templateIds.some(id => !acceptedIds.includes(id))) staleReason = 'NATIVE_PRESENTATION_SELECTION_UNSUPPORTED';
     else if (options.expectedVersion && server.serverInfo?.version !== options.expectedVersion) staleReason = 'HOST_VERSION_MISMATCH';
@@ -123,7 +123,7 @@ export async function prepareCodexHostHandoff(options = {}) {
       return { ...base, status: 'refresh_requested', reason: staleReason, automaticActivation: 'pending', hostRequests: hostRequests.slice(1),
         nextAction: 'After this host step finishes, run the saved recovery command once in this same turn. It verifies the queued refresh without reloading, preparing the library or sampling again. A queued refresh is not a connected or displayed onboarding.' };
     }
-    const project = await request('mcpServer/tool/call', { threadId, server: 'openmotion', tool: 'openmotion_get_project', arguments: {} });
+    const project = await request('mcpServer/tool/call', { threadId, server: 'kinevyn', tool: 'kinevyn_get_project', arguments: {} });
     if (project.isError) return required('HOST_WORKSPACE_READ_FAILED');
     const directory = project.structuredContent?.dataDirectory;
     if (typeof directory !== 'string' || !sameWorkspaceDirectory(directory, options.dataDirectory)) return required('HOST_WORKSPACE_MISMATCH');

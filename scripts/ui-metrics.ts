@@ -156,7 +156,7 @@ export function difference(current: Site[], other: Site[]) {
 
 const git = (args: string[]) => execFileSync('git', args, { encoding: 'utf8' }).trim();
 async function baseSites(revision: string) {
-  const dir = mkdtempSync(path.join(tmpdir(), 'openmotion-ui-base-'));
+  const dir = mkdtempSync(path.join(tmpdir(), 'kinevyn-ui-base-'));
   try {
     const archive = path.join(dir, 'source.tar');
     execFileSync('git', ['archive', '--format=tar', '-o', archive, revision, '--', 'studio/src', ':(glob)web/**/*.css', ':(glob)mcp-ui/**/*.css', ':(glob)packages/**/registry.json', ':(glob)packages/**/*.tsx', ':(glob)packages/**/*.css']);

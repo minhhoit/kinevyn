@@ -13,7 +13,7 @@ import { publicDesignFiles } from '../index.js';
 const packageDirectory = fileURLToPath(new URL('../', import.meta.url));
 const original = JSON.parse(await readFile(new URL('../tokens.json', import.meta.url), 'utf8'));
 async function fixture(t) {
-  const parent = await mkdtemp(path.join(tmpdir(), 'openmotion-design-'));
+  const parent = await mkdtemp(path.join(tmpdir(), 'kinevyn-design-'));
   const directory = path.join(parent, 'design-system');
   await cp(packageDirectory, directory, { recursive: true, filter: file => !file.includes('.workbench-') && !file.endsWith('.workbench.lock') });
   t.after(() => rm(parent, { recursive: true, force: true }));

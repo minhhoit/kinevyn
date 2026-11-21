@@ -13,7 +13,7 @@ export type CleanupChange = { path: string; content: string | null };
 export type CleanupPlan = { schemaVersion: 1; sourceSHA: string; pullNumber: number; changes: CleanupChange[]; media: MediaLock[] };
 
 const execute = promisify(execFile);
-const repository = 'nexu-io/openmotion';
+const repository = 'rivyn-labs/kinevyn';
 export type TreeFile = { path: string; mode: string; sha: string; size: number; type: string };
 type Inputs = { head: TreeFile[]; base: TreeFile[]; sourceSHA: string; pullNumber: number };
 type Transfer = (file: MediaLock, bytes: Buffer) => Promise<void>;
@@ -148,7 +148,7 @@ export async function publishMedia(lock: MediaLock, bytes: Buffer, options: { en
     assert.equal(response.status, 200, 'Cannot determine whether immutable media already exists');
     await downloadMedia(lock, fetcher); return;
   }
-  const directory = await mkdtemp(path.join(tmpdir(), 'openmotion-media-upload-'));
+  const directory = await mkdtemp(path.join(tmpdir(), 'kinevyn-media-upload-'));
   try {
     const file = path.join(directory, 'media'); await writeFile(file, bytes);
     const args = ['--endpoint-url', endpoint.origin, '--region', 'auto', 's3api', 'put-object', '--bucket', options.bucket,
@@ -173,10 +173,10 @@ export async function preparePullRequest(pullNumber: number, apply: boolean) {
     assert.equal(process.env.GITHUB_REF, 'refs/heads/main', 'Run the trusted media preparation workflow from main');
     assert.equal(process.env.GITHUB_REPOSITORY, repository);
     assert.equal(process.env.GITHUB_WORKFLOW_REF, repository + '/.github/workflows/prepare-pr-media.yml@refs/heads/main');
-    assert(process.env.OPENMOTION_MEDIA_MAINTAINER_TOKEN, 'Configure OPENMOTION_MEDIA_MAINTAINER_TOKEN before starting media preparation');
+    assert(process.env.KINEVYN_MEDIA_MAINTAINER_TOKEN, 'Configure KINEVYN_MEDIA_MAINTAINER_TOKEN before starting media preparation');
   }
   // The maintainer's own GitHub identity retains access to allow-maintainer-edits forks.
-  const token = process.env.OPENMOTION_MEDIA_MAINTAINER_TOKEN || (await execute('gh', ['auth', 'token'])).stdout.trim();
+  const token = process.env.KINEVYN_MEDIA_MAINTAINER_TOKEN || (await execute('gh', ['auth', 'token'])).stdout.trim();
   const api = async (route: string, target = repository) => {
     assert(/^[\w.-]+\/[\w.-]+$/.test(target), 'Invalid GitHub repository');
     const response = await fetch('https://api.github.com/repos/' + target + '/' + route, {
@@ -268,7 +268,7 @@ export async function commitCleanup(plan: CleanupPlan, git: GitRunner, directory
 async function pushCleanup(plan: CleanupPlan, baseSHA: string, headRepository: string, branch: string, token: string, finish: (push: () => Promise<void>) => Promise<void>) {
   assert(/^[a-f0-9]{40}$/.test(baseSHA), 'Invalid PR base SHA');
   assert(/^[\w.-]+\/[\w.-]+$/.test(headRepository), 'Invalid contributor repository');
-  const directory = await mkdtemp(path.join(tmpdir(), 'openmotion-media-commit-'));
+  const directory = await mkdtemp(path.join(tmpdir(), 'kinevyn-media-commit-'));
   const git = async (args: string[], input?: string, authenticated = false) => {
     // git never checks out or executes contributor files, hooks, filters or .lfsconfig.
     const env = { ...process.env, GIT_TERMINAL_PROMPT: '0', GIT_CONFIG_COUNT: authenticated ? '1' : '0',

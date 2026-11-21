@@ -5,7 +5,7 @@ Status: original recipe with a deterministic shot-plan helper; no animated proje
 
 ## Purpose and provenance
 
-Make a short story where a promise is followed by evidence and one clear action. Use it for a product introduction or an educational explanation with supplied material. The documents, element and sample text are original examples maintained by OpenMotion contributors under the bundled license. There is no reference film to reconstruct.
+Make a short story where a promise is followed by evidence and one clear action. Use it for a product introduction or an educational explanation with supplied material. The documents, element and sample text are original examples maintained by Kinevyn contributors under the bundled license. There is no reference film to reconstruct.
 
 ## Design
 

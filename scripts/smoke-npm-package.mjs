@@ -26,7 +26,7 @@ export async function smokeNpm(filename, codexJS) {
   const env = { ...process.env, npm_config_cache: path.join(out, 'npm-cache'), CODEX_HOME: profile, PORT: process.env.PORT || String(await testPort()) };
   for (const key of ['HYPERFRAMES_FFMPEG_PATH', 'HYPERFRAMES_FFPROBE_PATH', 'HYPERFRAMES_BROWSER_PATH', 'FFMPEG_PATH', 'FFPROBE_PATH', 'MOTION_BROWSER_PATH']) delete env[key];
   const npm = process.env.npm_execpath || path.join(path.dirname(process.execPath), process.platform === 'win32' ? 'node_modules/npm/bin/npm-cli.js' : '../lib/node_modules/npm/bin/npm-cli.js');
-  const setup = [npm, 'exec', '--yes', '--package', candidate, '--', 'openmotion', 'setup', '--host', 'codex', '--home', home, '--data-dir', data, '--skills-dir', skills, '--codex', codexJS];
+  const setup = [npm, 'exec', '--yes', '--package', candidate, '--', 'kinevyn', 'setup', '--host', 'codex', '--home', home, '--data-dir', data, '--skills-dir', skills, '--codex', codexJS];
   console.error('Install final npm artifact into isolated profile: ' + out);
   const first = JSON.parse(await runFile(process.execPath, setup, { env, cwd: project }));
   const again = JSON.parse(await runFile(process.execPath, setup, { env, cwd: project }));
@@ -34,16 +34,16 @@ export async function smokeNpm(filename, codexJS) {
   assert.equal(await sha256(path.join(first.appRoot, 'package-lock.json')), manifest.locks.npm);
   assert.equal(await sha256(path.join(first.appRoot, 'scripts/runtime-lock.json')), manifest.locks.native);
   assert.match(await readFile(path.join(profile, 'config.toml'), 'utf8'), /keep-this-server/);
-  for (const name of manifest.skills) await access(path.join(skills, 'openmotion/skills', name, 'SKILL.md'));
+  for (const name of manifest.skills) await access(path.join(skills, 'kinevyn/skills', name, 'SKILL.md'));
   const host = protocolClient({ command: process.execPath, args: [codexJS, 'app-server', '--stdio'], cwd: project }, env);
   try {
-    await host.rpc('initialize', { clientInfo: { name: 'OpenMotion-npm-acceptance', version: '1' } });
+    await host.rpc('initialize', { clientInfo: { name: 'Kinevyn-npm-acceptance', version: '1' } });
     host.child.stdin.write(JSON.stringify({ method: 'initialized' }) + '\n');
     const catalog = await host.rpc('skills/list', { cwds: [project], forceReload: true });
     const discovered = catalog.data.flatMap(item => item.skills);
-    for (const name of manifest.skills) assert(discovered.some(skill => skill.name === name && path.resolve(skill.path) === path.join(skills, 'openmotion/skills', name, 'SKILL.md')), 'Native Codex did not discover the installed Skill: ' + name);
+    for (const name of manifest.skills) assert(discovered.some(skill => skill.name === name && path.resolve(skill.path) === path.join(skills, 'kinevyn/skills', name, 'SKILL.md')), 'Native Codex did not discover the installed Skill: ' + name);
   } finally { host.child.kill('SIGTERM'); }
-  const installed = JSON.parse(await runFile(process.execPath, [codexJS, 'mcp', 'get', 'openmotion', '--json'], { env, cwd: project }));
+  const installed = JSON.parse(await runFile(process.execPath, [codexJS, 'mcp', 'get', 'kinevyn', '--json'], { env, cwd: project }));
   assert.equal(installed.transport.command, process.execPath); assert.deepEqual(installed.transport.args, [first.launcher]);
   const native = await nativeConfiguration(first.appRoot);
   // Setup already starts background preparation, so the cache can be present or ready.
@@ -54,14 +54,14 @@ export async function smokeNpm(filename, codexJS) {
   assert.equal(nativeStatusAfterSetup.managed, true);
   assert.deepEqual(nativeStatusAfterSetup.components.map(component => component.id), native.components);
   // Native downloads have a five-minute bound; allow lock waiting and extraction as well.
-  await runFile(process.execPath, [npm, 'exec', '--yes', '--package', candidate, '--', 'openmotion', 'prepare', '--home', home], { env, cwd: project, timeout: 16 * 60_000 });
+  await runFile(process.execPath, [npm, 'exec', '--yes', '--package', candidate, '--', 'kinevyn', 'prepare', '--home', home], { env, cwd: project, timeout: 16 * 60_000 });
   const reportFile = path.join(path.dirname(filename), `smoke-npm-${target}.json`);
   const report = await acceptTransport({ transport: { ...installed.transport, cwd: first.appRoot },
     env: { ...env, PATH: process.platform === 'win32' ? path.join(process.env.SystemRoot, 'System32') : '/usr/bin:/bin' }, data,
     metadata: { ...manifest, target }, archive: installer, ffmpeg: native.paths.HYPERFRAMES_FFMPEG_PATH, reportFile,
     installation: { format: 'npm', applicationSHA256: manifest.application.sha256, npmLockSHA256: manifest.locks.npm, nativeLockSHA256: manifest.locks.native, repeatInstall: 'passed', nativeSkills: 'passed', nativeStatusAfterSetup, explicitNativePreparation: 'passed', bundledApplicationInstall: 'passed', isolatedDirectory: out } });
   const before = await readFile(path.join(native.cache, 'browser-' + native.info.browser.sha256, 'ready.json'), 'utf8');
-  await runFile(process.execPath, [npm, 'exec', '--yes', '--package', candidate, '--', 'openmotion', 'prepare', '--home', home], { env, cwd: project });
+  await runFile(process.execPath, [npm, 'exec', '--yes', '--package', candidate, '--', 'kinevyn', 'prepare', '--home', home], { env, cwd: project });
   assert.equal(await readFile(path.join(native.cache, 'browser-' + native.info.browser.sha256, 'ready.json'), 'utf8'), before);
   report.nativeCacheReuse = 'passed';
   await writeFile(reportFile, JSON.stringify(report, null, 2) + '\n');

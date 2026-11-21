@@ -8,7 +8,7 @@ import { ProjectAgentAction } from './ProjectAgentAction';
 const state = vi.hoisted(() => ({
   projectId: 'project-a', blocked: false,
   save: vi.fn<() => Promise<void>>(), connect: vi.fn(),
-  info: { name: 'OpenMotion', previewUrl: 'http://127.0.0.1:4567', dataDirectory: '/fixture/workspace',
+  info: { name: 'Kinevyn', previewUrl: 'http://127.0.0.1:4567', dataDirectory: '/fixture/workspace',
     transport: { env: { SECRET: 'must-not-copy' } } },
 }));
 vi.mock('../contexts/StudioContext', () => ({ useStudioShellContext: () => ({ projectId: state.projectId }) }));

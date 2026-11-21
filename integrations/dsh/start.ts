@@ -40,7 +40,7 @@ try {
     { mode: 0o600 },
   );
   console.log(
-    `DSH state: ${config.home}\nConfigure your model in DSH. Press Ctrl+C to stop DSH; the shared OpenMotion editor remains available.`,
+    `DSH state: ${config.home}\nConfigure your model in DSH. Press Ctrl+C to stop DSH; the shared Kinevyn editor remains available.`,
   );
   const child = spawn(
     process.execPath,

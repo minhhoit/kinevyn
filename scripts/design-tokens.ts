@@ -22,23 +22,23 @@ export async function designTokens(checkOnly = false) {
   }
   // Stable documentation/plugin paths are generated mirrors, never editable sources.
   const mirrors: [source: string, target: string][] = [
-    ['brand/openmotion-logo.svg', '../../docs/readme/openmotion-logo.svg'],
+    ['brand/kinevyn-logo.svg', '../../docs/readme/kinevyn-logo.svg'],
     ['brand/favicon.svg', '../../studio/public/favicon.svg'],
     // The growth-teardown Skill ships these marks for standalone installs.
-    ['brand/openmotion-logo.svg', '../../library/skills/openmotion-growth-teardown/assets/brand/openmotion-logo.svg'],
-    ['brand/loading-mark.svg', '../../library/skills/openmotion-growth-teardown/assets/brand/loading-mark.svg'],
+    ['brand/kinevyn-logo.svg', '../../library/skills/kinevyn-growth-teardown/assets/brand/kinevyn-logo.svg'],
+    ['brand/loading-mark.svg', '../../library/skills/kinevyn-growth-teardown/assets/brand/loading-mark.svg'],
     // The design-styles Skill ships the same marks for its opening and end credit.
-    ['brand/openmotion-logo.svg', '../../library/skills/openmotion-design-styles/assets/brand/openmotion-logo.svg'],
-    ['brand/loading-mark.svg', '../../library/skills/openmotion-design-styles/assets/brand/loading-mark.svg'],
+    ['brand/kinevyn-logo.svg', '../../library/skills/kinevyn-design-styles/assets/brand/kinevyn-logo.svg'],
+    ['brand/loading-mark.svg', '../../library/skills/kinevyn-design-styles/assets/brand/loading-mark.svg'],
     // The sale-carousel Skill ships the same marks for its end-card sign-off.
-    ['brand/openmotion-logo.svg', '../../library/skills/openmotion-sale-carousel/assets/brand/openmotion-logo.svg'],
-    ['brand/loading-mark.svg', '../../library/skills/openmotion-sale-carousel/assets/brand/loading-mark.svg'],
+    ['brand/kinevyn-logo.svg', '../../library/skills/kinevyn-sale-carousel/assets/brand/kinevyn-logo.svg'],
+    ['brand/loading-mark.svg', '../../library/skills/kinevyn-sale-carousel/assets/brand/loading-mark.svg'],
     // The sale-countdown Skill ships the same marks for its end-card sign-off.
-    ['brand/openmotion-logo.svg', '../../library/skills/openmotion-sale-countdown/assets/brand/openmotion-logo.svg'],
-    ['brand/loading-mark.svg', '../../library/skills/openmotion-sale-countdown/assets/brand/loading-mark.svg'],
+    ['brand/kinevyn-logo.svg', '../../library/skills/kinevyn-sale-countdown/assets/brand/kinevyn-logo.svg'],
+    ['brand/loading-mark.svg', '../../library/skills/kinevyn-sale-countdown/assets/brand/loading-mark.svg'],
     // The sale-promo Skill ships the same marks for its end-card sign-off.
-    ['brand/openmotion-logo.svg', '../../library/skills/openmotion-sale-promo/assets/brand/openmotion-logo.svg'],
-    ['brand/loading-mark.svg', '../../library/skills/openmotion-sale-promo/assets/brand/loading-mark.svg'],
+    ['brand/kinevyn-logo.svg', '../../library/skills/kinevyn-sale-promo/assets/brand/kinevyn-logo.svg'],
+    ['brand/loading-mark.svg', '../../library/skills/kinevyn-sale-promo/assets/brand/loading-mark.svg'],
     ['fonts/NOTICES.txt', '../../web/design-system/fonts/NOTICES.txt'],
     ['fonts/Albert-Sans-OFL.txt', '../../web/design-system/fonts/Albert-Sans-OFL.txt'],
     ['fonts/IBM-Plex-Mono-OFL.txt', '../../web/design-system/fonts/IBM-Plex-Mono-OFL.txt'],
@@ -52,10 +52,10 @@ export async function designTokens(checkOnly = false) {
   for (const [file, surface] of [['../../studio/index.html', 'studio'], ['index.html', 'design-system']]) {
     const url = new URL(file, directory);
     const html = await readFile(url, 'utf8');
-    const block = /<!-- openmotion:metadata -->[\s\S]*?<!-- \/openmotion:metadata -->/;
+    const block = /<!-- kinevyn:metadata -->[\s\S]*?<!-- \/kinevyn:metadata -->/;
     if (!block.test(html)) throw new Error(`${file} is missing its generated metadata block.`);
     const theme = surface === 'studio' ? `\n<meta name="theme-color" content="${tokens.themes.dark.shell}" data-light="${tokens.themes.light.shell}" data-dark="${tokens.themes.dark.shell}" />` : '';
-    const generated = html.replace(block, `<!-- openmotion:metadata -->\n${renderPageMetadata('zh-CN', surface)}${theme}\n<!-- /openmotion:metadata -->`);
+    const generated = html.replace(block, `<!-- kinevyn:metadata -->\n${renderPageMetadata('zh-CN', surface)}${theme}\n<!-- /kinevyn:metadata -->`);
     if (checkOnly) {
       if (html !== generated) throw new Error(`${file} metadata is stale. Run npm run design:tokens.`);
     } else await writeFile(url, generated);

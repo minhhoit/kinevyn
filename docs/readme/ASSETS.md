@@ -1,24 +1,24 @@
-# OpenMotion README artwork
+# Kinevyn README artwork
 
 Artwork inventory paths below are stable logical paths. Files above 100 KB are served from the public URLs in `repository-media.json`; run `npm run media:pull -- docs/readme` to recover their original bytes for reproduction. Historical capture and encoding records retain the original identities. See [resource availability](RESOURCES.md).
 
 ## One visual family
 
-The public README follows the painterly direction of the [OpenDesign website](https://open-design.ai/): sky blue, turquoise and emerald brushwork, warm ivory space, a little apricot, and crisp charcoal type. The supplied website screenshots were visual references; the new artwork was generated with the **built-in Codex ImageGen tool**. No website screenshots or promotional prices are reproduced as OpenMotion features.
+The public README follows the painterly direction of the [OpenDesign website](https://open-design.ai/): sky blue, turquoise and emerald brushwork, warm ivory space, a little apricot, and crisp charcoal type. The supplied website screenshots were visual references; the new artwork was generated with the **built-in Codex ImageGen tool**. No website screenshots or promotional prices are reproduced as Kinevyn features.
 
-The [OpenMotion Brandkit](../../library/brandkits/openmotion/BRANDKIT.md) records the palette, identity and asset rules. [Ink & Water / MOTION_DESIGN.md](../../library/design-systems/ink-water/MOTION_DESIGN.md) records reusable creative direction.
+The [Kinevyn Brandkit](../../library/brandkits/kinevyn/BRANDKIT.md) records the palette, identity and asset rules. [Ink & Water / MOTION_DESIGN.md](../../library/design-systems/ink-water/MOTION_DESIGN.md) records reusable creative direction.
 
 ## Product logo
 
-The [OpenMotion logo](openmotion-logo.svg) uses the symbol and Albert Sans wordmark from the [OpenMotion prototype](https://opendesign-motion-standard-prototype.inovixissu.chatgpt.site/). The lettering is outlined so the mark renders identically across README languages. [Font license](../../packages/design-system/fonts/NOTICES.txt)
+The [Kinevyn logo](kinevyn-logo.svg) uses the symbol and Albert Sans wordmark from the [Kinevyn prototype](https://opendesign-motion-standard-prototype.inovixissu.chatgpt.site/). The lettering is outlined so the mark renders identically across README languages. [Font license](../../packages/design-system/fonts/NOTICES.txt)
 
 ## Community badges
 
-The [Discord badge](badges/discord.svg), text-only [Feishu badge](badges/feishu.svg) and [Chinese Feishu badge](badges/feishu.zh-CN.svg) match the existing 20-pixel README badge row. They link to the dedicated public OpenMotion communities supplied by the project owner.
+The [Discord badge](badges/discord.svg), text-only [Feishu badge](badges/feishu.svg) and [Chinese Feishu badge](badges/feishu.zh-CN.svg) match the existing 20-pixel README badge row. They link to the dedicated public Kinevyn communities supplied by the project owner.
 
 ## Agent logos
 
-The local agent gallery and setup buttons use client marks from the [source icon collection](https://github.com/nexu-io/open-design/tree/07a86b1041531bfa0bec1006d9c0993985fee560/apps/web/public/agent-icons) and the [individual client artwork credits](models/README.md). Each mark identifies its respective client.
+The local agent gallery and setup buttons use client marks from the [source icon collection](https://github.com/rivyn-labs/open-design/tree/07a86b1041531bfa0bec1006d9c0993985fee560/apps/web/public/agent-icons) and the [individual client artwork credits](models/README.md). Each mark identifies its respective client.
 
 ## Skills page covers
 
@@ -33,22 +33,22 @@ The Skills page loads static WebP posters, screen recordings and upstream GIFs o
 | motionmaxxing | The upstream [before/after comparison](https://github.com/Tejashmakwana/motionmaxxing/blob/main/docs/media/spotify-comparison.mp4) and its [poster](https://github.com/Tejashmakwana/motionmaxxing/blob/main/docs/media/spotify-poster.jpg) (motionmaxxing, Apache-2.0). Each 16:9 panel is scaled whole into its half of a 1280 × 720 frame for the before/after split; no content is cropped or repainted. |
 | anime-js | Unchanged upstream [usage example GIF](https://github.com/juliangarnier/anime/blob/master/assets/images/usage-example-result.gif) (Anime.js, MIT). |
 | lottie-web | Unchanged upstream [Example1 GIF](https://github.com/airbnb/lottie-web/blob/master/gifs/Example1.gif) (Lottie Web, MIT). |
-| openmotion-design-styles | Excerpt of the upstream [design-style promo film](https://github.com/guanmo-ai/design-style/blob/main/promo/design-style-promo.mp4) by Guanmo ([@guanmo_ai](https://x.com/guanmo_ai)). The repository states no licence; its README allows sharing the films with credit. Two passages (1.65–3.25 s and 3.95–8.05 s) are joined, the bottom 108 px of the 1080 px frame, including the whole caption strip, is cropped (16:9 kept) and playback is slowed to 0.7×; no frames are repainted. |
-| openmotion-sale-promo | OpenMotion sample rendered by the Skill itself (16:9, 0.3–9.2 s). The product photo is a sample image generated for this demo (no real brand or product). |
-| openmotion-sale-countdown | OpenMotion sample rendered by the Skill itself (16:9, 0.8–9.5 s). Product photos are sample images generated for this demo (no real brand or product). |
-| openmotion-sale-carousel | OpenMotion sample rendered by the Skill itself (1.3–10.2 s). Product photos are sample images generated for this demo with an image model (no real brand or product). |
+| kinevyn-design-styles | Excerpt of the upstream [design-style promo film](https://github.com/guanmo-ai/design-style/blob/main/promo/design-style-promo.mp4) by Guanmo ([@guanmo_ai](https://x.com/guanmo_ai)). The repository states no licence; its README allows sharing the films with credit. Two passages (1.65–3.25 s and 3.95–8.05 s) are joined, the bottom 108 px of the 1080 px frame, including the whole caption strip, is cropped (16:9 kept) and playback is slowed to 0.7×; no frames are repainted. |
+| kinevyn-sale-promo | Kinevyn sample rendered by the Skill itself (16:9, 0.3–9.2 s). The product photo is a sample image generated for this demo (no real brand or product). |
+| kinevyn-sale-countdown | Kinevyn sample rendered by the Skill itself (16:9, 0.8–9.5 s). Product photos are sample images generated for this demo (no real brand or product). |
+| kinevyn-sale-carousel | Kinevyn sample rendered by the Skill itself (1.3–10.2 s). Product photos are sample images generated for this demo with an image model (no real brand or product). |
 | anatomy-reveal | The upstream [espresso-machine demo film](https://github.com/annnguyentt/anatomy-reveal-skill/blob/main/demo/espresso-machine.mp4) by annnguyentt (Anatomy Reveal, MIT). The 9:16 film is scaled whole to 405 × 720 and shown three times side by side on a 16:9 frame of its own paper colour (#E7E2D7), each copy offset by 3.3 s and looped, so macro, exploded and assembled shots play at once; nothing is cropped or repainted. |
 | anatomy | Four upstream README stills ([raptor-engine-firing](https://github.com/wheresryan22/anatomy/blob/main/.github/assets/raptor-engine-firing.webp), [raptor-engine-apart](https://github.com/wheresryan22/anatomy/blob/main/.github/assets/raptor-engine-apart.webp), [turning-dial](https://github.com/wheresryan22/anatomy/blob/main/.github/assets/turning-dial.webp), [ripple-tank](https://github.com/wheresryan22/anatomy/blob/main/.github/assets/ripple-tank.webp)) by Ryan (Anatomy, MIT). Each is scaled whole onto a 16:9 frame of its own background colour, held 2.4 s and joined with 0.5 s crossfades; nothing is cropped or repainted. |
 | hairline | The upstream [hero GIF](https://github.com/lucasmarkes/hairline/blob/main/assets/hero.gif) by Lucas Markes (hairline, MIT), first 8.9 s, scaled from 800 × 450 to 1280 × 720 and re-encoded as MP4; nothing is cropped or repainted. |
-| gifenc, motion-canvas, ola, shifty, two-js, tween-js, konva, blender, motion-design-skill | OpenMotion samples made for this page with each library; no third-party footage. |
+| gifenc, motion-canvas, ola, shifty, two-js, tween-js, konva, blender, motion-design-skill | Kinevyn samples made for this page with each library; no third-party footage. |
 
 ## Asset inventory
 
 | Asset | Source and use |
 | --- | --- |
-| [GitHub Star animation](https://releases.open-design.ai/open-motion/media/sha256/eb32b6cd4736cbbf42a537af24ed1ab8745192efcd7f3f69ffd5f2d569fe1607.gif) | User-supplied animation of the OpenMotion GitHub page, used for the closing Star invitation in all README languages. Copied without resizing or re-encoding at 1138 × 640. SHA-256: `eb32b6cd4736cbbf42a537af24ed1ab8745192efcd7f3f69ffd5f2d569fe1607`. |
-| [README cover](capcut-claude-motion-cover.webp) · [简体中文](capcut-claude-motion-cover.zh-CN.webp) · [日本語](capcut-claude-motion-cover.ja.webp) | OpenMotion positioning and feature labels on a watercolor background. The presenter comparison, Studio timeline and agent lineup use the corresponding language version of the prior cover. Model marks use the [credited icon collection](models/README.md), including its Kling mark and the OpenAI mark from the design system. Versions reflect the [provider catalog](https://fal.ai/explore/models). [Footage and edit credits](reverse-engineering-cover.md) |
-| [Prior README cover](https://releases.open-design.ai/open-motion/media/sha256/730e1d6235820d39ba8adde42810d1165377992136a3b20290ad5d504abb527b.jpg) · [简体中文](https://releases.open-design.ai/open-motion/media/sha256/45ee17734fb1315decef29c116fdd6794ee275fe83239328526b982a8ebe17ac.jpg) · [日本語](https://releases.open-design.ai/open-motion/media/sha256/1b567187bc527cc99f8ef2c91c41c9adf5fa91fa9bbc5f8e2f579ad9c7837a46.jpg) | Dan Martell’s talking-head reference and the OpenMotion caption remake with @careerwithriya, with a capture of the editable Studio timeline. The English hero is also reused unchanged for website Open Graph and Twitter sharing at 1586 × 992. The desktop and mobile covers open the [2.4-second comparison](media/presenter-caption-remake.mp4). [Footage and edit credits](reverse-engineering-cover.md) |
+| [GitHub Star animation](https://releases.open-design.ai/open-motion/media/sha256/eb32b6cd4736cbbf42a537af24ed1ab8745192efcd7f3f69ffd5f2d569fe1607.gif) | User-supplied animation of the Kinevyn GitHub page, used for the closing Star invitation in all README languages. Copied without resizing or re-encoding at 1138 × 640. SHA-256: `eb32b6cd4736cbbf42a537af24ed1ab8745192efcd7f3f69ffd5f2d569fe1607`. |
+| [README cover](capcut-claude-motion-cover.webp) · [简体中文](capcut-claude-motion-cover.zh-CN.webp) · [日本語](capcut-claude-motion-cover.ja.webp) | Kinevyn positioning and feature labels on a watercolor background. The presenter comparison, Studio timeline and agent lineup use the corresponding language version of the prior cover. Model marks use the [credited icon collection](models/README.md), including its Kling mark and the OpenAI mark from the design system. Versions reflect the [provider catalog](https://fal.ai/explore/models). [Footage and edit credits](reverse-engineering-cover.md) |
+| [Prior README cover](https://releases.open-design.ai/open-motion/media/sha256/730e1d6235820d39ba8adde42810d1165377992136a3b20290ad5d504abb527b.jpg) · [简体中文](https://releases.open-design.ai/open-motion/media/sha256/45ee17734fb1315decef29c116fdd6794ee275fe83239328526b982a8ebe17ac.jpg) · [日本語](https://releases.open-design.ai/open-motion/media/sha256/1b567187bc527cc99f8ef2c91c41c9adf5fa91fa9bbc5f8e2f579ad9c7837a46.jpg) | Dan Martell’s talking-head reference and the Kinevyn caption remake with @careerwithriya, with a capture of the editable Studio timeline. The English hero is also reused unchanged for website Open Graph and Twitter sharing at 1586 × 992. The desktop and mobile covers open the [2.4-second comparison](media/presenter-caption-remake.mp4). [Footage and edit credits](reverse-engineering-cover.md) |
 | [Earlier cover](https://releases.open-design.ai/open-motion/media/sha256/cfeb12861412bd36d34000ee1fe6d7f4e7b124ac9cad680d595c3cb44708eead.png) | Previous AI-editing positioning, preserved as artwork history; no longer the main README cover. |
 | [Animated cover](https://releases.open-design.ai/open-motion/media/sha256/6f6379825bac5cc67ee2d8fdc328ec25a16eea64fdac420f358092ddae95ad47.gif) | Optional 800 × 400 camera-breath loop from the same cover; 32 frames, approximately 4 seconds, infinite loop. Brand motion, not recorded application behavior. |
 | [Social preview](https://releases.open-design.ai/open-motion/media/sha256/9683e195639f5f6a54524f33fe4c7c3f4ec47efebb97fc93e4ec38895dd08412.jpg) | 1280 × 640 sharing image derived from the cover. |
@@ -64,12 +64,12 @@ The Skills page loads static WebP posters, screen recordings and upstream GIFs o
 | [Codex embedded editor](https://releases.open-design.ai/open-motion/media/sha256/1fbaaffd0c77d9f7c6eda67cd452b37735c1fce5d5c4d747db1a1db03bd8cab8.png) / [standalone workspace](https://releases.open-design.ai/open-motion/media/sha256/07882f8677e7d52c8b04b52f2fa9f85be7785cff8b7f69c193a529278e13b1c2.png) | Real Studio captures of the same Product Promo project. The Codex image is the embedded Viewer, without a Codex desktop shell. |
 | [Claude Code Skills](product-tour/claude-code-skills.png) / [CLI checks](product-tour/cli-checks.png) | Real terminal output replayed in xterm.js: the five loaded Skills and the pinned engine's info/lint/timeline results. No model conversation is fabricated. |
 | [Connect Agent](https://releases.open-design.ai/open-motion/media/sha256/9655dec62e7ee41cb7c1c6f9bc94b1f6c18c419ed2e8b4f48ab2da9932d37bf5.png) / [template handoff](https://releases.open-design.ai/open-motion/media/sha256/7ed60a6f7dd91d9660de47b9d3489e9183e5091de7e7d765084ccce7c59be3af.png) | Real connection dialog and Product Promo preview with its exact template ID and generated Agent instruction. |
-| [Seven creative examples](#creative-examples) | Short GIF excerpts and stills from seven existing external catalog references. Paired with creative briefs, not presented as OpenMotion-generated work. Replaces the three small template posters in the scenario section. |
+| [Seven creative examples](#creative-examples) | Short GIF excerpts and stills from seven existing external catalog references. Paired with creative briefs, not presented as Kinevyn-generated work. Replaces the three small template posters in the scenario section. |
 | [18 animated catalog picks](#catalog-preview-grid) | Six groups of source-video excerpts replacing the former six static resource covers. 320 × 180, 12 fps, normal-speed continuous excerpts, silent GIF loops; exact sources and encoding live in the gallery manifest. |
 | Bundled template frames | Product Promo, NYT Graph and Decision Tree remain available through the [editable-template index](../../library/templates/README.md); their original projects, posters and [notices](../../template-library/NOTICE.md) are unchanged. |
 | Contributor wall | Local 23-avatar [snapshot](contributors/manifest.json), captured from the GitHub contributors API on 2026-11-09. Includes repository history; profile links remain external, image bytes are local. |
-| [OpenDesign symbol](opendesign-symbol.svg) | Unmodified upstream [CDN asset](https://r.open-design.ai/files/1257306170d14488e993cb1f97b86aad8840a3f866f1978e0fd24b9a3c7832d8); retained for provenance, not used as a newly designed OpenMotion mark. SHA-256: `1257306170d14488e993cb1f97b86aad8840a3f866f1978e0fd24b9a3c7832d8`. |
-| [Dark-background symbol](opendesign-symbol-dark.svg) | The same upstream symbol with fill changed to `#ffffff` for dark backgrounds; geometry unchanged. The Codex plugin and MCP metadata use these square light/dark symbols, matching the symbol in the OpenMotion wordmark. |
+| [OpenDesign symbol](opendesign-symbol.svg) | Unmodified upstream [CDN asset](https://r.open-design.ai/files/1257306170d14488e993cb1f97b86aad8840a3f866f1978e0fd24b9a3c7832d8); retained for provenance, not used as a newly designed Kinevyn mark. SHA-256: `1257306170d14488e993cb1f97b86aad8840a3f866f1978e0fd24b9a3c7832d8`. |
+| [Dark-background symbol](opendesign-symbol-dark.svg) | The same upstream symbol with fill changed to `#ffffff` for dark backgrounds; geometry unchanged. The Codex plugin and MCP metadata use these square light/dark symbols, matching the symbol in the Kinevyn wordmark. |
 | [Automatic-theme symbol](opendesign-symbol-auto.svg) | The same symbol with an embedded `prefers-color-scheme` rule: dark gray by default and pure white on dark backgrounds. Used by the plugin's default logo/composer icon so host surfaces that omit the separate dark logo still adapt. Geometry unchanged. |
 
 All README images have descriptive alternative text. Artwork, product evidence and reference works are labeled separately. Preserve reference previews and authors rather than repainting their content for brand consistency.
@@ -80,13 +80,13 @@ All README images have descriptive alternative text. Artwork, product evidence a
 
 The scenario gallery pairs seven external catalog references with [English](../examples.md) and [Chinese](../examples.zh-CN.md) creative briefs. Each preview is a short, continuous excerpt at its original speed, with no rearrangement, repainting, branding overlay or synthetic footage. GIF encoding reduces dimensions, frame rate and palette; GIFs have no sound. Click through to the full reference to inspect the original. The two portrait examples retain portrait composition, and the other five retain their landscape composition.
 
-These are **reference works**, not generated OpenMotion demos, validated recreations or newly bundled editable templates. Creators and source brands retain their rights; the repository's Apache-2.0 license does not relicense these works. Attribution follows the existing catalog. The two entries labeled “Hyperframes catalog” identify the collection rather than claiming that Hyperframes created the original film.
+These are **reference works**, not generated Kinevyn demos, validated recreations or newly bundled editable templates. Creators and source brands retain their rights; the repository's Apache-2.0 license does not relicense these works. Attribution follows the existing catalog. The two entries labeled “Hyperframes catalog” identify the collection rather than claiming that Hyperframes created the original film.
 
 The gallery uses the same spacing, typography and two-column card structure for all seven examples. Original artwork keeps its own creative identity. The README offers a static-preview link for every GIF and a `prefers-reduced-motion` picture source; readers can choose a still even where the renderer does not apply the media query.
 
 | Scenario / preview | Catalog ID | Reference attribution | Excerpt (seconds) |
 | --- | --- | --- | --- |
-| [talking-head](https://releases.open-design.ai/open-motion/media/sha256/892096faf7de77bf82957b6176bb022d2d1a85359d26ddd8cc9465b7cfe9d290.gif) · [still](examples/talking-head.jpg) | `hf-reference-aroll-ali-abdaal-workflow` | [Ali Abdaal](../../library/skills/openmotion-presenter-story/assets/ali-abdaal-workflow-reference.mp4) | 10–17 |
+| [talking-head](https://releases.open-design.ai/open-motion/media/sha256/892096faf7de77bf82957b6176bb022d2d1a85359d26ddd8cc9465b7cfe9d290.gif) · [still](examples/talking-head.jpg) | `hf-reference-aroll-ali-abdaal-workflow` | [Ali Abdaal](../../library/skills/kinevyn-presenter-story/assets/ali-abdaal-workflow-reference.mp4) | 10–17 |
 | [story-recut](https://releases.open-design.ai/open-motion/media/sha256/0b5abe1037fe28bd752d4c6c204c79d1cedf9cb34d10f949aafe05f6ba98f77a.gif) · [still](examples/story-recut.jpg) | `hf-reference-aroll-hundred-days-story` | [Hyperframes catalog](https://www.instagram.com/reel/Dd6vHlQgpok/) | 1–8 |
 | [product-launch](https://releases.open-design.ai/open-motion/media/sha256/611aa3be620649397ec8091b9d4af82565a7708e3ee94b627ccd83f602685631.gif) · [still](examples/product-launch.jpg) | `hf-reference-jake-figma-draw` | [@figma](media/jake-figma-draw-reference.mp4) | 5.5–12 |
 | [viral-remix](https://releases.open-design.ai/open-motion/media/sha256/f3e1244c05601809b726965da22abf555a112519d9971096cbb471f114c36115.gif) · [still](examples/viral-remix.jpg) | `hf-reference-jake-lovable` | [@lovable_dev](media/jake-lovable-reference.mp4) | 3–10 |
@@ -106,7 +106,7 @@ import hashlib, json, pathlib, subprocess, tempfile, urllib.request
 
 out = pathlib.Path('docs/readme/examples')
 manifest = json.loads((out / 'manifest.json').read_text())
-with tempfile.TemporaryDirectory(prefix='openmotion-examples-') as work:
+with tempfile.TemporaryDirectory(prefix='kinevyn-examples-') as work:
     for entry in manifest['entries']:
         source = pathlib.Path(work) / (entry['slug'] + '.mp4')
         with urllib.request.urlopen(entry['videoUrl'], timeout=60) as response:
@@ -153,8 +153,8 @@ Reproduction steps, CLI expectations and capture boundaries are maintained in th
 
 ```text
 Use case: ads-marketing.
-Create one finished GitHub README brand cover for OpenMotion, 2:1 landscape, 1792x896 or equivalent. Art direction: airy painterly landscape in the visual language of OpenDesign's website. Broad expressive dry-brush strokes and translucent watercolor/ink washes on subtly grained ivory paper, a luminous sky-blue upper area fading to warm cream in the center, a flowing turquoise/emerald river of color sweeping across the bottom, soft celadon and a few pale apricot strokes. It should feel hand-painted, expansive, optimistic, and exquisitely art-directed, with organic motion in the brushwork. NOT traditional monochrome Chinese mountains, NOT 3D, NOT glossy plastic, NOT geometric corporate clipart, NOT an infographic.
-Compose as an editorial brand poster: almost-black clean modern sans-serif typography, generously spaced, precise sharp letters. Large centered wordmark "OpenMotion" (capital O and M) in the upper-middle, approximately 15 percent of canvas height. Below it in smaller regular type, exact text "The open-source Claude Motion alternative." On the next line, exact text "Everyone can be a creator."
+Create one finished GitHub README brand cover for Kinevyn, 2:1 landscape, 1792x896 or equivalent. Art direction: airy painterly landscape in the visual language of OpenDesign's website. Broad expressive dry-brush strokes and translucent watercolor/ink washes on subtly grained ivory paper, a luminous sky-blue upper area fading to warm cream in the center, a flowing turquoise/emerald river of color sweeping across the bottom, soft celadon and a few pale apricot strokes. It should feel hand-painted, expansive, optimistic, and exquisitely art-directed, with organic motion in the brushwork. NOT traditional monochrome Chinese mountains, NOT 3D, NOT glossy plastic, NOT geometric corporate clipart, NOT an infographic.
+Compose as an editorial brand poster: almost-black clean modern sans-serif typography, generously spaced, precise sharp letters. Large centered wordmark "Kinevyn" (capital O and M) in the upper-middle, approximately 15 percent of canvas height. Below it in smaller regular type, exact text "The open-source Claude Motion alternative." On the next line, exact text "Everyone can be a creator."
 At bottom center in much smaller type, exact text "Standalone app  /  Skills  /  MCP  /  CLI".
 All text lives in calm luminous cream/light-blue negative space and remains legible at GitHub width. Leave 8 percent safe margins. Brushwork occupies the peripheral space and the lower third, like a moving landscape of paint. No boxes, buttons, logos, UI, badges, pricing, people, star counts, grids, timelines, extra copy or watermark. A single coherent premium brand image, opaque full bleed.
 ```
@@ -164,7 +164,7 @@ All text lives in calm luminous cream/light-blue negative space and remains legi
 The generated cover was supplied as the style reference.
 
 ```text
-Use case: ads-marketing. Produce a companion brand banner for OpenMotion, following exactly the painterly family of the supplied cover: visible watercolor/ink washes and dry-brush texture on ivory paper, sky blue, turquoise, emerald, celadon and pale apricot. A premium art-directed web editorial banner, wide 3:1 landscape. Calm charcoal clean sans-serif typography over generous cream negative space. No 3D, cards, diagrams, logos, browser chrome, UI mockups, people, badges, pricing, watermarks or extra claims. Keep every letter crisp and safely inset 8 percent. Opaque full bleed. The supplied image is a style reference; create a new composition, do not reproduce its copy. Primary request: a resource-library section banner with organic pigments flowing in from left and right edges, the center luminous and quiet. Exact large centered heading "Made to be remixed." Below, exact small line "Skills / Templates / Motion components / Design systems / Brandkits". The painted gestures are broad, loose and beautiful, not arranged as containers. Use fewer, bigger paint gestures than the cover, so the set feels related rather than repetitive.
+Use case: ads-marketing. Produce a companion brand banner for Kinevyn, following exactly the painterly family of the supplied cover: visible watercolor/ink washes and dry-brush texture on ivory paper, sky blue, turquoise, emerald, celadon and pale apricot. A premium art-directed web editorial banner, wide 3:1 landscape. Calm charcoal clean sans-serif typography over generous cream negative space. No 3D, cards, diagrams, logos, browser chrome, UI mockups, people, badges, pricing, watermarks or extra claims. Keep every letter crisp and safely inset 8 percent. Opaque full bleed. The supplied image is a style reference; create a new composition, do not reproduce its copy. Primary request: a resource-library section banner with organic pigments flowing in from left and right edges, the center luminous and quiet. Exact large centered heading "Made to be remixed." Below, exact small line "Skills / Templates / Motion components / Design systems / Brandkits". The painted gestures are broad, loose and beautiful, not arranged as containers. Use fewer, bigger paint gestures than the cover, so the set feels related rather than repetitive.
 ```
 
 ### Community banner
@@ -172,7 +172,7 @@ Use case: ads-marketing. Produce a companion brand banner for OpenMotion, follow
 The same generated cover was supplied as the style reference.
 
 ```text
-Use case: ads-marketing. Produce a companion brand banner for OpenMotion, following exactly the painterly family of the supplied cover: visible watercolor/ink washes and dry-brush texture on ivory paper, sky blue, turquoise, emerald, celadon and pale apricot. A premium art-directed web editorial banner, wide 3:1 landscape. Calm charcoal clean sans-serif typography over generous cream negative space. No 3D, cards, diagrams, logos, browser chrome, UI mockups, people, badges, pricing, watermarks or extra claims. Keep every letter crisp and safely inset 8 percent. Opaque full bleed. The supplied image is a style reference; create a new composition, do not reproduce its copy. Primary request: a closing community invitation banner. A luminous broad horizon of cream and pale blue above a lush emerald/turquoise sweeping brush wave along the bottom, hints of warm apricot, airy optimism. Exact large centered heading "Make something worth sharing." Below, exact smaller line "Create with OpenMotion. Contribute what you learn." Keep the typography stable, disciplined and warm. This is a quiet finishing panel, more open space than the cover, cohesive with it.
+Use case: ads-marketing. Produce a companion brand banner for Kinevyn, following exactly the painterly family of the supplied cover: visible watercolor/ink washes and dry-brush texture on ivory paper, sky blue, turquoise, emerald, celadon and pale apricot. A premium art-directed web editorial banner, wide 3:1 landscape. Calm charcoal clean sans-serif typography over generous cream negative space. No 3D, cards, diagrams, logos, browser chrome, UI mockups, people, badges, pricing, watermarks or extra claims. Keep every letter crisp and safely inset 8 percent. Opaque full bleed. The supplied image is a style reference; create a new composition, do not reproduce its copy. Primary request: a closing community invitation banner. A luminous broad horizon of cream and pale blue above a lush emerald/turquoise sweeping brush wave along the bottom, hints of warm apricot, airy optimism. Exact large centered heading "Make something worth sharing." Below, exact smaller line "Create with Kinevyn. Contribute what you learn." Keep the typography stable, disciplined and warm. This is a quiet finishing panel, more open space than the cover, cohesive with it.
 ```
 
 
@@ -182,7 +182,7 @@ This earlier edit introduced the AI Cut headline and CapCut position. Its compar
 
 ```text
 Use case: precise text edit.
-Update the supplied watercolor OpenMotion cover to the user's final positioning. Preserve its beautiful existing blue/green/ivory painterly landscape, all brushwork, paper texture, the large OpenMotion wordmark (capital O and M), charcoal typography, and wide 2:1 canvas.
+Update the supplied watercolor Kinevyn cover to the user's final positioning. Preserve its beautiful existing blue/green/ivory painterly landscape, all brushwork, paper texture, the large Kinevyn wordmark (capital O and M), charcoal typography, and wide 2:1 canvas.
 Replace the text below the wordmark with these three centered lines, clearly separated and entirely legible:
 Main promise, medium-large bold: "Cut with AI."
 Smaller supporting line: "The AI-native, open-source CapCut alternative."
@@ -197,34 +197,34 @@ Keep generous margins, polished typography and calm cream negative space behind 
 At that revision, the cover read **Cut with AI.**, **The AI-native, open-source CapCut alternative.**, **The open-source Claude Motion alternative.**, and **Everyone can be a creator.** Built-in Codex ImageGen edited the existing cover with this precise correction; the GIF and social preview were regenerated from that PNG.
 
 ```text
-Edit the supplied OpenMotion brand cover with one precise spelling correction only. Replace the line "The open-source Cloud Motion alternative." with the exact line "The open-source Claude Motion alternative." The correct comparator name is CLAUDE Motion, spelled C-l-a-u-d-e. Keep every other word, the OpenMotion wordmark, Cut with AI headline, CapCut line, creator mission footer, layout, proportions, font style, black typography, painterly blue/green/cream/apricot paper background, and 2:1 composition unchanged. Maintain crisp perfectly readable typography and brand consistency.
+Edit the supplied Kinevyn brand cover with one precise spelling correction only. Replace the line "The open-source Cloud Motion alternative." with the exact line "The open-source Claude Motion alternative." The correct comparator name is CLAUDE Motion, spelled C-l-a-u-d-e. Keep every other word, the Kinevyn wordmark, Cut with AI headline, CapCut line, creator mission footer, layout, proportions, font style, black typography, painterly blue/green/cream/apricot paper background, and 2:1 composition unchanged. Maintain crisp perfectly readable typography and brand consistency.
 ```
 
 ### Collaboration roadmap concept
 
-The corrected OpenMotion cover was supplied as a visual style reference. The concept illustrates a planned shared timeline, comments and review; it does not assert an implemented collaboration interface.
+The corrected Kinevyn cover was supplied as a visual style reference. The concept illustrates a planned shared timeline, comments and review; it does not assert an implemented collaboration interface.
 
 ```text
-Create a new OpenMotion roadmap concept illustration, landscape 2:1, 1792x896 or equivalent. The supplied OpenMotion cover is a STYLE REFERENCE only: maintain the same sky blue, turquoise, emerald, apricot and warm ivory painterly dry-brush and watercolor-on-paper family, but create a completely new layout. This is a future collaboration concept, not an existing product screenshot.
+Create a new Kinevyn roadmap concept illustration, landscape 2:1, 1792x896 or equivalent. The supplied Kinevyn cover is a STYLE REFERENCE only: maintain the same sky blue, turquoise, emerald, apricot and warm ivory painterly dry-brush and watercolor-on-paper family, but create a completely new layout. This is a future collaboration concept, not an existing product screenshot.
 
 A sophisticated editorial software concept. Top left in generous warm ivory negative space, exact bold charcoal headline "Create together." Below it, exact smaller line "People + agents. One timeline." Top right a small elegant charcoal pill with the exact white label "is coming". Below, a single large refined floating white video-editing workspace, softly rounded, presented perfectly front-on, no perspective distortion. It fills about 75% of the canvas width and 58% of canvas height. The surrounding blue-green paint feels spacious and luminous, not ornamental clutter.
 
 Inside the workspace: a wide cinematic preview at top-left showing an abstract beautiful teal / coral paper landscape with tasteful small text "Your story". At top-right a compact collaboration review panel, labeled "Review", containing two clearly separated comments: a small human avatar and the label "You" with "Hold this shot longer."; a subtle green assistant icon and label "Agent" with "I'll adjust the pacing." Show both pointing to the same selected time range. Below the preview across the full workspace is a crisp professional multitrack editing timeline, with three visible lanes, neatly aligned teal video clips, apricot motion blocks, a pale green audio waveform, fine gray time ruler, one black playhead, a highlighted range, two small comment markers and a tasteful two-person/agent presence indicator. Suggest a continuous editable creative workspace, with precise visual hierarchy and generous spacing. Minimal tiny UI chrome: do not generate paragraphs, dense navigation or gibberish microtext. Bottom right outside the workspace, tiny exact text "Concept preview".
 
-No company logos other than the optional small word "OpenMotion" in the workspace top-left. No metrics, prices, platform logos, claims of shipped functionality, 3D mascots or purple neon. The image should be beautiful, legible at 900px wide, with sharp dark type and painterly margins that match the supplied brand cover. Opaque full bleed.
+No company logos other than the optional small word "Kinevyn" in the workspace top-left. No metrics, prices, platform logos, claims of shipped functionality, 3D mascots or purple neon. The image should be beautiful, legible at 900px wide, with sharp dark type and painterly margins that match the supplied brand cover. Opaque full bleed.
 ```
 
 ### Stay tuned / Star invitation
 
-The [Hypit README](https://github.com/hypit-ai/hypit) informed the community invitation format. These two frames were independently generated in OpenMotion's painterly brand language. The first frame uses the corrected cover as a style reference; the second edits the first frame into the selected state. They illustrate clicking Star and do not record a real GitHub action. Release notifications use Watch settings, not Star.
+The [Hypit README](https://github.com/hypit-ai/hypit) informed the community invitation format. These two frames were independently generated in Kinevyn's painterly brand language. The first frame uses the corrected cover as a style reference; the second edits the first frame into the selected state. They illustrate clicking Star and do not record a real GitHub action. Release notifications use Watch settings, not Star.
 
 First frame:
 
 ```text
-Create a new OpenMotion GitHub star invitation banner, wide landscape 2:1, about 1792x896. Use the supplied OpenMotion cover solely as a STYLE REFERENCE: luminous ivory paper, sky blue, turquoise and emerald watercolor with dry brush texture and tiny apricot accents, crisp dark typography, generous breathing space. This is a brand CTA illustration, not a screenshot of GitHub.
+Create a new Kinevyn GitHub star invitation banner, wide landscape 2:1, about 1792x896. Use the supplied Kinevyn cover solely as a STYLE REFERENCE: luminous ivory paper, sky blue, turquoise and emerald watercolor with dry brush texture and tiny apricot accents, crisp dark typography, generous breathing space. This is a brand CTA illustration, not a screenshot of GitHub.
 
 Large exact charcoal heading near the upper left: "Stay tuned with us."
-Below it a smaller exact line: "OpenMotion"
+Below it a smaller exact line: "Kinevyn"
 Below that a tasteful smaller line: "Star the project. Help the next creator."
 The right/lower half has one prominent front-facing GitHub-like but generic white rounded rectangular button with fine gray border and very subtle shadow. In the button put a perfectly drawn outlined five-point star icon followed by the exact dark text "Star". The button should be clear and roomy, approximately 30 percent of the canvas width. A simple black mouse pointer with a thin white outline sits just below and to the right of the Star label, touching the bottom-right area of the button, suggesting the next action is clicking Star. The cursor is modest and clean, not enormous.
 
@@ -234,7 +234,7 @@ Composition: a quiet luminous ivory central field, painterly blue sweep across t
 Selected-state frame:
 
 ```text
-Precise animation-frame edit of the supplied OpenMotion Star invitation. Preserve the entire canvas size, every background pixel as closely as possible, all painterly brushwork, all typography, and all positions. Change only the existing white Star button to its selected state: fill the outlined five-point star with warm golden yellow (#E6B450), keeping its dark outline; replace the button label "Star" with the exact text "Starred", sized to fit within the SAME button bounds, centered with the star. Keep the button white with the same border. Keep the mouse pointer exactly in its current position. Add two very small golden click rays near the pointer tip, inside the button edge, to suggest a click. Do not change the heading "Stay tuned with us.", "OpenMotion", or "Star the project. Help the next creator." Do not change any layout, color or object outside the button area. This is the second frame of a seamless Star-to-Starred GIF, so alignment with the supplied first frame is crucial.
+Precise animation-frame edit of the supplied Kinevyn Star invitation. Preserve the entire canvas size, every background pixel as closely as possible, all painterly brushwork, all typography, and all positions. Change only the existing white Star button to its selected state: fill the outlined five-point star with warm golden yellow (#E6B450), keeping its dark outline; replace the button label "Star" with the exact text "Starred", sized to fit within the SAME button bounds, centered with the star. Keep the button white with the same border. Keep the mouse pointer exactly in its current position. Add two very small golden click rays near the pointer tip, inside the button edge, to suggest a click. Do not change the heading "Stay tuned with us.", "Kinevyn", or "Star the project. Help the next creator." Do not change any layout, color or object outside the button area. This is the second frame of a seamless Star-to-Starred GIF, so alignment with the supplied first frame is crucial.
 ```
 
 ## Reproduce motion and sharing exports
@@ -267,7 +267,7 @@ ffmpeg -hide_banner -loglevel error \
 
 ## Catalog preview grid
 
-The former six static catalog thumbnails have been replaced by **18 animated previews in six groups**, following the category-led demo presentation of [OpenDesign](https://github.com/nexu-io/open-design#demo). All animations are continuous excerpts from actual catalog videos, at normal playback speed. No generated frames, fake UI motion, camera animation over stills or synthetic overlays are used. Original source content is preserved; taller source compositions are contained in the same landscape frame rather than cropped.
+The former six static catalog thumbnails have been replaced by **18 animated previews in six groups**, following the category-led demo presentation of [OpenDesign](https://github.com/rivyn-labs/open-design#demo). All animations are continuous excerpts from actual catalog videos, at normal playback speed. No generated frames, fake UI motion, camera animation over stills or synthetic overlays are used. Original source content is preserved; taller source compositions are contained in the same landscape frame rather than cropped.
 
 Default README images are GIFs. Existing [catalog covers](../../web/catalog/covers.json) are only selected for the reader's `prefers-reduced-motion` preference. Clicking a GIF opens the full source video, while the credit links to the catalog's source URL. The [resource data](../../web/catalog/hyperframes.json) and original catalog covers remain unchanged.
 
@@ -292,7 +292,7 @@ Default README images are GIFs. Existing [catalog covers](../../web/catalog/cove
 | [Linear Loops](https://releases.open-design.ai/open-motion/media/sha256/c4352874fdad22dbe7481e8adf706ae6671f0aaed3fa907cfb1bd413051eaca9.gif) | `hf-reference-remix-linear-loops` | [@linear](media/remix-linear-loops-reference.mp4) | 5–9 |
 | [Code Particle Assemble](https://releases.open-design.ai/open-motion/media/sha256/55437de0144c117932e1d817798b6894b533fba26885d9e10304e77d2f51a458.gif) | `hf-block-code-particle-assemble` | [Hyperframes](https://raw.githubusercontent.com/heygen-com/hyperframes/main/registry/blocks/code-particle-assemble/registry-item.json) | 0.3–4.3 |
 
-The [gallery manifest](gallery/manifest.json) records the six group labels, exact catalog IDs, source and video URLs, selected time ranges, source SHA-256, existing poster paths, GIF byte counts and GIF SHA-256. The gallery contains 8 reference films and 10 registry components; it does not add editable templates or claim OpenMotion generated the displayed work. Third-party media, brands and source notices retain their original rights. The application’s Apache-2.0 license does not relicense them.
+The [gallery manifest](gallery/manifest.json) records the six group labels, exact catalog IDs, source and video URLs, selected time ranges, source SHA-256, existing poster paths, GIF byte counts and GIF SHA-256. The gallery contains 8 reference films and 10 registry components; it does not add editable templates or claim Kinevyn generated the displayed work. Third-party media, brands and source notices retain their original rights. The application’s Apache-2.0 license does not relicense them.
 
 ### Reproduce the gallery GIFs
 
@@ -304,7 +304,7 @@ import hashlib, json, pathlib, subprocess, tempfile, urllib.request
 
 out = pathlib.Path('docs/readme/gallery')
 manifest = json.loads((out / 'manifest.json').read_text())
-with tempfile.TemporaryDirectory(prefix='openmotion-gallery-') as work:
+with tempfile.TemporaryDirectory(prefix='kinevyn-gallery-') as work:
     for entry in manifest['entries']:
         source = pathlib.Path(work) / (entry['slug'] + '.mp4')
         with urllib.request.urlopen(entry['videoUrl'], timeout=60) as response:
@@ -332,19 +332,19 @@ Prompt: “Replace the large centered line 'Cut with AI.' with 'Edit with AI.' K
 
 [Six paired examples](../motion-design-examples.md) now render actual source-backed content adaptations. They are separate from the external seven-scenario and eighteen-item viewing galleries. Each comparison uses one source composition twice, with original content on the left and an explicit replacement preset on the right. These are silent, normal-speed excerpts, sampled at matching GSAP timestamps and shown on a shared playback clock; they are not blind reconstruction or a claim of native Studio export acceptance.
 
-The [Skill package](../../library/skills/openmotion-design-remix/SKILL.md) includes source from Hyperframes commit `070b964d7b8cd844a893f0abbe8e0b7f1ac6d879`, six Motion Design profiles, presets, capture/encoding helpers and [evidence](../../library/skills/openmotion-design-remix/evidence.json). [Source identities](../../library/skills/openmotion-design-remix/sources.json), [file hashes and encoding](../../library/skills/openmotion-design-remix/previews/encoding.json), [licenses and execution requirements](../../library/skills/openmotion-design-remix/NOTICE.md) remain with the package.
+The [Skill package](../../library/skills/kinevyn-design-remix/SKILL.md) includes source from Hyperframes commit `070b964d7b8cd844a893f0abbe8e0b7f1ac6d879`, six Motion Design profiles, presets, capture/encoding helpers and [evidence](../../library/skills/kinevyn-design-remix/evidence.json). [Source identities](../../library/skills/kinevyn-design-remix/sources.json), [file hashes and encoding](../../library/skills/kinevyn-design-remix/previews/encoding.json), [licenses and execution requirements](../../library/skills/kinevyn-design-remix/NOTICE.md) remain with the package.
 
 - Per-side stage: 1920 × 1080; capture: 960 × 540. MP4 pair: 1280 × 360, H.264, 12 fps, no audio. GIF pair: 960 × 270, 12 fps, 128 colors, infinite loop. JPEG fallback is the middle of each excerpt.
 - Environment: Node 26.11.1, Puppeteer Core 25.16.0, Chrome 156.0.8078.80, FFmpeg 8.1.1. These are the actual documentation-capture versions, distinct from the application’s native runtime lock.
 - The existing product-tour `real` lock serialized an isolated browser profile and loopback server. This asset capture is not a claim that the team application browser-regression suite ran.
 - Each source and remix passed Hyperframes 0.9.7 lint with zero errors. Existing upstream warnings (file size, nesting, overlapping UI tweens) remain recorded per profile. Contact sheets and selected matched frames were inspected; final visual acceptance is the user's.
-- The interface and glass examples retain original brand artwork and illustrative UI; they are not current OpenMotion screenshots. Code and counters are illustrative content, not executable public product APIs or business metrics.
+- The interface and glass examples retain original brand artwork and illustrative UI; they are not current Kinevyn screenshots. Code and counters are illustrative content, not executable public product APIs or business metrics.
 
-To reproduce, materialize both variants for each profile under a new directory, using the package instructions. From a checkout with installed OpenMotion dependencies, invoke the capture script through the available browser-lock lane, with `MOTION_BROWSER_PATH` pointing to the chosen browser:
+To reproduce, materialize both variants for each profile under a new directory, using the package instructions. From a checkout with installed Kinevyn dependencies, invoke the capture script through the available browser-lock lane, with `MOTION_BROWSER_PATH` pointing to the chosen browser:
 
 ```sh
-node library/skills/openmotion-design-remix/scripts/render-previews.mjs /absolute/projects /absolute/new-capture
-node library/skills/openmotion-design-remix/scripts/encode-previews.mjs /absolute/new-capture /absolute/new-previews
+node library/skills/kinevyn-design-remix/scripts/render-previews.mjs /absolute/projects /absolute/new-capture
+node library/skills/kinevyn-design-remix/scripts/encode-previews.mjs /absolute/new-capture /absolute/new-previews
 ```
 
 The first command requires `puppeteer-core`, a browser with WebGL. The materializer supplies local browser scripts/fonts; the capture helper blocks non-loopback requests. The second requires FFmpeg on PATH. All temporary projects, frame sequences, profiles and logs stay outside the repository; only the selected source package and final previews ship.
@@ -354,16 +354,16 @@ The first command requires `puppeteer-core`, a browser with WebGL. The materiali
 
 ## Presenter videos and motion — 2026-11-09
 
-The [people manifest](people/manifest.json) records **nine catalog-reference GIFs, three original/upstream-remix comparison GIFs and one Presenter Tech template demo GIF credited to MotionGit**, each with a reduced-motion JPEG fallback. Original MP4s remain outside the checkout; links open the full published videos. No presenter footage or voice is packaged into the new [Presenter Story Skill](../../library/skills/openmotion-presenter-story/SKILL.md).
+The [people manifest](people/manifest.json) records **nine catalog-reference GIFs, three original/upstream-remix comparison GIFs and one Presenter Tech template demo GIF credited to MotionGit**, each with a reduced-motion JPEG fallback. Original MP4s remain outside the checkout; links open the full published videos. No presenter footage or voice is packaged into the new [Presenter Story Skill](../../library/skills/kinevyn-presenter-story/SKILL.md).
 
-The catalog already contains all nine `hf-reference-aroll-*` entries and the three `resultVideo` URLs. Paired media are **Hyperframes-published demonstrations**, not OpenMotion-generated results or evidence that the new recipes reproduce them. Both sides retain source pixels and speed, but their excerpt starts are selected separately; this is not a synchronized reconstruction benchmark. Authors are credited from catalog metadata. Original media and likenesses retain their own rights; the repository's Apache license does not relicense them.
+The catalog already contains all nine `hf-reference-aroll-*` entries and the three `resultVideo` URLs. Paired media are **Hyperframes-published demonstrations**, not Kinevyn-generated results or evidence that the new recipes reproduce them. Both sides retain source pixels and speed, but their excerpt starts are selected separately; this is not a synchronized reconstruction benchmark. Authors are credited from catalog metadata. Original media and likenesses retain their own rights; the repository's Apache license does not relicense them.
 
 | Showcase | Reference / source | Excerpt start → duration |
 | --- | --- | --- |
 | careerwithriya | [@careerwithriya](https://www.instagram.com/reel/Ddd57MBszhc/) · `hf-reference-aroll-careerwithriya` | 0 → 6 s |
 | dan-martell-tools | [Dan Martell](https://www.youtube.com/shorts/mk1zJd9Rm4c) · `hf-reference-aroll-dan-martell-tools` | 2 → 6 s |
 | harpercarrollai | [@harpercarrollai](https://www.instagram.com/reel/C4eNPF3PdpG/) · `hf-reference-aroll-harpercarrollai` | 10 → 6 s |
-| ali-abdaal-workflow | [Ali Abdaal](../../library/skills/openmotion-presenter-story/assets/ali-abdaal-workflow-reference.mp4) · `hf-reference-aroll-ali-abdaal-workflow` | 10 → 7 s |
+| ali-abdaal-workflow | [Ali Abdaal](../../library/skills/kinevyn-presenter-story/assets/ali-abdaal-workflow-reference.mp4) · `hf-reference-aroll-ali-abdaal-workflow` | 10 → 7 s |
 | john-tagudin-capso | [@john.tagudin](https://www.tiktok.com/@john.tagudin/video/7524883942328126728) · `hf-reference-aroll-john-tagudin-capso` | 11 → 7 s |
 | aiwithsachi | [@aiwithsachi](https://www.instagram.com/reel/Dc7G9Pxu_1O/) · `hf-reference-aroll-aiwithsachi` | 3 → 6 s |
 | khris-sheer-founder | [@khris.sheer](https://www.tiktok.com/@khris.sheer/video/7491715587895430402) · `hf-reference-aroll-khris-sheer-founder` | 0 → 7 s |
@@ -391,7 +391,7 @@ The current cover was edited with the built-in ImageGen tool to use **Edit video
 Final edit prompt:
 
 ```text
-Change only the bold slogan "Edit with AI." into the exact text "Edit videos with your agent." Keep it on one centered line, slightly reduce that line font size if needed. Preserve the large OpenMotion wordmark, all other wording verbatim, blue/teal/ivory/apricot painterly background, composition, aspect ratio, and visual quality. No other changes.
+Change only the bold slogan "Edit with AI." into the exact text "Edit videos with your agent." Keep it on one centered line, slightly reduce that line font size if needed. Preserve the large Kinevyn wordmark, all other wording verbatim, blue/teal/ivory/apricot painterly background, composition, aspect ratio, and visual quality. No other changes.
 ```
 
 All 38 full films used by the README, scenarios, comparisons and curated collections are now local; see the [media manifest](media/manifest.json) and [resource contract](RESOURCES.md). GIF source hashes continue to identify those same complete files. The six editable profiles include reference films and local dependencies; Presenter Story carries its three pairs. The original template demo is [local](../../library/templates/presenter-tech/preview.mp4). This supersedes earlier descriptions of temporary-only source videos and CDN-dependent rendering.
@@ -403,6 +403,6 @@ The README uses locally stored excerpts from the public template catalog. Each c
 
 The English, Simplified Chinese and Japanese screenshots were captured on 2026-11-16 in a clean Studio workspace using the production catalog. Each image shows the complete Studio viewport inside the same light gray frame with a 56 px margin. Browser title bars are excluded.
 
-The editor shows the bundled OpenMotion Sample Video and its timeline. The library shows the full set of Notion search results. The Custom Agents detail image shows the template preview, and the handoff image shows the expanded instruction, recreate button and copy confirmation together. The [capture manifest](live-product/manifest.json) records the source revision, catalog publication, template ID and file hashes.
+The editor shows the bundled Kinevyn Sample Video and its timeline. The library shows the full set of Notion search results. The Custom Agents detail image shows the template preview, and the handoff image shows the expanded instruction, recreate button and copy confirmation together. The [capture manifest](live-product/manifest.json) records the source revision, catalog publication, template ID and file hashes.
 
 The [earlier user-provided Studio capture](https://releases.open-design.ai/open-motion/media/sha256/f20ae0f17f9db97f1950f8fd4624e296caf014eb5f774d6cb005afa344900073.png) is available in its original form.

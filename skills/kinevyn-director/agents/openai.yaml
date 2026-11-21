@@ -1,0 +1,4 @@
+interface:
+  display_name: "Kinevyn Director"
+  short_description: "Design original motion narratives, choreography, and shot transitions in Kinevyn"
+  default_prompt: "Use Kinevyn $kinevyn-director to create or substantially re-direct an original motion video from product material, validating key motion and transitions before exporting."

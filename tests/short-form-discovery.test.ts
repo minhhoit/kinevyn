@@ -33,7 +33,7 @@ test('short-form discovery uses portrait works and original short video posts be
 });
 
 test('the installed collection and the Agent index identify the same short-form works', async t => {
-  const directory = await mkdtemp(path.join(tmpdir(), 'openmotion-short-form-'));
+  const directory = await mkdtemp(path.join(tmpdir(), 'kinevyn-short-form-'));
   t.after(() => rm(directory, { recursive: true, force: true }));
   const catalog = new TemplateCatalog(directory, { source: 'repository' });
   const index = await catalog.index();

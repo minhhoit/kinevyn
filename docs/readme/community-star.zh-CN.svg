@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 960 360" width="960" height="360" role="img" aria-labelledby="title description" xml:lang="zh-CN">
-<title id="title">关注 OpenMotion</title><desc id="description">在 GitHub 上点个星标，方便下次找到项目，也让更多创作者发现它。</desc>
+<title id="title">关注 Kinevyn</title><desc id="description">在 GitHub 上点个星标，方便下次找到项目，也让更多创作者发现它。</desc>
 <style>
 :root { color:#121212; --symbol:#202020 }
 .star { fill:transparent; animation:star 4s steps(1,end) infinite }
@@ -24,7 +24,7 @@
 <path transform="translate(130.906 18.500) scale(0.020000 -0.020000)" d="M71.8 500H158.13L163.87 442.29Q188.45 472.93 225.13 489.97Q261.82 507 306.89 507Q365.04 507 407.76 482.5Q450.47 458 473.89 410.08Q497.31 362.16 497.31 290.31V0H402.67V277.84Q402.67 348.33 373.5 384.5Q344.33 420.67 287.69 420.67Q229.62 420.67 198.03 383.15Q166.45 345.64 166.45 272.62V0H71.8Z"/>
 </g>
 <g font-family="system-ui, sans-serif" fill="#161616">
-<text x="74" y="163" font-size="45" font-weight="650">关注 OpenMotion</text>
+<text x="74" y="163" font-size="45" font-weight="650">关注 Kinevyn</text>
 <text x="76" y="205" font-size="18">在 GitHub 上点个星标，方便下次找到项目，也让更多创作者发现它。</text>
 <rect x="74" y="242" width="217" height="51" rx="12" fill="#fff" stroke="#abaeaa"/>
 <path class="star" d="m105 254 3.6 7.9 8.5.9-6.4 5.7 1.8 8.4-7.5-4.3-7.5 4.3 1.8-8.4-6.4-5.7 8.5-.9z" stroke="#252525" stroke-width="2" stroke-linejoin="round"/>

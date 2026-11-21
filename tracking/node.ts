@@ -60,7 +60,7 @@ export function createPosthogSender(options: {
     if (signal.aborted) return 'drop';
     const source = options.source?.() ?? options.identity.utm_source;
     const batch = events.map(event => ({ event: event.event, uuid: event.event_id, timestamp: event.occurred_at,
-      properties: { ...event.properties, event_schema_version: 1, schema_version: 1, product: 'openmotion',
+      properties: { ...event.properties, event_schema_version: 1, schema_version: 1, product: 'kinevyn',
         ...(event.host_context ?? unknownHost),
         app_version: options.appVersion, env: options.env, channel: 'standalone',
         ...(options.testRunId ? { test_run_id: options.testRunId } : {}),

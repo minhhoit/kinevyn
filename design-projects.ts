@@ -1,7 +1,7 @@
 /**
- * Shared domain service and HTTP adapter for OpenMotion Design Studio.
- * Both public MCP tools (openmotion_design_*) and Studio HTTP endpoints call this service.
- * OpenMotion runs no design agent: external Agents create and edit HTML projects through
+ * Shared domain service and HTTP adapter for Kinevyn Design Studio.
+ * Both public MCP tools (kinevyn_design_*) and Studio HTTP endpoints call this service.
+ * Kinevyn runs no design agent: external Agents create and edit HTML projects through
  * this service while Studio previews, annotates, versions, exports and hands off briefs.
  */
 import { createHash, randomUUID } from 'node:crypto';
@@ -166,7 +166,7 @@ function starterFiles(scenario: DesignScenarioId, title: string, hasTokensCss: b
       <div class="eyebrow">Slide Deck</div>
       <div>
         <h1>${safeTitle}</h1>
-        <p style="margin-top:20px">Edit with your coding Agent via OpenMotion MCP, or switch to Code view for manual edits.</p>
+        <p style="margin-top:20px">Edit with your coding Agent via Kinevyn MCP, or switch to Code view for manual edits.</p>
       </div>
       <footer><span>${safeTitle}</span><span>01 / 03</span></footer>
     </section>
@@ -262,7 +262,7 @@ function starterFiles(scenario: DesignScenarioId, title: string, hasTokensCss: b
     </header>
     <section>
       <h2>Executive Summary</h2>
-      <p>Replace this section with your document brief using your coding Agent through OpenMotion MCP. Semantic headings, responsive tables and <code>@media print</code> pagination rules are already configured.</p>
+      <p>Replace this section with your document brief using your coding Agent through Kinevyn MCP. Semantic headings, responsive tables and <code>@media print</code> pagination rules are already configured.</p>
     </section>
     <section>
       <h2>Key Figures</h2>
@@ -432,7 +432,7 @@ function starterFiles(scenario: DesignScenarioId, title: string, hasTokensCss: b
   <main>
     <span class="badge">${scenario === 'web-clone' ? 'Website Clone' : scenario === 'mobile-app' ? 'Mobile App' : 'Prototype'}</span>
     <h1>${safeTitle}</h1>
-    <p>This design project is ready for your coding Agent. Use Copy to Agent in Design Studio so Codex or Claude Code can author and iterate on this page through OpenMotion MCP.</p>
+    <p>This design project is ready for your coding Agent. Use Copy to Agent in Design Studio so Codex or Claude Code can author and iterate on this page through Kinevyn MCP.</p>
   </main>
 </body>
 </html>`,
@@ -463,7 +463,7 @@ function buildOpenDesignManifest(project: StoredProject, files: DesignFile[]) {
     screens: html.map(file => ({
       file,
       role: file === project.entry ? 'landing-page' : 'screen',
-      implementationNote: `Exported from OpenMotion Design Studio (${project.scenario})`,
+      implementationNote: `Exported from Kinevyn Design Studio (${project.scenario})`,
     })),
     responsiveViewports: [
       { id: 'desktop', width: 1440, height: 900 },
@@ -486,7 +486,7 @@ function buildOpenDesignHandoff(project: StoredProject, files: DesignFile[]) {
     project.designSystemId ? `- Design system: \`${project.designSystemId}\`` : null,
     `- Files: ${files.length}`,
     '',
-    'Open this folder or ZIP in Open Design or OpenMotion Design Studio to continue editing.',
+    'Open this folder or ZIP in Open Design or Kinevyn Design Studio to continue editing.',
   ].filter(Boolean).join('\n');
 }
 

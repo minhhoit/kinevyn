@@ -24,7 +24,7 @@ export function TopBrandsLabel() {
 }
 
 export function TemplateIdentity({ template, brand = false, favicon = false }: { template: GalleryTemplate; brand?: boolean; favicon?: boolean }) {
-  const name = brand ? template.brand || template.author : template.authorName || template.author || template.brand || 'OpenMotion';
+  const name = brand ? template.brand || template.author : template.authorName || template.author || template.brand || 'Kinevyn';
   const [failedUrls, setFailedUrls] = useState<string[]>([]);
   const [loadedUrl, setLoadedUrl] = useState<string>();
   const candidates = favicon ? [template.brandLogoUrl] : [!brand && template.authorAvatarUrl, template.brandLogoUrl, brandLogos[template.brand ?? '']];

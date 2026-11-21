@@ -39,7 +39,7 @@ test('prepared release snapshot becomes the pointer only after an exact candidat
 });
 
 async function fixture(t) {
-  const root = await mkdtemp(path.join(tmpdir(), 'openmotion-template-publish-'));
+  const root = await mkdtemp(path.join(tmpdir(), 'kinevyn-template-publish-'));
   t.after(() => rm(root, { recursive: true, force: true }));
   const directory = path.join(root, 'library/templates/catalog/motion-fixture/source/assets');
   await mkdir(directory, { recursive: true });

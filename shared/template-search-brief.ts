@@ -7,11 +7,11 @@ type SearchBrief = { query: string; description: string } & (
 );
 /** Plain reference data stays separate from the host's instructions and is never sent automatically. */
 export function templateSearchBrief(input: SearchBrief, t: (message: string) => string) {
-  const lines = [t('Use OpenMotion to create an editable video for this request.'), t('Follow the OpenMotion production workflow. Use openmotion_create_project for a new project, openmotion_edit_project with current revision protection, and openmotion_open_preview for the editable preview.')];
+  const lines = [t('Use Kinevyn to create an editable video for this request.'), t('Follow the Kinevyn production workflow. Use kinevyn_create_project for a new project, kinevyn_edit_project with current revision protection, and kinevyn_open_preview for the editable preview.')];
   if (input.query.trim()) lines.push(`${t('Search context')}: ${JSON.stringify(input.query.trim())}`);
   if (input.mode === 'reference' && input.source === 'local') {
-    lines.push(t('Read the reference from the same OpenMotion workspace before recreating it.'),
-      `openmotion_assets_use ${JSON.stringify({ action: 'read', ...input.asset })}`,
+    lines.push(t('Read the reference from the same Kinevyn workspace before recreating it.'),
+      `kinevyn_assets_use ${JSON.stringify({ action: 'read', ...input.asset })}`,
       `${t('Local video URL')}: ${JSON.stringify(input.mediaUrl)}`);
   } else if (input.mode === 'reference') {
     lines.push(`${t('Reference video')}: ${JSON.stringify(input.reference.trim())}`);

@@ -1,4 +1,4 @@
-<p align="center"><img src="docs/readme/openmotion-logo.svg" width="420" alt="OpenMotion"></p>
+<p align="center"><img src="docs/readme/kinevyn-logo.svg" width="420" alt="Kinevyn"></p>
 
 <p align="center"><strong>Claude Motion 与 CapCut 的开源替代方案</strong></p>
 
@@ -6,28 +6,28 @@
   <picture>
     <source type="image/webp" srcset="docs/readme/capcut-claude-motion-cover.zh-CN.webp">
     <source media="(max-width: 600px)" srcset="https://releases.open-design.ai/open-motion/media/sha256/45ee17734fb1315decef29c116fdd6794ee275fe83239328526b982a8ebe17ac.jpg">
-    <img src="https://releases.open-design.ai/open-motion/media/sha256/45ee17734fb1315decef29c116fdd6794ee275fe83239328526b982a8ebe17ac.jpg" width="100%" alt="Dan Martell 原片与 OpenMotion 复刻并排展示：Riya 出镜，荧光黄手写关键词叠在两行白色粗体字幕之间。下方是 Studio 字幕时间轴。">
+    <img src="https://releases.open-design.ai/open-motion/media/sha256/45ee17734fb1315decef29c116fdd6794ee275fe83239328526b982a8ebe17ac.jpg" width="100%" alt="Dan Martell 原片与 Kinevyn 复刻并排展示：Riya 出镜，荧光黄手写关键词叠在两行白色粗体字幕之间。下方是 Studio 字幕时间轴。">
   </picture>
 </p>
 
 <p align="center">
-  <a href="https://github.com/nexu-io/openmotion"><img src="docs/readme/badges/stars.zh-CN.svg" alt="GitHub 星标 · 9.5k（2026-11-09）"></a>
+  <a href="https://github.com/rivyn-labs/kinevyn"><img src="docs/readme/badges/stars.zh-CN.svg" alt="GitHub 星标 · 9.5k（2026-11-09）"></a>
   <a href="package.json"><img src="docs/readme/badges/node.svg" alt="Node.js 22.18+"></a>
   <a href="LICENSE"><img src="docs/readme/badges/license.zh-CN.svg" alt="Apache 2.0 许可证"></a>
-  <a href="https://github.com/nexu-io/open-design"><img src="docs/readme/badges/built-by-opendesign.zh-CN.svg" alt="OpenDesign 出品"></a>
+  <a href="https://github.com/rivyn-labs/open-design"><img src="docs/readme/badges/built-by-opendesign.zh-CN.svg" alt="OpenDesign 出品"></a>
 </p>
 
 <p align="center">
-  <a href="https://open-design.ai/zh/motion/"><img src="docs/readme/badges/website.zh-CN.svg" alt="OpenMotion 官网" /></a>
-  <a href="https://go.open-design.ai/?utm_source=github&amp;utm_medium=referral&amp;utm_campaign=openmotion&amp;utm_content=readme_zh"><img src="docs/readme/badges/opendesign-go.svg" alt="OpenDesign Go 模型订阅" /></a>
-  <a href="https://discord.com/invite/M7NnHS9gNa"><img src="docs/readme/badges/discord.svg" alt="加入 OpenMotion Discord 社区" /></a>
-  <a href="https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=b6cs46dc-acb2-48ed-941d-c45642ead841"><img src="docs/readme/badges/feishu.zh-CN.svg" alt="加入 OpenMotion 飞书群" /></a>
+  <a href="https://open-design.ai/zh/motion/"><img src="docs/readme/badges/website.zh-CN.svg" alt="Kinevyn 官网" /></a>
+  <a href="https://go.open-design.ai/?utm_source=github&amp;utm_medium=referral&amp;utm_campaign=kinevyn&amp;utm_content=readme_zh"><img src="docs/readme/badges/opendesign-go.svg" alt="OpenDesign Go 模型订阅" /></a>
+  <a href="https://discord.com/invite/M7NnHS9gNa"><img src="docs/readme/badges/discord.svg" alt="加入 Kinevyn Discord 社区" /></a>
+  <a href="https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=b6cs46dc-acb2-48ed-941d-c45642ead841"><img src="docs/readme/badges/feishu.zh-CN.svg" alt="加入 Kinevyn 飞书群" /></a>
   <a href="https://x.com/OpenDesignHQ"><img src="docs/readme/badges/x-opendesignhq.svg" alt="OpenDesign 官方 X 账号 @OpenDesignHQ" /></a>
   <a href="https://x.com/OpenDesignDevs"><img src="docs/readme/badges/x-opendesigndevs.svg" alt="OpenDesign 开发者 X 账号 @OpenDesignDevs" /></a>
   <a href="https://www.youtube.com/channel/UChtshixMhvtgBWzoD9R_Qfg"><img src="docs/readme/badges/youtube.svg" alt="OpenDesign 的 YouTube 频道" /></a>
 </p>
 
-<p align="center"><a href="#quick-start">立即安装</a> · <a href="#agent-wall">支持的 Agent</a> · <a href="#showcase">使用场景与复刻效果示例</a> · <a href="#features">为什么选择 OpenMotion</a> · <a href="#technical-guide">安装与技术文档</a> · <a href="#community">社区与贡献</a></p>
+<p align="center"><a href="#quick-start">立即安装</a> · <a href="#agent-wall">支持的 Agent</a> · <a href="#showcase">使用场景与复刻效果示例</a> · <a href="#features">为什么选择 Kinevyn</a> · <a href="#technical-guide">安装与技术文档</a> · <a href="#community">社区与贡献</a></p>
 
 <div align="center">
 
@@ -35,13 +35,13 @@
 
 </div>
 
-# OpenMotion
+# Kinevyn
 
-OpenMotion 是一个**由 AI Agent 驱动的全栈视频创作工作台**，也是 **Claude Motion 与 CapCut 的开源替代方案**。上传参考视频或粘贴社交平台上的视频链接，就能**用自己的品牌视觉规范和文案复刻原片**。
+Kinevyn 是一个**由 AI Agent 驱动的全栈视频创作工作台**，也是 **Claude Motion 与 CapCut 的开源替代方案**。上传参考视频或粘贴社交平台上的视频链接，就能**用自己的品牌视觉规范和文案复刻原片**。
 
 - 🎬 **全栈视频复刻。** Agent 拆解参考片，用 HTML 重建镜头和转场，并生成缺少的素材。你可以在同一工程里用 Studio 调整剪辑节奏，再渲染导出 MP4。
-- 🔑 **BYOA（自带 Agent）与 BYOK（自带 API 密钥）。** OpenMotion 开源免费。直接在[常用的本地 Agent](#agent-wall) 里复刻视频，每一层都能用自己的 API 密钥。
-- 🧩 OpenMotion 首次定义了 **Motion.md**，用 Markdown 记录镜头顺序、时长和转场。品牌宣传片的拆解可以随工程一起分享。
+- 🔑 **BYOA（自带 Agent）与 BYOK（自带 API 密钥）。** Kinevyn 开源免费。直接在[常用的本地 Agent](#agent-wall) 里复刻视频，每一层都能用自己的 API 密钥。
+- 🧩 Kinevyn 首次定义了 **Motion.md**，用 Markdown 记录镜头顺序、时长和转场。品牌宣传片的拆解可以随工程一起分享。
 - 🎛️ **图片、视频、音乐和语音。** 用 GPT Image 2.6 生成画面、Seedance 2.5 补镜头、Suno 配乐，再用 Eleven v4 生成旁白。[查看模型与接入方式](#model-wall)
 
 <a id="快速开始"></a> <a id="quick-start"></a>
@@ -50,16 +50,16 @@ OpenMotion 是一个**由 AI Agent 驱动的全栈视频创作工作台**，也�
 
 **一键安装，无需手动配置。** 安装后，在对话中即可从零创作动效视频、复刻参考视频，或使用模板开始创作。
 
-**[在 ChatGPT 中安装 OpenMotion →](https://chatgpt.com/plugins/plugins_6a742d13e88481919b42002864b1bb26)**
+**[在 ChatGPT 中安装 Kinevyn →](https://chatgpt.com/plugins/plugins_6a742d13e88481919b42002864b1bb26)**
 
 <a id="start-in-codex"></a>
 
 ### 在 Agent 中安装
 
-复制下面的指令，发给你的本地 Agent，即可从源码安装 OpenMotion：
+复制下面的指令，发给你的本地 Agent，即可从源码安装 Kinevyn：
 
 ```text
-阅读 https://github.com/nexu-io/openmotion/blob/main/docs/install.md，按照指南在当前 Agent 中安装并连接 OpenMotion。
+阅读 https://github.com/rivyn-labs/kinevyn/blob/main/docs/install.md，按照指南在当前 Agent 中安装并连接 Kinevyn。
 ```
 
 安装完成后，Agent 会打开本地模板库并推荐一个模板，确认选择后再创建工程。[源码安装指南](docs/install.md)
@@ -79,8 +79,8 @@ OpenMotion 是一个**由 AI Agent 驱动的全栈视频创作工作台**，也�
 需要 Git、npm 和 Node.js 26.11.1：
 
 ```sh
-git -c filter.lfs.process= -c filter.lfs.smudge= -c filter.lfs.required=false clone --depth 1 --single-branch --branch main https://github.com/nexu-io/openmotion.git
-cd openmotion
+git -c filter.lfs.process= -c filter.lfs.smudge= -c filter.lfs.required=false clone --depth 1 --single-branch --branch main https://github.com/rivyn-labs/kinevyn.git
+cd kinevyn
 npm ci
 npm run build:studio
 npm start
@@ -91,7 +91,7 @@ npm start
 
 ### 从已有项目快速开始
 
-可以将 **HyperFrames 项目 ZIP 直接导入 OpenMotion**，继续编辑已有动效和本地素材。将项目文件夹压缩为 ZIP，在 **全部项目 → 导入项目** 中选择文件，再打开导入的副本，即可通过 Studio 或 Agent 继续修改。导入会创建独立副本，项目需符合支持的原生工程结构。
+可以将 **HyperFrames 项目 ZIP 直接导入 Kinevyn**，继续编辑已有动效和本地素材。将项目文件夹压缩为 ZIP，在 **全部项目 → 导入项目** 中选择文件，再打开导入的副本，即可通过 Studio 或 Agent 继续修改。导入会创建独立副本，项目需符合支持的原生工程结构。
 
 [查看导入步骤、文件要求与兼容范围](docs/project-archives.md#import-from-hyperframes)
 
@@ -101,7 +101,7 @@ npm start
 
 <p align="center"><a href="#choose-agent"><picture><source media="(max-width: 600px)" srcset="docs/readme/agents/local-agents.mobile.png"><img src="docs/readme/agents/local-agents.png" width="100%" alt="WorkBuddy, Codex CLI, Claude Code, OpenCode, Hermes, Antigravity, Gemini CLI, Grok Build, Kimi CLI, Cursor Agent, Qwen Code, Qoder CLI, GitHub Copilot, Pi, Kiro CLI, Kilo, Mistral Vibe, DeepSeek TUI, Reasonix, Aider, Devin, Trae CLI"></picture></a></p>
 
-<a id="showcase"></a> <a id="brand-before-after"></a> <a id="用-openmotion-可以做什么"></a>
+<a id="showcase"></a> <a id="brand-before-after"></a> <a id="用-kinevyn-可以做什么"></a>
 <a id="使用场景与复刻效果示例"></a>
 
 ## 🎞️ 使用场景与复刻效果示例
@@ -297,19 +297,19 @@ npm start
 </table>
 
 <a id="features"></a>
-<a id="为什么选择-openmotion"></a>
+<a id="为什么选择-kinevyn"></a>
 
-## ✨ 为什么选择 OpenMotion
+## ✨ 为什么选择 Kinevyn
 
-<a id="what-is-openmotion"></a> <a id="openmotion-是什么"></a> <a id="video-is-code"></a>
+<a id="what-is-kinevyn"></a> <a id="kinevyn-是什么"></a> <a id="video-is-code"></a>
 
 ### 1. 全栈 Agentic 视频创作工作室
 
-**用 HTML 写视频。** OpenMotion 用 HTML、CSS、JavaScript 描述场景、字体、布局、转场和时间。实拍、生成片段、图片、音乐和旁白作为合成素材，同一工程可在 Studio 打开并渲染为 MP4。
+**用 HTML 写视频。** Kinevyn 用 HTML、CSS、JavaScript 描述场景、字体、布局、转场和时间。实拍、生成片段、图片、音乐和旁白作为合成素材，同一工程可在 Studio 打开并渲染为 MP4。
 
 ![本地 Agent、可选媒体模型账号和创作资源共同支持参考理解、场景编码、素材生成、剪辑及 MP4 渲染，并保留可复用源码。](docs/readme/diagrams/creation-stack.zh-CN.svg)
 
-**编写、观看、修改、渲染。** 让 Agent 替换产品、精简开头、加入真人、修改字幕或尝试新结尾。它修改工程源码，你在可视化编辑器中审阅。本地 MCP 客户端使用工程工具，具备 shell 的 Agent 还可遵循 Skills 和固定版本 CLI 工作流。[Agent 配置](#agent-setup) · [原生合成指南](skills/openmotion-production/references/native.md) · [HTML 示例工程](template-library/product-promo/index.html)
+**编写、观看、修改、渲染。** 让 Agent 替换产品、精简开头、加入真人、修改字幕或尝试新结尾。它修改工程源码，你在可视化编辑器中审阅。本地 MCP 客户端使用工程工具，具备 shell 的 Agent 还可遵循 Skills 和固定版本 CLI 工作流。[Agent 配置](#agent-setup) · [原生合成指南](skills/kinevyn-production/references/native.md) · [HTML 示例工程](template-library/product-promo/index.html)
 
 <a id="studio-in-use"></a>
 
@@ -381,7 +381,7 @@ npm start
 | **🎨 品牌与素材** | 加入标志、字体、截图、实拍、脚本和音乐，在 Motion.md 的 Brand Kit 章节记录品牌信息和获准使用的素材。 |
 | **🧩 起步资源** | 浏览参考、动效组件、模板和社区 Skills，选择方向，把源码或参考交给 Agent，做成自己的作品。 |
 
-**OpenMotion 创作流程全部开源：Skills、工程工具、模型集成、Studio 和渲染。** 本地运行、检查实现、按需扩展。这条本地工作流不收软件订阅或单次渲染费，也可以只用自己的视频、图片和声音，不调用生成 API。
+**Kinevyn 创作流程全部开源：Skills、工程工具、模型集成、Studio 和渲染。** 本地运行、检查实现、按需扩展。这条本地工作流不收软件订阅或单次渲染费，也可以只用自己的视频、图片和声音，不调用生成 API。
 
 供应商凭据保存在工作区配置中。Agent 订阅和第三方模型调用按各自的规则计费。 [各 Agent 接入方式与验证状态](docs/agent-adapters.md)
 
@@ -389,7 +389,7 @@ npm start
 
 ### 3. 300 多份 Motion.md，让视频复刻有据可循
 
-OpenMotion 首次定义了 **Motion.md**：用 Markdown 记录镜头顺序、时长、转场和可替换素材。线上模板库将参考视频与动效说明集中在同一个详情页。
+Kinevyn 首次定义了 **Motion.md**：用 Markdown 记录镜头顺序、时长、转场和可替换素材。线上模板库将参考视频与动效说明集中在同一个详情页。
 
 Brand Kit 章节记录品牌身份、语气和已确认的产品信息；Design 章节可引用独立的 `DESIGN.md` 复用视觉规则。保留参考片的运动方式与节奏，同时让成片呈现自己的品牌。
 
@@ -449,15 +449,15 @@ Brand Kit 章节记录品牌身份、语气和已确认的产品信息；Design 
 
 通过 Agent 安装，请使用[上方的安装指令](#quick-start)。如需从源码运行，使用下面的步骤。
 
-#### 运行 OpenMotion
+#### 运行 Kinevyn
 
 **从免费本地创作全栈开始。** 连接自己的 Agent、打开内置模板或导入实拍，用本地应用渲染。需要生成新素材时，在 Model Settings 加入受支持的媒体 Key。
 
 准备 Git、npm 和 **Node.js 26.11.1**。从源码预览和导出还需要 Chrome/Chromium 和 FFmpeg/FFprobe。[运行环境配置](docs/usage.md)
 
 ```sh
-git clone --branch main https://github.com/nexu-io/openmotion.git openmotion
-cd openmotion
+git clone --branch main https://github.com/rivyn-labs/kinevyn.git kinevyn
+cd kinevyn
 npm ci
 npm run build:studio
 npm start
@@ -477,7 +477,7 @@ bash scripts/install-motion.command
 
 <a id="workbuddy-setup"></a>
 
-**WorkBuddy** · 在 WorkBuddy 中导入 OpenMotion Connector，或将它提供的 `mcp.json` 添加为自定义 MCP，然后让 WorkBuddy 列出可用的视频模板。[WorkBuddy 接入说明](docs/agent-adapters.md#workbuddy)
+**WorkBuddy** · 在 WorkBuddy 中导入 Kinevyn Connector，或将它提供的 `mcp.json` 添加为自定义 MCP，然后让 WorkBuddy 列出可用的视频模板。[WorkBuddy 接入说明](docs/agent-adapters.md#workbuddy)
 
 <a id="claude-setup"></a>
 
@@ -485,50 +485,50 @@ bash scripts/install-motion.command
 
 <a id="deepseek-setup"></a>
 
-**DeepSeek** · 在 DeepSeek TUI 中可从终端操作可编辑的 HTML 工程。使用 DeepSeek Harness 时，可通过 Cordis 配置连接 OpenMotion 的 MCP 工具。[DeepSeek Harness 配置](docs/agent-adapters.md#deepseek-harness)
+**DeepSeek** · 在 DeepSeek TUI 中可从终端操作可编辑的 HTML 工程。使用 DeepSeek Harness 时，可通过 Cordis 配置连接 Kinevyn 的 MCP 工具。[DeepSeek Harness 配置](docs/agent-adapters.md#deepseek-harness)
 
 本地安装器使用本地构建的包。[Windows 测试包](docs/test-packages.md)
 
 先试一个线上模板：
 
-> 用 OpenMotion 复刻这个模板详情页的视频，替换成我提供的 Brand Kit 和文案。保留动作与节奏，在 Studio 中打开可编辑结果供我检查。
+> 用 Kinevyn 复刻这个模板详情页的视频，替换成我提供的 Brand Kit 和文案。保留动作与节奏，在 Studio 中打开可编辑结果供我检查。
 
 要从视频开始，请提供参考并使用[复刻简报](#reverse-engineer-a-video)。宿主无法在对话旁打开 Studio 时，可使用返回的本地工程链接。
 
 ##### Skills、MCP 与 CLI
 
-插件与 MCP 服务名称为 `openmotion`；Tools、Skills 与资源分别使用 `openmotion_*`、`openmotion-*` 和 `openmotion://`。旧 Tool 和资源名称保留兼容；旧 Skill 入口已移除，请使用 `openmotion-*`，升级后刷新宿主 Skill 列表。[命名与安装兼容说明](docs/npm-installation.md#public-names-and-compatibility)
+插件与 MCP 服务名称为 `kinevyn`；Tools、Skills 与资源分别使用 `kinevyn_*`、`kinevyn-*` 和 `kinevyn://`。旧 Tool 和资源名称保留兼容；旧 Skill 入口已移除，请使用 `kinevyn-*`，升级后刷新宿主 Skill 列表。[命名与安装兼容说明](docs/npm-installation.md#public-names-and-compatibility)
 
 在 checkout 中发现并安装五个核心工作流，使用 [Skills CLI](https://github.com/vercel-labs/skills):
 
 ```sh
 npx skills add ./skills --list
-npx skills add ./skills --skill openmotion-director openmotion-production openmotion-template-to-video openmotion-recreate openmotion-video-to-template
+npx skills add ./skills --skill kinevyn-director kinevyn-production kinevyn-template-to-video kinevyn-recreate kinevyn-video-to-template
 ```
 
 这只复制指引，不安装运行时或注册 MCP。保持共享文档可用并单独连接应用，或使用上面的一体化本地安装器。
 
 | Skill | 用途 |
 | --- | --- |
-| [openmotion-recreate](skills/openmotion-recreate/SKILL.md) | 重建参考视频并对比结果 |
-| [openmotion-template-to-video](skills/openmotion-template-to-video/SKILL.md) | 改编已有可编辑模板 |
-| [openmotion-director](skills/openmotion-director/SKILL.md) | 原创影片、叙事、动作、声音与创作审片 |
-| [openmotion-video-to-template](skills/openmotion-video-to-template/SKILL.md) | 制作便携的可复用模板 |
-| [openmotion-production](skills/openmotion-production/SKILL.md) | 范围明确的修改、预览、检查、排错和导出 |
+| [kinevyn-recreate](skills/kinevyn-recreate/SKILL.md) | 重建参考视频并对比结果 |
+| [kinevyn-template-to-video](skills/kinevyn-template-to-video/SKILL.md) | 改编已有可编辑模板 |
+| [kinevyn-director](skills/kinevyn-director/SKILL.md) | 原创影片、叙事、动作、声音与创作审片 |
+| [kinevyn-video-to-template](skills/kinevyn-video-to-template/SKILL.md) | 制作便携的可复用模板 |
+| [kinevyn-production](skills/kinevyn-production/SKILL.md) | 范围明确的修改、预览、检查、排错和导出 |
 
 <a id="local-agent-connection"></a>
 
-**连接其他本地 Agent** · 按照官方安装指南在客户端完成接入。支持 stdio MCP 的客户端可以使用下方配置。对于通过终端工作的 Agent，打开工程目录，用[本机引擎 CLI](skills/openmotion-production/references/native.md) 预览和渲染 HTML 场景。 使用 npm 发布版时，运行 `openmotion setup --host <Agent 名称>`（例如 `opencode`）。setup 会安装应用和 Skills，并返回需要添加的启动器配置。[其他本地 Agent](docs/npm-installation.md#other-local-agents)
+**连接其他本地 Agent** · 按照官方安装指南在客户端完成接入。支持 stdio MCP 的客户端可以使用下方配置。对于通过终端工作的 Agent，打开工程目录，用[本机引擎 CLI](skills/kinevyn-production/references/native.md) 预览和渲染 HTML 场景。 使用 npm 发布版时，运行 `kinevyn setup --host <Agent 名称>`（例如 `opencode`）。setup 会安装应用和 Skills，并返回需要添加的启动器配置。[其他本地 Agent](docs/npm-installation.md#other-local-agents)
 
 <a id="manual-mcp"></a>
 
 ```json
 {
   "mcpServers": {
-    "openmotion": {
+    "kinevyn": {
       "command": "/absolute/path/to/node",
-      "args": ["--experimental-strip-types", "/absolute/openmotion/mcp.ts"],
-      "env": { "MOTION_DATA_DIR": "/absolute/openmotion-data" }
+      "args": ["--experimental-strip-types", "/absolute/kinevyn/mcp.ts"],
+      "env": { "MOTION_DATA_DIR": "/absolute/kinevyn-data" }
     }
   }
 }
@@ -536,9 +536,9 @@ npx skills add ./skills --skill openmotion-director openmotion-production openmo
 
 **十八个公开 MCP 名称（含一个素材库兼容别名）**覆盖模板发现与详情、Skill 发现与读取、工程创建与读取、编辑、预览、媒体导入与 BYOK 生成、可复用素材版本、工程管理与 ZIP 分享、导出、版本恢复与取消。共享工作流和引擎指引通过 MCP resources 提供。[工具契约](docs/mcp-phase1-tools.md)
 
-用 `openmotion_list_templates` 查找模板，`openmotion_get_template` 查看详情，再用 `openmotion_create_project` 创建可编辑副本。[模板目录](docs/template-catalog.md)
+用 `kinevyn_list_templates` 查找模板，`kinevyn_get_template` 查看详情，再用 `kinevyn_create_project` 创建可编辑副本。[模板目录](docs/template-catalog.md)
 
-使用 `npm start` 启动应用，使用 `npm run mcp` 启动 stdio。具备 shell 的 Agent 可使用运行时返回的固定版本引擎 CLI 检查和渲染；托管修改仍遵守工程 revision 校验。[原生创作](skills/openmotion-production/references/native.md)
+使用 `npm start` 启动应用，使用 `npm run mcp` 启动 stdio。具备 shell 的 Agent 可使用运行时返回的固定版本引擎 CLI 检查和渲染；托管修改仍遵守工程 revision 校验。[原生创作](skills/kinevyn-production/references/native.md)
 
 <a id="product-tour"></a> <a id="产品界面"></a> <a id="connect-your-agent"></a> <a id="use-from-your-agent"></a> <a id="从-agent-接入"></a> <a id="your-agent-your-studio"></a>
 
@@ -554,10 +554,10 @@ npx skills add ./skills --skill openmotion-director openmotion-production openmo
 | **字体与身份** — 字体层级、配色与构图 | 你的字体、色板、文案和 Brandkit |
 | **声音与节拍** — 语音时序、配乐提示与重音 | 你的声音、音乐素材与声音方向 |
 
-如果 Agent 无法打开社媒链接，可以提供本地视频和时间码。只有原片时使用[参考片复刻流程](skills/openmotion-recreate/SKILL.md)，手里已有可编辑源码时使用[模板流程](skills/openmotion-template-to-video/SKILL.md)。
+如果 Agent 无法打开社媒链接，可以提供本地视频和时间码。只有原片时使用[参考片复刻流程](skills/kinevyn-recreate/SKILL.md)，手里已有可编辑源码时使用[模板流程](skills/kinevyn-template-to-video/SKILL.md)。
 
 ```text
-用 OpenMotion 为我们的品牌重建附件参考视频。
+用 Kinevyn 为我们的品牌重建附件参考视频。
 
 研究：开头、镜头顺序、字体、转场和声音提示。
 保留：选定片段的产品揭示方式与镜头节奏。
@@ -603,7 +603,7 @@ Agent 通过工程工具写入时会核对版本，避免旧请求覆盖刚完�
 社区知识
 Motion.md + BRANDKIT.md + Skills + 模板 + 组件
                  ↓
-BYOA：本地 Agent                       OPENMOTION STUDIO
+BYOA：本地 Agent                       KINEVYN STUDIO
 DeepSeek Harness / Codex / Claude Code  React 19 + TypeScript + Vite
 其他本地宿主、Skills 与宿主分析工具     Tailwind CSS + Zustand
                  |                     CodeMirror + Dockview
@@ -639,7 +639,7 @@ MP4 + 可编辑源码 + 素材 + 版本和导出证据
 
 </details>
 
-BYOA 连接已有 Agent 客户端；素材工作区支持直接用模型生成和复用素材。BYOK 连接受支持的模型账号。Studio 与本地服务管理可编辑工程，供应商凭据不写入工程文件。一期公开 MCP 包含**十八个名称：九个工程工具、两个模板目录工具、两个 Skill 库工具、一个工程归档工具、一个工程管理工具、一个 BYOK 媒体工具，以及同一素材库能力的两个名称**。先在 Studio 配置供应商密钥，再用 `openmotion_media_use` 发现模型、经本地 Gateway 生成媒体。用 `openmotion_assets_use`（`openmotion_assets` 仍兼容）上传、查看或生成可复用素材，保留版本，并把选定版本导入影片。[素材库指南](docs/assets.md)。密钥留在服务内；公开 MCP 契约不包含发布。
+BYOA 连接已有 Agent 客户端；素材工作区支持直接用模型生成和复用素材。BYOK 连接受支持的模型账号。Studio 与本地服务管理可编辑工程，供应商凭据不写入工程文件。一期公开 MCP 包含**十八个名称：九个工程工具、两个模板目录工具、两个 Skill 库工具、一个工程归档工具、一个工程管理工具、一个 BYOK 媒体工具，以及同一素材库能力的两个名称**。先在 Studio 配置供应商密钥，再用 `kinevyn_media_use` 发现模型、经本地 Gateway 生成媒体。用 `kinevyn_assets_use`（`kinevyn_assets` 仍兼容）上传、查看或生成可复用素材，保留版本，并把选定版本导入影片。[素材库指南](docs/assets.md)。密钥留在服务内；公开 MCP 契约不包含发布。
 
 #### 技术栈与源码索引
 
@@ -666,7 +666,7 @@ BYOA 连接已有 Agent 客户端；素材工作区支持直接用模型生成�
 | **Agent 与开发工具** | 改进宿主适配器、Skill、资源指引或工程工具流程 | [Agent 适配器](docs/agent-adapters.md) · [MCP 契约](docs/mcp-phase1-tools.md) |
 | **动效与创意编程** | 分享组件、原生模板或带真实改编的 Motion.md 包 | [组件](library/components/README.md) · [条目清单](library/ENTRY_TEMPLATE.md) |
 | **视频与渲染** | 改进导出可靠性、媒体处理或可复现验证 | [引擎说明](docs/hyperframes.md) · [导出校验器](scripts/verify-export.ts) |
-| **社交发布** | 设计规划中的连接器层：账号访问、发布审阅、排期和版本映射 | [发布方向](docs/product/studio-vision.md) · [讨论提案](https://github.com/nexu-io/openmotion/issues) |
+| **社交发布** | 设计规划中的连接器层：账号访问、发布审阅、排期和版本映射 | [发布方向](docs/product/studio-vision.md) · [讨论提案](https://github.com/rivyn-labs/kinevyn/issues) |
 
 从[本地安装](#quick-start)开始，选择一层，遵循 [CONTRIBUTING.md](CONTRIBUTING.md) 和 [AGENTS.md](AGENTS.md)。工程与凭据放在 checkout 外，保留依赖锁定与上游许可。
 
@@ -719,15 +719,15 @@ BYOA 连接已有 Agent 客户端；素材工作区支持直接用模型生成�
 | **Brandkit** | 品牌身份、准确产品事实和可分享素材 |
 | **Agent 支持或编辑器改进** | 范围聚焦且可复现验证的变更 |
 
-[资源提交清单](library/ENTRY_TEMPLATE.md) · [参与贡献](CONTRIBUTING.md) · [反馈问题](https://github.com/nexu-io/openmotion/issues) · [贡献者](https://github.com/nexu-io/openmotion/graphs/contributors) · [媒体资料](docs/media-kit.md)
+[资源提交清单](library/ENTRY_TEMPLATE.md) · [参与贡献](CONTRIBUTING.md) · [反馈问题](https://github.com/rivyn-labs/kinevyn/issues) · [贡献者](https://github.com/rivyn-labs/kinevyn/graphs/contributors) · [媒体资料](docs/media-kit.md)
 
-本仓库已从 `nexu-io/html-anything` 更名为 [`nexu-io/openmotion`](https://github.com/nexu-io/openmotion)。
+本仓库已从 `rivyn-labs/html-anything` 更名为 [`rivyn-labs/kinevyn`](https://github.com/rivyn-labs/kinevyn)。
 
-[OpenMotion 官网](https://open-design.ai/zh/motion/) · [OpenDesign Go](https://go.open-design.ai/?utm_source=github&utm_medium=referral&utm_campaign=openmotion&utm_content=readme_zh) · [Discord](https://discord.com/invite/M7NnHS9gNa) · [飞书群](https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=b6cs46dc-acb2-48ed-941d-c45642ead841) · [X @OpenDesignDevs](https://x.com/OpenDesignDevs) · [X @OpenDesignHQ](https://x.com/OpenDesignHQ) · [YouTube](https://www.youtube.com/channel/UChtshixMhvtgBWzoD9R_Qfg)
+[Kinevyn 官网](https://open-design.ai/zh/motion/) · [OpenDesign Go](https://go.open-design.ai/?utm_source=github&utm_medium=referral&utm_campaign=kinevyn&utm_content=readme_zh) · [Discord](https://discord.com/invite/M7NnHS9gNa) · [飞书群](https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=b6cs46dc-acb2-48ed-941d-c45642ead841) · [X @OpenDesignDevs](https://x.com/OpenDesignDevs) · [X @OpenDesignHQ](https://x.com/OpenDesignHQ) · [YouTube](https://www.youtube.com/channel/UChtshixMhvtgBWzoD9R_Qfg)
 
-[**在 GitHub 上给 OpenMotion 点个 Star**](https://github.com/nexu-io/openmotion)
+[**在 GitHub 上给 Kinevyn 点个 Star**](https://github.com/rivyn-labs/kinevyn)
 
-[![关注 OpenMotion · 在 GitHub 上加星](https://releases.open-design.ai/open-motion/media/sha256/eb32b6cd4736cbbf42a537af24ed1ab8745192efcd7f3f69ffd5f2d569fe1607.gif)](https://github.com/nexu-io/openmotion)
+[![关注 Kinevyn · 在 GitHub 上加星](https://releases.open-design.ai/open-motion/media/sha256/eb32b6cd4736cbbf42a537af24ed1ab8745192efcd7f3f69ffd5f2d569fe1607.gif)](https://github.com/rivyn-labs/kinevyn)
 
 <a id="acknowledgements"></a>
 
@@ -735,31 +735,31 @@ BYOA 连接已有 Agent 客户端；素材工作区支持直接用模型生成�
 
 品牌原片的发布者及时间码见对照区。 [Agent 与模型标志](docs/readme/models/README.md)
 
-OpenMotion 采用 [Apache-2.0](LICENSE)许可。第三方代码、模板、媒体和字体保留各自许可证和署名。
+Kinevyn 采用 [Apache-2.0](LICENSE)许可。第三方代码、模板、媒体和字体保留各自许可证和署名。
 
 | 来源 | 关联 |
 | --- | --- |
-| [OpenDesign](https://github.com/nexu-io/open-design) | OpenMotion 的开发团队，负责界面设计、资源结构、品牌方向，并提供 Apache-2.0 HTML 设计模板、设计系统、Skills、工艺规范与场景任务指南；[设计体系](docs/design-system.md)、[设计资源声明](library/design/NOTICE.md)和 [Motion 展示](https://open-design.ai/zh/motion/) |
+| [OpenDesign](https://github.com/rivyn-labs/open-design) | Kinevyn 的开发团队，负责界面设计、资源结构、品牌方向，并提供 Apache-2.0 HTML 设计模板、设计系统、Skills、工艺规范与场景任务指南；[设计体系](docs/design-system.md)、[设计资源声明](library/design/NOTICE.md)和 [Motion 展示](https://open-design.ai/zh/motion/) |
 | [Hyperframes](https://github.com/heygen-com/hyperframes) | HTML 视频合成、Studio 和渲染基础，固定为 0.9.7；创作者参考、外部改编演示与组件源码；[引擎说明](docs/hyperframes.md)、[模板声明](template-library/NOTICE.md) 和[目录来源](docs/template-catalog.md) |
 | [MotionGit](https://motiongit.com/) / adunext | Kinetic Tech 源码以 Presenter Tech 打包；[许可与署名](library/templates/presenter-tech/NOTICE.md) |
 | [Hypit](https://github.com/hypit-ai/hypit) | Agent 主导热门视频复刻与可编辑版本的灵感来源；未引入运行时 |
 | [rea-video](https://github.com/JuneYaooo/rea-video) | 参考分析与案例研究：[实拍开箱](https://github.com/JuneYaooo/rea-video/blob/main/docs/cases/unboxing/report_en.md) 及[角色、代码和屏幕录制](https://github.com/JuneYaooo/rea-video/blob/main/docs/cases/dual_role/report_en.md)；[展示素材署名](docs/readme/brand-showcase/README.md)，未引入运行时 |
 | [OpenAI · Codex Originals](https://openai.com/codex-originals/) | 外部品牌影片参考；官方活动静帧与站外观看链接 |
-| [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) / [Super-agent 原型](https://github.com/deepseek-ai/dsh-superagent-prototype) | Agent 可扩展性与持续任务的参考；该原型独立于 OpenMotion 当前运行时 |
+| [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) / [Super-agent 原型](https://github.com/deepseek-ai/dsh-superagent-prototype) | Agent 可扩展性与持续任务的参考；该原型独立于 Kinevyn 当前运行时 |
 | Claude Motion / CapCut / [ChatCut](https://chatcut.io/docs/what-is-chatcut) / [OpenChatCut](https://github.com/0xsline/OpenChatCut) | Agent 创作、易用 AI 剪辑与持续改稿的产品参考 |
 | [OpusClip](https://www.opus.pro/calendar) | 分发与[外部排期](https://www.opus.pro/tools/instagram-reels-scheduler)的产品参考；无内置连接器 |
 | [GSAP](https://github.com/greensock/GSAP) / [FFmpeg](https://ffmpeg.org/) | 动画与媒体依赖，版本保留在 [package.json](package.json) 和[运行时锁文件](scripts/runtime-lock.json) |
 
 [素材来源](docs/readme/ASSETS.md) · [其他展示素材来源](docs/readme/brand-showcase/README.md) · [字体声明](web/design-system/fonts/NOTICES.txt) · [Studio 许可证](studio/LICENSE)
 
-原 HTML Anything 应用保留在 [`legacy` 分支](https://github.com/nexu-io/openmotion/tree/legacy)。当前分支与分发边界参见[仓库迁移指南](docs/repository-migration.md) 。
+原 HTML Anything 应用保留在 [`legacy` 分支](https://github.com/rivyn-labs/kinevyn/tree/legacy)。当前分支与分发边界参见[仓库迁移指南](docs/repository-migration.md) 。
 
 ## Star 历史趋势
 
-<a href="https://www.star-history.com/?repos=nexu-io%2Fopenmotion&amp;type=date">
+<a href="https://www.star-history.com/?repos=rivyn-labs%2Fkinevyn&amp;type=date">
   <picture>
-    <source media="screen" srcset="https://raw.githubusercontent.com/nexu-io/openmotion/readme-charts/star-history.svg">
-    <img alt="OpenMotion 的 GitHub Star 历史趋势，每日更新" src="docs/readme/star-history.svg">
+    <source media="screen" srcset="https://raw.githubusercontent.com/rivyn-labs/kinevyn/readme-charts/star-history.svg">
+    <img alt="Kinevyn 的 GitHub Star 历史趋势，每日更新" src="docs/readme/star-history.svg">
   </picture>
 </a>
 

@@ -5,7 +5,7 @@ import { motionApi } from './useWorkspace';
 
 export function requestComments(input: ReviewCommentsInput, signal?: AbortSignal) {
   return motionApi<ReviewCommentsResult>('/phase1/call', { method: 'POST', signal,
-    headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: 'openmotion_manage_project', arguments: input }) }, input.projectId);
+    headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: 'kinevyn_manage_project', arguments: input }) }, input.projectId);
 }
 
 export function captureReviewAnchor(scope: ReviewAnchor['scope'], projectId: string, compositionPath: string, time: number, selection: DomEditSelection | null): ReviewAnchor {

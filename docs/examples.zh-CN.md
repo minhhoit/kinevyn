@@ -2,16 +2,16 @@
 
 [English](examples.md) · [返回中文介绍](README.zh-CN.md#showcase) · [来源与素材记录](readme/ASSETS.md#creative-examples)
 
-这些简报把 README 的七类场景变成可执行的创作请求。图片和动图是资源库中的**外部参考片段**，不是 OpenMotion 制作的成片或新增内置模板。简报中的时长、画幅和结果是本次创作目标，需要实际制作与评审。
+这些简报把 README 的七类场景变成可执行的创作请求。图片和动图是资源库中的**外部参考片段**，不是 Kinevyn 制作的成片或新增内置模板。简报中的时长、画幅和结果是本次创作目标，需要实际制作与评审。
 
 ## 使用方法
 
-1. [启动 OpenMotion 并连接 Agent](README.zh-CN.md#quick-start)，提供你自己的素材、品牌与已确认的内容。
+1. [启动 Kinevyn 并连接 Agent](README.zh-CN.md#quick-start)，提供你自己的素材、品牌与已确认的内容。
 2. 选择下方简报，替换其中的主题。将简报、精确参考 ID 和来源一起交给 Agent；也可以在 Studio 资源库搜索参考名称。
 3. Agent 实际读取参考，再提出分镜与剪辑方案。网络获取、字幕和音轨分析依赖宿主工具；缺少素材或时间码时先补齐，不把描述当作已经完成的分析。
 4. 制作后在 Studio 正常速度观看，检查画面、文字与声音，再导出 MP4。保留工程继续修改。
 
-这里只记录参考驱动的创作输入；没有新增运行时工具、自动平台适配或一键生成保证。已有可编辑模板仍使用 [模板复用路线](../skills/openmotion-template-to-video/SKILL.md)；视频重建参考使用 [openmotion-recreate](../skills/openmotion-recreate/SKILL.md)。GIF 无声；所有配音、配乐和声音同步都需在实际工程中检查。
+这里只记录参考驱动的创作输入；没有新增运行时工具、自动平台适配或一键生成保证。已有可编辑模板仍使用 [模板复用路线](../skills/kinevyn-template-to-video/SKILL.md)；视频重建参考使用 [kinevyn-recreate](../skills/kinevyn-recreate/SKILL.md)。GIF 无声；所有配音、配乐和声音同步都需在实际工程中检查。
 
 <a id="talking-head"></a>
 
@@ -19,7 +19,7 @@
 
 **3 分钟口播，剪出 30 秒重点。**
 
-[观看参考片：Ali Abdaal · 5 tools I use every day](../library/skills/openmotion-presenter-story/assets/ali-abdaal-workflow-reference.mp4)
+[观看参考片：Ali Abdaal · 5 tools I use every day](../library/skills/kinevyn-presenter-story/assets/ali-abdaal-workflow-reference.mp4)
 
 ![AI 口播精剪](readme/examples/talking-head.jpg)
 
@@ -28,8 +28,8 @@
 - **目录 ID:** `hf-reference-aroll-ali-abdaal-workflow`
 
 ```text
-使用 OpenMotion。创作参考: hf-reference-aroll-ali-abdaal-workflow
-../library/skills/openmotion-presenter-story/assets/ali-abdaal-workflow-reference.mp4
+使用 Kinevyn。创作参考: hf-reference-aroll-ali-abdaal-workflow
+../library/skills/kinevyn-presenter-story/assets/ali-abdaal-workflow-reference.mp4
 
 把我提供的 3 分钟口播和带时间码字幕，剪成 30 秒、9:16 的版本。
 用最有力的完整结论开场，只删去字幕中确认的重复与停顿，保留我的意思和口吻。
@@ -54,7 +54,7 @@
 - **目录 ID:** `hf-reference-aroll-hundred-days-story`
 
 ```text
-使用 OpenMotion。创作参考: hf-reference-aroll-hundred-days-story
+使用 Kinevyn。创作参考: hf-reference-aroll-hundred-days-story
 readme/media/hundred-days-story-reference.mp4
 
 用我提供的片段、照片和旁白，为「我的 100 天计划」剪一支 25 秒、9:16 的故事。
@@ -80,7 +80,7 @@ readme/media/hundred-days-story-reference.mp4
 - **逐镜规范：** [Stripe 翻卡](../examples/brand-studies/stripe/MOTION.md)
 
 ```text
-使用 OpenMotion。创作参考: https://x.com/stripe/status/2049621560743608481 (00:21.50–00:26.50)
+使用 Kinevyn。创作参考: https://x.com/stripe/status/2049621560743608481 (00:21.50–00:26.50)
 
 为「我的新功能」制作 20 秒、16:9 的发布片，使用我的真实产品截图、录屏与 Brandkit。
 按照「揭示功能 → 一次关键操作 → 完成效果 → 结束语」组织。
@@ -105,7 +105,7 @@ readme/media/hundred-days-story-reference.mp4
 - **目录 ID:** `hf-reference-jake-lovable`
 
 ```text
-使用 OpenMotion。创作参考: hf-reference-jake-lovable
+使用 Kinevyn。创作参考: hf-reference-jake-lovable
 readme/media/jake-lovable-reference.mp4
 
 分析这支参考，为「我的产品或观点」制作一支 12 秒、16:9 的新视频。
@@ -130,7 +130,7 @@ readme/media/jake-lovable-reference.mp4
 - **目录 ID:** `hf-reference-remix-authorize-once`
 
 ```text
-使用 OpenMotion。创作参考: hf-reference-remix-authorize-once
+使用 Kinevyn。创作参考: hf-reference-remix-authorize-once
 readme/media/remix-authorize-once-reference.mp4
 
 把「我的操作流程」讲成 20 秒、16:9、三个步骤的视频。
@@ -156,7 +156,7 @@ readme/media/remix-authorize-once-reference.mp4
 - **目录 ID:** `hf-moment-M1128`
 
 ```text
-使用 OpenMotion。创作参考: hf-moment-M1128
+使用 Kinevyn。创作参考: hf-moment-M1128
 readme/media/M1128-clip.mp4
 
 把我提供的数据做成 15 秒、16:9 的数据故事：先给基线，再展示变化，最后突出一个有数据支持的结论。
@@ -182,7 +182,7 @@ readme/media/M1128-clip.mp4
 - **目录 ID:** `hf-moment-M1139`
 
 ```text
-使用 OpenMotion。创作参考: hf-moment-M1139
+使用 Kinevyn。创作参考: hf-moment-M1139
 readme/media/M1139-clip.mp4
 
 为我的音轨制作一段 10 秒、16:9 的视觉片段。
@@ -194,6 +194,6 @@ readme/media/M1139-clip.mp4
 
 ## 验收与来源
 
-预览和导出检查不自动证明观众理解、传播效果或人工视觉认可。确认内容准确、节奏符合简报、工程可继续编辑、输出文件可播放后，再记录本次实际验收结果。参考中的第三方品牌、人物和业务指标不属于 OpenMotion 的产品主张。
+预览和导出检查不自动证明观众理解、传播效果或人工视觉认可。确认内容准确、节奏符合简报、工程可继续编辑、输出文件可播放后，再记录本次实际验收结果。参考中的第三方品牌、人物和业务指标不属于 Kinevyn 的产品主张。
 
 [原始目录](../web/catalog/hyperframes.json)保留条目；[片段清单](readme/examples/manifest.json)记录准确来源、时间范围与文件校验信息。署名沿用目录；标为 Hyperframes catalog 的两条只表示收录来源，不推断原作者。

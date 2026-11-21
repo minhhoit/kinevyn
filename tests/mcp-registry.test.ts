@@ -18,7 +18,7 @@ test('MCP-only discovery connects template recommendations to a project-free hos
   const listed: any = await rpc({ jsonrpc: '2.0', id: 2, method: 'tools/list' }, store);
   // This policy must be discoverable before any optional Skill/resource is read.
   for (const guidance of [initialized.result.instructions,
-    listed.result.tools.find((tool: any) => tool.name === 'openmotion_list_templates').description]) {
+    listed.result.tools.find((tool: any) => tool.name === 'kinevyn_list_templates').description]) {
     assert.match(guidance, /browse, compare or recommend/);
     assert.match(guidance, /target=templates/);
     assert.match(guidance, /same turn/);
@@ -33,7 +33,7 @@ test('phase-one target is explicit, unique, and distinct from the legacy impleme
   assert.deepEqual(mcpRegistry('legacy').tools.map(tool => tool.name), tools.map(tool => tool.name));
   assert.throws(() => createToolRegistry(tools, 'unknown'), /Unknown MCP release profile/);
   assert.throws(() => createToolRegistry([...tools, tools[0]], 'legacy'), /Duplicate MCP implementation/);
-  assert.throws(() => createToolRegistry(tools, 'phase1'), /MCP_PROFILE_INCOMPLETE.*openmotion_list_versions/);
+  assert.throws(() => createToolRegistry(tools, 'phase1'), /MCP_PROFILE_INCOMPLETE.*kinevyn_list_versions/);
 });
 
 test('one registry governs discovery and rejects hidden calls before the existing handler', () => fixture(async store => {
@@ -43,7 +43,7 @@ test('one registry governs discovery and rejects hidden calls before the existin
   assert.deepEqual(list.result.tools.map((tool: any) => tool.name), target);
   const initial = await store.get();
   const call: any = await rpc({ jsonrpc: '2.0', id: 2, method: 'tools/call', params: {
-    name: 'openmotion_write_files', arguments: { expectedRevision: initial.revision, files: [{ path: 'notes.md', content: 'must not persist' }] },
+    name: 'kinevyn_write_files', arguments: { expectedRevision: initial.revision, files: [{ path: 'notes.md', content: 'must not persist' }] },
   } }, store, registry);
   assert.equal(call.result.isError, true);
   assert.match(call.result.content[0].text, /MCP_TOOL_NOT_EXPOSED/);
@@ -51,11 +51,11 @@ test('one registry governs discovery and rejects hidden calls before the existin
   assert.equal(existsSync(path.join(store.projectDirectory, 'notes.md')), false);
   const initialized: any = await rpc({ jsonrpc: '2.0', id: 3, method: 'initialize' }, store, registry);
   assert.equal(initialized.result.instructions, workflowEntryGuide + ' ' + templateDiscoveryGuide + ' ' + skillDiscoveryGuide + ' ' + phase1.instructions);
-  assert.ok(!initialized.result.instructions.includes('openmotion_get_workflow'));
+  assert.ok(!initialized.result.instructions.includes('kinevyn_get_workflow'));
 }));
 
 test('a missing implementation cannot produce a partial public registry', () => {
-  assert.throws(() => createToolRegistry(publicTools.filter(tool => tool.name !== 'openmotion_create_project'), 'phase1'), /MCP_PROFILE_INCOMPLETE.*openmotion_create_project/);
+  assert.throws(() => createToolRegistry(publicTools.filter(tool => tool.name !== 'kinevyn_create_project'), 'phase1'), /MCP_PROFILE_INCOMPLETE.*kinevyn_create_project/);
   assert.deepEqual(mcpRegistry('phase1').tools.map(tool => tool.name), target);
 });
 
@@ -65,7 +65,7 @@ test('packaged Skills reference only publicly callable Tool names', () => {
     for (const filename of readdirSync(root, { recursive: true }) as string[]) {
       if (!filename.endsWith('.md')) continue;
       const document = readFileSync(new URL(filename, root), 'utf8');
-      for (const match of document.matchAll(/\b(?:openmotion|motion|design)_[a-z_]+\b/g)) assert.ok([...target, 'openmotion_show_video'].includes(match[0]), `${skill}/${filename} calls hidden ${match[0]}`);
+      for (const match of document.matchAll(/\b(?:kinevyn|motion|design)_[a-z_]+\b/g)) assert.ok([...target, 'kinevyn_show_video'].includes(match[0]), `${skill}/${filename} calls hidden ${match[0]}`);
     }
   }
 });

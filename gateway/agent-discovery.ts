@@ -69,7 +69,7 @@ export async function qwenModels(): Promise<AgentModel[]> {
 /** ACP discovery performs initialize + session/new only. No prompt or tool execution is sent. */
 export async function discoverAcp(bin: string, args: string[]): Promise<{ models: AgentModel[]; auth: AgentAuth }> {
   const command = await agentInvocation(bin, args);
-  const directory = await mkdtemp(path.join(os.tmpdir(), 'openmotion-agent-probe-'));
+  const directory = await mkdtemp(path.join(os.tmpdir(), 'kinevyn-agent-probe-'));
   try {
     return await new Promise((resolve, reject) => {
       const child = spawn(command.bin, command.args, { cwd: directory, stdio: ['pipe', 'pipe', 'pipe'], windowsHide: true });
@@ -110,7 +110,7 @@ export async function discoverAcp(bin: string, args: string[]): Promise<{ models
           } catch { /* Ignore non-protocol diagnostics; the bounded timeout remains active. */ }
         }
       });
-      send(1, 'initialize', { protocolVersion: 1, clientInfo: { name: 'openmotion-model-discovery', version: '1' }, clientCapabilities: {} });
+      send(1, 'initialize', { protocolVersion: 1, clientInfo: { name: 'kinevyn-model-discovery', version: '1' }, clientCapabilities: {} });
     });
   } finally { await rm(directory, { recursive: true, force: true }); }
 }

@@ -31,7 +31,7 @@ const server = createServer((req, res) => {
     window.addEventListener('message',event=>{
       if(event.source!==frame.contentWindow)return;
       const message=event.data;
-      if(message.method==='ui/initialize') event.source.postMessage({jsonrpc:'2.0',id:message.id,result:{protocolVersion:message.params.protocolVersion,hostInfo:{name:'OpenMotion integration test',version:'1'},hostCapabilities:{},hostContext:{locale:'zh',theme:'dark'}}},location.origin);
+      if(message.method==='ui/initialize') event.source.postMessage({jsonrpc:'2.0',id:message.id,result:{protocolVersion:message.params.protocolVersion,hostInfo:{name:'Kinevyn integration test',version:'1'},hostCapabilities:{},hostContext:{locale:'zh',theme:'dark'}}},location.origin);
       else if(message.method==='ui/notifications/initialized') event.source.postMessage({jsonrpc:'2.0',method:'ui/notifications/tool-result',params:{content:[],structuredContent:${JSON.stringify(shown).replaceAll('<', '\\u003c')}}},location.origin);
       else if(message.id!==undefined) event.source.postMessage({jsonrpc:'2.0',id:message.id,result:{}},location.origin);
     });
@@ -52,9 +52,9 @@ try {
     try { await frame.waitForSelector('.omtc-card', { timeout: 15000 }); }
     catch (error) {
       result.failureText = await frame.$eval('body', element => element.innerText);
-      result.diagnostic = await frame.evaluate(value => ({ version: window.__OPENMOTION_TEMPLATE_CARDS__?.resourceVersion,
-        ids: window.__OPENMOTION_TEMPLATE_CARDS__?.templates.map(item => item.id),
-        directValidation: Boolean(window.OpenMotionTemplateCards?.readRecommendation(value, window.__OPENMOTION_TEMPLATE_CARDS__)) }),
+      result.diagnostic = await frame.evaluate(value => ({ version: window.__KINEVYN_TEMPLATE_CARDS__?.resourceVersion,
+        ids: window.__KINEVYN_TEMPLATE_CARDS__?.templates.map(item => item.id),
+        directValidation: Boolean(window.KinevynTemplateCards?.readRecommendation(value, window.__KINEVYN_TEMPLATE_CARDS__)) }),
         showTemplateRecommendations(presentation, { templateIds: groups[index], language: 'zh', onboarding: false }));
       await page.screenshot({ path: path.join(output, 'native-host-failure.png') }); throw error;
     }

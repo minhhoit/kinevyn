@@ -10,7 +10,7 @@ import { omEvents } from '../tracking/events.ts';
 import { fixture } from './fixtures.ts';
 
 test('task ledger persists accepted and terminal export state across instances', async () => {
-  const directory = await mkdtemp(path.join(os.tmpdir(), 'openmotion-task-ledger-'));
+  const directory = await mkdtemp(path.join(os.tmpdir(), 'kinevyn-task-ledger-'));
   try {
     const taskId = crypto.randomUUID(), accepted = new Date().toISOString(), deadline = new Date(Date.now() + 1_000).toISOString();
     const first = new TaskLedger(directory);
@@ -30,7 +30,7 @@ test('task ledger persists accepted and terminal export state across instances',
 });
 
 test('task ledger rejects malformed or conflicting terminal transitions', async () => {
-  const directory = await mkdtemp(path.join(os.tmpdir(), 'openmotion-task-ledger-'));
+  const directory = await mkdtemp(path.join(os.tmpdir(), 'kinevyn-task-ledger-'));
   try {
     const taskId = crypto.randomUUID(), ledger = new TaskLedger(directory), now = new Date().toISOString();
     await assert.rejects(ledger.accept({ task_id: 'bad', task_type: 'export', accepted_at: now, deadline_at: now }), /TASK_LEDGER_INVALID/);

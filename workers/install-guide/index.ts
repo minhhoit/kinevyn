@@ -1,11 +1,11 @@
 type GuideObject = { body: ReadableStream; text(): Promise<string>; writeHttpMetadata(headers: Headers): void };
 type Environment = { RELEASES: { get(key: string): Promise<GuideObject | null> } };
-const marker = '<!-- openmotion-utm-source-supported -->';
+const marker = '<!-- kinevyn-utm-source-supported -->';
 const sourcePattern = /^[A-Za-z0-9_.-]{1,64}$/;
 
 export function attributeGuide(text: string, source: string | null): string {
   if (!source || !sourcePattern.test(source) || !text.includes(marker)) return text;
-  return text.replace(/openmotion setup --host (codex|claude|deepseek|workbuddy)\b/g,
+  return text.replace(/kinevyn setup --host (codex|claude|deepseek|workbuddy)\b/g,
     command => `${command} --utm-source ${source}`);
 }
 

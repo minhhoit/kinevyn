@@ -33,7 +33,7 @@ const sections: { id: SettingsSection; label: string; icon: string; group: strin
   { id: 'appearance', label: 'Appearance', icon: 'palette-line', group: 'Preferences' },
   { id: 'privacy', label: 'Privacy & data', icon: 'shield-check-line', group: 'Preferences' },
   { id: 'help', label: 'Help', icon: 'question-line', group: 'Resources' },
-  { id: 'about', label: 'About OpenMotion', icon: 'information-line', group: 'Resources' },
+  { id: 'about', label: 'About Kinevyn', icon: 'information-line', group: 'Resources' },
 ];
 export function settingsSectionLabel(section: SettingsSection) {
   return sections.find(item => item.id === section)?.label ?? 'Settings';
@@ -91,7 +91,7 @@ function ResourceSettings({ about, openConnections }: { about: boolean; openConn
   const [version, setVersion] = useState<string>();
   useEffect(() => { let active = true; void gatewayRequest<{ version: string }>('health').then(data => { if (active) setVersion(data.version); }).catch(() => {}); return () => { active = false; }; }, []);
   const links = [{ label: 'Documentation', href: `${GITHUB_REPOSITORY}/tree/main/docs`, icon: 'file-text-line' }, ...repositorySupportLinks, { label: 'View source code', href: GITHUB_REPOSITORY, icon: 'code-s-slash-line' }];
-  return <div className="om-settings-page"><h1 className="om-title">{t(about ? 'About OpenMotion' : 'Help')}</h1>{about && <section className="om-card om-about-identity"><h2 className="om-product-brand" aria-label="OpenMotion" /><p className="om-muted">{t('An editable workspace for AI video and motion.')}</p><span className="om-badge">{version ? `${t('Version')} ${version}` : t('Version unavailable')}</span></section>}
+  return <div className="om-settings-page"><h1 className="om-title">{t(about ? 'About Kinevyn' : 'Help')}</h1>{about && <section className="om-card om-about-identity"><h2 className="om-product-brand" aria-label="Kinevyn" /><p className="om-muted">{t('An editable workspace for AI video and motion.')}</p><span className="om-badge">{version ? `${t('Version')} ${version}` : t('Version unavailable')}</span></section>}
     <div className="om-card om-resource-links">{links.map((link, index) => <a className="om-nav-item om-resource-link" key={link.href} href={link.href} target="_blank" rel="noopener noreferrer" onClick={() => tracking.reportSettingsClick('help_resources', 'open_resource', { position: index + 1 })}><span className="om-menu-label"><RemixIcon name={link.icon} size={16} />{t(link.label)}</span><RemixIcon name="external-link-line" size={16} /></a>)}<Button variant="plain" className="om-nav-item om-resource-link" onClick={openConnections}><span className="om-menu-label"><RemixIcon name="plug-line" size={16} />{t('Connect Agent')}</span><RemixIcon name="arrow-right-line" size={16} /></Button></div>
     {!about && <section className="om-card om-resource-links" aria-labelledby="om-community-heading">
       <h2 id="om-community-heading" className="om-subtitle">{t('Community')}</h2>
@@ -99,6 +99,6 @@ function ResourceSettings({ about, openConnections }: { about: boolean; openConn
         <span>{link === feishu ? t('Feishu group') : link.platform}</span><RemixIcon name="external-link-line" size={16} />
       </a>)}
     </section>}
-    {about && <section className="om-card om-card-stack"><h2 className="om-subtitle">{t('Acknowledgements')}</h2><p className="om-muted">{t('Built with Hyperframes and the OpenMotion design system. Provider presets include the MIT-licensed Cherry Studio registry. Account connections use OpenDesign.')}</p><a className="om-text-link" href="https://github.com/nexu-io/openmotion/blob/main/shared/provider-registry-NOTICE.md" target="_blank" rel="noreferrer">{t('Licenses & acknowledgements')}</a></section>}
+    {about && <section className="om-card om-card-stack"><h2 className="om-subtitle">{t('Acknowledgements')}</h2><p className="om-muted">{t('Built with Hyperframes and the Kinevyn design system. Provider presets include the MIT-licensed Cherry Studio registry. Account connections use OpenDesign.')}</p><a className="om-text-link" href="https://github.com/rivyn-labs/kinevyn/blob/main/shared/provider-registry-NOTICE.md" target="_blank" rel="noreferrer">{t('Licenses & acknowledgements')}</a></section>}
   </div>;
 }

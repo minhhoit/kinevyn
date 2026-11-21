@@ -122,7 +122,7 @@ test('the scanner opens the nested application, rejects hidden private content a
 
 test('DSH release scanning inspects the plugin bytes and rejects private bundled content', async t => {
   const f = await candidateFixture(t, 'main', { dsh: true }), tool = await scanner(t);
-  const archive = path.join(f.build, `openmotion-dsh-${f.candidate.version}.tgz`);
+  const archive = path.join(f.build, `kinevyn-dsh-${f.candidate.version}.tgz`);
   const report = await scanPluginPackage(archive, tool.binary);
   assert.equal(report.version, f.candidate.version);
   assert.equal(report.tgzSHA256, await sha256(archive));

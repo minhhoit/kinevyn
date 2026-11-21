@@ -57,7 +57,7 @@ it('workflow handoff carries exact source identity, language/platform choices, s
   const text = (document.querySelector('[aria-label="Complete workflow instruction"]') as HTMLTextAreaElement).value;
   expect(text).toContain('Source projectId: project'); expect(text).toContain(`Selected transcriptId: ${doc.id}`); expect(text).toContain('English, Japanese'); expect(text).toContain('https://youtube.com/watch?v=fixture');
   expect(text).toContain('Bilibili (16:9, 1920×1080)'); expect(text).toContain('YouTube Shorts (9:16, 1080×1920)');
-  expect(text).toContain('expectedTranscriptRevision'); expect(text).toContain('openmotion_export_request'); expect(text).not.toContain('never-copy');
+  expect(text).toContain('expectedTranscriptRevision'); expect(text).toContain('kinevyn_export_request'); expect(text).not.toContain('never-copy');
   expect(state.toast).toHaveBeenCalledWith(expect.stringContaining('manually'), 'error');
 });
 

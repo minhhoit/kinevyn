@@ -38,7 +38,7 @@ function rewriteGuideLinks(text, file, commit, localPaths = new Set()) {
     if (/^(?:#|[a-z][a-z\d+.-]*:|\/\/)/i.test(target)) return target;
     const pathname = target.split(/[?#]/, 1)[0];
     if (localPaths.has(path.posix.join(directory, pathname).replace(/\/$/, ''))) return target;
-    const base = image ? 'https://raw.githubusercontent.com/nexu-io/openmotion/' : 'https://github.com/nexu-io/openmotion/blob/';
+    const base = image ? 'https://raw.githubusercontent.com/rivyn-labs/kinevyn/' : 'https://github.com/rivyn-labs/kinevyn/blob/';
     return new URL(target, base + commit + '/' + (directory === '.' ? '' : directory + '/')).href;
   };
   return text
@@ -153,7 +153,7 @@ export async function packageNpm(output = path.join(root, 'dist/npm-local'), ver
     const plugin = JSON.parse(await readFile(path.join(application, '.codex-plugin/plugin.json'), 'utf8'));
     plugin.version = version;
     await writeJSON(path.join(application, '.codex-plugin/plugin.json'), plugin);
-    const archive = path.join(output, `openmotion-application-${pkg.version}${templateConfig.environment === 'dev' ? '-dev' : ''}.tar.${bundleRuntime ? 'xz' : 'gz'}`);
+    const archive = path.join(output, `kinevyn-application-${pkg.version}${templateConfig.environment === 'dev' ? '-dev' : ''}.tar.${bundleRuntime ? 'xz' : 'gz'}`);
     await runFile(process.platform === 'win32' ? path.join(process.env.SystemRoot, 'System32/tar.exe') : 'tar', [bundleRuntime ? '-cJf' : '-czf', archive, '-C', application, '.'], { env: { ...process.env, COPYFILE_DISABLE: '1' } });
     const manifest = { schemaVersion: 1, version: pkg.version, format: 'npm', templateEnvironment: templateConfig.environment,
       commit, run: process.env.GITHUB_RUN_ID || null, attempt: process.env.GITHUB_RUN_ATTEMPT || '1',
@@ -161,7 +161,7 @@ export async function packageNpm(output = path.join(root, 'dist/npm-local'), ver
       ...(bundledDependencies ? { bundledDependencies } : {}),
       locks: { npm: await sha256(path.join(application, 'package-lock.json')), native: await sha256(path.join(root, 'scripts/runtime-lock.json')) },
       mcp: { profile: registry.profile, tools: registry.tools.map(tool => tool.name),
-        optionalExtensions: registry.profile === 'phase1' ? [{ name: 'openmotion_show_template_recommendations',
+        optionalExtensions: registry.profile === 'phase1' ? [{ name: 'kinevyn_show_template_recommendations',
           capability: 'io.modelcontextprotocol/ui', mimeType: 'text/html;profile=mcp-app' }] : [] }, skills, runtime };
     // The embedded manifest omits the containing tgz's identity to avoid a self-hash cycle.
     await mkdir(path.join(installer, 'payload'));

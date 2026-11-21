@@ -58,14 +58,14 @@ test('canvas framing preserves root attribute selectors, nested composition styl
 test('public canvas editing persists and replays one version, rejects conflicts and restores original source', () => fixture(async store => {
   await writeFile(path.join(store.projectDirectory, 'index.html'), source);
   const service = new Phase1Service(store, pluginRoot, { origin: () => 'http://127.0.0.1:4173', nativeUrl: () => undefined, openProject: async () => {}, mutation: async task => task(), cancel: async () => {} });
-  const projectId = store.projectId, before = await service.call('openmotion_get_project', { projectId });
+  const projectId = store.projectId, before = await service.call('kinevyn_get_project', { projectId });
   const input = { projectId, requestId: 'portrait', expectedRevision: before.revision, expectedVersionId: before.currentVersionId, canvas: { compositionPath: 'index.html', ratio: '9:16', fit: 'contain' } };
-  const saved = await service.call('openmotion_edit_project', input);
+  const saved = await service.call('kinevyn_edit_project', input);
   assert.equal(saved.canvas.width, 1080); assert.equal(saved.canvas.height, 1920);
-  assert.equal((await service.call('openmotion_edit_project', input)).replayed, true);
+  assert.equal((await service.call('kinevyn_edit_project', input)).replayed, true);
   assert.equal(compositionCanvasSource(await readFile(path.join(store.projectDirectory, 'index.html'), 'utf8'), parsers).canvas.ratio, '9:16');
-  await assert.rejects(service.call('openmotion_edit_project', { ...input, requestId: 'stale-canvas', canvas: { ...input.canvas, ratio: '1:1' } }), /VERSION_CONFLICT/);
-  const current = await service.call('openmotion_get_project', { projectId });
-  await service.call('openmotion_restore_version', { projectId, requestId: 'undo-canvas', versionId: before.currentVersionId, expectedRevision: current.revision, expectedVersionId: current.currentVersionId });
+  await assert.rejects(service.call('kinevyn_edit_project', { ...input, requestId: 'stale-canvas', canvas: { ...input.canvas, ratio: '1:1' } }), /VERSION_CONFLICT/);
+  const current = await service.call('kinevyn_get_project', { projectId });
+  await service.call('kinevyn_restore_version', { projectId, requestId: 'undo-canvas', versionId: before.currentVersionId, expectedRevision: current.revision, expectedVersionId: current.currentVersionId });
   assert.equal(await readFile(path.join(store.projectDirectory, 'index.html'), 'utf8'), source);
 }));

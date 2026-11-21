@@ -38,7 +38,7 @@ The second boundary includes composing the comparison report in the optimized ru
 - One new project and one new export request were used. The previous MP4 was not copied as the new render. No original project, job or result was overwritten.
 - Entry HTML and all three composition HTML files matched the template after removing automatically stamped `data-hf-id` attributes. No authored copy, timing, animation or assets were rewritten.
 - The newly rendered MP4 matched the baseline byte-for-byte: SHA-256 `7ed11896a193b0d86b28b7df251014ae9b85257e8bf9a9842ecc6926adefaa13`.
-- OpenMotion's completed-job verifier passed file/container, H.264/yuv420p, dimensions, 30 fps, silent policy, 20 s/600 frames, full decode and first/middle/last seek checks.
+- Kinevyn's completed-job verifier passed file/container, H.264/yuv420p, dimensions, 30 fps, silent policy, 20 s/600 frames, full decode and first/middle/last seek checks.
 - The actual new MP4 played through at normal speed in Codex IAB: ended at 20 s, measured playback 20.002 s. Seek targets 0/10/19 s loaded with readyState 4; replay advanced to 0.2603 s; final player state was paused at zero.
 - HTML packaging retained local dependencies, licenses and native identity, checked source hashes before/after copying, and produced a ZIP with a receipt.
 - Native editor presentation was requested twice and remained queued at the observation point. No new native project tab was observed. File delivery was reported separately; visible editor delivery was not claimed.
@@ -62,4 +62,4 @@ The scoped tests passed (19 backend/workflow/helper/adapter tests, 3 lightweight
 
 ## Reproduction
 
-Use the installed `openmotion://workflow/template/unchanged` guidance and issue the same brief. Request a fresh export for a timing replay, retain the actual project/revision/version and export identity, and run the shipped packaging/playback helpers against those returned files. Record both files-ready and final-reply boundaries. Stop at the requested file stage and report any unavailable editor presentation; do not infer native visibility from a queued acknowledgment.
+Use the installed `kinevyn://workflow/template/unchanged` guidance and issue the same brief. Request a fresh export for a timing replay, retain the actual project/revision/version and export identity, and run the shipped packaging/playback helpers against those returned files. Record both files-ready and final-reply boundaries. Stop at the requested file stage and report any unavailable editor presentation; do not infer native visibility from a queued acknowledgment.

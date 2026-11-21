@@ -116,7 +116,7 @@ async function invokeRpc(message: any, store: WorkspaceStore, registry: ReturnTy
     const mimeTypes = message.params?.capabilities?.extensions?.['io.modelcontextprotocol/ui']?.mimeTypes;
     if (registry.profile === 'phase1' && Array.isArray(mimeTypes) && mimeTypes.includes('text/html;profile=mcp-app')) videoAppClients.add(client);
     const protocolVersion = ['2024-11-05', '2025-03-26', '2025-06-18', '2025-11-25'].includes(message.params?.protocolVersion) ? message.params.protocolVersion : '2025-11-25';
-    return result({ protocolVersion, capabilities: { tools: {}, ...(registry.profile === 'phase1' ? { resources: {} } : {}) }, serverInfo: { name: 'openmotion', title: 'OpenMotion', version: VERSION, ...(protocolVersion === '2025-11-25' ? { icons: serverIcons } : {}) }, instructions: registry.instructions ?? workflowEntryGuide + ' Load only references needed by the current task and reuse already loaded documentId/contentHash. Reuse saved decisions for small edits. OpenMotion wraps Hyperframes Studio and its renderer. Only for tasks that require working in the editor or authoring a project, call openmotion_open_preview, read its pinned authoringGuide and open previewUrl with the host built-in browser before reporting it opened. Author native HTML compositions with seekable GSAP timelines, never custom shot JSON or canvas recording. Read openmotion_get_project before source edits and pass its revision as expectedRevision; inspect lint/timeline afterwards. Only when the user scope includes export/final delivery, query any applicable existing export to avoid duplicate jobs and export the inspected revision in the background, wait for completed, then call openmotion_verify_export with that job ID/revision and the brief audio policy. Separately inspect final visuals, sound and actual player playback before claiming full verification. MCP previewUrl defaults to embed=1; preserve its query and hash. Use sessionUrl or embedded=false only for the full OpenMotion workspace. Do not restart the host Agent or ask users to start a terminal server.' });
+    return result({ protocolVersion, capabilities: { tools: {}, ...(registry.profile === 'phase1' ? { resources: {} } : {}) }, serverInfo: { name: 'kinevyn', title: 'Kinevyn', version: VERSION, ...(protocolVersion === '2025-11-25' ? { icons: serverIcons } : {}) }, instructions: registry.instructions ?? workflowEntryGuide + ' Load only references needed by the current task and reuse already loaded documentId/contentHash. Reuse saved decisions for small edits. Kinevyn wraps Hyperframes Studio and its renderer. Only for tasks that require working in the editor or authoring a project, call kinevyn_open_preview, read its pinned authoringGuide and open previewUrl with the host built-in browser before reporting it opened. Author native HTML compositions with seekable GSAP timelines, never custom shot JSON or canvas recording. Read kinevyn_get_project before source edits and pass its revision as expectedRevision; inspect lint/timeline afterwards. Only when the user scope includes export/final delivery, query any applicable existing export to avoid duplicate jobs and export the inspected revision in the background, wait for completed, then call kinevyn_verify_export with that job ID/revision and the brief audio policy. Separately inspect final visuals, sound and actual player playback before claiming full verification. MCP previewUrl defaults to embed=1; preserve its query and hash. Use sessionUrl or embedded=false only for the full Kinevyn workspace. Do not restart the host Agent or ask users to start a terminal server.' });
   }
   const effectiveRegistry = registry.profile === 'phase1'
     ? createToolRegistry(registry.tools, registry.profile, [
@@ -135,7 +135,7 @@ async function invokeRpc(message: any, store: WorkspaceStore, registry: ReturnTy
     }
     try {
       const uri = message.params?.uri;
-      if (typeof uri === 'string' && uri.startsWith('ui://openmotion/template-recommendations/')) {
+      if (typeof uri === 'string' && uri.startsWith('ui://kinevyn/template-recommendations/')) {
         if (!clientState?.presentation || uri !== clientState.presentation.uri) throw new Error('Unknown or unnegotiated UI resource');
         return result({ contents: [clientState.presentation.content] });
       }
@@ -149,7 +149,7 @@ async function invokeRpc(message: any, store: WorkspaceStore, registry: ReturnTy
       if (registry.profile !== 'phase1') {
         const current = statSync(runtimeRoot, { throwIfNoEntry: false });
         if (!current || current.dev !== runtimeDirectory.dev || current.ino !== runtimeDirectory.ino) throw Object.assign(
-          new Error('The OpenMotion plugin directory was replaced or removed. Reload this internal legacy MCP connection before retrying; no project operation was applied.'),
+          new Error('The Kinevyn plugin directory was replaced or removed. Reload this internal legacy MCP connection before retrying; no project operation was applied.'),
           { code: 'MCP_RUNTIME_RELOAD_REQUIRED' },
         );
       }
@@ -181,14 +181,14 @@ async function invokeRpc(message: any, store: WorkspaceStore, registry: ReturnTy
             : internalName === 'motion_list_skills' ? await catalog.skillIndex() : await catalog.skillDetail(args.skillId);
           return result({ content: [{ type: 'text', text: JSON.stringify(value) }], structuredContent: value });
         }
-        const transportName = finalVideo ? 'openmotion_get_project' : name;
+        const transportName = finalVideo ? 'kinevyn_get_project' : name;
         const transportArgs = finalVideo ? { projectId: args.projectId, workId: args.workId, includeVideo: true } : args;
         const service = await ensureService(store, undefined, transportName), origin = new URL(service.previewUrl).origin;
         const response = await fetch(origin + '/motion-api/phase1/call', { method: 'POST', headers: await editorHeaders(store, origin),
           body: JSON.stringify({ name: phase1TransportTool(service, transportName) ?? transportName, arguments: transportArgs,
             trackingHost: host, trackingContext }), signal: AbortSignal.timeout(600_000) });
         const raw = await response.json();
-        const normalized = response.ok && transportName === 'openmotion_get_project' && transportArgs.workId ? normalizeInlineResult(raw) : undefined;
+        const normalized = response.ok && transportName === 'kinevyn_get_project' && transportArgs.workId ? normalizeInlineResult(raw) : undefined;
         const value = publicToolResult(normalized?.structuredContent ?? raw);
         if (!response.ok) throw Object.assign(new Error(value.error || 'Tool failed'), {
           code: value.code, details: value.runtime, invalid_field: value.invalid_field, validation_rule: value.validation_rule, ...(value.applied === false ? { applied: false } : {}),
@@ -231,7 +231,7 @@ async function invokeRpc(message: any, store: WorkspaceStore, registry: ReturnTy
 }
 if (isMain(import.meta.url)) {
   const store = new WorkspaceStore();
-  if ((await trackingFor(store)).enabled()) process.stderr.write('OpenMotion shares usage data and coarse region. Disable in Studio Privacy settings or set OPENMOTION_TELEMETRY=0.\n');
+  if ((await trackingFor(store)).enabled()) process.stderr.write('Kinevyn shares usage data and coarse region. Disable in Studio Privacy settings or set KINEVYN_TELEMETRY=0.\n');
   const connection = sharedEditorEnabled ? { selection: {} } : undefined;
   const clientState = createMcpClientState();
   const lines = createInterface({ input: process.stdin, crlfDelay: Infinity });

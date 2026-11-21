@@ -12,7 +12,7 @@ export async function recoverWorkspaceLock(directory: string, confirmedStopped =
     throw new Error('Refusing recovery: only an empty regular legacy workspace.lock can be quarantined. Owner-bearing locks use automatic runtime recovery.');
   }
   if (!confirmedStopped) return { status: 'confirmation_required', filename,
-    nextAction: 'Stop every OpenMotion Studio/backend and connected Agent using this data directory, including exports. Then rerun with --confirm-all-processes-stopped. No files were changed.' };
+    nextAction: 'Stop every Kinevyn Studio/backend and connected Agent using this data directory, including exports. Then rerun with --confirm-all-processes-stopped. No files were changed.' };
   // Keep the original for diagnosis. Never apply this offline operation automatically at startup.
   const current = await lstat(filename);
   if (current.dev !== info.dev || current.ino !== info.ino || current.mtimeMs !== info.mtimeMs || current.size !== 0) {

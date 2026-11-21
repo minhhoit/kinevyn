@@ -32,7 +32,7 @@ export function useCaptionTracks(visible: boolean, previewRevision?: number) {
       await shell.waitForPendingDomEditSaves(); if (!valid()) return false;
       const signature = JSON.stringify({ projectId, compositionPath, input });
       if (pending.current?.signature !== signature) {
-        const detail = await gatewayRequest<{ revision: string; currentVersionId: string }>('phase1/call', 'POST', { name: 'openmotion_get_project', arguments: { projectId } });
+        const detail = await gatewayRequest<{ revision: string; currentVersionId: string }>('phase1/call', 'POST', { name: 'kinevyn_get_project', arguments: { projectId } });
         pending.current = { signature, payload: { ...input, projectId, compositionPath, expectedRevision: detail.revision, expectedVersionId: detail.currentVersionId, requestId: crypto.randomUUID() } };
       }
       if (!valid()) return false;

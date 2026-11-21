@@ -19,7 +19,7 @@ export function consumerEnvironment(work, source = process.env) {
     npm_config_userconfig: path.join(work, 'user.npmrc'), npm_config_globalconfig: path.join(work, 'global.npmrc'),
     npm_config_registry: 'https://registry.npmjs.org/', npm_config_ignore_scripts: 'true',
     npm_config_fetch_retries: '3', npm_config_fetch_retry_mintimeout: '10000', npm_config_fetch_retry_maxtimeout: '30000',
-    OPENMOTION_TELEMETRY: '0', HYPERFRAMES_NO_TELEMETRY: '1' };
+    KINEVYN_TELEMETRY: '0', HYPERFRAMES_NO_TELEMETRY: '1' };
 }
 
 async function discover(transport, env, version, tools, templateCheck) {
@@ -90,7 +90,7 @@ export async function registrySmoke(directory, { fromCandidate = false } = {}) {
   await cli(['install', '--prefix', host, '--no-save', '--ignore-scripts', '--no-audit', '--no-fund', '@openai/codex@0.166.0']);
   const codex = path.join(host, 'node_modules/@openai/codex/bin/codex.js');
   const home = path.join(work, 'app'), data = path.join(work, 'data'), skills = path.join(project, '.agents/skills');
-  const command = ['exec', '--yes', '--package', tgz, '--', 'openmotion'];
+  const command = ['exec', '--yes', '--package', tgz, '--', 'kinevyn'];
   const setup = [...command, 'setup', '--host', 'codex', '--home', home, '--data-dir', data, '--skills-dir', skills, '--codex', codex];
   console.log('Running fresh and repeated setup with isolated data, Skills and host settings');
   await checkpoint('setup');
@@ -107,7 +107,7 @@ export async function registrySmoke(directory, { fromCandidate = false } = {}) {
   console.log('Preparing the checksum-pinned browser, FFmpeg and ffprobe');
   await checkpoint('native-prepare');
   await cli([...command, 'prepare', '--home', home]);
-  const installed = JSON.parse(await runFile(process.execPath, [codex, 'mcp', 'get', 'openmotion', '--json'], { cwd: project, env }));
+  const installed = JSON.parse(await runFile(process.execPath, [codex, 'mcp', 'get', 'kinevyn', '--json'], { cwd: project, env }));
   assert.equal(installed.transport.command, process.execPath); assert.deepEqual(installed.transport.args, [first.launcher]);
   console.log('Checking the actual registered MCP transport and resources');
   const templateCheck = templateConfig.source === 'hosted'

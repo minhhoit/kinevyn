@@ -490,7 +490,7 @@ it.each(['zh-CN', 'en', 'ja', 'ko', 'de', 'fr', 'ru', 'es', 'pt-BR', 'it', 'tr']
   expect(container.querySelector<HTMLAnchorElement>(`a[href="${GITHUB_REPOSITORY}"]`)?.target).toBe('_blank');
   expect(link.querySelector('img')?.getAttribute('src')).toBe(locale === 'zh-CN' ? feishuLogo : discordLogo);
   expect(link.getAttribute('aria-label')).toContain(channel);
-  expect(link.getAttribute('aria-label')).toContain('OpenMotion');
+  expect(link.getAttribute('aria-label')).toContain('Kinevyn');
   expect(container.querySelector('.om-app-header')?.contains(link)).toBe(true);
   expect(container.querySelector('.om-app-header')?.contains(container.querySelector(`a[href="${GITHUB_REPOSITORY}"]`))).toBe(true);
   expect(container.querySelector(`.om-app-header button[aria-label="${translate(locale, 'Select model')}"]`)).toBeNull();

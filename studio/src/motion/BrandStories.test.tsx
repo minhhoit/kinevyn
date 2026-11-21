@@ -156,7 +156,7 @@ it('uses authored chapters to jump within the selected original video', async ()
 it('exposes the selected repository and keeps contribution distinct from recreation', async () => {
   await render();
   const action=host.querySelector('[aria-label="作品创作操作"]')!;
-  expect(action.querySelector('a')?.getAttribute('href')).toBe('https://github.com/nexu-io/openmotion/tree/main/library/templates');
+  expect(action.querySelector('a')?.getAttribute('href')).toBe('https://github.com/rivyn-labs/kinevyn/tree/main/library/templates');
   await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="复刻并投稿"]')!.click());
   expect(props.onCopy).toHaveBeenLastCalledWith(expect.objectContaining({id:'first'}), true);
   expect(current()).toBe('first');

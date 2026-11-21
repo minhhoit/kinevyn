@@ -10,11 +10,11 @@ export async function cleanupHarnessBundles(directory, confirmedStopped = false)
   const home = await canonical(directory);
   return withLock(path.join(home, 'install.lock'), async () => {
     const filename = path.join(home, 'install.json'), state = await readJSON(filename);
-    assert(state?.managedBy === '@openmotion/installer', 'Not a managed OpenMotion installation');
+    assert(state?.managedBy === '@kinevyn/installer', 'Not a managed Kinevyn installation');
     const host = state.hosts?.deepseek;
     assert(host?.configFile && host.bundleDirectory, 'No managed Harness registration');
     const profile = await readJSON(host.configFile);
-    const dependency = profile?.dependencies?.['dsh-plugin-openmotion-local'];
+    const dependency = profile?.dependencies?.['dsh-plugin-kinevyn-local'];
     assert(typeof dependency === 'string' && /^(file|link):/.test(dependency), 'Cannot verify the active Harness dependency; no bundles were removed');
     const active = await canonical(path.resolve(path.dirname(host.configFile), dependency.replace(/^(file|link):/, '')));
     assert(await ownedHarnessBundle(active, home, host.configFile), 'Cannot verify active bundle ownership');
@@ -25,7 +25,7 @@ export async function cleanupHarnessBundles(directory, confirmedStopped = false)
     for (const item of candidates) {
       // Recheck the profile before each removal; preserve unrelated settings and bundles.
       const current = await readJSON(host.configFile);
-      assert(current?.dependencies?.['dsh-plugin-openmotion-local'] === dependency, 'Harness registration changed; stop cleanup and inspect');
+      assert(current?.dependencies?.['dsh-plugin-kinevyn-local'] === dependency, 'Harness registration changed; stop cleanup and inspect');
       try {
         // Leave ownership evidence intact if Windows refuses any child deletion.
         const scopeFile = path.join(item, 'scope.json'), scope = await readJSON(scopeFile);

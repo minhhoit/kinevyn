@@ -14,6 +14,6 @@ unless (flock($lock, LOCK_EX | LOCK_NB)) {
     die "Lock editor: $!\n";
 }
 fcntl($lock, F_SETFD, 0) or die "Inherit editor lock: $!\n";
-$ENV{OPENMOTION_EDITOR_LOCK_FD} = fileno($lock);
+$ENV{KINEVYN_EDITOR_LOCK_FD} = fileno($lock);
 exec {$node} $node, '--experimental-strip-types', $entry, '--serve', $root;
 die "Start editor: $!\n";

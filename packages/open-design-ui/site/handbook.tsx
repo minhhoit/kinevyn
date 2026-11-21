@@ -64,7 +64,7 @@ export function TokenGuide() {
     <>
       <header className="page-heading">
         <h1>Design tokens</h1>
-        <p>Use the shared roles for color, type, spacing and interaction across OpenMotion.</p>
+        <p>Use the shared roles for color, type, spacing and interaction across Kinevyn.</p>
       </header>
       <section id="colors" className="doc-section">
         <h2>Semantic colors</h2>

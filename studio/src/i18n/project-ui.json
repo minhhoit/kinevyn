@@ -16,8 +16,8 @@
     "Actions for {title}": "「{title}」的操作",
     "Share editable projects": "分享可编辑项目",
     "Share editable projects as ZIP files. Importing creates independent copies.": "通过 ZIP 分享可编辑项目。导入时会创建独立副本。",
-    "OpenMotion or HyperFrames ZIP · Up to 500 MB. Local assets are included; linked online resources still need the internet.": "OpenMotion 或 HyperFrames ZIP · 最大 500 MB。包含本地素材；外链资源仍需联网。",
-    "Export all my OpenMotion projects as a ZIP for offline sharing.": "将我所有的 OpenMotion 项目导出为 ZIP，方便离线分享。",
+    "Kinevyn or HyperFrames ZIP · Up to 500 MB. Local assets are included; linked online resources still need the internet.": "Kinevyn 或 HyperFrames ZIP · 最大 500 MB。包含本地素材；外链资源仍需联网。",
+    "Export all my Kinevyn projects as a ZIP for offline sharing.": "将我所有的 Kinevyn 项目导出为 ZIP，方便离线分享。",
     "Use All projects to export one project, checked projects or all projects as ZIP files. Import projects creates independent copies with local assets and fonts. Cloud collaboration, conversation history and provider credentials are not included. Linked online resources still need the internet.": "在“全部项目”中可导出单个、已选或全部项目为 ZIP。“导入项目”会创建包含本地素材和字体的独立副本。不包含云端协作、聊天记录或供应商凭据；外链资源仍需联网。",
     "This ZIP is damaged or does not contain a supported project.": "这个 ZIP 已损坏或不包含支持的项目。",
     "Rename project": "重命名项目",
@@ -42,7 +42,7 @@
     "Saving…": "正在保存…",
     "Open project": "打开项目",
     "Start with a HyperFrames project": "从 HyperFrames 项目快速开始",
-    "Zip your HyperFrames project folder with its source and local assets, then choose Import projects to continue editing in OpenMotion.": "将 HyperFrames 项目文件夹（包含源码和本地素材）压缩为 ZIP，点击“导入项目”，即可在 OpenMotion 中继续编辑。",
+    "Zip your HyperFrames project folder with its source and local assets, then choose Import projects to continue editing in Kinevyn.": "将 HyperFrames 项目文件夹（包含源码和本地素材）压缩为 ZIP，点击“导入项目”，即可在 Kinevyn 中继续编辑。",
     "Trash": "回收站",
     "Restore project": "恢复项目",
     "Delete permanently": "彻底删除",
@@ -65,7 +65,7 @@
     "Clear project selection": "取消选择",
     "Keep at least one project outside Trash.": "请至少保留一个未移入回收站的项目。",
     "Rename, duplicate, locate, share, trash, restore and permanently delete projects from each project menu.": "在项目菜单中重命名、创建副本、定位、分享项目，也可以在回收站中恢复或彻底删除项目。",
-    "Project validation is temporarily unavailable. Try again when OpenMotion is ready.": "项目校验暂不可用。请等 OpenMotion 就绪后重试。"
+    "Project validation is temporarily unavailable. Try again when Kinevyn is ready.": "项目校验暂不可用。请等 Kinevyn 就绪后重试。"
   },
   "ja": {
     "All projects": "すべてのプロジェクト",
@@ -84,8 +84,8 @@
     "Actions for {title}": "「{title}」の操作",
     "Share editable projects": "編集可能なプロジェクトを共有",
     "Share editable projects as ZIP files. Importing creates independent copies.": "編集可能なプロジェクトを ZIP で共有できます。インポートすると独立したコピーが作成されます。",
-    "OpenMotion or HyperFrames ZIP · Up to 500 MB. Local assets are included; linked online resources still need the internet.": "OpenMotion または HyperFrames の ZIP・最大 500 MB。ローカル素材を含みます。外部リンクの利用にはインターネット接続が必要です。",
-    "Export all my OpenMotion projects as a ZIP for offline sharing.": "すべての OpenMotion プロジェクトをオフライン共有用の ZIP として書き出してください。",
+    "Kinevyn or HyperFrames ZIP · Up to 500 MB. Local assets are included; linked online resources still need the internet.": "Kinevyn または HyperFrames の ZIP・最大 500 MB。ローカル素材を含みます。外部リンクの利用にはインターネット接続が必要です。",
+    "Export all my Kinevyn projects as a ZIP for offline sharing.": "すべての Kinevyn プロジェクトをオフライン共有用の ZIP として書き出してください。",
     "Use All projects to export one project, checked projects or all projects as ZIP files. Import projects creates independent copies with local assets and fonts. Cloud collaboration, conversation history and provider credentials are not included. Linked online resources still need the internet.": "「すべてのプロジェクト」から単体、選択した項目、または全件を ZIP で書き出せます。インポートはローカル素材とフォントを含む独立したコピーを作成します。クラウド共同編集、会話履歴、認証情報は含まれません。外部リンクには接続が必要です。",
     "This ZIP is damaged or does not contain a supported project.": "この ZIP は破損しているか、対応するプロジェクトが含まれていません。",
     "Rename project": "プロジェクト名を変更",
@@ -110,7 +110,7 @@
     "Saving…": "保存中…",
     "Open project": "プロジェクトを開く",
     "Start with a HyperFrames project": "HyperFrames のプロジェクトから始める",
-    "Zip your HyperFrames project folder with its source and local assets, then choose Import projects to continue editing in OpenMotion.": "ソースとローカル素材を含む HyperFrames のプロジェクトフォルダーを ZIP に圧縮し、「プロジェクトをインポート」を選ぶと、OpenMotion で編集を続けられます。",
+    "Zip your HyperFrames project folder with its source and local assets, then choose Import projects to continue editing in Kinevyn.": "ソースとローカル素材を含む HyperFrames のプロジェクトフォルダーを ZIP に圧縮し、「プロジェクトをインポート」を選ぶと、Kinevyn で編集を続けられます。",
     "Trash": "Trash",
     "Restore project": "Restore project",
     "Delete permanently": "Delete permanently",
@@ -133,7 +133,7 @@
     "Clear project selection": "選択を解除",
     "Keep at least one project outside Trash.": "ごみ箱の外にプロジェクトを1件以上残してください。",
     "Rename, duplicate, locate, share, trash, restore and permanently delete projects from each project menu.": "プロジェクトを管理し、ごみ箱から復元または完全に削除できます。",
-    "Project validation is temporarily unavailable. Try again when OpenMotion is ready.": "プロジェクトの検証を一時的に利用できません。OpenMotion の準備が整ったら再試行してください。"
+    "Project validation is temporarily unavailable. Try again when Kinevyn is ready.": "プロジェクトの検証を一時的に利用できません。Kinevyn の準備が整ったら再試行してください。"
   },
   "ko": {
     "All projects": "모든 프로젝트",
@@ -152,8 +152,8 @@
     "Actions for {title}": "{title} 작업",
     "Share editable projects": "편집 가능한 프로젝트 공유",
     "Share editable projects as ZIP files. Importing creates independent copies.": "편집 가능한 프로젝트를 ZIP으로 공유하세요. 가져오면 독립된 복사본이 생성됩니다.",
-    "OpenMotion or HyperFrames ZIP · Up to 500 MB. Local assets are included; linked online resources still need the internet.": "OpenMotion 또는 HyperFrames ZIP · 최대 500 MB. 로컬 에셋이 포함됩니다. 외부 링크는 인터넷 연결이 필요합니다.",
-    "Export all my OpenMotion projects as a ZIP for offline sharing.": "모든 OpenMotion 프로젝트를 오프라인 공유용 ZIP으로 내보내 주세요.",
+    "Kinevyn or HyperFrames ZIP · Up to 500 MB. Local assets are included; linked online resources still need the internet.": "Kinevyn 또는 HyperFrames ZIP · 최대 500 MB. 로컬 에셋이 포함됩니다. 외부 링크는 인터넷 연결이 필요합니다.",
+    "Export all my Kinevyn projects as a ZIP for offline sharing.": "모든 Kinevyn 프로젝트를 오프라인 공유용 ZIP으로 내보내 주세요.",
     "Use All projects to export one project, checked projects or all projects as ZIP files. Import projects creates independent copies with local assets and fonts. Cloud collaboration, conversation history and provider credentials are not included. Linked online resources still need the internet.": "모든 프로젝트에서 개별, 선택한 또는 전체 프로젝트를 ZIP으로 내보내세요. 가져오면 로컬 에셋과 글꼴이 포함된 독립 복사본이 생성됩니다. 클라우드 협업, 대화 기록, 공급자 인증 정보는 포함되지 않습니다. 외부 링크는 인터넷이 필요합니다.",
     "This ZIP is damaged or does not contain a supported project.": "ZIP 파일이 손상되었거나 지원되는 프로젝트가 없습니다.",
     "Rename project": "프로젝트 이름 변경",
@@ -178,7 +178,7 @@
     "Saving…": "저장 중…",
     "Open project": "프로젝트 열기",
     "Start with a HyperFrames project": "HyperFrames 프로젝트로 시작하기",
-    "Zip your HyperFrames project folder with its source and local assets, then choose Import projects to continue editing in OpenMotion.": "소스와 로컬 에셋을 포함한 HyperFrames 프로젝트 폴더를 ZIP으로 압축한 뒤 프로젝트 가져오기를 선택하면 OpenMotion에서 계속 편집할 수 있습니다.",
+    "Zip your HyperFrames project folder with its source and local assets, then choose Import projects to continue editing in Kinevyn.": "소스와 로컬 에셋을 포함한 HyperFrames 프로젝트 폴더를 ZIP으로 압축한 뒤 프로젝트 가져오기를 선택하면 Kinevyn에서 계속 편집할 수 있습니다.",
     "Trash": "Trash",
     "Restore project": "Restore project",
     "Delete permanently": "Delete permanently",
@@ -201,7 +201,7 @@
     "Clear project selection": "선택 해제",
     "Keep at least one project outside Trash.": "휴지통 밖에 프로젝트를 하나 이상 남겨 두세요.",
     "Rename, duplicate, locate, share, trash, restore and permanently delete projects from each project menu.": "프로젝트를 관리하고 휴지통에서 복원하거나 영구 삭제하세요.",
-    "Project validation is temporarily unavailable. Try again when OpenMotion is ready.": "프로젝트 검사를 일시적으로 사용할 수 없습니다. OpenMotion이 준비되면 다시 시도하세요."
+    "Project validation is temporarily unavailable. Try again when Kinevyn is ready.": "프로젝트 검사를 일시적으로 사용할 수 없습니다. Kinevyn이 준비되면 다시 시도하세요."
   },
   "de": {
     "All projects": "Alle Projekte",
@@ -220,8 +220,8 @@
     "Actions for {title}": "Aktionen für {title}",
     "Share editable projects": "Bearbeitbare Projekte teilen",
     "Share editable projects as ZIP files. Importing creates independent copies.": "Teilen Sie bearbeitbare Projekte als ZIP. Beim Import entstehen unabhängige Kopien.",
-    "OpenMotion or HyperFrames ZIP · Up to 500 MB. Local assets are included; linked online resources still need the internet.": "OpenMotion- oder HyperFrames-ZIP · Bis 500 MB. Lokale Medien sind enthalten; externe Links benötigen Internet.",
-    "Export all my OpenMotion projects as a ZIP for offline sharing.": "Exportiere alle meine OpenMotion-Projekte als ZIP zum Offline-Teilen.",
+    "Kinevyn or HyperFrames ZIP · Up to 500 MB. Local assets are included; linked online resources still need the internet.": "Kinevyn- oder HyperFrames-ZIP · Bis 500 MB. Lokale Medien sind enthalten; externe Links benötigen Internet.",
+    "Export all my Kinevyn projects as a ZIP for offline sharing.": "Exportiere alle meine Kinevyn-Projekte als ZIP zum Offline-Teilen.",
     "Use All projects to export one project, checked projects or all projects as ZIP files. Import projects creates independent copies with local assets and fonts. Cloud collaboration, conversation history and provider credentials are not included. Linked online resources still need the internet.": "Unter Alle Projekte können Sie einzelne, ausgewählte oder alle Projekte als ZIP exportieren. Der Import erstellt unabhängige Kopien mit lokalen Medien und Schriften. Cloud-Zusammenarbeit, Chatverlauf und Anbieter-Zugangsdaten sind nicht enthalten. Externe Links benötigen Internet.",
     "This ZIP is damaged or does not contain a supported project.": "Diese ZIP-Datei ist beschädigt oder enthält kein unterstütztes Projekt.",
     "Rename project": "Projekt umbenennen",
@@ -246,7 +246,7 @@
     "Saving…": "Wird gespeichert…",
     "Open project": "Projekt öffnen",
     "Start with a HyperFrames project": "Mit einem HyperFrames-Projekt starten",
-    "Zip your HyperFrames project folder with its source and local assets, then choose Import projects to continue editing in OpenMotion.": "Packe deinen HyperFrames-Projektordner mit Quellcode und lokalen Medien als ZIP und wähle Projekte importieren, um ihn in OpenMotion weiterzubearbeiten.",
+    "Zip your HyperFrames project folder with its source and local assets, then choose Import projects to continue editing in Kinevyn.": "Packe deinen HyperFrames-Projektordner mit Quellcode und lokalen Medien als ZIP und wähle Projekte importieren, um ihn in Kinevyn weiterzubearbeiten.",
     "Trash": "Trash",
     "Restore project": "Restore project",
     "Delete permanently": "Delete permanently",
@@ -269,7 +269,7 @@
     "Clear project selection": "Auswahl löschen",
     "Keep at least one project outside Trash.": "Mindestens ein Projekt muss außerhalb des Papierkorbs bleiben.",
     "Rename, duplicate, locate, share, trash, restore and permanently delete projects from each project menu.": "Projekte verwalten und im Papierkorb wiederherstellen oder dauerhaft löschen.",
-    "Project validation is temporarily unavailable. Try again when OpenMotion is ready.": "Die Projektprüfung ist vorübergehend nicht verfügbar. Versuchen Sie es erneut, sobald OpenMotion bereit ist."
+    "Project validation is temporarily unavailable. Try again when Kinevyn is ready.": "Die Projektprüfung ist vorübergehend nicht verfügbar. Versuchen Sie es erneut, sobald Kinevyn bereit ist."
   },
   "fr": {
     "All projects": "Tous les projets",
@@ -288,8 +288,8 @@
     "Actions for {title}": "Actions pour {title}",
     "Share editable projects": "Partager des projets modifiables",
     "Share editable projects as ZIP files. Importing creates independent copies.": "Partagez des projets modifiables au format ZIP. L’importation crée des copies indépendantes.",
-    "OpenMotion or HyperFrames ZIP · Up to 500 MB. Local assets are included; linked online resources still need the internet.": "ZIP OpenMotion ou HyperFrames · 500 Mo maximum. Les médias locaux sont inclus ; les liens externes nécessitent Internet.",
-    "Export all my OpenMotion projects as a ZIP for offline sharing.": "Exporte tous mes projets OpenMotion en ZIP pour un partage hors ligne.",
+    "Kinevyn or HyperFrames ZIP · Up to 500 MB. Local assets are included; linked online resources still need the internet.": "ZIP Kinevyn ou HyperFrames · 500 Mo maximum. Les médias locaux sont inclus ; les liens externes nécessitent Internet.",
+    "Export all my Kinevyn projects as a ZIP for offline sharing.": "Exporte tous mes projets Kinevyn en ZIP pour un partage hors ligne.",
     "Use All projects to export one project, checked projects or all projects as ZIP files. Import projects creates independent copies with local assets and fonts. Cloud collaboration, conversation history and provider credentials are not included. Linked online resources still need the internet.": "Tous les projets permet d’exporter un projet, une sélection ou tous les projets en ZIP. L’importation crée des copies indépendantes avec médias locaux et polices. La collaboration cloud, les conversations et les identifiants des fournisseurs ne sont pas inclus. Les liens externes nécessitent Internet.",
     "This ZIP is damaged or does not contain a supported project.": "Ce ZIP est endommagé ou ne contient aucun projet pris en charge.",
     "Rename project": "Renommer le projet",
@@ -314,7 +314,7 @@
     "Saving…": "Enregistrement…",
     "Open project": "Ouvrir le projet",
     "Start with a HyperFrames project": "Démarrer avec un projet HyperFrames",
-    "Zip your HyperFrames project folder with its source and local assets, then choose Import projects to continue editing in OpenMotion.": "Compressez le dossier de votre projet HyperFrames avec ses sources et ses médias locaux en ZIP, puis choisissez Importer des projets pour poursuivre le montage dans OpenMotion.",
+    "Zip your HyperFrames project folder with its source and local assets, then choose Import projects to continue editing in Kinevyn.": "Compressez le dossier de votre projet HyperFrames avec ses sources et ses médias locaux en ZIP, puis choisissez Importer des projets pour poursuivre le montage dans Kinevyn.",
     "Trash": "Trash",
     "Restore project": "Restore project",
     "Delete permanently": "Delete permanently",
@@ -337,7 +337,7 @@
     "Clear project selection": "Effacer la sélection",
     "Keep at least one project outside Trash.": "Conservez au moins un projet hors de la corbeille.",
     "Rename, duplicate, locate, share, trash, restore and permanently delete projects from each project menu.": "Gérez les projets et restaurez-les ou supprimez-les définitivement depuis la corbeille.",
-    "Project validation is temporarily unavailable. Try again when OpenMotion is ready.": "La validation du projet est temporairement indisponible. Réessayez lorsque OpenMotion est prêt."
+    "Project validation is temporarily unavailable. Try again when Kinevyn is ready.": "La validation du projet est temporairement indisponible. Réessayez lorsque Kinevyn est prêt."
   },
   "ru": {
     "All projects": "Все проекты",
@@ -356,8 +356,8 @@
     "Actions for {title}": "Действия для «{title}»",
     "Share editable projects": "Делитесь редактируемыми проектами",
     "Share editable projects as ZIP files. Importing creates independent copies.": "Делитесь редактируемыми проектами в ZIP. При импорте создаются независимые копии.",
-    "OpenMotion or HyperFrames ZIP · Up to 500 MB. Local assets are included; linked online resources still need the internet.": "ZIP OpenMotion или HyperFrames · До 500 МБ. Локальные ресурсы включены; внешние ссылки требуют интернета.",
-    "Export all my OpenMotion projects as a ZIP for offline sharing.": "Экспортируй все мои проекты OpenMotion в ZIP для передачи без облака.",
+    "Kinevyn or HyperFrames ZIP · Up to 500 MB. Local assets are included; linked online resources still need the internet.": "ZIP Kinevyn или HyperFrames · До 500 МБ. Локальные ресурсы включены; внешние ссылки требуют интернета.",
+    "Export all my Kinevyn projects as a ZIP for offline sharing.": "Экспортируй все мои проекты Kinevyn в ZIP для передачи без облака.",
     "Use All projects to export one project, checked projects or all projects as ZIP files. Import projects creates independent copies with local assets and fonts. Cloud collaboration, conversation history and provider credentials are not included. Linked online resources still need the internet.": "В разделе «Все проекты» можно экспортировать один, выбранные или все проекты в ZIP. Импорт создаёт независимые копии с локальными ресурсами и шрифтами. Облачная совместная работа, история чатов и учётные данные провайдеров не включены. Внешние ссылки требуют интернета.",
     "This ZIP is damaged or does not contain a supported project.": "ZIP повреждён или не содержит поддерживаемый проект.",
     "Rename project": "Переименовать проект",
@@ -382,7 +382,7 @@
     "Saving…": "Сохранение…",
     "Open project": "Открыть проект",
     "Start with a HyperFrames project": "Начните с проекта HyperFrames",
-    "Zip your HyperFrames project folder with its source and local assets, then choose Import projects to continue editing in OpenMotion.": "Упакуйте папку проекта HyperFrames с исходниками и локальными ресурсами в ZIP, затем выберите импорт проектов, чтобы продолжить редактирование в OpenMotion.",
+    "Zip your HyperFrames project folder with its source and local assets, then choose Import projects to continue editing in Kinevyn.": "Упакуйте папку проекта HyperFrames с исходниками и локальными ресурсами в ZIP, затем выберите импорт проектов, чтобы продолжить редактирование в Kinevyn.",
     "Trash": "Trash",
     "Restore project": "Restore project",
     "Delete permanently": "Delete permanently",
@@ -405,7 +405,7 @@
     "Clear project selection": "Снять выделение",
     "Keep at least one project outside Trash.": "Оставьте хотя бы один проект вне корзины.",
     "Rename, duplicate, locate, share, trash, restore and permanently delete projects from each project menu.": "Управляйте проектами, восстанавливайте или удаляйте их из корзины.",
-    "Project validation is temporarily unavailable. Try again when OpenMotion is ready.": "Проверка проекта временно недоступна. Повторите попытку, когда OpenMotion будет готов."
+    "Project validation is temporarily unavailable. Try again when Kinevyn is ready.": "Проверка проекта временно недоступна. Повторите попытку, когда Kinevyn будет готов."
   },
   "es": {
     "All projects": "Todos los proyectos",
@@ -424,8 +424,8 @@
     "Actions for {title}": "Acciones de {title}",
     "Share editable projects": "Compartir proyectos editables",
     "Share editable projects as ZIP files. Importing creates independent copies.": "Comparte proyectos editables en ZIP. Al importar se crean copias independientes.",
-    "OpenMotion or HyperFrames ZIP · Up to 500 MB. Local assets are included; linked online resources still need the internet.": "ZIP de OpenMotion o HyperFrames · Hasta 500 MB. Incluye recursos locales; los enlaces externos necesitan internet.",
-    "Export all my OpenMotion projects as a ZIP for offline sharing.": "Exporta todos mis proyectos OpenMotion en ZIP para compartirlos sin conexión.",
+    "Kinevyn or HyperFrames ZIP · Up to 500 MB. Local assets are included; linked online resources still need the internet.": "ZIP de Kinevyn o HyperFrames · Hasta 500 MB. Incluye recursos locales; los enlaces externos necesitan internet.",
+    "Export all my Kinevyn projects as a ZIP for offline sharing.": "Exporta todos mis proyectos Kinevyn en ZIP para compartirlos sin conexión.",
     "Use All projects to export one project, checked projects or all projects as ZIP files. Import projects creates independent copies with local assets and fonts. Cloud collaboration, conversation history and provider credentials are not included. Linked online resources still need the internet.": "En Todos los proyectos puedes exportar uno, una selección o todos en ZIP. Importar proyectos crea copias independientes con recursos locales y fuentes. No incluye colaboración en la nube, conversaciones ni credenciales. Los enlaces externos necesitan internet.",
     "This ZIP is damaged or does not contain a supported project.": "Este ZIP está dañado o no contiene un proyecto compatible.",
     "Rename project": "Renombrar proyecto",
@@ -450,7 +450,7 @@
     "Saving…": "Guardando…",
     "Open project": "Abrir proyecto",
     "Start with a HyperFrames project": "Empieza con un proyecto de HyperFrames",
-    "Zip your HyperFrames project folder with its source and local assets, then choose Import projects to continue editing in OpenMotion.": "Comprime la carpeta de tu proyecto de HyperFrames con su código fuente y sus recursos locales en un ZIP y elige Importar proyectos para seguir editando en OpenMotion.",
+    "Zip your HyperFrames project folder with its source and local assets, then choose Import projects to continue editing in Kinevyn.": "Comprime la carpeta de tu proyecto de HyperFrames con su código fuente y sus recursos locales en un ZIP y elige Importar proyectos para seguir editando en Kinevyn.",
     "Trash": "Trash",
     "Restore project": "Restore project",
     "Delete permanently": "Delete permanently",
@@ -473,7 +473,7 @@
     "Clear project selection": "Borrar selección",
     "Keep at least one project outside Trash.": "Conserva al menos un proyecto fuera de la papelera.",
     "Rename, duplicate, locate, share, trash, restore and permanently delete projects from each project menu.": "Gestiona proyectos y recupéralos o elimínalos permanentemente desde la papelera.",
-    "Project validation is temporarily unavailable. Try again when OpenMotion is ready.": "La validación del proyecto no está disponible temporalmente. Vuelve a intentarlo cuando OpenMotion esté listo."
+    "Project validation is temporarily unavailable. Try again when Kinevyn is ready.": "La validación del proyecto no está disponible temporalmente. Vuelve a intentarlo cuando Kinevyn esté listo."
   },
   "pt-BR": {
     "All projects": "Todos os projetos",
@@ -492,8 +492,8 @@
     "Actions for {title}": "Ações de {title}",
     "Share editable projects": "Compartilhar projetos editáveis",
     "Share editable projects as ZIP files. Importing creates independent copies.": "Compartilhe projetos editáveis em ZIP. A importação cria cópias independentes.",
-    "OpenMotion or HyperFrames ZIP · Up to 500 MB. Local assets are included; linked online resources still need the internet.": "ZIP do OpenMotion ou HyperFrames · Até 500 MB. Inclui recursos locais; links externos precisam de internet.",
-    "Export all my OpenMotion projects as a ZIP for offline sharing.": "Exporte todos os meus projetos OpenMotion em ZIP para compartilhar offline.",
+    "Kinevyn or HyperFrames ZIP · Up to 500 MB. Local assets are included; linked online resources still need the internet.": "ZIP do Kinevyn ou HyperFrames · Até 500 MB. Inclui recursos locais; links externos precisam de internet.",
+    "Export all my Kinevyn projects as a ZIP for offline sharing.": "Exporte todos os meus projetos Kinevyn em ZIP para compartilhar offline.",
     "Use All projects to export one project, checked projects or all projects as ZIP files. Import projects creates independent copies with local assets and fonts. Cloud collaboration, conversation history and provider credentials are not included. Linked online resources still need the internet.": "Em Todos os projetos, exporte um, uma seleção ou todos em ZIP. A importação cria cópias independentes com recursos locais e fontes. Não inclui colaboração na nuvem, conversas nem credenciais. Links externos precisam de internet.",
     "This ZIP is damaged or does not contain a supported project.": "Este ZIP está danificado ou não contém um projeto compatível.",
     "Rename project": "Renomear projeto",
@@ -518,7 +518,7 @@
     "Saving…": "Salvando…",
     "Open project": "Abrir projeto",
     "Start with a HyperFrames project": "Comece com um projeto do HyperFrames",
-    "Zip your HyperFrames project folder with its source and local assets, then choose Import projects to continue editing in OpenMotion.": "Compacte a pasta do projeto do HyperFrames com o código-fonte e os recursos locais em ZIP e escolha Importar projetos para continuar editando no OpenMotion.",
+    "Zip your HyperFrames project folder with its source and local assets, then choose Import projects to continue editing in Kinevyn.": "Compacte a pasta do projeto do HyperFrames com o código-fonte e os recursos locais em ZIP e escolha Importar projetos para continuar editando no Kinevyn.",
     "Trash": "Trash",
     "Restore project": "Restore project",
     "Delete permanently": "Delete permanently",
@@ -541,7 +541,7 @@
     "Clear project selection": "Limpar seleção",
     "Keep at least one project outside Trash.": "Mantenha pelo menos um projeto fora da lixeira.",
     "Rename, duplicate, locate, share, trash, restore and permanently delete projects from each project menu.": "Gerencie projetos e restaure-os ou exclua-os permanentemente pela lixeira.",
-    "Project validation is temporarily unavailable. Try again when OpenMotion is ready.": "A validação do projeto está temporariamente indisponível. Tente novamente quando o OpenMotion estiver pronto."
+    "Project validation is temporarily unavailable. Try again when Kinevyn is ready.": "A validação do projeto está temporariamente indisponível. Tente novamente quando o Kinevyn estiver pronto."
   },
   "it": {
     "All projects": "Tutti i progetti",
@@ -560,8 +560,8 @@
     "Actions for {title}": "Azioni per {title}",
     "Share editable projects": "Condividi progetti modificabili",
     "Share editable projects as ZIP files. Importing creates independent copies.": "Condividi progetti modificabili in ZIP. L’importazione crea copie indipendenti.",
-    "OpenMotion or HyperFrames ZIP · Up to 500 MB. Local assets are included; linked online resources still need the internet.": "ZIP OpenMotion o HyperFrames · Fino a 500 MB. Include le risorse locali; i link esterni richiedono Internet.",
-    "Export all my OpenMotion projects as a ZIP for offline sharing.": "Esporta tutti i miei progetti OpenMotion in ZIP per condividerli offline.",
+    "Kinevyn or HyperFrames ZIP · Up to 500 MB. Local assets are included; linked online resources still need the internet.": "ZIP Kinevyn o HyperFrames · Fino a 500 MB. Include le risorse locali; i link esterni richiedono Internet.",
+    "Export all my Kinevyn projects as a ZIP for offline sharing.": "Esporta tutti i miei progetti Kinevyn in ZIP per condividerli offline.",
     "Use All projects to export one project, checked projects or all projects as ZIP files. Import projects creates independent copies with local assets and fonts. Cloud collaboration, conversation history and provider credentials are not included. Linked online resources still need the internet.": "In Tutti i progetti puoi esportare uno, quelli selezionati o tutti in ZIP. L’importazione crea copie indipendenti con risorse locali e font. Collaborazione cloud, conversazioni e credenziali non sono inclusi. I link esterni richiedono Internet.",
     "This ZIP is damaged or does not contain a supported project.": "Questo ZIP è danneggiato o non contiene un progetto supportato.",
     "Rename project": "Rinomina progetto",
@@ -586,7 +586,7 @@
     "Saving…": "Salvataggio…",
     "Open project": "Apri progetto",
     "Start with a HyperFrames project": "Inizia da un progetto HyperFrames",
-    "Zip your HyperFrames project folder with its source and local assets, then choose Import projects to continue editing in OpenMotion.": "Comprimi la cartella del progetto HyperFrames con il codice sorgente e le risorse locali in un file ZIP, poi scegli Importa progetti per continuare a modificarlo in OpenMotion.",
+    "Zip your HyperFrames project folder with its source and local assets, then choose Import projects to continue editing in Kinevyn.": "Comprimi la cartella del progetto HyperFrames con il codice sorgente e le risorse locali in un file ZIP, poi scegli Importa progetti per continuare a modificarlo in Kinevyn.",
     "Trash": "Trash",
     "Restore project": "Restore project",
     "Delete permanently": "Delete permanently",
@@ -609,7 +609,7 @@
     "Clear project selection": "Cancella selezione",
     "Keep at least one project outside Trash.": "Mantieni almeno un progetto fuori dal cestino.",
     "Rename, duplicate, locate, share, trash, restore and permanently delete projects from each project menu.": "Gestisci i progetti e ripristinali o eliminali definitivamente dal cestino.",
-    "Project validation is temporarily unavailable. Try again when OpenMotion is ready.": "La convalida del progetto non è al momento disponibile. Riprova quando OpenMotion sarà pronto."
+    "Project validation is temporarily unavailable. Try again when Kinevyn is ready.": "La convalida del progetto non è al momento disponibile. Riprova quando Kinevyn sarà pronto."
   },
   "tr": {
     "All projects": "Tüm projeler",
@@ -628,8 +628,8 @@
     "Actions for {title}": "{title} işlemleri",
     "Share editable projects": "Düzenlenebilir projeleri paylaş",
     "Share editable projects as ZIP files. Importing creates independent copies.": "Düzenlenebilir projeleri ZIP olarak paylaşın. İçe aktarma bağımsız kopyalar oluşturur.",
-    "OpenMotion or HyperFrames ZIP · Up to 500 MB. Local assets are included; linked online resources still need the internet.": "OpenMotion veya HyperFrames ZIP · En fazla 500 MB. Yerel varlıklar dahildir; harici bağlantılar internet gerektirir.",
-    "Export all my OpenMotion projects as a ZIP for offline sharing.": "Tüm OpenMotion projelerimi çevrimdışı paylaşım için ZIP olarak dışa aktar.",
+    "Kinevyn or HyperFrames ZIP · Up to 500 MB. Local assets are included; linked online resources still need the internet.": "Kinevyn veya HyperFrames ZIP · En fazla 500 MB. Yerel varlıklar dahildir; harici bağlantılar internet gerektirir.",
+    "Export all my Kinevyn projects as a ZIP for offline sharing.": "Tüm Kinevyn projelerimi çevrimdışı paylaşım için ZIP olarak dışa aktar.",
     "Use All projects to export one project, checked projects or all projects as ZIP files. Import projects creates independent copies with local assets and fonts. Cloud collaboration, conversation history and provider credentials are not included. Linked online resources still need the internet.": "Tüm projeler bölümünden birini veya tümünü ZIP olarak dışa aktarın. İçe aktarma yerel varlıklar ve yazı tipleriyle bağımsız kopyalar oluşturur. Bulut işbirliği, sohbet geçmişi ve sağlayıcı kimlik bilgileri dahil değildir. Harici bağlantılar internet gerektirir.",
     "This ZIP is damaged or does not contain a supported project.": "Bu ZIP bozuk veya desteklenen bir proje içermiyor.",
     "Rename project": "Projeyi yeniden adlandır",
@@ -654,7 +654,7 @@
     "Saving…": "Kaydediliyor…",
     "Open project": "Projeyi aç",
     "Start with a HyperFrames project": "Bir HyperFrames projesiyle başlayın",
-    "Zip your HyperFrames project folder with its source and local assets, then choose Import projects to continue editing in OpenMotion.": "HyperFrames proje klasörünü kaynak kodu ve yerel dosyalarıyla birlikte ZIP olarak sıkıştırın, ardından OpenMotion’da düzenlemeye devam etmek için projeleri içe aktarma seçeneğini kullanın.",
+    "Zip your HyperFrames project folder with its source and local assets, then choose Import projects to continue editing in Kinevyn.": "HyperFrames proje klasörünü kaynak kodu ve yerel dosyalarıyla birlikte ZIP olarak sıkıştırın, ardından Kinevyn’da düzenlemeye devam etmek için projeleri içe aktarma seçeneğini kullanın.",
     "Trash": "Trash",
     "Restore project": "Restore project",
     "Delete permanently": "Delete permanently",
@@ -677,6 +677,6 @@
     "Clear project selection": "Seçimi temizle",
     "Keep at least one project outside Trash.": "Çöp kutusu dışında en az bir proje tutun.",
     "Rename, duplicate, locate, share, trash, restore and permanently delete projects from each project menu.": "Projeleri yönetin, çöp kutusundan geri yükleyin veya kalıcı olarak silin.",
-    "Project validation is temporarily unavailable. Try again when OpenMotion is ready.": "Proje doğrulaması geçici olarak kullanılamıyor. OpenMotion hazır olduğunda tekrar deneyin."
+    "Project validation is temporarily unavailable. Try again when Kinevyn is ready.": "Proje doğrulaması geçici olarak kullanılamıyor. Kinevyn hazır olduğunda tekrar deneyin."
   }
 }

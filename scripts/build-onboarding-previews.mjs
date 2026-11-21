@@ -61,7 +61,7 @@ async function render(id) {
     if (!cacheValid) {
       await run(path.join(root, 'node_modules/.bin/hyperframes'), ['render', project, '--output', raw,
         '--fps', '12', '--workers', '1', '--crf', '16', '--experimental-fast-capture=false', '--quiet'],
-      { cwd: root, env: { ...process.env, OPENMOTION_TELEMETRY: '0' }, maxBuffer: 16 * 1024 * 1024 });
+      { cwd: root, env: { ...process.env, KINEVYN_TELEMETRY: '0' }, maxBuffer: 16 * 1024 * 1024 });
       await writeFile(cachePath, JSON.stringify({ captureIdentity, sha256: sha256(await readFile(raw)) }));
     }
   } catch (error) {

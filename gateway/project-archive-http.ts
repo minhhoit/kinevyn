@@ -42,9 +42,9 @@ export async function projectArchiveHttp(req: IncomingMessage, res: ServerRespon
   try {
     const info = await file.stat();
     if (!info.isFile()) throw new Error('PROJECT_ARCHIVE_UNAVAILABLE');
-    const metadata = await jsonFile<{ filename: string }>(path.join(root, 'files', match[1] + '.json'), { filename: 'OpenMotion-projects.zip' });
+    const metadata = await jsonFile<{ filename: string }>(path.join(root, 'files', match[1] + '.json'), { filename: 'Kinevyn-projects.zip' });
     res.writeHead(200, { 'Content-Type': 'application/zip', 'Content-Length': info.size,
-      'Content-Disposition': `attachment; filename="OpenMotion-projects.zip"; filename*=UTF-8''${encodeURIComponent(metadata.filename)}`,
+      'Content-Disposition': `attachment; filename="Kinevyn-projects.zip"; filename*=UTF-8''${encodeURIComponent(metadata.filename)}`,
       'X-Content-Type-Options': 'nosniff', 'Cache-Control': 'private, no-store' });
     if (req.method === 'HEAD') res.end();
     else await pipeline(file.createReadStream({ autoClose: false }), res);

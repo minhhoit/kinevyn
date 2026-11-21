@@ -1,0 +1,4 @@
+interface:
+  display_name: "Kinevyn Design"
+  short_description: "Create and iterate HTML prototypes, slide decks, documents, live artifacts and WebGL scenes in Design Studio via MCP"
+  default_prompt: "Use Kinevyn $kinevyn-design with kinevyn_design_catalog, kinevyn_design_project, kinevyn_design_edit and kinevyn_design_comments to create or revise an HTML design project."

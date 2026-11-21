@@ -1,5 +1,5 @@
 {
-  "name": "openmotion-maintainability-checks",
+  "name": "kinevyn-maintainability-checks",
   "private": true,
   "devDependencies": {
     "jscpd": "5.4.3",

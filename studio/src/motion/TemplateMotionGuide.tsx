@@ -26,7 +26,7 @@ export function TemplateMotionGuide({ url, title, expanded = false, onEscape }: 
   }
   function syncAppearance() {
     // The iframe deliberately has an opaque origin, so targetOrigin must be '*'.
-    frame.current?.contentWindow?.postMessage({ type: 'openmotion:guide-appearance', appearance: appearance() }, '*');
+    frame.current?.contentWindow?.postMessage({ type: 'kinevyn:guide-appearance', appearance: appearance() }, '*');
   }
   useEffect(() => { syncAppearance(); }, [theme]);
   useEffect(() => {
@@ -36,7 +36,7 @@ export function TemplateMotionGuide({ url, title, expanded = false, onEscape }: 
     let active = true;
     const receive = async (event: MessageEvent) => {
       if (event.source !== frame.current?.contentWindow) return;
-      if (event.data?.type === 'openmotion:guide-event' && event.data.templateId === id && isTemplateGuideEvent(event.data.event)) {
+      if (event.data?.type === 'kinevyn:guide-event' && event.data.templateId === id && isTemplateGuideEvent(event.data.event)) {
         send('template_guide_interaction', { page_name: 'studio', template_id: id, ...event.data.event }); return;
       }
       if (!validGuideRpc(event.data) || event.data.templateId !== id) return;
@@ -44,7 +44,7 @@ export function TemplateMotionGuide({ url, title, expanded = false, onEscape }: 
       try {
         const result = await handleGuideAction(id, message.action, message.value, locale);
         if (!active) return;
-        frame.current?.contentWindow?.postMessage({ type: 'openmotion:guide-action-result', requestId: message.requestId, result }, '*');
+        frame.current?.contentWindow?.postMessage({ type: 'kinevyn:guide-action-result', requestId: message.requestId, result }, '*');
         if (message.action === 'library' && result && typeof result === 'object' && 'url' in result) location.assign(String(result.url));
         if (message.action === 'open' && result && typeof result === 'object' && 'url' in result && 'projectId' in result) {
           send('template_guide_interaction', { page_name: 'studio', template_id: id, view_id: message.viewId, action: 'open_editor', outcome: 'success', project_id: String(result.projectId) });
@@ -52,7 +52,7 @@ export function TemplateMotionGuide({ url, title, expanded = false, onEscape }: 
         }
       } catch (error) { if (active) {
         if (message.action === 'open') send('template_guide_interaction', { page_name: 'studio', template_id: id, view_id: message.viewId, action: 'open_editor', outcome: 'failure' });
-        frame.current?.contentWindow?.postMessage({ type: 'openmotion:guide-action-result', requestId: message.requestId, error: (error as Error).message }, '*');
+        frame.current?.contentWindow?.postMessage({ type: 'kinevyn:guide-action-result', requestId: message.requestId, error: (error as Error).message }, '*');
       } }
     };
     window.addEventListener('message', receive);
@@ -63,7 +63,7 @@ export function TemplateMotionGuide({ url, title, expanded = false, onEscape }: 
     function receiveEscape(event: MessageEvent) {
       const guide = frame.current;
       if (guide?.hasAttribute('srcdoc') && guide.ownerDocument.activeElement === guide &&
-          event.source === guide.contentWindow && event.origin === 'null' && event.data === 'openmotion:guide-escape') onEscape?.();
+          event.source === guide.contentWindow && event.origin === 'null' && event.data === 'kinevyn:guide-escape') onEscape?.();
     }
     window.addEventListener('message', receiveEscape);
     return () => window.removeEventListener('message', receiveEscape);

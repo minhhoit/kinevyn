@@ -1,4 +1,4 @@
-# Install the OpenMotion {{VERSION}} candidate
+# Install the Kinevyn {{VERSION}} candidate
 
 This is a **local candidate installation guide**. It installs the complete `{{TGZ}}` next to this file, not an unpublished npm registry version. The application, MCP, built Studio and bundled Skills are embedded. Native browser/FFmpeg/ffprobe and locked npm dependencies still need network access when prepared. This candidate defaults to **{{TEMPLATE_ENVIRONMENT}} templates** (test uses DEV; stable uses prod). The source address is public configuration; service access still requires the appropriate network/authentication. The package contains no private catalog snapshot or credentials.
 
@@ -16,11 +16,11 @@ This is a **local candidate installation guide**. It installs the complete `{{TG
 3. Use the **local tgz** with the selected host, with the isolation settings applied first:
 
    ```sh
-   npx --yes --package "./{{TGZ}}" -- openmotion setup --host HOST
+   npx --yes --package "./{{TGZ}}" -- kinevyn setup --host HOST
    ```
 
    Replace `HOST` with `codex`, `claude`, `deepseek` or `workbuddy`. Carry the explicit `--home`, `--data-dir`, `--skills-dir` and host-specific options from the platform recipe. Setup starts checked video-component downloads in the background. Do not run or wait for prepare to connect MCP, create/edit projects or open ordinary preview. Keep using this local package; no sidecar application/manifest download or source build is required.
-4. Keep verification internal. Use working native tools or setup's `onboarding.directAccess` commands in this same chat; do not default to a new chat or restart. Verify the actual application version and **{{TEMPLATE_ENVIRONMENT}} template environment**. Confirm every Tool name in `release-npm.json`'s `mcp.tools` and every Skill in its `skills` list through actual host discovery; negotiated presentation Tools may also appear. Read the MCP resources and make a `openmotion_get_project` call against the isolated data directory. Direct access verifies the installed MCP, not native host discovery or creative acceptance. Follow setup's installation-success reply: confirm installation, then invite an eligible experience.
+4. Keep verification internal. Use working native tools or setup's `onboarding.directAccess` commands in this same chat; do not default to a new chat or restart. Verify the actual application version and **{{TEMPLATE_ENVIRONMENT}} template environment**. Confirm every Tool name in `release-npm.json`'s `mcp.tools` and every Skill in its `skills` list through actual host discovery; negotiated presentation Tools may also appear. Read the MCP resources and make a `kinevyn_get_project` call against the isolated data directory. Direct access verifies the installed MCP, not native host discovery or creative acceptance. Follow setup's installation-success reply: confirm installation, then invite an eligible experience.
 
 Keep installation/host loading and video-component readiness as separate internal evidence; include those details only in an explicitly requested acceptance report or when needed to resolve a blocked operation. Installation alone does not authorize creating a video or exporting an MP4.
 
@@ -29,7 +29,7 @@ Keep installation/host loading and video-component readiness as separate interna
 1. Run the blocking prepare command only when the tester explicitly asks to wait for all video components or before requested acceptance cases that need media import, automated capture or export:
 
    ```sh
-   npx --yes --package "./{{TGZ}}" -- openmotion prepare
+   npx --yes --package "./{{TGZ}}" -- kinevyn prepare
    ```
 
    Repeat the same explicit `--home` used for setup. Studio shows component preparation status and retry; successful checked components are reused. Preparing dependencies does not run an export or complete acceptance.

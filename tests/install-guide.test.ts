@@ -9,7 +9,7 @@ import { installationInstructions } from '../scripts/install-onboarding.mjs';
 import { fileURLToPath } from 'node:url';
 import { runFile } from '../scripts/runtime-assets.mjs';
 
-const pkg = { name: '@openmotion/app', version: '0.6.4-test.1', private: false, bin: { openmotion: 'scripts/npm-installer.mjs' } };
+const pkg = { name: '@kinevyn/app', version: '0.6.4-test.1', private: false, bin: { kinevyn: 'scripts/npm-installer.mjs' } };
 const manifest = { schemaVersion: 1, version: pkg.version, templateEnvironment: 'dev', commit: 'a'.repeat(40),
   application: { sha256: 'b'.repeat(64) }, locks: { npm: 'c'.repeat(64), native: 'd'.repeat(64) },
   runtime: { targets: { mac: { platform: 'darwin', arch: 'arm64' }, windows: { platform: 'win32', arch: 'x64', minimumOS: 'Windows 11' } } } };
@@ -30,7 +30,7 @@ async function fixture(t: any, candidate = false, declaration = manifest) {
   const directory = path.join(root, 'guide'), record = await generateInstallGuide(tgz, directory, candidate);
   return { directory, record };
 }
-const previousGuide = '# Install OpenMotion 0.6.3-test.1\n';
+const previousGuide = '# Install Kinevyn 0.6.3-test.1\n';
 test('guides allow macOS without a version floor and retain declared minimums for other targets and older packages', async t => {
   const { directory } = await fixture(t);
   const text = await readFile(path.join(directory, 'install.md'), 'utf8');
@@ -69,17 +69,17 @@ test('guide rendering pins the exact npm package, built source and hash while re
   const text = await readFile(path.join(directory, 'install.md'), 'utf8');
   assert(text.includes(`npx --yes --package "${pkg.name}@${pkg.version}"`));
   assert(text.includes(manifest.commit) && text.includes(record.tgzSHA256));
-  assert(text.includes(`https://github.com/nexu-io/openmotion/blob/${manifest.commit}/docs/npm-installation.md`),
+  assert(text.includes(`https://github.com/rivyn-labs/kinevyn/blob/${manifest.commit}/docs/npm-installation.md`),
     'Generated guides must use the renamed repository and immutable source SHA');
-  assert(!text.includes('nexu-io/html-anything'), 'Do not republish retired repository links');
+  assert(!text.includes('rivyn-labs/html-anything'), 'Do not republish retired repository links');
   assert(!text.includes('{{') && !text.includes('see `{{...}}`'));
   assert(text.includes('Complete Tool/Skill inventory comparison belongs to development/release acceptance'));
   assert(text.includes("reusing setup's successful same-chat read"));
   assert(text.includes('new test versions embed DEV defaults') && !text.includes('does not select DEV templates'),
     'A generated test guide must not claim test versions skip DEV templates');
-  for (const host of ['codex', 'claude', 'deepseek', 'workbuddy']) assert(text.includes(`openmotion setup --host ${host}`), host);
+  for (const host of ['codex', 'claude', 'deepseek', 'workbuddy']) assert(text.includes(`kinevyn setup --host ${host}`), host);
   assert(text.includes('--profile PROFILE') && text.includes('Do not infer the current host'));
-  assert(text.includes('openmotion setup --host AGENT') && text.includes('agentRegistration') && text.includes('Never borrow another host\'s adapter'), 'Agents without an adapter must get their own setup route');
+  assert(text.includes('kinevyn setup --host AGENT') && text.includes('agentRegistration') && text.includes('Never borrow another host\'s adapter'), 'Agents without an adapter must get their own setup route');
   assert(text.includes(`/blob/${manifest.commit}/docs/npm-installation.md#npm-download-failures`), 'Network recovery must link to this package source');
   assert(text.includes('automatically try `https://registry.npmjs.org` then `https://registry.npmmirror.com`'), 'Network recovery must name the ordered automatic fallback');
   assert(text.includes('at most once per registry, counting the initial failed attempt'), 'Recovery must not retry the same registry indefinitely');
@@ -87,15 +87,15 @@ test('guide rendering pins the exact npm package, built source and hash while re
   assert(text.includes('verify any mirrored tgz against the matching immutable guide\'s SHA256 before executing it'), 'Mirror recovery must preserve an independently recorded package identity');
   assert(text.includes('Permission or checksum failures stop immediately') && text.includes('terminal handoff') && text.includes('A local tgz still needs npm access'), 'Retain fail-closed recovery, terminal handoff and the online dependency boundary');
   assert(text.includes(await installationInstructions(fileURLToPath(new URL('../', import.meta.url)))), 'Published guide must preserve the exact setup reply contract');
-  assert.match(text, /^# Install OpenMotion 0\.6\.4-test\.1\n/);
-  assert(text.includes(`skills@1.9.0 add https://github.com/nexu-io/openmotion/tree/${manifest.commit} --skill openmotion`));
-  assert(!text.includes('skills@1.9.0 add nexu-io/openmotion '), 'A release guide must not pair its app with main-branch Skill instructions');
+  assert.match(text, /^# Install Kinevyn 0\.6\.4-test\.1\n/);
+  assert(text.includes(`skills@1.9.0 add https://github.com/rivyn-labs/kinevyn/tree/${manifest.commit} --skill kinevyn`));
+  assert(!text.includes('skills@1.9.0 add rivyn-labs/kinevyn '), 'A release guide must not pair its app with main-branch Skill instructions');
   assert(text.includes('For DSH, use `universal`'));
   assert(text.includes('Reuse an existing official installation'));
   assert(!text.includes('source-only:') && !text.includes('npm start') && !text.includes('git clone'));
-  assert(!text.includes('automatic source installation') && !text.includes('openmotion-source-install.sh'));
+  assert(!text.includes('automatic source installation') && !text.includes('kinevyn-source-install.sh'));
   assert.equal(record.channel, 'test'); assert.equal(record.candidate, false);
-  assert.equal(validateGuideSpec('openmotion', '0.6.4'), 'stable');
+  assert.equal(validateGuideSpec('kinevyn', '0.6.4'), 'stable');
   for (const name of ['https://evil.invalid/a', 'x;echo bad', '--script', '@bad/no/extra']) assert.throws(() => validateGuideSpec(name, pkg.version));
   assert.throws(() => validateGuideSpec(pkg.name, 'latest'));
   assert.throws(() => validateGuideIdentity({ ...pkg, private: true }, manifest), /public/);
@@ -173,7 +173,7 @@ test('archive-only guide publication never accesses the moving default', async t
 test('late completion archives its exact version without rolling a newer default back', async t => {
   const { directory, record } = await fixture(t);
   for (const version of ['0.6.4-test.10', '0.0.2-test.22']) {
-    const newer = '# Install OpenMotion ' + version + '\n', store = storage(directory, record, newer);
+    const newer = '# Install Kinevyn ' + version + '\n', store = storage(directory, record, newer);
     const result = await publishGuide(directory, config, store);
     assert.equal(result.phase, 'superseded'); assert.equal(result.promoted, false);
     assert.deepEqual(store.writes.map(x => x.key), [store.plan.versionKey]);
@@ -183,7 +183,7 @@ test('late completion archives its exact version without rolling a newer default
 
 test('unrecognized or conflicting same-version defaults require inspection instead of replacement', async t => {
   const { directory, record } = await fixture(t);
-  for (const previous of ['unrecognized instructions', `# Install OpenMotion ${record.version}\nchanged`]) {
+  for (const previous of ['unrecognized instructions', `# Install Kinevyn ${record.version}\nchanged`]) {
     const store = storage(directory, record, previous);
     await assert.rejects(publishGuide(directory, config, store), /recognizable version|Same-version/);
     assert.equal(store.objects.get(store.plan.fixedKey)!.toString(), previous);
@@ -212,11 +212,11 @@ test('moving guides use channel tags while immutable guides and current version 
   store.objects.set(store.plan.fixedKey, Buffer.from(exact));
   await publishGuide(directory, config, store);
   const current = store.objects.get(store.plan.fixedKey)!.toString();
-  assert(current.includes('@openmotion/app@test'));
-  assert(!current.includes('@openmotion/app@' + record.version));
+  assert(current.includes('@kinevyn/app@test'));
+  assert(!current.includes('@kinevyn/app@' + record.version));
   assert(current.includes('Current test version: ' + record.version));
   assert.equal(store.objects.get(store.plan.versionKey)!.toString(), exact);
-  assert(movingGuide(exact, { ...record, channel: 'stable' }).includes('@openmotion/app@latest'));
+  assert(movingGuide(exact, { ...record, channel: 'stable' }).includes('@kinevyn/app@latest'));
   const count = store.writes.length;
   await publishGuide(directory, config, store); assert.equal(store.writes.length, count);
 });

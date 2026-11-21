@@ -9,7 +9,7 @@ import { sharedEditorEnabled } from '../editor-runtime.ts';
 import { fixture } from './fixtures.ts';
 import { Client } from './shared-editor-client.mjs';
 
-test('HTTP project, template and session handoffs return the OpenMotion editor origin', { timeout: 30_000 }, () => fixture(async store => {
+test('HTTP project, template and session handoffs return the Kinevyn editor origin', { timeout: 30_000 }, () => fixture(async store => {
   const running = await startServer(store, 0, { editor: false });
   const origin = `http://127.0.0.1:${(running.server.address() as { port: number }).port}`;
   const editor = async (value: { studioUrl?: string; projectId?: string }) => {
@@ -45,13 +45,13 @@ test('HTTP project, template and session handoffs return the OpenMotion editor o
   } finally { await running.close(); }
 }));
 
-test('macOS source launchers and both MCP profiles hand off OpenMotion URLs', { skip: !sharedEditorEnabled, timeout: 60_000 }, () => fixture(async store => {
+test('macOS source launchers and both MCP profiles hand off Kinevyn URLs', { skip: !sharedEditorEnabled, timeout: 60_000 }, () => fixture(async store => {
   const clients = [new Client(store.directory), new Client(store.directory, { legacy: true })];
   try {
     await Promise.all(clients.map(client => client.initialize()));
-    const created = await clients[0].call('openmotion_create_project', { requestId: 'editor-urls', projectType: 'natural_language',
+    const created = await clients[0].call('kinevyn_create_project', { requestId: 'editor-urls', projectType: 'natural_language',
       title: 'Editor URLs', requirements: 'Verify editor URL handoffs without generating media or exporting.' });
-    const opened = await clients[0].call('openmotion_open_preview', { projectId: created.projectId });
+    const opened = await clients[0].call('kinevyn_open_preview', { projectId: created.projectId });
     const origin = new URL(opened.previewUrl).origin;
     const assertUrls = (value: Record<string, any>) => {
       for (const field of ['previewUrl', 'studioUrl', 'sessionUrl', 'embeddedPreviewUrl', 'serverUrl']) {
@@ -60,7 +60,7 @@ test('macOS source launchers and both MCP profiles hand off OpenMotion URLs', { 
       if (value.previewHandoff) assert.equal(new URL(value.previewHandoff.previewUrl).origin, origin);
     };
     assertUrls(opened);
-    assertUrls(await clients[1].call('openmotion_open_preview', { projectId: created.projectId }));
+    assertUrls(await clients[1].call('kinevyn_open_preview', { projectId: created.projectId }));
     for (const entry of ['server.ts', 'preview.ts']) {
       const { stdout } = await promisify(execFile)(process.execPath, ['--experimental-strip-types', path.join(pluginRoot, entry)], {
         cwd: pluginRoot, env: { ...process.env, MOTION_DATA_DIR: store.directory }, timeout: 20_000 });

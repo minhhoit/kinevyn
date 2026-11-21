@@ -3,12 +3,12 @@ title = "Motion release credentials policy"
 useDefault = true
 
 [[allowlists]]
-description = "Existing public, write-only OpenMotion analytics identifier; not a management credential"
+description = "Existing public, write-only Kinevyn analytics identifier; not a management credential"
 regexTarget = "secret"
 regexes = ['''^phc_u5dHWkwdqN626opkbbjDKk7xNzxR2UsJbdQqx3DncbjU$''']
 
 [[allowlists]]
-description = "Owner-approved public OpenMotion Feishu invitation, limited to the product READMEs, the shared community link and its bundled Studio asset"
+description = "Owner-approved public Kinevyn Feishu invitation, limited to the product READMEs, the shared community link and its bundled Studio asset"
 condition = "AND"
 targetRules = ["generic-api-key"]
 paths = ['''(^|/)(README\.md|README\.zh-CN\.md|docs/README\.(zh-CN|ja)\.md)$''', '''(^|/)studio/src/motion/CommunityLink\.tsx$''', '''(^|/)studio/build/editor-assets/[^/]+\.js$''']

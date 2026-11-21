@@ -3,7 +3,7 @@
 import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 const home = process.env.AMR_HOME;
-if (!home || !home.includes('motion-')) throw new Error('Use an isolated OpenMotion fixture directory');
+if (!home || !home.includes('motion-')) throw new Error('Use an isolated Kinevyn fixture directory');
 mkdirSync(home, { recursive: true, mode: 0o700 });
 const args = process.argv.slice(2), json = value => console.log(JSON.stringify(value));
 const mode = () => existsSync(path.join(home, 'fixture-mode')) ? readFileSync(path.join(home, 'fixture-mode'), 'utf8') : '';

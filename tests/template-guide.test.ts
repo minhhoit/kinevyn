@@ -24,7 +24,7 @@ test('every catalog preview receives the common interface and retains its own au
     const source = await readFile(path.join(repositoryCatalogRoot, id, 'source/preview.html'), 'utf8');
     const guide = authoredTemplateGuide(source); if (guide) { authored++; examples.add(JSON.stringify(guide)); }
     const result = upgradeTemplateGuidePage(source, { id, title: 'This template <script>must stay inert</script>' });
-    assert.equal((result.match(/id="openmotion-guide-page"/g) || []).length, 1, id);
+    assert.equal((result.match(/id="kinevyn-guide-page"/g) || []).length, 1, id);
     assert(result.includes('"id":"' + id + '"'), id);
     assert(result.includes('/guide-assets/viewer.js'), id);
     assert(!result.includes('<script>must stay inert</script>'), id);
@@ -32,7 +32,7 @@ test('every catalog preview receives the common interface and retains its own au
       assert(result.includes('data-demo='), id);
       assert(result.includes('viewer/guide.js'), id);
       assert(!result.includes('href="viewer/board.css"'), id);
-      assert(!result.includes('openmotion-product-flow'), id);
+      assert(!result.includes('kinevyn-product-flow'), id);
     }
   }
   assert(manifest.templateIds.length >= 287);
@@ -84,13 +84,13 @@ test('MCP guide creation reuses the request, keeps the original template and rej
   const service = new Phase1Service(store, pluginRoot, { origin: () => 'http://127.0.0.1:4173', nativeUrl: () => undefined,
     openProject: async () => {}, mutation: async task => task(), cancel: async () => {} });
   const args = { requestId: 'lovable-guide-draft', projectType: 'template', templateId: lovable, title: 'My version', requirements: 'Continue the selected motion example', guideDraft: { title: 'My launch', accent: '#7050da' } };
-  const created = await service.call('openmotion_create_project', args);
-  const retried = await service.call('openmotion_create_project', args);
+  const created = await service.call('kinevyn_create_project', args);
+  const retried = await service.call('kinevyn_create_project', args);
   assert.equal(created.projectId, retried.projectId);
   assert.equal(created.source.id, lovable); assert.equal(created.source.provenance, 'authored-motion-guide-example');
   assert.deepEqual(JSON.parse(await readFile(path.join(store.projectDirectoryFor(created.projectId), 'motion-project.json'), 'utf8')).guideDraft, args.guideDraft);
-  await assert.rejects(service.call('openmotion_create_project', { ...args, guideDraft: { ...args.guideDraft, title: 'Other draft' } }), /REQUEST_ID_CONFLICT/);
-  await assert.rejects(service.call('openmotion_create_project', { ...args, requestId: 'unsupported-guide', templateId: 'motion-orbit-launch' }), /GUIDE_NOT_EDITABLE/);
+  await assert.rejects(service.call('kinevyn_create_project', { ...args, guideDraft: { ...args.guideDraft, title: 'Other draft' } }), /REQUEST_ID_CONFLICT/);
+  await assert.rejects(service.call('kinevyn_create_project', { ...args, requestId: 'unsupported-guide', templateId: 'motion-orbit-launch' }), /GUIDE_NOT_EDITABLE/);
   assert.equal(store.projectCatalog().projects.filter(item => item.id === created.projectId).length, 1);
 }, false));
 
@@ -118,7 +118,7 @@ test('the exact requested URLs serve upgraded pages, while raw source and downlo
   for (const id of [lovable, stripe, 'motion-orbit-launch']) {
     const pathName = `/api/template-source/${id}/preview.html`;
     const response = await request(pathName); assert.equal(response.status, 200);
-    assert((await response.text()).includes('openmotion-guide-page'));
+    assert((await response.text()).includes('kinevyn-guide-page'));
     assert.equal(await (await request(pathName + '?raw=1')).text(), await readFile(path.join(repositoryCatalogRoot, id, 'source/preview.html'), 'utf8'));
     const motion = await readFile(path.join(repositoryCatalogRoot, id, 'source/motion.md'), 'utf8');
     assert.equal(await (await request(`/api/template-source/${id}/motion.md`)).text(), motion);
@@ -139,7 +139,7 @@ test('a cleaned-up creation failure is terminal and unapplied through the real H
     openProject: async () => {}, mutation: async task => task(), cancel: async () => {} });
   const request = transport(store, { phase1: service, runtimeRoot: pluginRoot });
   const args = { requestId: 'guide-source-failure', projectType: 'template', templateId: lovable, title: 'Recovery', requirements: 'Continue this example', guideDraft: { title: 'Recovery', accent: '#7050da' } };
-  const create = (arguments_: typeof args) => request('/motion-api/phase1/call', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ name: 'openmotion_create_project', arguments: arguments_ }) });
+  const create = (arguments_: typeof args) => request('/motion-api/phase1/call', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ name: 'kinevyn_create_project', arguments: arguments_ }) });
   for (let attempt = 0; attempt < 2; attempt++) {
     const response = await create(args); assert.equal(response.status, 400);
     assert.deepEqual(await response.json(), { error: 'Temporary source unavailable', applied: false });

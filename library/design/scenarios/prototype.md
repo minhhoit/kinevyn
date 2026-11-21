@@ -1,4 +1,4 @@
-# OpenMotion Design — Prototype Task Profile v3.1.9
+# Kinevyn Design — Prototype Task Profile v3.1.9
 
 > Rollout: active
 
@@ -446,10 +446,10 @@ Apply these requirements only to this output. Reuse the complete same-version Sk
 
 For handheld prototypes, use the appropriate existing shell in .od-frames/ (iphone.html, android.html, neutral.html) and read .od-frames/layout.css for layout primitives. Preserve existing artifacts and user-edited shells.
 
-## OpenMotion MCP delivery workflow
+## Kinevyn MCP delivery workflow
 
-1. Discover templates, skills, design systems and craft references with `openmotion_design_catalog`.
-2. Create or fetch the project with `openmotion_design_project` (`action="create"` or `"get"`).
-3. Write complete files with `openmotion_design_edit` (`action="write"`, passing `expectedRevision` and a concise `summary`). Every write creates an immutable version snapshot.
-4. When revising from user annotations, call `openmotion_design_comments` (`action="list"`), apply scoped edits, then mark addressed comments `resolved` with `openmotion_design_comments` (`action="update"`).
-5. Call `openmotion_design_project` (`action="open"`) so the user can review the rendered HTML in Design Studio.
+1. Discover templates, skills, design systems and craft references with `kinevyn_design_catalog`.
+2. Create or fetch the project with `kinevyn_design_project` (`action="create"` or `"get"`).
+3. Write complete files with `kinevyn_design_edit` (`action="write"`, passing `expectedRevision` and a concise `summary`). Every write creates an immutable version snapshot.
+4. When revising from user annotations, call `kinevyn_design_comments` (`action="list"`), apply scoped edits, then mark addressed comments `resolved` with `kinevyn_design_comments` (`action="update"`).
+5. Call `kinevyn_design_project` (`action="open"`) so the user can review the rendered HTML in Design Studio.

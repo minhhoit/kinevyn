@@ -13,7 +13,7 @@ import type { HostContext } from '../tracking/host.ts';
 
 export type OmTracking = ReturnType<typeof createTracker<typeof omEvents>>;
 export function trackingLockReason() {
-  return ['0', 'false', 'off'].includes(process.env.OPENMOTION_TELEMETRY?.toLowerCase() ?? '') || process.env.DO_NOT_TRACK === '1'
+  return ['0', 'false', 'off'].includes(process.env.KINEVYN_TELEMETRY?.toLowerCase() ?? '') || process.env.DO_NOT_TRACK === '1'
     ? 'environment' as const : null;
 }
 export function trackingLocked() { return trackingLockReason() !== null; }
@@ -35,13 +35,13 @@ export async function createAppTracking(directory: string, entrypoint: Entry): P
   if (trackingLocked()) return disabled();
   try {
     const testing = Boolean(process.env.NODE_TEST_CONTEXT) || process.env.NODE_ENV === 'test';
-    if (testing && !process.env.OPENMOTION_TRACKING_TEST_RUN_ID) return disabled();
-    const env = process.env.OPENMOTION_TRACKING_ENV ?? (testing ? 'test' : 'production');
+    if (testing && !process.env.KINEVYN_TRACKING_TEST_RUN_ID) return disabled();
+    const env = process.env.KINEVYN_TRACKING_ENV ?? (testing ? 'test' : 'production');
     if (!['development', 'test', 'production'].includes(env)) return disabled();
-    const custom = process.env.OPENMOTION_POSTHOG_HOST !== undefined || process.env.OPENMOTION_POSTHOG_KEY !== undefined;
+    const custom = process.env.KINEVYN_POSTHOG_HOST !== undefined || process.env.KINEVYN_POSTHOG_KEY !== undefined;
     // Public write-only configuration only; malformed/missing configuration disables telemetry, not the application.
-    const config = custom ? { host: process.env.OPENMOTION_POSTHOG_HOST, token: process.env.OPENMOTION_POSTHOG_KEY,
-      geoip: process.env.OPENMOTION_GEOIP === '1' } : JSON.parse(readFileSync(new URL('./tracking-config.json', import.meta.url), 'utf8'));
+    const config = custom ? { host: process.env.KINEVYN_POSTHOG_HOST, token: process.env.KINEVYN_POSTHOG_KEY,
+      geoip: process.env.KINEVYN_GEOIP === '1' } : JSON.parse(readFileSync(new URL('./tracking-config.json', import.meta.url), 'utf8'));
     if (!config.host || !config.token) return disabled();
     const tracking = createNodeTracking({ registry: omEvents, entrypoint, enabled: true,
       identity: await loadIdentity(path.join(directory, 'tracking')), appVersion: VERSION,
@@ -51,7 +51,7 @@ export async function createAppTracking(directory: string, entrypoint: Entry): P
       }, device: loadDeviceIdentity,
       host: config.host, token: config.token, geoip: config.geoip,
       isEnabled: () => !trackingLocked() && trackingPreference(directory),
-      env: env as 'development' | 'test' | 'production', testRunId: process.env.OPENMOTION_TRACKING_TEST_RUN_ID });
+      env: env as 'development' | 'test' | 'production', testRunId: process.env.KINEVYN_TRACKING_TEST_RUN_ID });
     const changes = watch(path.join(directory, 'tracking'), { persistent: false }, () => { tracking.enabled(); });
     changes.on('error', () => tracking.setEnabled(false));
     const close = tracking.close;

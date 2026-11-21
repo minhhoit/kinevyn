@@ -12,9 +12,9 @@ import { pluginRoot } from '../hyperframes.ts';
 
 const out = process.argv[2]; assert(out && path.isAbsolute(out), 'Pass an absolute evidence directory');
 await mkdir(out, { recursive: true });
-process.env.OPENMOTION_TELEMETRY = '0';
+process.env.KINEVYN_TELEMETRY = '0';
 await configureNativeEnvironment(pluginRoot);
-const data = await mkdtemp(path.join(tmpdir(), 'openmotion-platform-export-'));
+const data = await mkdtemp(path.join(tmpdir(), 'kinevyn-platform-export-'));
 const client = new Client(data);
 const result = { passed: false, scope: 'real browser and stdio MCP; confirmed synthetic edit; no model or platform upload', checks: [] };
 const check = (name, evidence = {}) => { result.checks.push({ name, ...evidence }); console.log('PASS ' + name); };
@@ -102,16 +102,16 @@ try {
   for (let i = 0; i < samples; i++) wav.writeInt16LE(Math.round(Math.sin(i * 2 * Math.PI * 440 / rate) * 9000), 44 + i * 2);
   await writeFile(path.join(data, 'source.wav'), wav);
   await client.initialize();
-  const created = await client.call('openmotion_create_project', { projectType: 'natural_language', title: 'Platform export fixture', requirements: 'Use confirmed opening 0–2 seconds. Retain tone audio.', requestId: 'create' });
+  const created = await client.call('kinevyn_create_project', { projectType: 'natural_language', title: 'Platform export fixture', requirements: 'Use confirmed opening 0–2 seconds. Retain tone audio.', requestId: 'create' });
   const sourceId = created.projectId;
-  const imported = await client.call('openmotion_import_assets', { projectId: sourceId, requestId: 'audio', items: [{ itemId: 'tone', sourcePath: path.join(data, 'source.wav') }] });
+  const imported = await client.call('kinevyn_import_assets', { projectId: sourceId, requestId: 'audio', items: [{ itemId: 'tone', sourcePath: path.join(data, 'source.wav') }] });
   assert.equal(imported.items[0].status, 'completed', JSON.stringify(imported));
   const audio = imported.items[0].path;
-  let current = await client.call('openmotion_get_project', { projectId: sourceId });
-  await client.call('openmotion_edit_project', { projectId: sourceId, requestId: 'source', expectedRevision: current.revision, expectedVersionId: current.currentVersionId, files: [{ path: 'index.html', content: film(audio) }] });
-  current = await client.call('openmotion_get_project', { projectId: sourceId });
-  await client.call('openmotion_assets_use', { action: 'transcript', transcript: { command: 'caption_add', projectId: sourceId, compositionPath: 'index.html', requestId: 'manual-caption', expectedRevision: current.revision, expectedVersionId: current.currentVersionId, segments: [{ id: 'cue', text: 'Saved timeline subtitle', start: 1, end: 3 }] } });
-  const preview = await client.call('openmotion_open_preview', { projectId: sourceId });
+  let current = await client.call('kinevyn_get_project', { projectId: sourceId });
+  await client.call('kinevyn_edit_project', { projectId: sourceId, requestId: 'source', expectedRevision: current.revision, expectedVersionId: current.currentVersionId, files: [{ path: 'index.html', content: film(audio) }] });
+  current = await client.call('kinevyn_get_project', { projectId: sourceId });
+  await client.call('kinevyn_assets_use', { action: 'transcript', transcript: { command: 'caption_add', projectId: sourceId, compositionPath: 'index.html', requestId: 'manual-caption', expectedRevision: current.revision, expectedVersionId: current.currentVersionId, segments: [{ id: 'cue', text: 'Saved timeline subtitle', start: 1, end: 3 }] } });
+  const preview = await client.call('kinevyn_open_preview', { projectId: sourceId });
   const origin = new URL(preview.previewUrl).origin;
   browser = await puppeteer.launch({ executablePath: process.env.HYPERFRAMES_BROWSER_PATH || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: true, args: ['--autoplay-policy=no-user-gesture-required'] });
   await browser.defaultBrowserContext().overridePermissions(origin, ['clipboard-read', 'clipboard-write', 'clipboard-sanitized-write']);
@@ -151,7 +151,7 @@ try {
     for (let attempt = 0; attempt < 50; attempt++) {
       try { subtitleBytes = await readFile(subtitleFile, 'utf8'); break; } catch { await new Promise(resolve => setTimeout(resolve, 100)); }
     }
-    const subtitleMcp = await client.call('openmotion_assets_use', { action: 'transcript', transcript: { command: 'caption_export', projectId: sourceId, compositionPath: 'index.html', format: 'srt' } });
+    const subtitleMcp = await client.call('kinevyn_assets_use', { action: 'transcript', transcript: { command: 'caption_export', projectId: sourceId, compositionPath: 'index.html', format: 'srt' } });
     assert.equal(subtitleBytes, subtitleMcp.content);
     assert(subtitleBytes.includes('00:00:01,000 --> 00:00:03,000\nSaved timeline subtitle'));
     await rm(subtitleFile);
@@ -213,7 +213,7 @@ try {
     await (await card.$('button')).click();
     await page.waitForFunction(async () => (await navigator.clipboard.readText()).includes('ask me to identify the source project'));
     const example = await page.evaluate(() => navigator.clipboard.readText());
-    assert(example.includes('ask me to identify the source project')); assert(example.includes('openmotion_manage_project'));
+    assert(example.includes('ask me to identify the source project')); assert(example.includes('kinevyn_manage_project'));
     await page.screenshot({ path: path.join(out, `${theme}-${width}-handbook.png`) });
     await page.removeScriptToEvaluateOnNewDocument(script.identifier);
   }
@@ -256,27 +256,27 @@ try {
   // An external Agent's deterministic execution of the copied brief.
   const copied = await readFile(path.join(out, 'copied-instruction.txt'), 'utf8');
   const projectId = copied.match(/^Project ID: (.+)$/m)[1]; assert.equal(projectId, sourceId);
-  const before = await client.call('openmotion_get_project', { projectId });
-  const sourceFile = await client.call('openmotion_get_project', { projectId, file: { path: 'index.html' } });
+  const before = await client.call('kinevyn_get_project', { projectId });
+  const sourceFile = await client.call('kinevyn_get_project', { projectId, file: { path: 'index.html' } });
   const duplicateArgs = { action: 'duplicate', projectId, expectedRevision: before.revision, title: 'YouTube Shorts · confirmed opening', requestId: 'platform-copy' };
-  const duplicate = await client.call('openmotion_manage_project', duplicateArgs);
-  assert.equal((await client.call('openmotion_manage_project', duplicateArgs)).projectId, duplicate.projectId);
-  current = await client.call('openmotion_get_project', { projectId: duplicate.projectId });
+  const duplicate = await client.call('kinevyn_manage_project', duplicateArgs);
+  assert.equal((await client.call('kinevyn_manage_project', duplicateArgs)).projectId, duplicate.projectId);
+  current = await client.call('kinevyn_get_project', { projectId: duplicate.projectId });
   const edit = { projectId: duplicate.projectId, expectedRevision: current.revision, expectedVersionId: current.currentVersionId, requestId: 'platform-edit', files: [{ path: 'index.html', content: film(audio) }, { path: 'compositions/outro.html', content: film('../' + audio, true).replace('src="assets/gsap.min.js"', 'src="../assets/gsap.min.js"') }] };
-  await client.call('openmotion_edit_project', edit);
-  await assert.rejects(client.call('openmotion_edit_project', { ...edit, requestId: 'stale-edit' }), /revision|conflict/i);
-  const adaptedPreview = await client.call('openmotion_open_preview', { projectId: duplicate.projectId });
+  await client.call('kinevyn_edit_project', edit);
+  await assert.rejects(client.call('kinevyn_edit_project', { ...edit, requestId: 'stale-edit' }), /revision|conflict/i);
+  const adaptedPreview = await client.call('kinevyn_open_preview', { projectId: duplicate.projectId });
   await page.goto(adaptedPreview.previewUrl, { waitUntil: 'domcontentloaded' });
   await page.waitForFunction(() => Number(document.querySelector('[data-timeline-element-count]')?.getAttribute('data-timeline-element-count')) > 0);
   await waitForPreview();
   await page.screenshot({ path: path.join(out, 'adapted-preview.png') });
-  current = await client.call('openmotion_get_project', { projectId: duplicate.projectId });
+  current = await client.call('kinevyn_get_project', { projectId: duplicate.projectId });
   const exportArgs = { projectId: duplicate.projectId, versionId: current.currentVersionId, expectedRevision: current.revision, requestId: 'platform-render', audio: 'required', compositionPath: 'compositions/outro.html' };
-  const queued = await client.call('openmotion_export_request', exportArgs);
-  assert.equal((await client.call('openmotion_export_request', exportArgs)).job.id, queued.job.id);
+  const queued = await client.call('kinevyn_export_request', exportArgs);
+  assert.equal((await client.call('kinevyn_export_request', exportArgs)).job.id, queued.job.id);
   let completed; const deadline = Date.now() + 180_000;
   while (Date.now() < deadline) {
-    const { exportJob } = await client.call('openmotion_get_project', { projectId: duplicate.projectId, exportJobId: queued.job.id });
+    const { exportJob } = await client.call('kinevyn_get_project', { projectId: duplicate.projectId, exportJobId: queued.job.id });
     assert.notEqual(exportJob.state, 'failed', JSON.stringify(exportJob));
     if (exportJob.state === 'completed') { completed = exportJob; break; }
     await new Promise(resolve => setTimeout(resolve, 500));
@@ -287,8 +287,8 @@ try {
   const deliveredBytes = Buffer.from(await downloaded.arrayBuffer());
   assert.deepEqual(deliveredBytes, await readFile(completed.path));
   await copyFile(completed.path, path.join(out, 'platform-short.mp4'));
-  const after = await client.call('openmotion_get_project', { projectId }); assert.equal(after.revision, before.revision); assert.equal(after.currentVersionId, before.currentVersionId);
-  assert.deepEqual((await client.call('openmotion_get_project', { projectId, file: { path: 'index.html' } })).file, sourceFile.file);
+  const after = await client.call('kinevyn_get_project', { projectId }); assert.equal(after.revision, before.revision); assert.equal(after.currentVersionId, before.currentVersionId);
+  assert.deepEqual((await client.call('kinevyn_get_project', { projectId, file: { path: 'index.html' } })).file, sourceFile.file);
   check('stdio MCP duplicate/edit/conflict/preview/render/retry/download; source unchanged', { jobId: completed.id, verification: completed.verification });
   const playback = await browser.newPage();
   // Play the exact downloaded file. The download endpoint is an attachment route, not a seekable streaming API.

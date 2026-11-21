@@ -23,7 +23,7 @@ type ProjectTarget = { projectId: string; title: string };
 type LifecycleRequest = ProjectTarget & { requestId: string };
 type RenameDraft = { projectId: string; title: string; expectedTitle: string; returnFocus: HTMLElement | null };
 const manage = <T,>(input: ProjectManagementInput) => motionApi<T>('/phase1/call', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ name: 'openmotion_manage_project', arguments: input }) });
+  body: JSON.stringify({ name: 'kinevyn_manage_project', arguments: input }) });
 type ProjectMenuActions = {
   locked: boolean;
   exportProject: (projectId?: string) => Promise<void>;
@@ -36,7 +36,7 @@ export function useProjectArchives(workspace: Workspace, waitForSaves: () => Pro
   const archiveErrorMessage = (error: unknown) => {
     const message = (error as Error).message;
     return message.startsWith(PROJECT_ARCHIVE_VALIDATION_UNAVAILABLE)
-      ? t('Project validation is temporarily unavailable. Try again when OpenMotion is ready.')
+      ? t('Project validation is temporarily unavailable. Try again when Kinevyn is ready.')
       : message;
   };
   const toast = useToast();
@@ -69,7 +69,7 @@ export function useProjectArchives(workspace: Workspace, waitForSaves: () => Pro
     try {
       await waitForSaves();
       const result = await motionApi<ExportResult>('/phase1/call', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({
-        name: 'openmotion_project_archive', arguments: { action: 'export', requestId, ...(projectIds ? { projectIds } : { all: true }) },
+        name: 'kinevyn_project_archive', arguments: { action: 'export', requestId, ...(projectIds ? { projectIds } : { all: true }) },
       }) });
       download(result);
       // The archive service may skip projects (an uninitialised default); report what the ZIP holds.
@@ -241,8 +241,8 @@ export function useProjectArchives(workspace: Workspace, waitForSaves: () => Pro
             <Popover modal={false} align="end" aria-label={t('Import help')} className="om-project-import-help"
               trigger={<IconButton variant="ghost" type="button" className="motion-icon-button" aria-label={t('Import help')} icon={<RemixIcon name="question-line" size={18} />} />}>
               <h3 className="om-subtitle">{t('Start with a HyperFrames project')}</h3>
-              <p className="om-muted">{t('Zip your HyperFrames project folder with its source and local assets, then choose Import projects to continue editing in OpenMotion.')}</p>
-              <p className="om-muted">{t('OpenMotion or HyperFrames ZIP · Up to 500 MB. Local assets are included; linked online resources still need the internet.')}</p>
+              <p className="om-muted">{t('Zip your HyperFrames project folder with its source and local assets, then choose Import projects to continue editing in Kinevyn.')}</p>
+              <p className="om-muted">{t('Kinevyn or HyperFrames ZIP · Up to 500 MB. Local assets are included; linked online resources still need the internet.')}</p>
             </Popover>
           </div>}
         </div>

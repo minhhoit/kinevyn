@@ -33,7 +33,7 @@ function clearNativeEnvironment(t: any) {
 }
 async function setupFixture(t: any) {
   const directory = await fixture(t), application = path.join(directory, 'source'), home = path.join(directory, 'install'), skillsDirectory = path.join(directory, 'skills');
-  for (const name of ['scripts', 'shared', 'studio/build', 'skills/openmotion-production', 'docs', 'mcp-ui/template-recommendations']) await mkdir(path.join(application, name), { recursive: true });
+  for (const name of ['scripts', 'shared', 'studio/build', 'skills/kinevyn-production', 'docs', 'mcp-ui/template-recommendations']) await mkdir(path.join(application, name), { recursive: true });
   for (const name of ['mcp.ts', 'scripts/npm-runtime.mjs', 'studio/build/index.html', 'README.md', 'AGENTS.md', 'CLAUDE.md']) await writeFile(path.join(application, name), 'fixture');
   for (const file of ['docs/install.md', 'scripts/install-onboarding.mjs', 'scripts/inline-onboarding.mjs', 'scripts/codex-host-handoff.mjs', 'scripts/check-installed-mcp.mjs', 'shared/onboarding-templates.ts', 'scripts/runtime-assets.mjs', 'scripts/open-template-library.ts', 'shared/workspace-url.ts', 'shared/studio-catalog.ts', 'mcp-ui/template-recommendations/i18n.ts']) await cp(new URL('../' + file, import.meta.url), path.join(application, file));
   for (const file of ['shared/install-attribution.ts', 'tracking/node.ts', 'tracking/core.ts', 'tracking/host.ts', 'tracking/device.ts', 'tracking/events.ts', 'tracking/tool-fields.ts', 'tracking/studio-events.ts']) {
@@ -43,7 +43,7 @@ async function setupFixture(t: any) {
   await writeFile(path.join(application, 'shared/tracking.ts'), 'export function trackingLocked(){return false} export function trackingPreference(){return true} export async function createAppTracking(){return {track(){}}} export async function closeTracking(){}');
   await writeFile(path.join(application, 'workspace.ts'), 'export class WorkspaceStore { constructor(directory = process.env.MOTION_DATA_DIR) { this.directory = directory; } }');
   await writeFile(path.join(application, 'preview.ts'), `export async function ensureService(store) { if (store.directory !== process.env.MOTION_DATA_DIR) throw new Error('Wrong workspace'); return { previewUrl: 'http://127.0.0.1:4173' }; }`);
-  await writeFile(path.join(application, 'skills/openmotion-production/SKILL.md'), '---\nname: openmotion-production\ndescription: fixture\n---\nFixture');
+  await writeFile(path.join(application, 'skills/kinevyn-production/SKILL.md'), '---\nname: kinevyn-production\ndescription: fixture\n---\nFixture');
   await writeJSON(path.join(application, 'shared/template-config.json'), { environment: 'prod' });
   await cp(new URL('../shared/mcp-profiles.json', import.meta.url), path.join(application, 'shared/mcp-profiles.json'));
   await writeJSON(path.join(application, 'package.json'), { name: 'motion-fixture', version: '1.2.3', private: true });
@@ -52,7 +52,7 @@ async function setupFixture(t: any) {
   await writeJSON(manifest, { schemaVersion: 1, version: '1.2.3', application: await archive(directory, application, 'application'), runtime: dummyRuntime() });
   const codex = path.join(directory, 'codex'), config = path.join(directory, 'codex.json');
   await writeJSON(config, { unrelated: { transport: { command: 'keep-this' } } });
-  await writeFile(codex, `#!${process.execPath}\nimport fs from 'node:fs';\nconst file=${JSON.stringify(config)};\nconst state=JSON.parse(fs.readFileSync(file,'utf8'));\nconst args=process.argv.slice(2);\nif(args[1]==='get'){if(!state.openmotion){console.error(\"No MCP server named 'openmotion' found.\");process.exit(1);}console.log(JSON.stringify(state.openmotion));}\nelse if(args[1]==='add'){if(state.fail){console.error('registration failed');process.exit(1);}state.openmotion={transport:{type:'stdio',command:args[4],args:args.slice(5)}};fs.writeFileSync(file,JSON.stringify(state));}\n`, { mode: 0o755 });
+  await writeFile(codex, `#!${process.execPath}\nimport fs from 'node:fs';\nconst file=${JSON.stringify(config)};\nconst state=JSON.parse(fs.readFileSync(file,'utf8'));\nconst args=process.argv.slice(2);\nif(args[1]==='get'){if(!state.kinevyn){console.error(\"No MCP server named 'kinevyn' found.\");process.exit(1);}console.log(JSON.stringify(state.kinevyn));}\nelse if(args[1]==='add'){if(state.fail){console.error('registration failed');process.exit(1);}state.kinevyn={transport:{type:'stdio',command:args[4],args:args.slice(5)}};fs.writeFileSync(file,JSON.stringify(state));}\n`, { mode: 0o755 });
   await chmod(codex, 0o755);
   return { directory, application, home, skillsDirectory, manifest, codex, config };
 }
@@ -73,7 +73,7 @@ test('setup retains the welcome/card contract and project-free library without c
   assert.doesNotMatch(fallback, /👇|👆|这 3 个|https?:/);
   for (const raw of examples) {
     const example = raw.replaceAll('**', '');
-    assert(example.startsWith('🎉 OpenMotion 安装好啦，右侧就是模板库！\n\n'));
+    assert(example.startsWith('🎉 Kinevyn 安装好啦，右侧就是模板库！\n\n'));
     assert.doesNotMatch(example, /MCP|Skills?|prod|DEV|刷新|连接|新聊天|后台|开源免费/);
     assert.match(example, /我是你的开源视频创作搭档/);
     assert.doesNotMatch(example, /Motion.md|回复 1、2 或 3/);
@@ -128,25 +128,25 @@ for (const host of ['workbuddy', 'claude', 'codex', 'deepseek']) {
     if (host === 'claude' || host === 'deepseek') {
       const cli = path.join(options.directory, host + '-cli');
       const action = host === 'claude'
-        ? `const f=path.join(process.env.CLAUDE_CONFIG_DIR,'.claude.json');fs.mkdirSync(path.dirname(f),{recursive:true});fs.writeFileSync(f,JSON.stringify({mcpServers:{openmotion:JSON.parse(a[5])}}));`
-        : `const p=path.join(process.env.DSH_HOME,'profiles/web');fs.mkdirSync(p,{recursive:true});fs.writeFileSync(path.join(p,'package.json'),JSON.stringify({dependencies:{'dsh-plugin-openmotion-local':'file:'+a[4]}}));`;
+        ? `const f=path.join(process.env.CLAUDE_CONFIG_DIR,'.claude.json');fs.mkdirSync(path.dirname(f),{recursive:true});fs.writeFileSync(f,JSON.stringify({mcpServers:{kinevyn:JSON.parse(a[5])}}));`
+        : `const p=path.join(process.env.DSH_HOME,'profiles/web');fs.mkdirSync(p,{recursive:true});fs.writeFileSync(path.join(p,'package.json'),JSON.stringify({dependencies:{'dsh-plugin-kinevyn-local':'file:'+a[4]}}));`;
       await writeFile(cli, `#!${process.execPath}\nimport fs from 'node:fs';import path from 'node:path';const a=process.argv.slice(2);${action}\n`, { mode: 0o755 });
       extra[host === 'claude' ? 'claude' : 'dsh'] = cli;
     }
     const installed = await setup({ ...options, ...extra, host });
     const flat = host === 'claude' || host === 'workbuddy';
-    const root = flat ? options.skillsDirectory : path.join(host === 'codex' ? path.join(options.skillsDirectory, 'openmotion-workflows') : installed.hostInstallation.bundleDirectory, 'skills');
+    const root = flat ? options.skillsDirectory : path.join(host === 'codex' ? path.join(options.skillsDirectory, 'kinevyn-workflows') : installed.hostInstallation.bundleDirectory, 'skills');
     const retired = ['motion-director', 'motion-production', 'motion-recreate', 'motion-template-to-video', 'motion-video-to-template', 'reference-video'];
     for (const name of retired) {
       const old = path.join(root, name); await mkdir(old);
-      if (flat) await cp(path.join(root, 'openmotion-production/openmotion-install.json'), path.join(old, 'openmotion-install.json'));
+      if (flat) await cp(path.join(root, 'kinevyn-production/kinevyn-install.json'), path.join(old, 'kinevyn-install.json'));
       await writeFile(path.join(old, 'SKILL.md'), 'Retired workflow');
     }
     const foreign = path.join(options.skillsDirectory, 'user-owned');
     await mkdir(foreign, { recursive: true }); await writeFile(path.join(foreign, 'SKILL.md'), 'User workflow');
     if (flat) {
       const other = path.join(root, 'brandkit'); await mkdir(other);
-      await writeJSON(path.join(other, 'openmotion-install.json'), { managedBy: '@openmotion/installer', installHome: options.home + '-other', host });
+      await writeJSON(path.join(other, 'kinevyn-install.json'), { managedBy: '@kinevyn/installer', installHome: options.home + '-other', host });
       await writeFile(path.join(other, 'SKILL.md'), 'Another installation');
     }
     await mkdir(installed.dataDirectory, { recursive: true });
@@ -156,7 +156,7 @@ for (const host of ['workbuddy', 'claude', 'codex', 'deepseek']) {
     assert.equal(await readFile(path.join(installed.dataDirectory, 'keep.txt'), 'utf8'), 'Existing project data');
     const upgradedRoot = host === 'deepseek' ? path.join(upgraded.hostInstallation.bundleDirectory, 'skills') : root;
     for (const name of retired) await assert.rejects(readdir(path.join(upgradedRoot, name)), { code: 'ENOENT' });
-    await readFile(path.join(upgradedRoot, 'openmotion-production/SKILL.md'));
+    await readFile(path.join(upgradedRoot, 'kinevyn-production/SKILL.md'));
     if (host === 'deepseek') {
       assert.notEqual(upgradedRoot, root);
       await readFile(path.join(root, retired[0], 'SKILL.md')); // The running host's old bundle is untouched.
@@ -185,7 +185,7 @@ test('bundled CLI installs without a sidecar manifest, isolates DEV defaults and
   const cli = path.join(bundle, 'scripts/npm-installer.mjs');
   const command = [cli, 'setup', '--host', 'workbuddy', '--skills-dir', options.skillsDirectory];
   const first = JSON.parse(await runFile(process.execPath, command, { env }));
-  assert.equal(path.basename(path.dirname(first.launcher)), 'openmotion-dev');
+  assert.equal(path.basename(path.dirname(first.launcher)), 'kinevyn-dev');
   assert.equal(first.templateEnvironment, 'dev');
   assert.equal((await runFile(process.execPath, command, { env })).includes(first.appRoot), true);
   const stateBefore = await readFile(path.join(path.dirname(first.launcher), 'install.json'), 'utf8');
@@ -211,7 +211,7 @@ test('a library startup failure reports the limitation without undoing successfu
   assert.equal(installed.onboarding.preview.projectCreated, false);
   assert.match(installed.onboarding.preview.warning, /Preview unavailable/);
   assert.equal(JSON.parse(await readFile(path.join(options.home, 'install.json'), 'utf8')).appRoot, installed.appRoot);
-  assert.ok(JSON.parse(await readFile(options.config, 'utf8')).openmotion);
+  assert.ok(JSON.parse(await readFile(options.config, 'utf8')).kinevyn);
 });
 
 test('local assets require pinned checksums and preserve earlier cache after corruption', async t => {
@@ -238,7 +238,7 @@ test('release manifests reject unpinned or unsafe URLs and paths', async t => {
 test('installation locks reject simultaneous mutation and release after an error', async t => {
   const dir = await fixture(t), filename = path.join(dir, 'install.lock');
   await withLock(filename, async () => {
-    await assert.rejects(withLock(filename, async () => {}), /Another OpenMotion install/);
+    await assert.rejects(withLock(filename, async () => {}), /Another Kinevyn install/);
   });
   await assert.rejects(withLock(filename, async () => { throw new Error('failed operation'); }), /failed operation/);
   await withLock(filename, async () => {});
@@ -318,12 +318,12 @@ test('CLI help and version cover every host without reading a manifest or changi
   }
   const pkg = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'));
   assert.equal((await runFile(process.execPath, [cli, '--version', '--manifest', missing, '--home', home])).trim(), pkg.version);
-  await assert.rejects(runFile(process.execPath, [cli, 'setup', '--unknown-option']), /openmotion --help/);
+  await assert.rejects(runFile(process.execPath, [cli, 'setup', '--unknown-option']), /kinevyn --help/);
   assert.deepEqual(await readdir(directory), []);
 });
 
 test('npm bin symlink executes the CLI instead of silently exiting', { skip: process.platform === 'win32' }, async t => {
-  const directory = await fixture(t), link = path.join(directory, 'openmotion');
+  const directory = await fixture(t), link = path.join(directory, 'kinevyn');
   await symlink(fileURLToPath(new URL('../scripts/npm-installer.mjs', import.meta.url)), link);
   await assert.rejects(runFile(process.execPath, [link, 'prepare', '--home', directory]), /Run setup first/);
 });
@@ -352,11 +352,11 @@ for await(const line of createInterface({input:process.stdin})){
   const profile = path.join(process.env.DSH_HOME, 'profiles/custom/package.json');
   const bundle = path.join(options.home, 'hosts/deepseek');
   for (const directory of [path.dirname(claude), path.dirname(buddy), path.dirname(profile), bundle]) await mkdir(directory, { recursive: true });
-  await writeJSON(claude, { mcpServers: { openmotion: transport } });
-  await writeJSON(buddy, { mcpServers: { openmotion: transport } });
-  await writeJSON(profile, { dependencies: { 'dsh-plugin-openmotion-local': 'file:' + bundle } });
+  await writeJSON(claude, { mcpServers: { kinevyn: transport } });
+  await writeJSON(buddy, { mcpServers: { kinevyn: transport } });
+  await writeJSON(profile, { dependencies: { 'dsh-plugin-kinevyn-local': 'file:' + bundle } });
   const patch = path.join(bundle, 'cordis.patch.yml');
-  await writeJSON(patch, [{ insert: [{ id: 'mcp-openmotion', config: { ...transport, transport: 'stdio' } }] }]);
+  await writeJSON(patch, [{ insert: [{ id: 'mcp-kinevyn', config: { ...transport, transport: 'stdio' } }] }]);
   state.hosts.claude = { configFile: await canonical(claude), skillsDirectory: options.skillsDirectory };
   state.hosts.workbuddy = { configFile: await canonical(buddy), skillsDirectory: options.skillsDirectory };
   state.hosts.deepseek = { configFile: await canonical(profile), profile: 'custom', skillsDirectory: path.join(bundle, 'skills') };
@@ -369,13 +369,13 @@ for await(const line of createInterface({input:process.stdin})){
     assert.equal(result.hostSessionVerified, false, 'an independent process cannot confirm the active chat');
     assert.equal(result.dataDirectory, installed.dataDirectory);
     assert.deepEqual(result.tools, expected);
-    assert.match(result.nextAction, /openmotion_get_project/);
+    assert.match(result.nextAction, /kinevyn_get_project/);
   }
   assert.deepEqual(await Promise.all(files.map(file => readFile(file, 'utf8'))), before);
   const configured = JSON.parse(await readFile(options.config, 'utf8'));
-  configured.openmotion.enabled = false; await writeJSON(options.config, configured);
+  configured.kinevyn.enabled = false; await writeJSON(options.config, configured);
   assert.equal((await diagnose({ home: options.home, host: 'codex', codex: options.codex })).code, 'MCP_DISABLED');
-  delete configured.openmotion; await writeJSON(options.config, configured);
+  delete configured.kinevyn; await writeJSON(options.config, configured);
   const missing = await diagnose({ home: options.home, host: 'codex', codex: options.codex });
   assert.equal(missing.code, 'MCP_NOT_REGISTERED');
   assert.match(missing.nextAction, /do not create replacement/);
@@ -391,9 +391,9 @@ test('setup installs complete Skills and MCP without waiting for native download
   await writeFile(path.join(options.skillsDirectory, 'unrelated/keep.txt'), 'keep');
   const first = await setup(options);
   assert.equal(first.nativeDependencies, 'background-preparation; status and retry available in Studio');
-  const scope = JSON.parse(await readFile(path.join(options.skillsDirectory, 'openmotion-workflows/scope.json'), 'utf8'));
+  const scope = JSON.parse(await readFile(path.join(options.skillsDirectory, 'kinevyn-workflows/scope.json'), 'utf8'));
   assert.equal(scope.runtimeRoot, first.appRoot);
-  assert.match(await readFile(path.join(options.skillsDirectory, 'openmotion-workflows/skills/openmotion-production/SKILL.md'), 'utf8'), /openmotion-production/);
+  assert.match(await readFile(path.join(options.skillsDirectory, 'kinevyn-workflows/skills/kinevyn-production/SKILL.md'), 'utf8'), /kinevyn-production/);
   assert((await readdir(path.join(options.home, 'cache/native/fixture'))).includes('preparation.log'));
   await mkdir(first.dataDirectory, { recursive: true });
   await writeFile(path.join(first.dataDirectory, 'keep.txt'), 'user work');
@@ -406,14 +406,14 @@ test('setup installs complete Skills and MCP without waiting for native download
 
 test('setup refuses another owner MCP or Skills before downloading application', { skip: process.platform === 'win32' }, async t => {
   const options = await setupFixture(t);
-  await writeJSON(options.config, { openmotion: { transport: { command: 'someone-else' } } });
+  await writeJSON(options.config, { kinevyn: { transport: { command: 'someone-else' } } });
   await assert.rejects(setup(options), /not owned/);
   await assert.rejects(readdir(path.join(options.home, 'apps')), { code: 'ENOENT' });
   await writeJSON(options.config, {});
-  await mkdir(path.join(options.skillsDirectory, 'openmotion-workflows'), { recursive: true });
-  await writeFile(path.join(options.skillsDirectory, 'openmotion-workflows/keep.txt'), 'other owner');
+  await mkdir(path.join(options.skillsDirectory, 'kinevyn-workflows'), { recursive: true });
+  await writeFile(path.join(options.skillsDirectory, 'kinevyn-workflows/keep.txt'), 'other owner');
   await assert.rejects(setup(options), /Skills are not owned/);
-  assert.equal(await readFile(path.join(options.skillsDirectory, 'openmotion-workflows/keep.txt'), 'utf8'), 'other owner');
+  assert.equal(await readFile(path.join(options.skillsDirectory, 'kinevyn-workflows/keep.txt'), 'utf8'), 'other owner');
 });
 
 test('failed host registration rolls back Skills and install state while retaining checked application for retry', { skip: process.platform === 'win32' }, async t => {
@@ -421,7 +421,7 @@ test('failed host registration rolls back Skills and install state while retaini
   await writeJSON(options.config, { fail: true });
   await assert.rejects(setup(options), /registration failed/);
   await assert.rejects(readFile(path.join(options.home, 'install.json')), { code: 'ENOENT' });
-  await assert.rejects(readdir(path.join(options.skillsDirectory, 'openmotion-workflows')), { code: 'ENOENT' });
+  await assert.rejects(readdir(path.join(options.skillsDirectory, 'kinevyn-workflows')), { code: 'ENOENT' });
   await writeJSON(options.config, {});
   await setup(options);
 });
@@ -457,8 +457,8 @@ test('WorkBuddy installs flat Skills and preserves other hosts and native MCP se
   assert.deepEqual(Object.keys(buddy.hosts).sort(), ['codex', 'workbuddy']);
   const config = JSON.parse(await readFile(path.join(clientHome, 'mcp.json'), 'utf8'));
   assert.equal(config.settings.keep, true); assert.equal(config.mcpServers.unrelated.command, 'keep-me');
-  assert.equal(config.mcpServers.openmotion.args[0], buddy.launcher);
-  const marker = JSON.parse(await readFile(path.join(options.skillsDirectory, 'openmotion-production/openmotion-install.json'), 'utf8'));
+  assert.equal(config.mcpServers.kinevyn.args[0], buddy.launcher);
+  const marker = JSON.parse(await readFile(path.join(options.skillsDirectory, 'kinevyn-production/kinevyn-install.json'), 'utf8'));
   assert.equal(marker.host, 'workbuddy'); assert.equal(marker.runtimeRoot, buddy.appRoot);
   assert.equal((await setup({ ...options, host: 'workbuddy' })).appRoot, buddy.appRoot);
   assert.equal((await readdir(path.join(options.home, 'apps'))).length, 1);
@@ -469,7 +469,7 @@ test('WorkBuddy refuses conflicting or malformed native configuration without al
   const previous = process.env.WORKBUDDY_CONFIG_DIR; process.env.WORKBUDDY_CONFIG_DIR = clientHome;
   t.after(() => { if (previous === undefined) delete process.env.WORKBUDDY_CONFIG_DIR; else process.env.WORKBUDDY_CONFIG_DIR = previous; });
   await mkdir(clientHome); const file = path.join(clientHome, 'mcp.json');
-  await writeJSON(file, { mcpServers: { openmotion: { command: 'other-owner' } } });
+  await writeJSON(file, { mcpServers: { kinevyn: { command: 'other-owner' } } });
   await assert.rejects(setup({ ...options, host: 'workbuddy' }), /not owned/);
   await assert.rejects(readdir(path.join(options.home, 'apps')), { code: 'ENOENT' });
   await writeFile(file, '{broken');
@@ -492,17 +492,17 @@ test('Claude flat Skills keep external document links and refuse an unowned skil
   await mkdir(clientHome);
   const claude = path.join(options.directory, 'claude-cli'), config = path.join(clientHome, '.claude.json');
   await writeJSON(config, { keep: true });
-  await writeFile(claude, `#!${process.execPath}\nimport fs from 'node:fs';\nconst f=${JSON.stringify(config)},v=JSON.parse(fs.readFileSync(f,'utf8'));const a=process.argv.slice(2);v.mcpServers={...v.mcpServers,openmotion:JSON.parse(a[5])};fs.writeFileSync(f,JSON.stringify(v));\n`, { mode: 0o755 });
-  await mkdir(path.join(options.application, 'skills/openmotion-production/references'));
+  await writeFile(claude, `#!${process.execPath}\nimport fs from 'node:fs';\nconst f=${JSON.stringify(config)},v=JSON.parse(fs.readFileSync(f,'utf8'));const a=process.argv.slice(2);v.mcpServers={...v.mcpServers,kinevyn:JSON.parse(a[5])};fs.writeFileSync(f,JSON.stringify(v));\n`, { mode: 0o755 });
+  await mkdir(path.join(options.application, 'skills/kinevyn-production/references'));
   await writeFile(path.join(options.application, 'docs/model-gateway.md'), 'Shared gateway');
-  await writeFile(path.join(options.application, 'skills/openmotion-production/references/production.md'), '[gateway](../../../docs/model-gateway.md)');
+  await writeFile(path.join(options.application, 'skills/kinevyn-production/references/production.md'), '[gateway](../../../docs/model-gateway.md)');
   const manifest = JSON.parse(await readFile(options.manifest, 'utf8'));
   manifest.application = await archive(options.directory, options.application, 'with-links'); await writeJSON(options.manifest, manifest);
   const installed = await setup({ ...options, host: 'claude', claude });
   assert.equal(JSON.parse(await readFile(config, 'utf8')).keep, true);
-  assert.match(await readFile(path.join(options.skillsDirectory, 'openmotion-production/references/production.md'), 'utf8'), /\]\(<.*apps\/.*docs\/model-gateway\.md>\)/);
+  assert.match(await readFile(path.join(options.skillsDirectory, 'kinevyn-production/references/production.md'), 'utf8'), /\]\(<.*apps\/.*docs\/model-gateway\.md>\)/);
   assert.equal((await setup({ ...options, host: 'claude', claude })).appRoot, installed.appRoot);
-  const other = path.join(options.directory, 'unowned-skills/openmotion-production'); await mkdir(other, { recursive: true }); await writeFile(path.join(other, 'SKILL.md'), 'keep');
+  const other = path.join(options.directory, 'unowned-skills/kinevyn-production'); await mkdir(other, { recursive: true }); await writeFile(path.join(other, 'SKILL.md'), 'keep');
   await assert.rejects(setup({ ...options, host: 'claude', claude, skillsDirectory: path.dirname(other) }), /not owned/);
   assert.equal(await readFile(path.join(other, 'SKILL.md'), 'utf8'), 'keep');
   for (const invalid of [false, 0, '', { mcpServers: [] }]) {
@@ -517,13 +517,13 @@ test('Harness installs a bundle with its own direct Skill root and recognizes re
   const previous = process.env.DSH_HOME; process.env.DSH_HOME = dshHome;
   t.after(() => { if (previous === undefined) delete process.env.DSH_HOME; else process.env.DSH_HOME = previous; });
   const dsh = path.join(options.directory, 'dsh-cli'), profile = path.join(dshHome, 'profiles/web');
-  await writeFile(dsh, `#!${process.execPath}\nimport fs from 'node:fs';import path from 'node:path';\nconst a=process.argv.slice(2),p=path.join(process.env.DSH_HOME,'profiles/web');fs.mkdirSync(p,{recursive:true});fs.writeFileSync(path.join(p,'package.json'),JSON.stringify({dependencies:{'dsh-plugin-openmotion-local':'link:'+path.relative(p,a[4])}}));\n`, { mode: 0o755 });
+  await writeFile(dsh, `#!${process.execPath}\nimport fs from 'node:fs';import path from 'node:path';\nconst a=process.argv.slice(2),p=path.join(process.env.DSH_HOME,'profiles/web');fs.mkdirSync(p,{recursive:true});fs.writeFileSync(path.join(p,'package.json'),JSON.stringify({dependencies:{'dsh-plugin-kinevyn-local':'link:'+path.relative(p,a[4])}}));\n`, { mode: 0o755 });
   const first = await setup({ ...options, host: 'deepseek', dsh });
   const bundle = first.hostInstallation.bundleDirectory;
   const patch = JSON.parse(await readFile(path.join(bundle, 'cordis.patch.yml'), 'utf8'))[0].insert;
   assert.equal(patch[0].config.args[0], first.launcher);
   assert.deepEqual(patch[1].config.customSkillDirs, [path.join(bundle, 'skills')]);
-  await readFile(path.join(bundle, 'skills/openmotion-production/SKILL.md'));
+  await readFile(path.join(bundle, 'skills/kinevyn-production/SKILL.md'));
   assert.equal((await setup({ ...options, host: 'deepseek', dsh })).appRoot, first.appRoot);
   await assert.rejects(setup({ ...options, host: 'deepseek', dsh, profile: '../bad' }), /simple/);
   await writeJSON(path.join(profile, 'package.json'), false);
@@ -538,8 +538,8 @@ test('a failed new host registration restores the shared install and earlier hos
   const codex = await setup(options), before = await readFile(path.join(options.home, 'install.json'), 'utf8');
   await assert.rejects(setup({ ...options, host: 'claude', claude: '/missing-claude' }));
   assert.equal(await readFile(path.join(options.home, 'install.json'), 'utf8'), before);
-  await readFile(path.join(options.skillsDirectory, 'openmotion-workflows/skills/openmotion-production/SKILL.md'));
-  await assert.rejects(readdir(path.join(options.skillsDirectory, 'openmotion-production')), { code: 'ENOENT' });
+  await readFile(path.join(options.skillsDirectory, 'kinevyn-workflows/skills/kinevyn-production/SKILL.md'));
+  await assert.rejects(readdir(path.join(options.skillsDirectory, 'kinevyn-production')), { code: 'ENOENT' });
   assert.equal(JSON.parse(before).appRoot, codex.appRoot);
 });
 
@@ -557,7 +557,7 @@ test('Codex registration can use its pinned JavaScript CLI on platforms without 
   const options = await setupFixture(t), codex = path.join(options.directory, 'codex.mjs');
   await writeFile(codex, await readFile(options.codex));
   const installed = await setup({ ...options, codex });
-  assert.equal(JSON.parse(await readFile(options.config, 'utf8')).openmotion.transport.args[0], installed.launcher);
+  assert.equal(JSON.parse(await readFile(options.config, 'utf8')).kinevyn.transport.args[0], installed.launcher);
 });
 
 test('flat Skill upgrades remove only this host installation\'s obsolete entries', async t => {
@@ -565,15 +565,15 @@ test('flat Skill upgrades remove only this host installation\'s obsolete entries
   const previous = process.env.WORKBUDDY_CONFIG_DIR; process.env.WORKBUDDY_CONFIG_DIR = clientHome;
   t.after(() => { if (previous === undefined) delete process.env.WORKBUDDY_CONFIG_DIR; else process.env.WORKBUDDY_CONFIG_DIR = previous; });
   const first = await setup({ ...options, host: 'workbuddy' });
-  for (const name of ['obsolete-entry', '.openmotion-backup', 'other-host']) {
+  for (const name of ['obsolete-entry', '.kinevyn-backup', 'other-host']) {
     await mkdir(path.join(options.skillsDirectory, name));
-    const marker = JSON.parse(await readFile(path.join(options.skillsDirectory, 'openmotion-production/openmotion-install.json'), 'utf8'));
+    const marker = JSON.parse(await readFile(path.join(options.skillsDirectory, 'kinevyn-production/kinevyn-install.json'), 'utf8'));
     if (name === 'other-host') marker.host = 'claude';
-    await writeJSON(path.join(options.skillsDirectory, name, 'openmotion-install.json'), marker);
+    await writeJSON(path.join(options.skillsDirectory, name, 'kinevyn-install.json'), marker);
   }
   await setup({ ...options, host: 'workbuddy' });
   await assert.rejects(readdir(path.join(options.skillsDirectory, 'obsolete-entry')), { code: 'ENOENT' });
-  for (const name of ['.openmotion-backup', 'other-host', 'openmotion-production']) await readdir(path.join(options.skillsDirectory, name));
+  for (const name of ['.kinevyn-backup', 'other-host', 'kinevyn-production']) await readdir(path.join(options.skillsDirectory, name));
   assert.equal(JSON.parse(await readFile(path.join(options.home, 'install.json'), 'utf8')).appRoot, first.appRoot);
 });
 
@@ -583,9 +583,9 @@ test('registration failure restores obsolete flat Skills, and malformed install 
   t.after(() => { if (previous === undefined) delete process.env.CLAUDE_CONFIG_DIR; else process.env.CLAUDE_CONFIG_DIR = previous; });
   await setup(options);
   const obsolete = path.join(options.skillsDirectory, 'motion-production'); await mkdir(obsolete);
-  await writeJSON(path.join(obsolete, 'openmotion-install.json'), { managedBy: '@openmotion/installer', installHome: await (await import('../scripts/runtime-assets.mjs')).canonical(options.home), host: 'claude' });
+  await writeJSON(path.join(obsolete, 'kinevyn-install.json'), { managedBy: '@kinevyn/installer', installHome: await (await import('../scripts/runtime-assets.mjs')).canonical(options.home), host: 'claude' });
   await assert.rejects(setup({ ...options, host: 'claude', claude: '/missing-claude' }));
-  await readFile(path.join(obsolete, 'openmotion-install.json'));
+  await readFile(path.join(obsolete, 'kinevyn-install.json'));
   const state = path.join(options.home, 'install.json'); await writeJSON(state, false);
   await assert.rejects(setup(options), /belongs to another/);
   assert.equal(JSON.parse(await readFile(state, 'utf8')), false);
@@ -598,7 +598,7 @@ test('installed CLI uses the selected host transport and keeps failed tool resul
   await writeFile(installed.launcher, `import { createInterface } from 'node:readline';
     for await (const line of createInterface({ input: process.stdin })) {
       const q=JSON.parse(line); if(q.id===undefined) continue;
-      const result=q.method==='initialize'?{serverInfo:{version:'1.2.3'}}:q.method==='tools/list'?{tools:${JSON.stringify(tools.map(name => ({name,inputSchema:{type:'object'}})))}}:q.params.name==='openmotion_get_project'?{structuredContent:{dataDirectory:${JSON.stringify(installed.dataDirectory)}}}:{isError:true,structuredContent:{error:{code:'VERSION_CONFLICT',applied:false}}};
+      const result=q.method==='initialize'?{serverInfo:{version:'1.2.3'}}:q.method==='tools/list'?{tools:${JSON.stringify(tools.map(name => ({name,inputSchema:{type:'object'}})))}}:q.params.name==='kinevyn_get_project'?{structuredContent:{dataDirectory:${JSON.stringify(installed.dataDirectory)}}}:{isError:true,structuredContent:{error:{code:'VERSION_CONFLICT',applied:false}}};
       console.log(JSON.stringify({jsonrpc:'2.0',id:q.id,result}));
     }`);
   const cli = fileURLToPath(new URL('../scripts/npm-installer.mjs', import.meta.url));
@@ -607,10 +607,10 @@ test('installed CLI uses the selected host transport and keeps failed tool resul
   assert.equal(listed.dataDirectory, installed.dataDirectory);
   assert.equal(listed.tools.length, tools.length);
   const argsFile=path.join(options.directory, 'arguments 中文.json'); await writeJSON(argsFile, {requestId:'stable-request'});
-  await assert.rejects(runFile(process.execPath, [cli, 'call', 'openmotion_edit_project', '--args-file', argsFile, ...flags]), /VERSION_CONFLICT/);
+  await assert.rejects(runFile(process.execPath, [cli, 'call', 'kinevyn_edit_project', '--args-file', argsFile, ...flags]), /VERSION_CONFLICT/);
   await writeFile(argsFile, '[]');
-  await assert.rejects(runFile(process.execPath, [cli, 'call', 'openmotion_edit_project', '--args-file', argsFile, ...flags]), /JSON object/);
-  const config=JSON.parse(await readFile(options.config,'utf8')); config.openmotion.enabled=false; await writeJSON(options.config,config);
+  await assert.rejects(runFile(process.execPath, [cli, 'call', 'kinevyn_edit_project', '--args-file', argsFile, ...flags]), /JSON object/);
+  const config=JSON.parse(await readFile(options.config,'utf8')); config.kinevyn.enabled=false; await writeJSON(options.config,config);
   await assert.rejects(runFile(process.execPath, [cli, 'tools', ...flags]), /disabled/);
 });
 
@@ -622,7 +622,7 @@ test('failed Harness upgrade preserves the registered bundle and removes its unu
   await writeFile(cli, `import fs from 'node:fs';import path from 'node:path';
     if(fs.existsSync(${JSON.stringify(fail)})) {console.error('registration failed');process.exit(1);}
     const p=path.join(process.env.DSH_HOME,'profiles/web');fs.mkdirSync(p,{recursive:true});
-    fs.writeFileSync(path.join(p,'package.json'),JSON.stringify({dependencies:{'dsh-plugin-openmotion-local':'file:'+process.argv.slice(2)[4]}}));`);
+    fs.writeFileSync(path.join(p,'package.json'),JSON.stringify({dependencies:{'dsh-plugin-kinevyn-local':'file:'+process.argv.slice(2)[4]}}));`);
   const installed = await setup({ ...options, host: 'deepseek', dsh: cli });
   const original = await readFile(path.join(options.home, 'install.json'), 'utf8');
   const bundles = await readdir(path.join(options.home, 'hosts'));
@@ -630,7 +630,7 @@ test('failed Harness upgrade preserves the registered bundle and removes its unu
   await assert.rejects(setup({ ...options, host: 'deepseek', dsh: cli }), /registration failed/);
   assert.equal(await readFile(path.join(options.home, 'install.json'), 'utf8'), original);
   assert.deepEqual(await readdir(path.join(options.home, 'hosts')), bundles);
-  await readFile(path.join(installed.hostInstallation.bundleDirectory, 'skills/openmotion-production/SKILL.md'));
+  await readFile(path.join(installed.hostInstallation.bundleDirectory, 'skills/kinevyn-production/SKILL.md'));
 });
 
 async function harnessRecoveryFixture(t: any) {
@@ -640,7 +640,7 @@ async function harnessRecoveryFixture(t: any) {
   const cli = path.join(options.directory, 'dsh-recovery.mjs'), fail = path.join(options.directory, 'failure-mode');
   await writeFile(cli, `import fs from 'node:fs';import path from 'node:path';
     const bundle=process.argv.slice(2)[4],dir=path.join(process.env.DSH_HOME,'profiles/web');
-    fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(path.join(dir,'package.json'),JSON.stringify({dependencies:{'dsh-plugin-openmotion-local':'file:'+bundle}}));
+    fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(path.join(dir,'package.json'),JSON.stringify({dependencies:{'dsh-plugin-kinevyn-local':'file:'+bundle}}));
     const scope=JSON.parse(fs.readFileSync(path.join(bundle,'scope.json'),'utf8'));
     const state=JSON.parse(fs.readFileSync(path.join(scope.installHome,'install.json'),'utf8'));
     if(state.hosts.deepseek.bundleDirectory!==bundle)throw new Error('Launcher state is not ready');
@@ -658,14 +658,14 @@ for (const mode of ['register', 'onboarding']) {
     await writeFile(fail, mode);
     await assert.rejects(setup(options), mode === 'register' ? /partial registration/ : /onboarding contract/);
     const state = JSON.parse(await readFile(path.join(options.home, 'install.json'), 'utf8'));
-    const dependency = JSON.parse(await readFile(config, 'utf8')).dependencies['dsh-plugin-openmotion-local'];
+    const dependency = JSON.parse(await readFile(config, 'utf8')).dependencies['dsh-plugin-kinevyn-local'];
     assert.equal(dependency, 'file:' + state.hosts.deepseek.bundleDirectory);
     assert.notEqual(state.hosts.deepseek.bundleDirectory, first.hostInstallation.bundleDirectory);
     await readFile(path.join(state.hosts.deepseek.bundleDirectory, 'scope.json'));
     assert(state.hosts.deepseek.retainedBundles.includes(first.hostInstallation.bundleDirectory));
     await rm(fail); await writeFile(guide, originalGuide);
     const retried = await setup(options);
-    assert.equal(JSON.parse(await readFile(config, 'utf8')).dependencies['dsh-plugin-openmotion-local'], 'file:' + retried.hostInstallation.bundleDirectory);
+    assert.equal(JSON.parse(await readFile(config, 'utf8')).dependencies['dsh-plugin-kinevyn-local'], 'file:' + retried.hostInstallation.bundleDirectory);
   });
 }
 
@@ -675,7 +675,7 @@ test('Harness reconciles interrupted profile/state divergence and inventories bu
   const oldState = await readFile(stateFile);
   const second = await setup(options);
   const switched = JSON.parse(await readFile(config, 'utf8'));
-  await writeJSON(config, { dependencies: { 'dsh-plugin-openmotion-local': 'file:' + first.hostInstallation.bundleDirectory } });
+  await writeJSON(config, { dependencies: { 'dsh-plugin-kinevyn-local': 'file:' + first.hostInstallation.bundleDirectory } });
   const { hostPlan: inspectPlan } = await import('../scripts/npm-hosts.mjs');
   const pending = await inspectPlan(options, second.launcher.replace(/[/\\]run-mcp.mjs$/, ''), second.launcher, JSON.parse(await readFile(stateFile, 'utf8')));
   assert((await pending.readConnection())?.transport); // State committed before the profile changed.
@@ -694,7 +694,7 @@ test('Harness reconciles interrupted profile/state divergence and inventories bu
   const cleaned = await cleanupHarnessBundles(options.home, true);
   assert.equal(cleaned.status, 'cleaned'); assert.equal(cleaned.removed.length, 2);
   await readFile(path.join(third.hostInstallation.bundleDirectory, 'scope.json'));
-  assert.equal(JSON.parse(await readFile(config, 'utf8')).dependencies['dsh-plugin-openmotion-local'], 'file:' + third.hostInstallation.bundleDirectory);
+  assert.equal(JSON.parse(await readFile(config, 'utf8')).dependencies['dsh-plugin-kinevyn-local'], 'file:' + third.hostInstallation.bundleDirectory);
   assert.deepEqual(JSON.parse(await readFile(stateFile, 'utf8')).hosts.deepseek.retainedBundles, []);
 });
 
@@ -703,7 +703,7 @@ test('a partially registered first Harness installation retains its launcher and
   await writeFile(fail, 'register');
   await assert.rejects(setup(options), /partial registration/);
   const state = JSON.parse(await readFile(path.join(options.home, 'install.json'), 'utf8'));
-  assert.equal(JSON.parse(await readFile(config, 'utf8')).dependencies['dsh-plugin-openmotion-local'], 'file:' + state.hosts.deepseek.bundleDirectory);
+  assert.equal(JSON.parse(await readFile(config, 'utf8')).dependencies['dsh-plugin-kinevyn-local'], 'file:' + state.hosts.deepseek.bundleDirectory);
   await readFile(state.launcher);
   await rm(fail);
   const retried = await setup(options);
@@ -717,13 +717,13 @@ test('an Agent without an adapter gets the same application, launcher and Skills
   assert.equal(installed.host, 'opencode');
   assert.deepEqual(installed.hosts.opencode, { skillsDirectory: await canonical(options.skillsDirectory), layout: 'flat', registration: 'agent' });
   assert.deepEqual(installed.agentRegistration.transport, { type: 'stdio', command: process.execPath, args: [installed.launcher] });
-  assert.equal(installed.agentRegistration.serverName, 'openmotion');
+  assert.equal(installed.agentRegistration.serverName, 'kinevyn');
   assert.equal(installed.agentRegistration.skillsDirectory, await canonical(options.skillsDirectory));
   assert.match(installed.agentRegistration.instructions, /configuration was not changed/);
-  assert.match(installed.agentRegistration.instructions, /openmotion_get_project/);
+  assert.match(installed.agentRegistration.instructions, /kinevyn_get_project/);
   assert.deepEqual(installed.onboarding.directAccess.toolsArgs.slice(-4), ['--home', installed.launcher.replace(/[/\\]run-mcp.mjs$/, ''), '--host', 'opencode']);
   assert.equal(await readFile(options.config, 'utf8'), codexConfig, 'no other host configuration is touched');
-  const marker = JSON.parse(await readFile(path.join(options.skillsDirectory, 'openmotion-production/openmotion-install.json'), 'utf8'));
+  const marker = JSON.parse(await readFile(path.join(options.skillsDirectory, 'kinevyn-production/kinevyn-install.json'), 'utf8'));
   assert.equal(marker.host, 'agents'); assert.equal(marker.runtimeRoot, installed.appRoot);
   // A second adapter-less Agent shares the same Skills root instead of being refused as a foreign owner.
   const cursor: any = await setup({ ...options, host: 'cursor-agent', codex: undefined });
@@ -765,19 +765,19 @@ test('adapter-less Agents can diagnose and call the installed MCP directly', { s
 
 test('Codex workflow bundle coexists with the standalone primary Skill', { skip: process.platform === 'win32' }, async t => {
   const options = await setupFixture(t);
-  await mkdir(path.join(options.skillsDirectory, 'openmotion'), { recursive: true });
-  await writeFile(path.join(options.skillsDirectory, 'openmotion/SKILL.md'), 'standalone primary Skill');
+  await mkdir(path.join(options.skillsDirectory, 'kinevyn'), { recursive: true });
+  await writeFile(path.join(options.skillsDirectory, 'kinevyn/SKILL.md'), 'standalone primary Skill');
   const result = await setup(options);
-  assert.equal(await readFile(path.join(options.skillsDirectory, 'openmotion/SKILL.md'), 'utf8'), 'standalone primary Skill');
+  assert.equal(await readFile(path.join(options.skillsDirectory, 'kinevyn/SKILL.md'), 'utf8'), 'standalone primary Skill');
   assert.equal(result.publicSkill.status, 'skipped');
-  assert.match(await readFile(path.join(options.skillsDirectory, 'openmotion-workflows/skills/openmotion-production/SKILL.md'), 'utf8'), /openmotion-production/);
+  assert.match(await readFile(path.join(options.skillsDirectory, 'kinevyn-workflows/skills/kinevyn-production/SKILL.md'), 'utf8'), /kinevyn-production/);
 });
 
 test('legacy Codex bundle migration preserves the old bundle on failed registration', { skip: process.platform === 'win32' }, async t => {
   const options = await setupFixture(t);
   const installed = await setup(options);
-  const target = path.join(options.skillsDirectory, 'openmotion-workflows');
-  const legacy = path.join(options.skillsDirectory, 'openmotion');
+  const target = path.join(options.skillsDirectory, 'kinevyn-workflows');
+  const legacy = path.join(options.skillsDirectory, 'kinevyn');
   await rename(target, legacy);
   await writeFile(path.join(legacy, 'keep.txt'), 'old bundle');
   await writeJSON(options.config, { fail: true });
@@ -788,7 +788,7 @@ test('legacy Codex bundle migration preserves the old bundle on failed registrat
   await writeJSON(options.config, {});
   await setup(options);
   await assert.rejects(readFile(path.join(legacy, 'scope.json')), { code: 'ENOENT' });
-  assert.match(await readFile(path.join(target, 'skills/openmotion-production/SKILL.md'), 'utf8'), /openmotion-production/);
+  assert.match(await readFile(path.join(target, 'skills/kinevyn-production/SKILL.md'), 'utf8'), /kinevyn-production/);
 });
 
 

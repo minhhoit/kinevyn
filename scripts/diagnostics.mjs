@@ -194,8 +194,8 @@ export async function collectDiagnostics({ appRoot = appDirectory, dataDirectory
   addJson('browser-activity.json', browser.filter(event => event.kind?.startsWith('activity_')));
   addJson('metadata.json', metadata);
   addJson('files.json', files);
-  add('README.txt', 'OpenMotion local diagnostics\nReview before sharing. Known credentials, URL details, email addresses and local paths are redacted; arbitrary text in existing logs can still contain private information.\nProjects, media, conversations, provider/host configuration and environment dumps are excluded.\nfiles.json lists missing, excluded and truncated logs. Only a bounded sample of jobs is included. A successful collection does not verify the active host chat. No cloud upload or automatic repair was performed.\n');
-  return { filename: `openmotion-diagnostics-${Date.now()}-${randomUUID().slice(0, 8)}.zip`, data: zip(entries) };
+  add('README.txt', 'Kinevyn local diagnostics\nReview before sharing. Known credentials, URL details, email addresses and local paths are redacted; arbitrary text in existing logs can still contain private information.\nProjects, media, conversations, provider/host configuration and environment dumps are excluded.\nfiles.json lists missing, excluded and truncated logs. Only a bounded sample of jobs is included. A successful collection does not verify the active host chat. No cloud upload or automatic repair was performed.\n');
+  return { filename: `kinevyn-diagnostics-${Date.now()}-${randomUUID().slice(0, 8)}.zip`, data: zip(entries) };
 }
 
 export async function exportDiagnostics(options) {

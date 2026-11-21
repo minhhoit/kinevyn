@@ -11,7 +11,7 @@ import { readProjectZip } from './shared/project-zip.ts';
 import { PROJECT_ARCHIVE_LIMITS as limits, PROJECT_ARCHIVE_VALIDATION_UNAVAILABLE, type ProjectArchiveInput } from './shared/project-archive.ts';
 import { withProcessLock } from './shared/process-lock.ts';
 
-const format = 'openmotion.project-archive', manifestName = 'openmotion-projects.json';
+const format = 'kinevyn.project-archive', manifestName = 'kinevyn-projects.json';
 const exportValidationVersion = 1;
 const hash = (bytes: string | Buffer) => createHash('sha256').update(bytes).digest('hex');
 const metadata = new Set(['motion-project.json', 'motion-assets.json']);
@@ -182,7 +182,7 @@ async function exportProjects(store: WorkspaceStore, input: ProjectArchiveInput,
     const archiveId = randomUUID(), archivePath = path.join(root, 'files', archiveId + '.zip');
     await mkdir(path.dirname(archivePath), { recursive: true, mode: 0o700 });
     await writeFile(archivePath, bytes, { mode: 0o600, flag: 'wx' });
-    const filename = projects.length === 1 ? projects[0].title.replace(/[<>:"/\\|?*\x00-\x1f]/g, '-').slice(0, 80) + '.zip' : 'OpenMotion-projects.zip';
+    const filename = projects.length === 1 ? projects[0].title.replace(/[<>:"/\\|?*\x00-\x1f]/g, '-').slice(0, 80) + '.zip' : 'Kinevyn-projects.zip';
     await atomicJson(path.join(root, 'files', archiveId + '.json'), { filename });
     const result = { archiveId, archivePath, filename, bytes: bytes.length, sha256: hash(bytes), skippedProjectIds, projects: Object.keys(revisions).map(id => ({ projectId: id, revision: revisions[id] })), downloadUrl: '/motion-api/project-archives/' + archiveId + '/file' };
     await atomicJson(receiptPath, { inputHash, result, validationVersion: exportValidationVersion }); return result;

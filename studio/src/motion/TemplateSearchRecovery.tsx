@@ -137,7 +137,7 @@ export function TemplateSearchRecovery(props: RequestCallbacks & (SearchRecovery
   const form = mode && <form ref={formElement} aria-labelledby={formTitleId} className={styles.recoveryForm} onSubmit={event => { event.preventDefault(); void copy(); }}>
     <div className={styles.recoveryHeading}>
       <div><h3 id={formTitleId} className="om-media-detail-title">{t(mode === 'reference' ? 'Add your reference' : 'Describe your video')}</h3>
-        <p className={styles.description}>{t('Copy the request, then paste it into the chat where you use OpenMotion and send it to start.')}</p></div>
+        <p className={styles.description}>{t('Copy the request, then paste it into the chat where you use Kinevyn and send it to start.')}</p></div>
       {props.home ? <IconButton variant="plain" type="button" className={`${styles.iconButton} ${styles.recoveryDismiss}`} onClick={back} aria-label={t('Close')} icon={<MotionIcon name="close" size={20} />} />
         : <Button variant="ghost" type="button" className="om-button h-auto" onClick={back} disabled={copying}>{t('Back')}</Button>}
     </div>

@@ -1,15 +1,15 @@
-# Install OpenMotion
+# Install Kinevyn
 
 <!-- source-only:start -->
-For an Agent asked to install OpenMotion from this repository, use the source installation below. Commands run from the checkout root even though this guide lives under docs/. This is the default repository installation route. Only use npm installation when the user explicitly selects it; follow the [published application guide](#published-npm-application) instead of mixing source and package setup. npm remains required to install this checkout's locked dependencies and build Studio.
+For an Agent asked to install Kinevyn from this repository, use the source installation below. Commands run from the checkout root even though this guide lives under docs/. This is the default repository installation route. Only use npm installation when the user explicitly selects it; follow the [published application guide](#published-npm-application) instead of mixing source and package setup. npm remains required to install this checkout's locked dependencies and build Studio.
 <!-- source-only:end -->
 
-## Install the main OpenMotion Skill
+## Install the main Kinevyn Skill
 
-Install the main `openmotion` Skill once through the official Skills CLI as part of setup:
+Install the main `kinevyn` Skill once through the official Skills CLI as part of setup:
 
 ```sh
-npx --yes skills@1.9.0 add nexu-io/openmotion --skill openmotion --global --agent AGENT --copy --yes
+npx --yes skills@1.9.0 add rivyn-labs/kinevyn --skill kinevyn --global --agent AGENT --copy --yes
 ```
 
 Use `codex` for Codex and `claude-code` for Claude Code. For DSH, use `universal`: install this extra entry even when DSH reads its production Skills from its own plugin bundle. Other hosts use their supported Skills CLI target, or `universal` if none exists. Select only the intended host; custom/isolated profiles use an explicitly selected project/profile scope instead of the daily global profile.
@@ -18,9 +18,9 @@ Use `codex` for Codex and `claude-code` for Claude Code. For DSH, use `universal
 For the DSH source-workspace route below, the one-command installer performs this official CLI step in the selected profile's scope. Do not run the global command separately before it.
 <!-- source-only:end -->
 
-Reuse an existing official installation. Preserve unrelated Skills, a foreign same-name entry and the CLI's telemetry opt-outs. `OPENMOTION_SKIP_PUBLIC_SKILL=1` skips this optional step. A CLI failure does not block Studio/MCP setup or onboarding; report it and continue. An owned legacy bundle must migrate through setup before the main Skill can occupy its path. Do not reinstall merely to generate another install event.
+Reuse an existing official installation. Preserve unrelated Skills, a foreign same-name entry and the CLI's telemetry opt-outs. `KINEVYN_SKIP_PUBLIC_SKILL=1` skips this optional step. A CLI failure does not block Studio/MCP setup or onboarding; report it and continue. An owned legacy bundle must migrate through setup before the main Skill can occupy its path. Do not reinstall merely to generate another install event.
 
-Derive `OPENMOTION_ONBOARDING_LANGUAGE` from the latest user request before running any onboarding preparation: `zh`, `en`, `ja`, `ko`, `fr`, `es` or `pt` (otherwise `en`). Do this for every host, independently of the OS language.
+Derive `KINEVYN_ONBOARDING_LANGUAGE` from the latest user request before running any onboarding preparation: `zh`, `en`, `ja`, `ko`, `fr`, `es` or `pt` (otherwise `en`). Do this for every host, independently of the OS language.
 
 Skills CLI installs instructions only. Continue the chosen runtime setup below in this conversation, reusing an existing installation. Do not wait for the new Skill to hot-load or register a second MCP connection.
 
@@ -37,22 +37,22 @@ node integrations/dsh/install.ts --profile PROFILE --data-dir /absolute/workspac
 
 Replace the profile/data arguments with this host's actual values and derive the language from the latest request. Pass `--dsh-home /absolute/dsh/home` when the current profile uses a custom home not already in `DSH_HOME`; `--url` accepts the actual local `DSH_WEB_URL`. The installer preserves model settings and unrelated profile entries, reuses matching locked dependencies and Studio build fingerprints, builds the local plugin directly without a tarball/profile package-install round trip, enables the workspace and the two native card components when absent and prepares the shared welcome/cards once. Reruns preserve the same selected IDs. An existing prepared receipt can be retained with `--resume /absolute/onboarding-receipt.json`. Official `npx skills add` installs the main Skill with `--agent universal` in this selected profile's project scope; do not separately reinstall it globally for an isolated DSH trial. A Skill CLI failure is reported without blocking the workspace.
 
-**Finish presentation in this same turn.** Follow the compact result's `nextActions`. The profile is watched: probe activation rather than assuming a host restart is needed. If the browser still shows the old DSH interface, refresh that page once through the host's supported browser surface; otherwise report this one manual refresh as pending. Never kill DSH, invent a restart command or silently declare completion. Load `cardPresentation.skill`, then invoke **`propose_action`** with exactly `cardPresentation.arguments`. The native recommendation card opens the template library on the right of the current conversation and shows the shared localized welcome above the same three IDs. Do not open the default sample project instead, or call `openmotion_show_template_recommendations` when that separate MCP App tool is unavailable. Do not replace the welcome with a technical installation report. `onboardingComplete:false` and `awaiting_host_delivery` explicitly mean the visible welcome/cards are still pending; a healthy status route or a prepared file is not completion. When card presentation is unavailable or fails, show the same welcome and three names, summaries and preview links as text, and state the display limitation.
+**Finish presentation in this same turn.** Follow the compact result's `nextActions`. The profile is watched: probe activation rather than assuming a host restart is needed. If the browser still shows the old DSH interface, refresh that page once through the host's supported browser surface; otherwise report this one manual refresh as pending. Never kill DSH, invent a restart command or silently declare completion. Load `cardPresentation.skill`, then invoke **`propose_action`** with exactly `cardPresentation.arguments`. The native recommendation card opens the template library on the right of the current conversation and shows the shared localized welcome above the same three IDs. Do not open the default sample project instead, or call `kinevyn_show_template_recommendations` when that separate MCP App tool is unavailable. Do not replace the welcome with a technical installation report. `onboardingComplete:false` and `awaiting_host_delivery` explicitly mean the visible welcome/cards are still pending; a healthy status route or a prepared file is not completion. When card presentation is unavailable or fails, show the same welcome and three names, summaries and preview links as text, and state the display limitation.
 
-Published tarballs remain available through [OpenMotion for DSH](../integrations/dsh/README.md#download-and-install-the-plugin) and [DSH plugin downloads](https://releases.open-design.ai/open-motion/integrations/dsh/stable/latest.json). This is the separate pinned-release route; preserve its source commit and checksum. Do not probe stable/test/main manifests or switch releases during the existing-checkout route. Stable becomes available after the first coordinated publication containing DSH; earlier explicit development installs can select `--channel=main`. Installation does not authorize creating or exporting a video.
+Published tarballs remain available through [Kinevyn for DSH](../integrations/dsh/README.md#download-and-install-the-plugin) and [DSH plugin downloads](https://releases.open-design.ai/open-motion/integrations/dsh/stable/latest.json). This is the separate pinned-release route; preserve its source commit and checksum. Do not probe stable/test/main manifests or switch releases during the existing-checkout route. Stable becomes available after the first coordinated publication containing DSH; earlier explicit development installs can select `--channel=main`. Installation does not authorize creating or exporting a video.
 
 ## Codex: automatic source installation
 
 Collect OS/CPU, Git, Node.js/npm and the current host once. Source validation uses Node.js 26.11.1. Codex must support `codex plugin add`. Preserve projects, credentials, unrelated plugins and MCP configuration. Configure only the current host.
 
-Before running the installer, including setup from an existing checkout, export `OPENMOTION_ONBOARDING_LANGUAGE` in the same shell. Derive it from the latest user request's language, not the OS or host UI language. Supported codes are `zh`, `en`, `ja`, `ko`, `fr`, `es` and `pt`; normalize locale tags to their lowercase primary code and use `en` for unsupported languages. For a Chinese request, run `export OPENMOTION_ONBOARDING_LANGUAGE=zh` before the commands below so the welcome/cards are prepared in Chinese.
+Before running the installer, including setup from an existing checkout, export `KINEVYN_ONBOARDING_LANGUAGE` in the same shell. Derive it from the latest user request's language, not the OS or host UI language. Supported codes are `zh`, `en`, `ja`, `ko`, `fr`, `es` and `pt`; normalize locale tags to their lowercase primary code and use `en` for unsupported languages. For a Chinese request, run `export KINEVYN_ONBOARDING_LANGUAGE=zh` before the commands below so the welcome/cards are prepared in Chinese.
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/nexu-io/openmotion/main/install.sh -o /tmp/openmotion-source-install.sh
-bash /tmp/openmotion-source-install.sh
+curl -fsSL https://raw.githubusercontent.com/rivyn-labs/kinevyn/main/install.sh -o /tmp/kinevyn-source-install.sh
+bash /tmp/kinevyn-source-install.sh
 ```
 
-`OPENMOTION_INSTALL_DIR` selects a persistent empty absolute destination. The script downloads one shallow snapshot, installs locked dependencies, builds Studio, registers the local plugin, probes MCP and prepares the template library. Do not separately run npm start, install dependencies again or inspect unrelated repositories.
+`KINEVYN_INSTALL_DIR` selects a persistent empty absolute destination. The script downloads one shallow snapshot, installs locked dependencies, builds Studio, registers the local plugin, probes MCP and prepares the template library. Do not separately run npm start, install dependencies again or inspect unrelated repositories.
 
 If the intended checkout already exists, inspect its remote, version and local changes first, then run `bash scripts/install-motion.command` from that checkout. Preserve an active or foreign source; never overwrite it or silently switch installations. Preserve an existing `MOTION_DATA_DIR` and use the same workspace for Studio and MCP. Source reinstallation checks content fingerprints for the build inputs and generated outputs, rather than only the presence of index.html. Matching builds are reused; source-only changes rebuild without reinstalling matching dependencies, while a changed lockfile or missing installation reruns npm ci. A checkout without a prior fingerprint needs one initial rebuild. Prebuilt ZIPs retain their sealed editor. Keep projects and credentials outside the checkout. Read the checkout's AGENTS.md before repository changes.
 
@@ -65,8 +65,8 @@ The installer saves phase timings and an immutable onboarding receipt under `.ar
 Use Git, npm and Node.js 26.11.1:
 
 ```sh
-git -c filter.lfs.process= -c filter.lfs.smudge= -c filter.lfs.required=false clone --depth 1 --single-branch --branch main https://github.com/nexu-io/openmotion.git
-cd openmotion
+git -c filter.lfs.process= -c filter.lfs.smudge= -c filter.lfs.required=false clone --depth 1 --single-branch --branch main https://github.com/rivyn-labs/kinevyn.git
+cd kinevyn
 npm ci
 npm run build:studio
 npm start
@@ -80,7 +80,7 @@ After source setup, follow [Installation-success reply](#installation-success-re
 
 Use this alternative only when the user selects npm. Read the [stable guide](https://releases.open-design.ai/motion) or the explicitly selected [test guide](https://releases.open-design.ai/open-motion/dev/install.md). Do not guess a package version or execute unresolved placeholders below. The release generator fills this section and the shared onboarding contract from this same file. Generated npm guides also pin the public Skill source to the application's release commit; source readers use main. Do not fetch main's Skill as an extra step for a pinned release.
 
-Codex can also use a pinned bootstrap: run `bash install.sh --package EXACT_PACKAGE_SPEC` from the checkout, using the exact published `@openmotion/app@VERSION`. A reviewed HTTPS candidate or an absolute local `.tgz` requires `OPENMOTION_INSTALLER_SHA256` from its matching manifest before this command. With no arguments `install.sh` still uses source; other hosts use the published guide's `openmotion setup --host` command.
+Codex can also use a pinned bootstrap: run `bash install.sh --package EXACT_PACKAGE_SPEC` from the checkout, using the exact published `@kinevyn/app@VERSION`. A reviewed HTTPS candidate or an absolute local `.tgz` requires `KINEVYN_INSTALLER_SHA256` from its matching manifest before this command. With no arguments `install.sh` still uses source; other hosts use the published guide's `kinevyn setup --host` command.
 <!-- source-only:end -->
 
 This guide pins the complete npm application `{{PACKAGE_SPEC}}` on the **{{CHANNEL}}** software channel. It includes MCP, the built Studio and production Skills. The default template environment is **{{TEMPLATE_ENVIRONMENT}}**: new test versions embed DEV defaults, stable versions embed prod, and previously published versions keep their original environment.
@@ -92,7 +92,7 @@ If you are reading this file in the source repository and see `{{...}}`, it is a
 1. Collect OS/CPU, Node.js/npm versions and the current Agent identity together, using the host's supplied context where available. Node.js 22.18+ with npm and the Agent must already be installed. Supported native targets: {{TARGETS}}. If a macOS target has no declared minimum version, proceed with setup and native executable checks; do not infer a minimum from the build/test machine's OS version. Do not claim support for another target from package-download success.
 2. Select the current host explicitly: `codex` (Codex), `claude` (Claude Code), `deepseek` (DeepSeek Harness) or `workbuddy` (WorkBuddy) have registration adapters. Any other local Agent, such as OpenCode, Cursor Agent or Gemini CLI, passes its own lowercase name (for example `opencode`); setup installs the same application and Skills, leaves that host's configuration unchanged and returns `agentRegistration` for the Agent to add to its own MCP configuration. Never borrow another host's adapter. An explicit user selection takes precedence. Do not infer the current host from which CLIs happen to be installed. Ask only when the current host or required profile cannot be established. Configure only that host; preserve projects, credentials and unrelated MCP/Skills settings.
 3. For a test candidate, use a separate host profile, application home, project data and Skills directory. Keep those paths and reuse them for prepare and future reconnects. The [platform installation recipes]({{DETAILS_URL}}) describe the actual supported options. Do not run a test candidate into the user's daily profile by default.
-4. Choose exactly one setup command below, applying the test isolation paths first when required. Setup starts checked video-component downloads in the background. Do not wait for prepare to connect MCP, create/edit projects or open ordinary preview. Studio shows preparation status and retry; media import, automated capture and export require their respective components. Compatible phase-one updates can keep existing connections; reconnect closed or incompatible transports. Verify the selected installation/workspace with one actual `openmotion_get_project` call, reusing setup's successful same-chat read when available. Complete Tool/Skill inventory comparison belongs to development/release acceptance, not ordinary installation. If this chat has not loaded them or still points at another installation, use `onboarding.directAccess` below; registration alone does not prove native loading. Do not postpone the installation reply or template library opening until a new chat or the first MCP call.
+4. Choose exactly one setup command below, applying the test isolation paths first when required. Setup starts checked video-component downloads in the background. Do not wait for prepare to connect MCP, create/edit projects or open ordinary preview. Studio shows preparation status and retry; media import, automated capture and export require their respective components. Compatible phase-one updates can keep existing connections; reconnect closed or incompatible transports. Verify the selected installation/workspace with one actual `kinevyn_get_project` call, reusing setup's successful same-chat read when available. Complete Tool/Skill inventory comparison belongs to development/release acceptance, not ordinary installation. If this chat has not loaded them or still points at another installation, use `onboarding.directAccess` below; registration alone does not prove native loading. Do not postpone the installation reply or template library opening until a new chat or the first MCP call.
 5. On successful setup, follow the installation-success reply below in this same conversation. Open the template library without creating a project. Installation does not authorize downloading template project source, rendering or calling a paid model. Report a failed installation honestly; do not claim success until it is fixed.
 
 For npm network failures, automatically try `https://registry.npmjs.org` then `https://registry.npmmirror.com`, at most once per registry, counting the initial failed attempt. Respect an explicitly selected registry and host policy. Set `npm_config_registry` and `npm_config_fetch_retries=0` only for that attempt, including setup's npm child process. Keep the exact version; verify any mirrored tgz against the matching immutable guide's SHA256 before executing it. If both fail, follow [npm download recovery]({{DETAILS_URL}}#npm-download-failures) for network checks and a terminal handoff. Permission or checksum failures stop immediately. A local tgz still needs npm access for setup's production dependencies.
@@ -118,11 +118,11 @@ These are **silent renders of the repository's editable projects**, not original
 
 ### Native original reference cards (alternative)
 
-Native MCP Apps retain the original reference films and their declared media origin. For hosts using a supported native MCP App route and a working native connection, call `openmotion_show_template_recommendations` with the exact prepared IDs/order, request language and `onboarding:true`. After successful library opening this displays the maintained welcome above the three cards; do not duplicate it in the final reply. If library opening failed or is unconfirmed, use `onboarding:false` and a truthful reply as described below. Use `onboarding:false` after a welcome already delivered. Explicit `renderInlineOnboarding({previewSource:'reference', ...})` returns `native_required`, since the document renderer cannot inherit native App media policy. Preserve the selection; do not substitute builtins or alter host security. A shell presentation call does not mount a native component. Original reference playback requires network access.
+Native MCP Apps retain the original reference films and their declared media origin. For hosts using a supported native MCP App route and a working native connection, call `kinevyn_show_template_recommendations` with the exact prepared IDs/order, request language and `onboarding:true`. After successful library opening this displays the maintained welcome above the three cards; do not duplicate it in the final reply. If library opening failed or is unconfirmed, use `onboarding:false` and a truthful reply as described below. Use `onboarding:false` after a welcome already delivered. Explicit `renderInlineOnboarding({previewSource:'reference', ...})` returns `native_required`, since the document renderer cannot inherit native App media policy. Preserve the selection; do not substitute builtins or alter host security. A shell presentation call does not mount a native component. Original reference playback requires network access.
 
 ### DSH conversation cards
 
-For the integrated DSH workspace, load `openmotion-template-recommendations` before calling `propose_action` with action `openmotion_template_recommendation`. On installation, use `details.onboarding=true`, the request language, `libraryOpened` only after confirmed opening, and exactly the three prepared IDs/order. Read each selected template to fill truthful title, summary and preview/poster links; do not infer editable source from the card's provenance. Do not resample. Use the maintained welcome in the card, or stream it once above the card without duplicating it. Card preview and selection never create a project; continue only after the user's creation brief. If this host lacks action-card support, try another supported card surface, otherwise give the same three text recommendations.
+For the integrated DSH workspace, load `kinevyn-template-recommendations` before calling `propose_action` with action `kinevyn_template_recommendation`. On installation, use `details.onboarding=true`, the request language, `libraryOpened` only after confirmed opening, and exactly the three prepared IDs/order. Read each selected template to fill truthful title, summary and preview/poster links; do not infer editable source from the card's provenance. Do not resample. Use the maintained welcome in the card, or stream it once above the card without duplicating it. Card preview and selection never create a project; continue only after the user's creation brief. If this host lacks action-card support, try another supported card surface, otherwise give the same three text recommendations.
 
 ### Automatic current-chat activation
 
@@ -130,9 +130,9 @@ Reuse setup’s successful same-chat workspace read; do not repeat it in the Age
 
 Source and npm setup use `prepareInstallationFlow`. After registration, an existing supported Codex control connection checks `thread/loaded/list` for the calling `CODEX_THREAD_ID`. A healthy native connection is reused. Missing/stale tool discovery, an outdated application version or a mismatching immutable card resource requests one `config/mcpServer/reload`. The refresh is queued for a host tool boundary; an immediate status read is not its completion.
 
-After that tool step finishes, execute the returned `recovery.command`/`recovery.args` in this same turn. The private immutable receipt preserves the chat, application, workspace, language, three IDs/order and library URL. Recovery performs verification only: no reinstall, library startup, resampling or additional reload. Native discovery and `openmotion_get_project` must verify the expected workspace through the calling thread before `hostSessionVerified` is true. They do not prove visible welcome/cards.
+After that tool step finishes, execute the returned `recovery.command`/`recovery.args` in this same turn. The private immutable receipt preserves the chat, application, workspace, language, three IDs/order and library URL. Recovery performs verification only: no reinstall, library startup, resampling or additional reload. Native discovery and `kinevyn_get_project` must verify the expected workspace through the calling thread before `hostSessionVerified` is true. They do not prove visible welcome/cards.
 
-Use `OPENMOTION_CODEX_SOCKET` for an explicitly known existing control entry, otherwise use the current profile's default entry. Resolve that entry with `realpath`; current-user-owned symlinks are supported when the resolved target is a current-user-owned socket in a current-user-owned directory that is not group- or world-writable. Pass the verified canonical path to the CLI proxy, then verify that the existing host has this chat loaded before any reload. Resolving this known entry is supported discovery, not endpoint guessing. Missing, dangling, cyclic, foreign-owned and unsafe targets remain blocked.
+Use `KINEVYN_CODEX_SOCKET` for an explicitly known existing control entry, otherwise use the current profile's default entry. Resolve that entry with `realpath`; current-user-owned symlinks are supported when the resolved target is a current-user-owned socket in a current-user-owned directory that is not group- or world-writable. Pass the verified canonical path to the CLI proxy, then verify that the existing host has this chat loaded before any reload. Resolving this known entry is supported discovery, not endpoint guessing. Missing, dangling, cyclic, foreign-owned and unsafe targets remain blocked.
 
 Do not scan unrelated paths for endpoints, start another app-server to simulate this chat, alter host listeners/security, inject instructions through `codex queue` or automatically restart Codex. If the user explicitly chooses to reconnect, record it as manual recovery; it does not establish automatic activation in the original installing chat. A private-stdio host with no supported reload capability blocks automatic-activation acceptance. Retain that reason independently in diagnostics and the receipt. Use already working native tools directly to deliver the welcome/cards; do not withhold presentation because the script control socket is missing.
 
@@ -140,14 +140,14 @@ Codex plugin setup reaches this contract through `extensions.com.openai.onboardi
 
 ### Open the library
 
-Use `openmotion_open_preview({target:"templates"})` when loaded, otherwise setup's exact `preview.previewUrl`. Open it using the current Agent's supported browser surface (Codex's right-hand browser or DSH's workspace template view), preserving embedding parameters and reusing its tab. With CUA, create it using `cua.createBrowserTab('iab', previewUrl, {visible:true})`, mark it as a deliverable and complete mandatory browser bookkeeping. Otherwise use the supported `open_in_codex` browser target with `placement:"right"` and no other thread ID. Use only the opening call's result or initial page state; do not add hidden-tab/reveal choreography, snapshots, screenshots, inventory, layout or media checks. If the call fails, is only queued or cannot confirm opening, report the actual result and a usable URL without claiming visibility. Library-opening failure does not invalidate installation or block the welcome/cards; change the library-visible heading as described below. Never create a placeholder project or submit project display receipts for the library.
+Use `kinevyn_open_preview({target:"templates"})` when loaded, otherwise setup's exact `preview.previewUrl`. Open it using the current Agent's supported browser surface (Codex's right-hand browser or DSH's workspace template view), preserving embedding parameters and reusing its tab. With CUA, create it using `cua.createBrowserTab('iab', previewUrl, {visible:true})`, mark it as a deliverable and complete mandatory browser bookkeeping. Otherwise use the supported `open_in_codex` browser target with `placement:"right"` and no other thread ID. Use only the opening call's result or initial page state; do not add hidden-tab/reveal choreography, snapshots, screenshots, inventory, layout or media checks. If the call fails, is only queued or cannot confirm opening, report the actual result and a usable URL without claiming visibility. Library-opening failure does not invalidate installation or block the welcome/cards; change the library-visible heading as described below. Never create a placeholder project or submit project display receipts for the library.
 
 ### Welcome copy and blocked delivery
 
 The native component uses the shared localized welcome dictionary. The Chinese welcome begins:
 
 ```text
-🎉 OpenMotion 安装好啦，右侧就是模板库！
+🎉 Kinevyn 安装好啦，右侧就是模板库！
 
 我是你的开源视频创作搭档，我有丰富的高水准视频模板，也支持从参考视频或一个灵感出发，和你一起创作精彩的视频。
 
@@ -159,7 +159,7 @@ The native component uses the shared localized welcome dictionary. The Chinese w
 If no supported card route can be displayed and the library opening succeeded, use these three maintained paragraphs for Chinese requests, then list the same three prepared template names, summaries and preview links as text:
 
 ```text
-🎉 OpenMotion 安装好啦，右侧就是模板库！
+🎉 Kinevyn 安装好啦，右侧就是模板库！
 
 我是你的开源视频创作搭档，我有丰富的高水准视频模板，也支持从参考视频或一个灵感出发，和你一起创作精彩的视频。
 
@@ -176,9 +176,9 @@ Explicit builtin examples can still use the same prepared document route. They n
 
 ### Accepted template selection
 
-After a user submits the brief, retrieve the accepted ID with `openmotion_get_template` and read its instructions and motion document. When `hasHtmlProject` is true, use `openmotion-template-to-video` to reuse the editable source; preserve unchanged content when no customization was requested. Use `openmotion-recreate` only when the source has no editable project. Presentation provenance and preview rendering do not determine source capability or authorize creation.
+After a user submits the brief, retrieve the accepted ID with `kinevyn_get_template` and read its instructions and motion document. When `hasHtmlProject` is true, use `kinevyn-template-to-video` to reuse the editable source; preserve unchanged content when no customization was requested. Use `kinevyn-recreate` only when the source has no editable project. Presentation provenance and preview rendering do not determine source capability or authorize creation.
 
-Use the exact accepted ID and scope through [accepted template selection](../skills/openmotion-production/references/templates.md#accepted-template-selection). A named choice retains that recommendation; a generic agreement to several equal choices still needs a selection. Recreate only fills an unsent editable brief through a negotiated composer bridge, or copies it to the clipboard with a floating Toast. Browsing, playback and copying do not authorize creation/export; the user-sent brief does. Preserve customized requirements and any existing GUI-created project, and never create a duplicate during recovery.
+Use the exact accepted ID and scope through [accepted template selection](../skills/kinevyn-production/references/templates.md#accepted-template-selection). A named choice retains that recommendation; a generic agreement to several equal choices still needs a selection. Recreate only fills an unsent editable brief through a negotiated composer bridge, or copies it to the clipboard with a floating Toast. Browsing, playback and copying do not authorize creation/export; the user-sent brief does. Preserve customized requirements and any existing GUI-created project, and never create a duplicate during recovery.
 <!-- installation-onboarding:end -->
 
 ## Maintained recommendation selection
@@ -191,7 +191,7 @@ Default inline cards embed prebuilt project previews from `mcp-ui/template-recom
 
 Cards show the selected reference's localized `original.promotionalUseCases` value in a persistent top-left media badge, without a field-name prefix. This purpose category stays visible while the video plays and at narrow widths; the bottom-right preview action remains separate. Empty/missing values are omitted. The category does not use the separate `visualPresentation` field or infer a value from the title. The shared design-system media-label recipe supplies its translucent surface and typography.
 
-<!-- openmotion-utm-source-supported -->
+<!-- kinevyn-utm-source-supported -->
 
 ## Choose the selected host's setup command
 
@@ -199,19 +199,19 @@ The commands below show normal installations. For test candidates, apply the sep
 
 | Current Agent | Setup command | Host-specific selection |
 | --- | --- | --- |
-| Codex | `npx --yes --package "{{PACKAGE_SPEC}}" openmotion setup --host codex` | Preserve the selected `CODEX_HOME` and Skills root. |
-| Claude Code | `npx --yes --package "{{PACKAGE_SPEC}}" openmotion setup --host claude` | Preserve the selected `CLAUDE_CONFIG_DIR` and Skills root. |
-| DeepSeek Harness | `npx --yes --package "{{PACKAGE_SPEC}}" openmotion setup --host deepseek --profile PROFILE` | Replace `PROFILE` with the actual selected profile from the host context; do not guess `web` or `desktop`. The standard macOS Desktop CLI is detected even when `dsh` is absent from PATH; use `--dsh` for another executable location. |
-| WorkBuddy | `npx --yes --package "{{PACKAGE_SPEC}}" openmotion setup --host workbuddy` | Preserve the selected `WORKBUDDY_CONFIG_DIR` and Skills root. |
-| Any other local Agent | `npx --yes --package "{{PACKAGE_SPEC}}" openmotion setup --host AGENT` | Replace `AGENT` with the current Agent's lowercase name, such as `opencode`. Skills default to `~/.agents/skills`; use `--skills-dir` if this Agent reads another root. Add `agentRegistration.transport.command` and `args` exactly as returned to this Agent's documented local stdio MCP configuration, refresh MCP, then call `openmotion_get_project`. Until the native tools load, use `onboarding.directAccess`. [Other local Agents]({{DETAILS_URL}}#other-local-agents) |
+| Codex | `npx --yes --package "{{PACKAGE_SPEC}}" kinevyn setup --host codex` | Preserve the selected `CODEX_HOME` and Skills root. |
+| Claude Code | `npx --yes --package "{{PACKAGE_SPEC}}" kinevyn setup --host claude` | Preserve the selected `CLAUDE_CONFIG_DIR` and Skills root. |
+| DeepSeek Harness | `npx --yes --package "{{PACKAGE_SPEC}}" kinevyn setup --host deepseek --profile PROFILE` | Replace `PROFILE` with the actual selected profile from the host context; do not guess `web` or `desktop`. The standard macOS Desktop CLI is detected even when `dsh` is absent from PATH; use `--dsh` for another executable location. |
+| WorkBuddy | `npx --yes --package "{{PACKAGE_SPEC}}" kinevyn setup --host workbuddy` | Preserve the selected `WORKBUDDY_CONFIG_DIR` and Skills root. |
+| Any other local Agent | `npx --yes --package "{{PACKAGE_SPEC}}" kinevyn setup --host AGENT` | Replace `AGENT` with the current Agent's lowercase name, such as `opencode`. Skills default to `~/.agents/skills`; use `--skills-dir` if this Agent reads another root. Add `agentRegistration.transport.command` and `args` exactly as returned to this Agent's documented local stdio MCP configuration, refresh MCP, then call `kinevyn_get_project`. Until the native tools load, use `onboarding.directAccess`. [Other local Agents]({{DETAILS_URL}}#other-local-agents) |
 
 Optional: explicitly wait for all video components or retry preparation for the same installation:
 
 ```sh
-npx --yes --package "{{PACKAGE_SPEC}}" openmotion prepare
+npx --yes --package "{{PACKAGE_SPEC}}" kinevyn prepare
 ```
 
-Repeat an explicit `--home` from setup on prepare. Setup installs the selected host's MCP and Skills; a second installer or application/manifest download is unnecessary. Use `openmotion --help`, `setup --help` or `prepare --help` from this exact package for supported options. Inspect installer source or host internals only to investigate a concrete failure; a missing CLI on PATH alone is not a reason to create a wrapper.
+Repeat an explicit `--home` from setup on prepare. Setup installs the selected host's MCP and Skills; a second installer or application/manifest download is unnecessary. Use `kinevyn --help`, `setup --help` or `prepare --help` from this exact package for supported options. Inspect installer source or host internals only to investigate a concrete failure; a missing CLI on PATH alone is not a reason to create a wrapper.
 
 ## Runtime and environment
 

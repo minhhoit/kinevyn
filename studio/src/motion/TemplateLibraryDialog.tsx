@@ -805,7 +805,7 @@ export function TemplateLibraryDialog(props: Props) {
             {handoffPreview && <TemplateReviewSpecs template={preview} />}
             <div className={styles.creator}>
               <Identity template={preview} />
-              <div>{credit && props.onCreatorChange ? <Button variant="plain" className="om-text-link" onClick={() => chooseCreator(credit.id)}>{credit.name}</Button> : <strong>{preview.authorName || preview.author || preview.brand || 'OpenMotion'}</strong>}{preview.brand && preview.brand.trim().toLocaleLowerCase() !== (preview.authorName || preview.author || preview.brand).trim().toLocaleLowerCase() && <small>{preview.brand}</small>}</div>
+              <div>{credit && props.onCreatorChange ? <Button variant="plain" className="om-text-link" onClick={() => chooseCreator(credit.id)}>{credit.name}</Button> : <strong>{preview.authorName || preview.author || preview.brand || 'Kinevyn'}</strong>}{preview.brand && preview.brand.trim().toLocaleLowerCase() !== (preview.authorName || preview.author || preview.brand).trim().toLocaleLowerCase() && <small>{preview.brand}</small>}</div>
               {preview.sourceUrl && <Tooltip withinDialog wrap label={t('Source')}><a className={styles.sourceLink} href={preview.sourceUrl} target="_blank" rel="noreferrer" onClick={() => tracking.reportDetailLink(preview, 'view_source', detailView.current)} aria-label={t('Source')}><MotionIcon name="arrow-up-right" size={18} /></a></Tooltip>}
             </div>
             {handoffPreview && <section className={styles.reviewResources} aria-label={t('Template resources')}>
@@ -842,7 +842,7 @@ export function TemplateLibraryDialog(props: Props) {
               {(preview.width || preview.ratio) && <div><dt>{t('Aspect ratio')}</dt><dd>{templateRatio(preview)}</dd></div>}
               {facets.filter(([key]) => !['duration', 'ratio'].includes(key)).map(([key, label]) => values(preview, key).length > 0 && <div key={key}><dt>{t(label)}</dt><dd>{values(preview, key).map(value => <MetadataTag key={value} label={key === 'brand' ? value : t(value)} onClick={() => filterBy(key, value)} />)}</dd></div>)}
             </dl>
-            {preview.projectFileUrl && <div className={styles.projectActions}><a href={preview.projectFileUrl} target="_blank" rel="noreferrer" onClick={() => tracking.reportDownloadClicked(preview, 'download_project', undefined, detailView.current)}>{t('Download OpenMotion project')}<MotionIcon name="arrow-up-right" size={14} /></a></div>}
+            {preview.projectFileUrl && <div className={styles.projectActions}><a href={preview.projectFileUrl} target="_blank" rel="noreferrer" onClick={() => tracking.reportDownloadClicked(preview, 'download_project', undefined, detailView.current)}>{t('Download Kinevyn project')}<MotionIcon name="arrow-up-right" size={14} /></a></div>}
             {!handoffPreview && (preview.styleDescription || preview.reviewFocus || preview.motionGuideUrl) && <section className={styles.guide} aria-label={t('Motion guide')}>
               {preview.styleDescription && <details><summary>{t('Visual style')}</summary><p>{preview.styleDescription}</p></details>}
               {preview.reviewFocus && <details><summary>{t('Production notes')}</summary><p>{preview.reviewFocus}</p></details>}

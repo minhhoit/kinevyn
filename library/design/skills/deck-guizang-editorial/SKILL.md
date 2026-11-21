@@ -24,7 +24,7 @@ od:
   surface: web
   scenario: marketing
   featured: 0.01
-  upstream: "https://github.com/nexu-io/html-anything"
+  upstream: "https://github.com/rivyn-labs/html-anything"
   preview:
     type: html
     entry: index.html

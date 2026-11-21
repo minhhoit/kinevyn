@@ -62,7 +62,7 @@ function fromCatalogEntry(entry: BrandCatalogEntry): SelectedBrandKit {
 }
 
 /**
- * Brand Kit selector for Design Studio backed by OpenMotion's Brand Kit library.
+ * Brand Kit selector for Design Studio backed by Kinevyn's Brand Kit library.
  * Supports search, hover live cover preview, selection, and clicking to inspect full Brand Kit details.
  */
 export function BrandKitPicker({

@@ -1,14 +1,14 @@
 /**
  * Design Studio contract shared by the design-projects domain service, its HTTP adapter,
- * the public MCP tools and the Studio editor. OpenMotion runs no design agent: external
- * Agents create and iterate through the openmotion_design_* tools; Studio previews,
+ * the public MCP tools and the Studio editor. Kinevyn runs no design agent: external
+ * Agents create and iterate through the kinevyn_design_* tools; Studio previews,
  * annotates, versions, exports and hands briefs to those Agents.
  */
 import type { ReviewAnnotation } from './review-comments.ts';
 import { guideUrl, setupGuideUrl, setupReadmeUrl, setupSkillUrl, type IntegrationInfo } from './integration.ts';
 
 export const DESIGN_API = '/motion-api/design';
-export const DESIGN_TOOL_NAMES = ['openmotion_design_catalog', 'openmotion_design_project', 'openmotion_design_edit', 'openmotion_design_comments'] as const;
+export const DESIGN_TOOL_NAMES = ['kinevyn_design_catalog', 'kinevyn_design_project', 'kinevyn_design_edit', 'kinevyn_design_comments'] as const;
 export type DesignToolName = typeof DESIGN_TOOL_NAMES[number];
 
 /** Preview mode decides editor chrome; the stored files are always plain HTML/CSS/JS/assets. */
@@ -141,7 +141,7 @@ export type DesignPromptIntegration = Pick<IntegrationInfo, 'previewUrl' | 'data
 
 /**
  * Self-contained MCP install/connect bootstrap block included in every Design Studio Agent
- * hand-off prompt so users who have never installed OpenMotion MCP can paste one single
+ * hand-off prompt so users who have never installed Kinevyn MCP can paste one single
  * instruction and have their Agent install/connect and continue seamlessly.
  */
 function designMcpSetupLines(integration?: DesignPromptIntegration | null, locale?: string | null): string[] {
@@ -157,10 +157,10 @@ function designMcpSetupLines(integration?: DesignPromptIntegration | null, local
 
   if (zh) {
     return [
-      'MCP 安装与接入（如果当前 Agent 尚未安装或连接 OpenMotion MCP，请先完成以下步骤再继续）：',
-      '1. 先检查当前 Agent 是否已连接 openmotion MCP 服务并可见 openmotion_design_* 工具；如已连接，直接跳过安装并执行下方创作流程。',
-      `2. 未连接时，先阅读 OpenMotion 主 Skill（${setupSkillUrl}）、快速开始 README（${setupReadmeUrl}）和安装指南（${installGuide}）。`,
-      '3. 优先检查并复用本机已有的 OpenMotion 安装与工作区（保留已有工程、凭据及其他 MCP 配置）；仅在未安装时安装。配置并接入本机 stdio openmotion MCP 服务，重新加载工具后调用 openmotion_design_catalog（action=list_scenarios）验证连接成功后再继续。仅写入配置不代表连接成功；遇到阻碍请直接说明。',
+      'MCP 安装与接入（如果当前 Agent 尚未安装或连接 Kinevyn MCP，请先完成以下步骤再继续）：',
+      '1. 先检查当前 Agent 是否已连接 kinevyn MCP 服务并可见 kinevyn_design_* 工具；如已连接，直接跳过安装并执行下方创作流程。',
+      `2. 未连接时，先阅读 Kinevyn 主 Skill（${setupSkillUrl}）、快速开始 README（${setupReadmeUrl}）和安装指南（${installGuide}）。`,
+      '3. 优先检查并复用本机已有的 Kinevyn 安装与工作区（保留已有工程、凭据及其他 MCP 配置）；仅在未安装时安装。配置并接入本机 stdio kinevyn MCP 服务，重新加载工具后调用 kinevyn_design_catalog（action=list_scenarios）验证连接成功后再继续。仅写入配置不代表连接成功；遇到阻碍请直接说明。',
       origin ? `- 当前 Studio 地址：${origin}` : null,
       integration?.dataDirectory ? `- 当前工作区：${integration.dataDirectory}` : null,
       connectionGuide ? `- 本机 MCP 接入指引与配置：${connectionGuide}` : null,
@@ -169,10 +169,10 @@ function designMcpSetupLines(integration?: DesignPromptIntegration | null, local
   }
 
   return [
-    'MCP setup (complete first if OpenMotion MCP is not yet installed or connected in this Agent):',
-    '1. Check whether the `openmotion` MCP server is already connected and `openmotion_design_*` tools are available. If already connected, skip setup and continue with Workflow below.',
-    `2. Otherwise, read the OpenMotion Skill (${setupSkillUrl}), Quick Start README (${setupReadmeUrl}), and installation guide (${installGuide}).`,
-    '3. Reuse any existing local OpenMotion installation and workspace first (preserve existing projects, credentials and other MCP settings). Install only if missing, add/connect the local stdio `openmotion` MCP server, reload tools, and verify connection with `openmotion_design_catalog` (action=list_scenarios) before authoring. Writing config alone does not prove connection; report any blocker if tools do not load.',
+    'MCP setup (complete first if Kinevyn MCP is not yet installed or connected in this Agent):',
+    '1. Check whether the `kinevyn` MCP server is already connected and `kinevyn_design_*` tools are available. If already connected, skip setup and continue with Workflow below.',
+    `2. Otherwise, read the Kinevyn Skill (${setupSkillUrl}), Quick Start README (${setupReadmeUrl}), and installation guide (${installGuide}).`,
+    '3. Reuse any existing local Kinevyn installation and workspace first (preserve existing projects, credentials and other MCP settings). Install only if missing, add/connect the local stdio `kinevyn` MCP server, reload tools, and verify connection with `kinevyn_design_catalog` (action=list_scenarios) before authoring. Writing config alone does not prove connection; report any blocker if tools do not load.',
     origin ? `- Studio URL: ${origin}` : null,
     integration?.dataDirectory ? `- Workspace: ${integration.dataDirectory}` : null,
     connectionGuide ? `- Live MCP connection guide & config: ${connectionGuide}` : null,
@@ -198,27 +198,27 @@ export function designBriefPrompt(input: {
   const skills = [...new Set([...(input.skillIds ?? []), ...(input.skillId ? [input.skillId] : [])])];
   const primaryTemplate = templates[0] ?? null;
   return [
-    `Use the OpenMotion MCP design tools to ${input.projectId ? 'update' : 'create'} a ${scenario.label.toLowerCase()} design.`,
+    `Use the Kinevyn MCP design tools to ${input.projectId ? 'update' : 'create'} a ${scenario.label.toLowerCase()} design.`,
     '',
     ...designMcpSetupLines(input.integration, input.language),
     '',
     `Scenario: ${scenario.id}`,
     input.projectId ? `Project: ${input.projectId}` : null,
-    input.designSystemId ? `Brand Kit / Design system: ${input.designSystemId} (read it with openmotion_design_catalog action=get_design_system)` : null,
-    skills.length > 0 ? `Design skills (${skills.length}): ${skills.join(', ')} (read each with openmotion_design_catalog action=get_skill)` : null,
-    templates.length > 0 ? `Reference templates (${templates.length}): ${templates.join(', ')} (read with openmotion_design_catalog action=get_template${primaryTemplate ? `; start from ${primaryTemplate}` : ''})` : null,
+    input.designSystemId ? `Brand Kit / Design system: ${input.designSystemId} (read it with kinevyn_design_catalog action=get_design_system)` : null,
+    skills.length > 0 ? `Design skills (${skills.length}): ${skills.join(', ')} (read each with kinevyn_design_catalog action=get_skill)` : null,
+    templates.length > 0 ? `Reference templates (${templates.length}): ${templates.join(', ')} (read with kinevyn_design_catalog action=get_template${primaryTemplate ? `; start from ${primaryTemplate}` : ''})` : null,
     input.language ? `Reply and write visible copy in: ${input.language}` : null,
     '',
     'Brief:',
     '```text', fence(input.brief.trim()), '```',
     '',
     'Workflow:',
-    '1. Read openmotion://workflow/design/start and the scenario guide, or call openmotion_design_catalog action=list_scenarios.',
+    '1. Read kinevyn://workflow/design/start and the scenario guide, or call kinevyn_design_catalog action=list_scenarios.',
     input.projectId
-      ? '2. Read the project with openmotion_design_project action=get and current files with openmotion_design_edit action=read_file.'
-      : `2. Create the project with openmotion_design_project action=create scenario=${scenario.id}${primaryTemplate ? ` templateId=${primaryTemplate}` : ''}${input.designSystemId ? ` designSystemId=${input.designSystemId}` : ''}.`,
-    '3. Write complete HTML/CSS/JS with openmotion_design_edit action=write, passing expectedRevision and a short summary.',
-    '4. Call openmotion_design_project action=open so the user can review it in the OpenMotion Design editor.',
+      ? '2. Read the project with kinevyn_design_project action=get and current files with kinevyn_design_edit action=read_file.'
+      : `2. Create the project with kinevyn_design_project action=create scenario=${scenario.id}${primaryTemplate ? ` templateId=${primaryTemplate}` : ''}${input.designSystemId ? ` designSystemId=${input.designSystemId}` : ''}.`,
+    '3. Write complete HTML/CSS/JS with kinevyn_design_edit action=write, passing expectedRevision and a short summary.',
+    '4. Call kinevyn_design_project action=open so the user can review it in the Kinevyn Design editor.',
   ].filter(line => line !== null).join('\n');
 }
 
@@ -249,7 +249,7 @@ export function designCommentsPrompt(
     ].filter(Boolean).join('\n');
   });
   return [
-    `Use the OpenMotion MCP design tools to revise the design project "${project.title}" (${project.id}).`,
+    `Use the Kinevyn MCP design tools to revise the design project "${project.title}" (${project.id}).`,
     `Current revision: ${project.revision}`,
     '',
     ...designMcpSetupLines(options?.integration, options?.language),
@@ -261,10 +261,10 @@ export function designCommentsPrompt(
     '</attached-preview-comments>',
     '',
     'Workflow:',
-    `1. openmotion_design_comments action=list projectId=${project.id} for full anchors; openmotion_design_edit action=read_file for the affected files.`,
-    '2. Apply the changes with openmotion_design_edit action=write (expectedRevision above, summary listing the comment IDs).',
-    '3. Mark each addressed comment resolved with openmotion_design_comments action=update status=resolved.',
-    '4. Call openmotion_design_project action=open to show the updated design.',
+    `1. kinevyn_design_comments action=list projectId=${project.id} for full anchors; kinevyn_design_edit action=read_file for the affected files.`,
+    '2. Apply the changes with kinevyn_design_edit action=write (expectedRevision above, summary listing the comment IDs).',
+    '3. Mark each addressed comment resolved with kinevyn_design_comments action=update status=resolved.',
+    '4. Call kinevyn_design_project action=open to show the updated design.',
   ].filter(line => line !== null).join('\n');
 }
 
@@ -275,12 +275,12 @@ export function designProjectPrompt(
   options?: { integration?: DesignPromptIntegration | null; language?: string | null },
 ) {
   return [
-    `Continue the OpenMotion design project "${project.title}" (${project.id}, scenario ${project.scenario}) with the OpenMotion MCP design tools.`,
+    `Continue the Kinevyn design project "${project.title}" (${project.id}, scenario ${project.scenario}) with the Kinevyn MCP design tools.`,
     `Current revision: ${project.revision}`,
     '',
     ...designMcpSetupLines(options?.integration, options?.language),
     request?.trim() ? `\nRequest: ${request.trim()}` : '\nAsk me what to change, then edit it.',
     '',
-    `Read it with openmotion_design_project action=get, edit with openmotion_design_edit action=write (expectedRevision), then call openmotion_design_project action=open.`,
+    `Read it with kinevyn_design_project action=get, edit with kinevyn_design_edit action=write (expectedRevision), then call kinevyn_design_project action=open.`,
   ].join('\n');
 }

@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="780" height="280" viewBox="0 0 780 280" role="img" aria-labelledby="title desc">
-  <title id="title">OpenMotion star history</title>
-  <desc id="desc">GitHub stargazer timestamps, aggregated by day for nexu-io/openmotion. 10,357 stars as of 2026-11-17T13:06:50Z.</desc>
+  <title id="title">Kinevyn star history</title>
+  <desc id="desc">GitHub stargazer timestamps, aggregated by day for rivyn-labs/kinevyn. 10,357 stars as of 2026-11-17T13:06:50Z.</desc>
   <style>
     svg { font-family: system-ui, sans-serif; color: #24292f; }
     .background { fill: #fff; }
@@ -16,7 +16,7 @@
     }
   </style>
   <rect class="background" width="780" height="280" rx="10"/>
-  <text x="24" y="40" class="headline">nexu-io/openmotion</text>
+  <text x="24" y="40" class="headline">rivyn-labs/kinevyn</text>
   <text x="740" y="39" text-anchor="end">10,357 ★ · 2026-11-17</text>
   <path class="grid" d="M65 226.0H740"/>
   <text x="52" y="230.0" text-anchor="end">0</text>

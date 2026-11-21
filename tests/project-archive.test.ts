@@ -61,7 +61,7 @@ for (const action of ['export', 'import'] as const) {
     assert.equal(store.projectCatalog().projects.find(project => project.id === source.projectId)?.title, 'Renamed during validation');
     const result = await operation;
     if (action === 'export' && 'archivePath' in result) {
-      const manifest = readProjectZip(await readFile(result.archivePath)).get('openmotion-projects.json')!;
+      const manifest = readProjectZip(await readFile(result.archivePath)).get('kinevyn-projects.json')!;
       assert.equal(JSON.parse(manifest.toString()).projects[0].title, 'Original');
     } else assert.ok(result.projects.length);
   }, false));
@@ -83,20 +83,20 @@ test('ZIP roundtrip preserves source, assets, fonts and edits as independent pro
   await writeFile(path.join(directory, 'motion-project.json'), '{"private":"metadata"}');
   await mkdir(path.join(directory, 'renders')); await writeFile(path.join(directory, 'renders/out.mp4'), 'render');
   const api = service(store);
-  const exported = await api.call('openmotion_project_archive', { action: 'export', requestId: 'export', projectIds: [id] });
+  const exported = await api.call('kinevyn_project_archive', { action: 'export', requestId: 'export', projectIds: [id] });
   assert.match(exported.downloadUrl, /^http:\/\/localhost:4173\/motion-api\/project-archives\//);
   const bytes = await readFile(exported.archivePath), entries = readProjectZip(bytes);
   assert.ok(![...entries.keys()].some(name => /\/\.env|\/motion-project\.json|\/renders\//.test(name)));
-  assert.equal((await api.call('openmotion_project_archive', { action: 'export', requestId: 'export', projectIds: [id] })).archiveId, exported.archiveId);
-  const copied = await api.call('openmotion_project_archive', { action: 'import', requestId: 'second-import', sourcePath: exported.archivePath });
+  assert.equal((await api.call('kinevyn_project_archive', { action: 'export', requestId: 'export', projectIds: [id] })).archiveId, exported.archiveId);
+  const copied = await api.call('kinevyn_project_archive', { action: 'import', requestId: 'second-import', sourcePath: exported.archivePath });
   assert.notEqual(copied.projects[0].projectId, id);
   const copy = store.forProject(copied.projects[0].projectId);
   for (const [name, bytes] of readProjectZip(native())) assert.deepEqual(await readFile(path.join(copy.projectDirectory, name)), bytes, name);
-  const version = await api.call('openmotion_get_project', { projectId: copy.projectId });
+  const version = await api.call('kinevyn_get_project', { projectId: copy.projectId });
   assert.ok(version.version.versionId);
-  await api.call('openmotion_edit_project', { projectId: copy.projectId, requestId: 'continue-editing', expectedRevision: version.revision, expectedVersionId: version.version.versionId, files: [{ path: 'note.txt', content: 'New independent edit' }] });
+  await api.call('kinevyn_edit_project', { projectId: copy.projectId, requestId: 'continue-editing', expectedRevision: version.revision, expectedVersionId: version.version.versionId, files: [{ path: 'note.txt', content: 'New independent edit' }] });
   assert.ok(!(await readdir(directory)).includes('note.txt'));
-  const all = await api.call('openmotion_project_archive', { action: 'export', requestId: 'export-all', all: true });
+  const all = await api.call('kinevyn_project_archive', { action: 'export', requestId: 'export-all', all: true });
   assert.equal(all.projects.length, 2);
   assert.deepEqual(all.skippedProjectIds, ['project']);
   const bundle = await importProjects(store, 'bundle-import', await readFile(all.archivePath));
@@ -124,7 +124,7 @@ test('browser ZIP upload/download and MCP use the same archive format and reques
   assert.deepEqual((await (await upload()).json()).projects, imported.projects);
   const id = imported.projects[0].projectId, { revision } = await store.forProject(id).get();
   const exportAtRevision = (revision: string) => http('/motion-api/phase1/call', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name: 'openmotion_project_archive', arguments: { action: 'export', requestId: 'http-export', projectIds: [id], expectedRevisions: { [id]: revision } } }) });
+    body: JSON.stringify({ name: 'kinevyn_project_archive', arguments: { action: 'export', requestId: 'http-export', projectIds: [id], expectedRevisions: { [id]: revision } } }) });
   const badRevision = await exportAtRevision('invalid');
   assert.equal(badRevision.status, 400);
   assert.match((await badRevision.json()).error, /INVALID_ARGUMENT: arguments\.expectedRevisions/);
@@ -186,7 +186,7 @@ test('a failing member rejects the entire bundle before any project is registere
     });
     return { title: 'Bundle member', root, files };
   });
-  entries.push({ name: 'openmotion-projects.json', data: Buffer.from(JSON.stringify({ format: 'openmotion.project-archive', version: 1, projects })) });
+  entries.push({ name: 'kinevyn-projects.json', data: Buffer.from(JSON.stringify({ format: 'kinevyn.project-archive', version: 1, projects })) });
   const catalog = store.projectCatalog();
   await assert.rejects(importProjects(store, 'invalid-bundle', zip(entries)), /validation failed/);
   assert.deepEqual(store.projectCatalog(), catalog);
@@ -263,7 +263,7 @@ test('export rejects a source snapshot that the shared import validator would re
   assert.notEqual(reimported.projects[0].projectId, project.projectId);
 }, false));
 
-test('a re-compressed OpenMotion ZIP can have one enclosing folder and Finder metadata', () => fixture(async store => {
+test('a re-compressed Kinevyn ZIP can have one enclosing folder and Finder metadata', () => fixture(async store => {
   const { projects } = await importProjects(store, 'source', native('Original title/'), pluginRoot);
   const exported = await projectArchive(store, { action: 'export', requestId: 'original', projectIds: [projects[0].projectId] }, pluginRoot);
   assert.ok('archivePath' in exported);
@@ -271,7 +271,7 @@ test('a re-compressed OpenMotion ZIP can have one enclosing folder and Finder me
   const packaged = zip([
     ...[...entries].map(([name, data]) => ({ name: '外部分享包/' + name, data })),
     { name: '外部分享包/.DS_Store', data: Buffer.from('mac metadata') },
-    { name: '__MACOSX/外部分享包/._openmotion-projects.json', data: Buffer.from('mac metadata') },
+    { name: '__MACOSX/外部分享包/._kinevyn-projects.json', data: Buffer.from('mac metadata') },
   ]);
   const imported = await importProjects(store, 'recompressed', packaged, pluginRoot);
   assert.equal(imported.projects[0].title, 'Original title');

@@ -13,7 +13,7 @@ test('first-run initialization and gallery reuse materialize the same portable w
   const copied = path.join(store.directory, 'template-copy');
   await copyTemplate(welcomeTemplateId, copied, pluginRoot);
   const first = await store.get();
-  assert.match(first.project!.html!, /<title>OpenMotion Welcome<\/title>/);
+  assert.match(first.project!.html!, /<title>Kinevyn Welcome<\/title>/);
   assert.match(first.project!.html!, /data-duration="37.3"/);
   for (const file of await store.files()) {
     assert.deepEqual(await readFile(path.join(copied, file.path)), await readFile(path.join(store.projectDirectory, file.path)), file.path);
@@ -28,7 +28,7 @@ test('first-run initialization and gallery reuse materialize the same portable w
   assert.equal(info.result.duration, 37.3);
 
   // User-edited source survives both repeat initialization and template reuse.
-  await store.writeFiles(first.revision, [{ path: 'index.html', content: first.project!.html!.replace('OpenMotion Welcome', 'My welcome edit') }]);
+  await store.writeFiles(first.revision, [{ path: 'index.html', content: first.project!.html!.replace('Kinevyn Welcome', 'My welcome edit') }]);
   const edited = (await store.get()).revision;
   await store.initialize(pluginRoot);
   assert.equal((await store.get()).revision, edited);
@@ -46,7 +46,7 @@ test('new blank projects contain no welcome content or soundtrack', () => fixtur
 
 test('application packages retain welcome sources, soundtrack and canonical shared dependencies', async () => {
   const files = new Set(await distributionFiles('phase1'));
-  const root = 'template-library/openmotion-welcome/';
+  const root = 'template-library/kinevyn-welcome/';
   const manifest = JSON.parse(await readFile(path.join(pluginRoot, root, 'registry-item.json'), 'utf8'));
   for (const item of manifest.files) assert.ok(files.has(root + item.path), item.path);
   for (const [source] of welcomeSharedAssets) assert.ok(files.has(source), source);

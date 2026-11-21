@@ -11,7 +11,7 @@ export const resourceDocuments = [
   'docs/collections/README.md', 'docs/collections/README.zh-CN.md',
 ];
 // This repository-owned chart is refreshed daily, so it has no fixed content hash.
-const dailyChartSource = 'srcset="https://raw.githubusercontent.com/nexu-io/openmotion/readme-charts/star-history.svg"';
+const dailyChartSource = 'srcset="https://raw.githubusercontent.com/rivyn-labs/kinevyn/readme-charts/star-history.svg"';
 const remote = /^(?:https?:)?\/\//i;
 
 export async function checkDocument(file, mediaURLs = new Set(), mediaSizes = new Map()) {
@@ -47,7 +47,7 @@ export async function verifyResources(root = fileURLToPath(new URL('../', import
     ['docs/readme/live-templates/manifest.json', '', 'files'],
     ['docs/readme/media/manifest.json', '', 'entries'],
     ['docs/readme/contributors/manifest.json', 'docs/readme/contributors', 'contributors'],
-    ['library/skills/openmotion-design-remix/vendor/manifest.json', 'library/skills/openmotion-design-remix/vendor', 'files'],
+    ['library/skills/kinevyn-design-remix/vendor/manifest.json', 'library/skills/kinevyn-design-remix/vendor', 'files'],
     ['library/components/showcase/manifest.json', 'library/components/showcase', 'files'],
     ...['product-promo', 'nyt-graph', 'decision-tree'].map(id => [`template-library/${id}/vendor/manifest.json`, `template-library/${id}/vendor`, 'files']),
   ];

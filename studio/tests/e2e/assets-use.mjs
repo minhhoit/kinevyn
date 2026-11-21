@@ -41,11 +41,11 @@ try {
     }, theme, language);
     await page.goto(`${origin}/?page=mcp`);
     await page.waitForSelector('.om-mcp-page');
-    await page.waitForFunction(() => window.__assetHost?.has('openmotion_assets_use'));
+    await page.waitForFunction(() => window.__assetHost?.has('kinevyn_assets_use'));
     const result = await page.evaluate(async ({ assetId, versionId }) => {
       const host = window.__assetHost;
-      const preferred = await host.call('openmotion_assets_use', { action: 'read', assetId, versionId });
-      const old = await host.call('openmotion_assets', { action: 'get', assetId, versionId });
+      const preferred = await host.call('kinevyn_assets_use', { action: 'read', assetId, versionId });
+      const old = await host.call('kinevyn_assets', { action: 'get', assetId, versionId });
       const image = preferred.content.find(item => item.type === 'image');
       const size = await new Promise((resolve, reject) => { const img = new Image(); img.onload = () => resolve([img.naturalWidth, img.naturalHeight]); img.onerror = reject; img.src = `data:${image.mimeType};base64,${image.data}`; });
       return { preferredId: preferred.structuredContent.versionId, oldId: old.version.id, size, names: host.names(), metadataHasData: JSON.stringify(preferred.structuredContent).includes('"data"') };
@@ -53,10 +53,10 @@ try {
     assert.equal(result.preferredId, asset.currentVersionId); assert.equal(result.oldId, asset.currentVersionId);
     assert.deepEqual(result.size, [64, 48]); assert.equal(result.metadataHasData, false);
     await page.click('.om-mcp-tool-details summary');
-    await page.waitForFunction(() => document.querySelector('.om-mcp-tool-list')?.innerText.includes('openmotion_assets_use'));
+    await page.waitForFunction(() => document.querySelector('.om-mcp-tool-list')?.innerText.includes('kinevyn_assets_use'));
     const toolNames = await page.$$eval('.om-mcp-tool-list code', nodes => nodes.map(node => node.textContent));
-    assert.equal(toolNames.length, 14); assert.ok(toolNames.includes('openmotion_assets'));
-    const compatibility = await page.$$eval('.om-mcp-tool-list code', nodes => nodes.find(node => node.textContent === 'openmotion_assets').parentElement.textContent);
+    assert.equal(toolNames.length, 14); assert.ok(toolNames.includes('kinevyn_assets'));
+    const compatibility = await page.$$eval('.om-mcp-tool-list code', nodes => nodes.find(node => node.textContent === 'kinevyn_assets').parentElement.textContent);
     assert.ok(compatibility.includes(language === 'zh-CN' ? '九项' : 'nine'), 'Onboarding must distinguish the original compatibility schema');
     await page.$eval('.om-mcp-tool-details', node => node.scrollIntoView({ block: 'start' }));
     await page.screenshot({ path: path.join(output, `${theme}-${width}-${language}.png`) });

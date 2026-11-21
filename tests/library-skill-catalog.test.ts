@@ -36,21 +36,21 @@ test('repository Skill tools index and read all Skills without polluting templat
   const templateIndex = await catalog.index();
   assert(!(await readFile(templateIndex.indexPath, 'utf8')).includes('"kind":"skill"'));
   assert.equal('skillTotal' in templateIndex, false);
-  const id = 'openmotion-design-remix';
+  const id = 'kinevyn-design-remix';
   const detail = await catalog.skillDetail(id);
   assert.equal(detail.instructions, await readFile(path.join(detail.localSource as string, 'SKILL.md'), 'utf8'));
   assert(detail.files.includes('SKILL.md'));
   assert.match(JSON.stringify(detail.workflowGuide), /natural_language/);
   assert(!JSON.stringify(detail.workflowGuide).includes('apply_template'));
-  await assert.rejects(catalog.detail(id), /openmotion_get_skill/);
-  await assert.rejects(catalog.skillDetail('sample'), /openmotion_list_skills/);
+  await assert.rejects(catalog.detail(id), /kinevyn_get_skill/);
+  await assert.rejects(catalog.skillDetail('sample'), /kinevyn_list_skills/);
   const page = await catalog.page();
   assert(!JSON.stringify(page).includes('"kind":"skill"'));
   assert(skills.every(skill => !recommendationTemplateIds.includes(skill.id as never)));
-  await assert.rejects(catalog.get(id), /openmotion_get_skill/);
+  await assert.rejects(catalog.get(id), /kinevyn_get_skill/);
   await assert.rejects(callTool('motion_apply_template', { templateId: id, expectedRevision: 'a'.repeat(64) }), /Skills are instructions/);
   const service = new Phase1Service(new WorkspaceStore(dir), process.cwd(), {} as any);
-  await assert.rejects(service.call('openmotion_create_project', { requestId: 'skill-reject', projectType: 'template', templateId: id, title: 'Skill', requirements: 'Create a film' }), /Skills are instructions/);
+  await assert.rejects(service.call('kinevyn_create_project', { requestId: 'skill-reject', projectType: 'template', templateId: id, title: 'Skill', requirements: 'Create a film' }), /Skills are instructions/);
   assert.throws(() => assertSkillIds(skills, [id]), /Duplicate/);
 });
 
@@ -87,7 +87,7 @@ test('uncarded Skills use frontmatter and hosted publication preserves instructi
   assert(built.uploads.some(upload => upload.object && upload.key.endsWith('/objects/' + object?.sha256)));
   assert.match(detail.workflowGuide.nextStep, /sha256/);
   await assert.rejects(catalog.get('uncarded'), /Skills are instructions/);
-  await assert.rejects(catalog.detail('uncarded'), /openmotion_get_skill/);
+  await assert.rejects(catalog.detail('uncarded'), /kinevyn_get_skill/);
   assert.deepEqual(restoreHostedCatalog(JSON.parse(serializeHostedCatalog(hosted)), request as typeof fetch).skills, hosted.skills);
 });
 
@@ -101,7 +101,7 @@ test('CMS Skill tools read the shipped library without waiting on the template p
   assert.equal(index.total, skills.length);
   assert.equal(index.source, 'cms');
   assert.equal((await readFile(index.indexPath, 'utf8')).trim().split('\n').length, skills.length);
-  const detail = await catalog.skillDetail('openmotion-design-remix');
+  const detail = await catalog.skillDetail('kinevyn-design-remix');
   assert.equal(detail.instructions, await readFile(path.join(detail.localSource as string, 'SKILL.md'), 'utf8'));
   await assert.rejects(catalog.index(), /unavailable|模板/);
 });

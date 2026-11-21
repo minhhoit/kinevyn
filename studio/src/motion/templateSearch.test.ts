@@ -47,7 +47,7 @@ describe('reference handoff', () => {
       mode: 'reference', source: 'local', query: 'launch', description: 'Our product',
       asset: { assetId: 'asset', versionId: 'version' }, mediaUrl,
     }, t);
-    expect(prompt).toContain('openmotion_assets_use {"action":"read","assetId":"asset","versionId":"version"}');
+    expect(prompt).toContain('kinevyn_assets_use {"action":"read","assetId":"asset","versionId":"version"}');
     expect(prompt).toContain(mediaUrl);
     expect(prompt).toContain('Our product');
     expect(prompt).not.toContain('https:');
