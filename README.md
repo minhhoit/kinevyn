@@ -481,6 +481,8 @@ Open the `studioUrl` or `previewUrl` printed by `npm start`, then open **Templat
 
 Select a template and choose **Recreate template** to copy the instruction for your agent. Keep projects and credentials outside the checkout; `MOTION_DATA_DIR` selects the workspace.
 
+To run Kinevyn as a standing local service instead of a foreground `npm start`, use the [Docker deployment guide](deploy/README.md): it builds a container with Node.js, Chromium, FFmpeg/FFprobe and CJK fonts, publishes Studio on `127.0.0.1` only, and documents the `KINEVYN_PORT`, `KINEVYN_MEM_LIMIT` and `DO_NOT_TRACK` settings. Configure media-provider keys (fal.ai, Atlas Cloud, OpenDesign Cloud) in Studio's **Model Settings** either way; see [Model Gateway setup](docs/model-gateway.md).
+
 Source checkouts load templates from `library/templates/catalog/`. The local Studio and MCP use the same files; `kinevyn_list_templates` returns a searchable local index, and `kinevyn_get_template` returns local guide content and absolute source paths. Imported large images and videos retain existing CMS links; new contribution media can use Git LFS. Local edits appear on the next catalog read.
 
 The plugin root is this checkout: `.codex-plugin/plugin.json` loads its `skills/` and `.mcp.json`, which launches the root `mcp.ts`. Start stdio with `npm run mcp` or use an absolute path in [manual MCP configuration](#manual-mcp). [Local template workflow](docs/template-repository.md#run-from-a-local-clone).
